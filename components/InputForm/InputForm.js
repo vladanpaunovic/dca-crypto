@@ -1,4 +1,4 @@
-import { useQuery, useMutation } from "react-query";
+import { useMutation } from "react-query";
 import axios from "axios";
 import { useAppContext } from "../Context/Context";
 import { useRouter } from "next/router";

@@ -14,11 +14,7 @@ const Navigation = () => {
             <span className="ml-3 text-lg dark:text-white">DCA Crypto</span>
           </a>
         </Link>
-        <nav className="flex lg:w-2/5 flex-wrap items-center text-base md:ml-auto">
-          <a className="mr-5 hover:text-indigo-900 dark:text-white cursor-pointer border-b border-transparent hover:border-indigo-600 dark:border-gray-100">
-            What is DCA?
-          </a>
-        </nav>
+        <nav className="flex lg:w-2/5 flex-wrap items-center text-base md:ml-auto"></nav>
 
         <div className="lg:w-2/5 inline-flex lg:justify-end ml-5 lg:ml-0">
           <button
