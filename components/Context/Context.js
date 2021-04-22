@@ -5,11 +5,11 @@ import { useMainReducer } from "./mainReducer";
 const AppContext = createContext();
 
 export function AppWrapper({ children }) {
-  const mainReducer = useMainReducer();
+  const [state, dispatch] = useMainReducer();
 
   const initialState = {
-    state: mainReducer[0],
-    dispatch: mainReducer[1],
+    state,
+    dispatch,
   };
 
   return (

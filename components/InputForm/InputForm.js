@@ -125,7 +125,7 @@ const InputForm = () => {
               router.replace("/dca/" + e.target.value);
             }}
             name="coinId"
-            value={state.input.coinId}
+            value={state.input.coinId || ""}
             className="block mt-1 block w-full rounded-md bg-gray-200 dark:bg-gray-800 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 dark:text-white"
           >
             {state.settings.availableTokens.map((coin, index) => (
@@ -149,7 +149,7 @@ const InputForm = () => {
               })
             }
             name="investmentInterval"
-            value={state.input.investmentInterval}
+            value={state.input.investmentInterval || ""}
             className="block mt-1 block w-full rounded-md bg-gray-100 dark:bg-gray-800 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 dark:text-white"
           >
             {availableInvestmentIntervals.map((interval) => (
