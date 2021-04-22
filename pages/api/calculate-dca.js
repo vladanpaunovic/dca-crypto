@@ -33,7 +33,7 @@ export default async (req, res) => {
 
     const data = response.data.prices.map((entry) => ({
       date: dayjs(entry[0]).format("YYYY-MMM-D"),
-      coinPrice: parseFloat(entry[1]).toFixed(2),
+      coinPrice: parseFloat(entry[1]).toFixed(6),
     }));
 
     const reduced = data.reduce((prev, current, index) => {
@@ -53,8 +53,6 @@ export default async (req, res) => {
 
       return prev;
     }, []);
-
-    // console.log(reduced);
 
     const chartData = reduced.map((entry, index) => {
       const sumAllInvestments = reduced
