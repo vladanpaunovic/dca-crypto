@@ -5,8 +5,6 @@ import { useRouter } from "next/router";
 import { ACTIONS, availableInvestmentIntervals } from "../Context/mainReducer";
 import { useEffect } from "react";
 
-const API_URL = "https://api.coingecko.com/api/v3/coins/markets";
-
 const InputFormWrapper = ({ coin }) => {
   const { dispatch } = useAppContext();
   const router = useRouter();
@@ -58,6 +56,10 @@ const InputForm = () => {
   const router = useRouter();
   const { state, dispatch } = appContext;
 
+  // Due to the constrains of the CoinGecko API, we enable calculations only
+  // agter the perod of 90 days
+  const isSubmitDisabled = state.input.duration < 90;
+
   const mutation = useMutation(
     (payload) => axios.post("/api/calculate-dca", payload),
     {
@@ -70,19 +72,15 @@ const InputForm = () => {
     }
   );
 
-  const { data, isLoading, isError } = useQuery("coins", () =>
-    axios.get(API_URL, {
-      params: {
-        vs_currency: appContext.state.settings.currency,
-        order: "market_cap_desc",
-        per_page: 100,
-        page: 1,
-        sparkline: false,
-      },
-    })
-  );
-
   const submitForm = () => {
+    if (isSubmitDisabled) {
+      return null;
+    }
+
+    if (!state.input.coinId) {
+      return null;
+    }
+
     const payload = {
       coindId: state.input.coinId,
       investmentInterval: state.input.investmentInterval,
@@ -103,21 +101,7 @@ const InputForm = () => {
     submitForm();
   }, [state.input.coinId, state.input.investmentInterval]);
 
-  const calculateDateRangeDifference = () => {
-    const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
-    const firstDate = new Date(state.input.dateFrom);
-    const secondDate = new Date(state.input.dateTo);
-
-    const diffDays = Math.round(Math.abs((firstDate - secondDate) / oneDay));
-
-    return diffDays;
-  };
-
-  // Due to the constrains of the CoinGecko API, we enable calculations only
-  // agter the perod of 90 days
-  const isSubmitDisabled = calculateDateRangeDifference() < 90;
-
-  if (!data || isLoading || isError) {
+  if (!state.settings.availableTokens) {
     return null;
   }
 
@@ -133,13 +117,9 @@ const InputForm = () => {
           <span className="text-gray-700 dark:text-gray-300">Coin</span>
           <select
             onChange={(e) => {
-              let idx = e.target.selectedIndex;
-              let dataset = e.target.options[idx].dataset;
-
               dispatch({
                 type: ACTIONS.UPDATE_COIN_ID,
                 payload: e.target.value,
-                name: dataset.name,
               });
 
               router.replace("/dca/" + e.target.value);
@@ -148,8 +128,8 @@ const InputForm = () => {
             value={state.input.coinId}
             className="block mt-1 block w-full rounded-md bg-gray-200 dark:bg-gray-800 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 dark:text-white"
           >
-            {data.data.map((coin, index) => (
-              <option key={coin.id} value={coin.id} data-name={coin.name}>
+            {state.settings.availableTokens.map((coin, index) => (
+              <option key={coin.id} value={coin.id}>
                 #{index + 1} {coin.name}
               </option>
             ))}

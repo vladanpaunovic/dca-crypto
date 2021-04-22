@@ -17,20 +17,41 @@ export const ACTIONS = {
   // Settings actions
   UPDATE_CURRENCY: "UPDATE_CURRENCY",
   TOGGLE_DARK_MODE: "TOGGLE_DARK_MODE",
+  UPDATE_LIST_OF_TOKENS: "UPDATE_LIST_OF_TOKENS",
+};
+
+const calculateDateRangeDifference = (dateFrom, dateTo) => {
+  const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+  const firstDate = new Date(dateFrom);
+  const secondDate = new Date(dateTo);
+
+  const diffDays = Math.round(Math.abs((firstDate - secondDate) / oneDay));
+
+  return diffDays;
 };
 
 const reducer = (state, action) => {
   switch (action.type) {
     // Input
     case ACTIONS.UPDATE_COIN_ID:
-      return {
-        ...state,
-        input: {
-          ...state.input,
-          coinId: action.payload,
-          coinName: action.name,
-        },
-      };
+      const currentCoin = state.settings.availableTokens.find(
+        (c) => c.id === action.payload
+      );
+
+      if (currentCoin) {
+        return {
+          ...state,
+          input: {
+            ...state.input,
+            coinId: currentCoin.id,
+            coinName: currentCoin.name,
+            coinImage: currentCoin.image,
+            coinSymbol: currentCoin.symbol.toUpperCase(),
+          },
+        };
+      }
+
+      return state;
     case ACTIONS.UPDATE_INVESTMENT:
       return {
         ...state,
@@ -42,9 +63,29 @@ const reducer = (state, action) => {
         input: { ...state.input, investmentInterval: action.payload },
       };
     case ACTIONS.UPDATE_DATE_FROM:
-      return { ...state, input: { ...state.input, dateFrom: action.payload } };
+      return {
+        ...state,
+        input: {
+          ...state.input,
+          dateFrom: action.payload,
+          duration: calculateDateRangeDifference(
+            state.input.dateFrom,
+            state.input.dateTo
+          ),
+        },
+      };
     case ACTIONS.UPDATE_DATE_TO:
-      return { ...state, input: { ...state.input, dateTo: action.payload } };
+      return {
+        ...state,
+        input: {
+          ...state.input,
+          dateTo: action.payload,
+          duration: calculateDateRangeDifference(
+            state.input.dateFrom,
+            state.input.dateTo
+          ),
+        },
+      };
 
     // Chart
     case ACTIONS.SET_CHART_DATA:
@@ -73,6 +114,11 @@ const reducer = (state, action) => {
         ...state,
         settings: { ...state.settings, darkMode: !state.settings.darkMode },
       };
+    case ACTIONS.UPDATE_LIST_OF_TOKENS:
+      return {
+        ...state,
+        settings: { ...state.settings, availableTokens: action.payload },
+      };
     default:
       throw new Error();
   }
@@ -88,13 +134,19 @@ export const availableInvestmentIntervals = [
   { label: "Custom", value: "custom" },
 ];
 
+const dateFrom = dayjs(firstDayOfTheYear).format("YYYY-MM-DD");
+const dateTo = dayjs().format("YYYY-MM-DD");
+
 const DEFAULT_INPUT = {
-  coinId: "bitcoin",
-  coinName: "Bitcoin",
+  coinId: null,
+  coinName: null,
+  coinImage: null,
+  coinSymbol: null,
   investment: 100,
   investmentInterval: availableInvestmentIntervals[1].value,
-  dateFrom: dayjs(firstDayOfTheYear).format("YYYY-MM-DD"),
-  dateTo: dayjs().format("YYYY-MM-DD"),
+  dateFrom,
+  dateTo,
+  duration: calculateDateRangeDifference(dateFrom, dateTo),
 };
 
 const initialState = {
@@ -106,7 +158,7 @@ const initialState = {
   settings: {
     currency: "usd",
     darkMode: false,
-    token: {},
+    availableTokens: [],
   },
 };
 
