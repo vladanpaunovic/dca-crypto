@@ -16,7 +16,7 @@ const ChartBalance = () => {
 
   const { chart } = state;
 
-  const allValues = chart.data.map((v) => parseInt(v.balanceFIAT));
+  const allValues = chart.data.map((v) => parseFloat(v.balanceFIAT));
   const minValue = Math.min(...allValues);
   const maxValue = Math.max(...allValues) * 1.06;
 

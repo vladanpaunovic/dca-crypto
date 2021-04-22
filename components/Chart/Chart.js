@@ -4,20 +4,26 @@ import {
   Area,
   CartesianGrid,
   XAxis,
+  Legend,
   YAxis,
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
 import CustomTooltip from "./CustomTooltip";
+import useChartLegend from "./useChartLegend";
 
 export const CHART_SYNCID = "main-chart";
 
 const Chart = () => {
   const { state } = useAppContext();
+  const { strokeSize, handleMouseEnter, handleMouseLeave } = useChartLegend(
+    "coinPrice",
+    "costAverage"
+  );
 
   const { chart } = state;
 
-  const allValues = chart.data.map((v) => parseInt(v.coinPrice));
+  const allValues = chart.data.map((v) => parseFloat(v.coinPrice));
   const minValue = Math.min(...allValues);
   const maxValue = Math.max(...allValues) * 1.06;
 
@@ -46,16 +52,16 @@ const Chart = () => {
               dataKey="coinPrice"
               stroke="#F59E0B"
               fillOpacity={0}
-              strokeWidth={3}
+              strokeWidth={strokeSize.coinPrice}
               fill="url(#colorCoinPrice)"
               name="Price"
-              dot={{ stroke: "#F59E0B", strokeWidth: 2 }}
+              dot={{ stroke: "#F59E0B", strokeWidth: strokeSize.coinPrice }}
             />
             <Area
               type="monotone"
               dataKey="costAverage"
               stroke="#82ca9d"
-              strokeWidth={3}
+              strokeWidth={strokeSize.costAverage}
               fillOpacity={0}
               fill="url(#colorCostAverage)"
               name="Average cost"
@@ -65,6 +71,10 @@ const Chart = () => {
             <XAxis dataKey="date" />
             <YAxis type="number" domain={[minValue, maxValue]} />
             <Tooltip content={<CustomTooltip />} />
+            <Legend
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+            />
           </AreaChart>
         </ResponsiveContainer>
       ) : null}

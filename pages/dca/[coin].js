@@ -17,9 +17,9 @@ export default function Coin(props) {
   const information = [
     {
       label: "Duration",
-      value: `${state.input.duration} days (${dayjs
-        .duration(state.input.duration, "days")
-        .humanize()})`,
+      value: `${dayjs.duration(state.input.duration, "days").humanize()} (${
+        state.input.duration
+      } days)`,
     },
     {
       label: "Total investment",
