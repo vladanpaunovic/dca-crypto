@@ -32,7 +32,7 @@ export default async (req, res) => {
     }
 
     const data = response.data.prices.map((entry) => ({
-      date: dayjs(entry[0]).format("YYYY-MMM-D"),
+      date: new Date(entry[0]).toLocaleDateString(),
       coinPrice: parseFloat(entry[1]).toFixed(6),
     }));
 
