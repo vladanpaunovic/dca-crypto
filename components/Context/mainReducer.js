@@ -131,7 +131,6 @@ export const availableInvestmentIntervals = [
   { label: "Weekly", value: "7" },
   { label: "Bi-weekly", value: "14" },
   { label: "Monthly", value: "30" },
-  { label: "Custom", value: "custom" },
 ];
 
 const dateFrom = dayjs(firstDayOfTheYear).format("YYYY-MM-DD");
