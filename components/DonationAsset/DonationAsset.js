@@ -11,8 +11,6 @@ const DonationAsset = ({ symbol, walletAddress, qrCode }) => {
     (t) => t.symbol === symbol
   );
 
-  console.log(currentAsset);
-
   useEffect(() => {
     setTimeout(() => {
       if (isClicked) {

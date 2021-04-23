@@ -28,7 +28,7 @@ function DonationModal() {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="px-4 py-2 bg-indigo-500 text-white rounded mr-2"
+        className="px-4 py-2 bg-gradient-to-r from-indigo-400 to-indigo-800 text-white rounded mr-2"
       >
         Donate
       </button>
