@@ -114,7 +114,9 @@ const InputForm = () => {
     >
       <div className="col-span-2">
         <label className="block">
-          <span className="text-gray-700 dark:text-gray-300">Coin</span>
+          <span className="font-medium text-gray-700 dark:text-gray-300">
+            Coin
+          </span>
           <select
             onChange={(e) => {
               dispatch({
@@ -126,7 +128,7 @@ const InputForm = () => {
             }}
             name="coinId"
             value={state.input.coinId || ""}
-            className="block mt-1 block w-full rounded-md bg-gray-200 dark:bg-gray-800 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 dark:text-white"
+            className="block mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200"
           >
             {state.settings.availableTokens.map((coin, index) => (
               <option key={coin.id} value={coin.id}>
@@ -138,7 +140,7 @@ const InputForm = () => {
       </div>
       <div className="col-span-2">
         <label className="block">
-          <span className="text-gray-700 dark:text-gray-300">
+          <span className="font-medium text-gray-700 dark:text-gray-300">
             Investment interval
           </span>
           <select
@@ -150,7 +152,7 @@ const InputForm = () => {
             }
             name="investmentInterval"
             value={state.input.investmentInterval || ""}
-            className="block mt-1 block w-full rounded-md bg-gray-100 dark:bg-gray-800 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 dark:text-white"
+            className="block mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200"
           >
             {availableInvestmentIntervals.map((interval) => (
               <option key={interval.value} value={interval.value}>
@@ -163,29 +165,39 @@ const InputForm = () => {
 
       <div className="col-span-2">
         <label className="block">
-          <span className="text-gray-700 dark:text-gray-300">Investment</span>
-          <input
-            className="mt-1 block w-full rounded-md bg-gray-100 dark:bg-gray-800 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 dark:text-white"
-            type="number"
-            placeholder={100}
-            min="1"
-            step="any"
-            value={state.input.investment}
-            onChange={(e) =>
-              dispatch({
-                type: ACTIONS.UPDATE_INVESTMENT,
-                payload: e.target.value,
-              })
-            }
-            name="investment"
-          />
+          <span className="font-medium text-gray-700 dark:text-gray-300">
+            Investment
+          </span>
+          <div className="mt-1 flex rounded-md shadow-sm">
+            <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200">
+              $
+            </span>
+            <input
+              type="number"
+              placeholder={100}
+              min="1"
+              step="any"
+              value={state.input.investment}
+              onChange={(e) =>
+                dispatch({
+                  type: ACTIONS.UPDATE_INVESTMENT,
+                  payload: e.target.value,
+                })
+              }
+              name="investment"
+              className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200"
+              placeholder="100"
+            />
+          </div>
         </label>
       </div>
       <div className="col-span-2">
         <label className="block">
-          <span className="text-gray-700 dark:text-gray-300">From</span>
+          <span className="font-medium text-gray-700 dark:text-gray-300">
+            From
+          </span>
           <input
-            className="mt-1 block w-full rounded-md bg-gray-100 dark:bg-gray-800 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 dark:text-white"
+            className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200"
             type="date"
             value={state.input.dateFrom}
             onChange={(e) =>
@@ -200,9 +212,11 @@ const InputForm = () => {
       </div>
       <div className="col-span-2">
         <label className="block">
-          <span className="text-gray-700 dark:text-gray-300">To</span>
+          <span className="font-medium text-gray-700 dark:text-gray-300">
+            To
+          </span>
           <input
-            className="mt-1 block w-full rounded-md bg-gray-100 dark:bg-gray-800 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 dark:text-white"
+            className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200"
             type="date"
             value={state.input.dateTo}
             onChange={(e) =>
@@ -218,7 +232,7 @@ const InputForm = () => {
       <div className="col-span-2">
         <button
           type="submit"
-          className="px-4 py-2 disabled:opacity-50 rounded w-full bg-indigo-700 text-base text-white dark:bg-yellow-500 dark:text-gray-800 font-bold"
+          className="px-4 py-2 disabled:opacity-50 rounded bg-indigo-700 text-base text-white dark:bg-yellow-500 dark:text-gray-800 font-bold"
           disabled={isSubmitDisabled || mutation.isLoading}
         >
           {mutation.isLoading ? "Loading..." : "Calculate"}

@@ -108,6 +108,8 @@ export default async (req, res) => {
       },
     };
 
+    console.log(output);
+
     res.status(200).json(output);
   } else {
     res.status(404);

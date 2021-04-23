@@ -71,12 +71,31 @@ export default function Coin(props) {
     ));
   };
 
+  const costAverage = state.chart.data[state.chart.data.length - 1].costAverage;
+
+  const earnings = state.chart.insights.totalValue?.fiat || 0;
+  const priceChartMessage = (
+    <>
+      Starting from {state.input.dateFrom} investing{" "}
+      <Currency value={state.input.investment} /> in {state.input.coinSymbol}{" "}
+      every {state.input.investmentInterval} days for{" "}
+      {dayjs.duration(state.input.duration, "days").humanize()} (
+      <Currency value={state.chart.insights.totalInvestment || 0} /> in total)
+      could result in {<Currency value={earnings} />} of{" "}
+      {earnings > 0 ? "value" : "loss"}! Bought for the average price of{" "}
+      <Currency value={costAverage} /> per {state.input.coinSymbol}{" "}
+      {state.chart.insights.percentageChange > 0
+        ? `+${state.chart.insights.percentageChange}`
+        : state.chart.insights.percentageChange}
+    </>
+  );
+
   return (
     <div className="w-full">
       <Head>
         <title>
           DCA Crypto - Dollar cost average {state.input.coinName} (
-          {state.input.coinSymbol})
+          {state.input.coinSymbol}) backtesting
         </title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -89,7 +108,8 @@ export default function Coin(props) {
                 Dollar-cost averaging (DCA) calculator for{" "}
                 <span className="text-indigo-700 dark:text-yellow-500 capitalize">
                   {state.input.coinName} ({state.input.coinSymbol})
-                </span>
+                </span>{" "}
+                backtesting
               </h1>
               <img className="w-8 h-8 ml-2 " src={state.input.coinImage} />
             </div>
@@ -97,10 +117,20 @@ export default function Coin(props) {
           <div className="col-span-6 md:col-span-1 ">
             <InputFormWrapper coin={props.coin} />
           </div>
-          <div className="col-span-6 md:col-span-5 p-4 transition-shadow border dark:border-gray-800 rounded shadow-sm">
-            <Chart />
+          <div className="col-span-6 md:col-span-5 transition-shadow border dark:border-gray-800 rounded shadow-sm">
+            <div className="px-4 py-5 sm:px-6 dark:bg-gray-900">
+              <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white">
+                Price development of {state.input.coinSymbol}
+              </h3>
+              <p className="mt-1 text-sm text-gray-500 dark:text-white">
+                {priceChartMessage}
+              </p>
+            </div>
+            <div className="h-96 p-4  dark:bg-gray-900 flex items-center">
+              <Chart />
+            </div>
           </div>
-          <div className="col-span-1" />
+          <div className="col-span-6 md:col-span-1" />
           <div className="col-span-6 md:col-span-5 grid grid-cols-4 gap-10 ">
             <div className="col-span-6 md:col-span-2 shadow overflow-hidden rounded border dark:border-gray-800">
               <div className="px-4 py-5 sm:px-6 dark:bg-gray-900">
@@ -116,8 +146,18 @@ export default function Coin(props) {
               </div>
             </div>
 
-            <div className="col-span-6 md:col-span-2 p-4 transition-shadow border dark:border-gray-800 rounded shadow-sm hover:shadow-lg">
-              <ChartBalance />
+            <div className="col-span-6 md:col-span-2 shadow overflow-hidden rounded border dark:border-gray-800">
+              <div className="px-4 py-5 sm:px-6 dark:bg-gray-900">
+                <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white">
+                  Balance of your asset valuation
+                </h3>
+                <p className="mt-1 max-w-2xl text-sm text-gray-500 dark:text-white">
+                  Estimate the development of your earnings over time
+                </p>
+              </div>
+              <div className="h-60 p-4 dark:bg-gray-900 flex items-center">
+                <ChartBalance />
+              </div>
             </div>
           </div>
         </div>

@@ -25,7 +25,7 @@ const Chart = () => {
 
   const allValues = chart.data.map((v) => parseFloat(v.coinPrice));
   const minValue = Math.min(...allValues);
-  const maxValue = Math.max(...allValues) * 1.06;
+  const maxValue = Math.max(...allValues);
 
   return (
     <div style={{ width: "100%", height: "100%" }}>
@@ -69,7 +69,7 @@ const Chart = () => {
 
             <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
             <XAxis dataKey="date" />
-            <YAxis type="number" domain={[minValue, maxValue]} />
+            <YAxis domain={[minValue, maxValue]} />
             <Tooltip content={<CustomTooltip />} />
             <Legend
               onMouseEnter={handleMouseEnter}
