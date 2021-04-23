@@ -11,6 +11,7 @@ import {
 } from "recharts";
 import CustomTooltip from "./CustomTooltip";
 import useChartLegend from "./useChartLegend";
+import { kFormatter } from "./helpers";
 
 export const CHART_SYNCID = "main-chart";
 
@@ -69,7 +70,11 @@ const Chart = () => {
 
             <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
             <XAxis dataKey="date" />
-            <YAxis domain={[minValue, maxValue]} />
+            <YAxis
+              tickFormatter={(tick) => kFormatter(tick.toFixed(2))}
+              dataKey="coinPrice"
+              domain={[minValue, maxValue]}
+            />
             <Tooltip content={<CustomTooltip />} />
             <Legend
               onMouseEnter={handleMouseEnter}

@@ -10,6 +10,7 @@ import {
 } from "recharts";
 import CustomTooltip from "./CustomTooltip";
 import { CHART_SYNCID } from "./Chart";
+import { kFormatter } from "./helpers";
 
 const ChartBalance = () => {
   const { state } = useAppContext();
@@ -64,7 +65,11 @@ const ChartBalance = () => {
             />
             <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
             <XAxis dataKey="date" />
-            <YAxis type="number" domain={[minValue, maxValue]} />
+            <YAxis
+              tickFormatter={(tick) => kFormatter(tick.toFixed(2))}
+              type="number"
+              domain={[minValue, maxValue]}
+            />
             <Tooltip content={<CustomTooltip />} />
           </AreaChart>
         </ResponsiveContainer>
