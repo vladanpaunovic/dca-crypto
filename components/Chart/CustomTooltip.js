@@ -11,13 +11,12 @@ const mapFormatting = (entry) => {
     case "percentageChange": {
       return (
         <>
-          {entry.name}:{" "}
           <span
             className={`${
-              entry.value > 0 ? "bg-green-400" : "bg-red-400"
-            } rounded inline-block px-2 text-sm text-white dark:text-gray-900`}
+              entry.value >= 0 ? "bg-green-400" : "bg-red-400"
+            } mt-4 rounded inline-block px-2 text-sm text-white dark:text-gray-900`}
           >
-            {entry.value > 0 ? `+${entry.value}` : entry.value}%
+            {entry.name}: {entry.value > 0 ? `+${entry.value}` : entry.value}%
           </span>
         </>
       );
