@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@headlessui/react": "^1.0.0",
     "@tailwindcss/forms": "^0.3.2",
     "axios": "^0.21.1",
     "dayjs": "^1.10.4",

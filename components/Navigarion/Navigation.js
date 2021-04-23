@@ -2,6 +2,7 @@ import { useAppContext } from "../Context/Context";
 import { ACTIONS } from "../Context/mainReducer";
 import MoonSolid from "../Icons/MoonSolid";
 import Link from "next/link";
+import DonationModal from "../DonationModal/DonationModal";
 
 const Navigation = () => {
   const { dispatch } = useAppContext();
@@ -17,6 +18,7 @@ const Navigation = () => {
         <nav className="flex lg:w-2/5 flex-wrap items-center text-base md:ml-auto"></nav>
 
         <div className="lg:w-2/5 inline-flex lg:justify-end ml-5 lg:ml-0">
+          <DonationModal />
           <button
             className="transition dark:text-white text-gray hover:text-gray-900 rounded-full p-1"
             onClick={() =>
