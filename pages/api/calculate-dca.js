@@ -71,7 +71,10 @@ export default async (req, res) => {
         .reduce((prev, curr) => prev + curr, 0)
         .toFixed(6);
 
+      const totalFIAT = (index + 1) * payload.investment;
       const balanceFIAT = (balanceCrypto * entry.coinPrice).toFixed(2);
+
+      const percentageChange = getPercentageChange(totalFIAT, balanceFIAT);
 
       return {
         ...entry,
@@ -80,23 +83,16 @@ export default async (req, res) => {
         costAverage,
         balanceFIAT,
         balanceCrypto,
+        percentageChange,
       };
     });
 
-    const totalInvestment = payload.investment * chartData.length;
-    const totalValueCrypto = chartData.reduce(
-      (prev, curr) => prev + curr.totalCrypto,
-      0
-    );
+    const mostRecentEntry = chartData[chartData.length - 1];
 
-    // TODO: Move all this calculations into the map loop
-    const recentPrice = chartData[chartData.length - 1].coinPrice;
-    const totalValueFIAT = totalValueCrypto * recentPrice;
-
-    const percentageChange = getPercentageChange(
-      totalInvestment,
-      totalValueFIAT
-    );
+    const totalInvestment = mostRecentEntry.totalFIAT;
+    const totalValueFIAT = mostRecentEntry.balanceFIAT;
+    const percentageChange = mostRecentEntry.percentageChange;
+    const totalValueCrypto = mostRecentEntry.balanceCrypto;
 
     const output = {
       chartData,

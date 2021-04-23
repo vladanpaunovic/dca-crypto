@@ -47,7 +47,7 @@ export default function Coin(props) {
       label: "Value in crypto",
       value: (
         <>
-          {state.chart.insights.totalValue?.crypto?.toFixed(6) || 0}{" "}
+          {state.chart.insights.totalValue?.crypto || 0}{" "}
           <span className="font-bold">{state.input.coinSymbol}</span>
         </>
       ),

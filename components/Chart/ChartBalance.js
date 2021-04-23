@@ -63,6 +63,13 @@ const ChartBalance = () => {
               fill="url(#colorBalanceCrypto)"
               name="Balance in crypto"
             />
+            <Area
+              type="monotone"
+              dataKey="percentageChange"
+              stroke="#F59E0B"
+              fillOpacity={0}
+              name="ROI"
+            />
             <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
             <XAxis dataKey="date" />
             <YAxis
