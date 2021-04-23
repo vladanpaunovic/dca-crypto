@@ -76,16 +76,16 @@ export default function Coin(props) {
   const earnings = state.chart.insights.totalValue?.fiat || 0;
   const priceChartMessage = (
     <>
-      Starting from {state.input.dateFrom} investing{" "}
+      Starting from {state.input.dateFrom}, investing{" "}
       <Currency value={state.input.investment} /> in {state.input.coinSymbol}{" "}
       every {state.input.investmentInterval} days for{" "}
       {dayjs.duration(state.input.duration, "days").humanize()} (
       <Currency value={state.chart.insights.totalInvestment || 0} /> in total)
       could result in {<Currency value={earnings} />} of{" "}
       {earnings > 0 ? "value" : "loss"}! Bought for the average price of{" "}
-      <Currency value={costAverage} /> per {state.input.coinSymbol}{" "}
+      <Currency value={costAverage} /> per {state.input.coinSymbol}.{" "}
       {state.chart.insights.percentageChange > 0
-        ? `+${state.chart.insights.percentageChange}`
+        ? `+${state.chart.insights.percentageChange}% gain!`
         : state.chart.insights.percentageChange}
     </>
   );
