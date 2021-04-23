@@ -11,8 +11,8 @@ export default function Coin() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navigation />
-      <main>
-        <div className="mt-4 container max-w-7xl mx-auto max-w-80 bg-white dark:bg-gray-900">
+      <main className="w-full bg-white dark:bg-gray-900">
+        <div className="container max-w-7xl mx-auto max-w-80 bg-white dark:bg-gray-900">
           <div className="col-span-6">
             <h1 className="text-2xl text-gray-900 dark:text-gray-100 mb-5">
               Dollar-cost averaging (DCA) calculator for your{" "}
