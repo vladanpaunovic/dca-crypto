@@ -3,7 +3,6 @@ import { QueryClientProvider, QueryClient, useQuery } from "react-query";
 import { AppWrapper, useAppContext } from "../components/Context/Context";
 import axios from "axios";
 import { ACTIONS } from "../components/Context/mainReducer";
-import { useState } from "react";
 
 const queryClient = new QueryClient();
 
