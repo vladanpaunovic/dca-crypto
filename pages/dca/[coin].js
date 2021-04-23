@@ -71,7 +71,8 @@ export default function Coin(props) {
     ));
   };
 
-  const costAverage = state.chart.data[state.chart.data.length - 1].costAverage;
+  const costAverage =
+    state.chart.data[state.chart.data.length - 1]?.costAverage;
 
   const earnings = state.chart.insights.totalValue?.fiat || 0;
   const priceChartMessage = (
