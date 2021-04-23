@@ -1,6 +1,5 @@
 import Head from "next/head";
 import Navigation from "../components/Navigarion/Navigation";
-import { useRouter } from "next/router";
 import AllCoinsTable from "../components/AllCoinsTable/AllCoinsTable";
 
 export default function Coin() {

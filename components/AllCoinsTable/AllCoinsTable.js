@@ -4,6 +4,15 @@ import Link from "next/link";
 
 const AllCoinsTable = () => {
   const { state } = useAppContext();
+
+  if (state.settings.availableTokens.length === 0) {
+    return (
+      <div className="flex items-center py-10 dark:text-white font-medium">
+        Loading list of cryptocurrencies...
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col">
       <div className="my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
