@@ -33,10 +33,13 @@ const DonationAsset = ({ symbol, walletAddress, qrCode }) => {
       </div>
       <div class="text-left w-full relative">
         <div className="ml-2 flex flex-col">
-          <p class="text-gray-900 font-medium dark:text-gray-200">
-            {currentAsset.name}{" "}
-            <span className="uppercase text-indigo-500">{symbol}</span>
-          </p>
+          <div class="text-gray-900 font-medium dark:text-gray-200 flex items-center">
+            <img src={currentAsset.image} className="inline mr-1 w-5 h-5" />
+            <div>
+              {currentAsset.name}{" "}
+              <span className="uppercase text-indigo-500">{symbol}</span>
+            </div>
+          </div>
           <span class="text-gray-500 text-sm break-all pl-0 p-2 dark:text-gray-300">
             {walletAddress}
           </span>
