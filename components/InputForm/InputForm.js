@@ -117,52 +117,32 @@ const InputForm = () => {
           <span className="font-medium text-gray-700 dark:text-gray-300">
             Coin
           </span>
-          <select
-            onChange={(e) => {
-              dispatch({
-                type: ACTIONS.UPDATE_COIN_ID,
-                payload: e.target.value,
-              });
+          <div className="mt-1 flex rounded-md shadow-sm">
+            <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 text-gray-500 text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200">
+              <img src={state.input.coinImage} className="w-5 h-5" />
+            </span>
+            <select
+              onChange={(e) => {
+                dispatch({
+                  type: ACTIONS.UPDATE_COIN_ID,
+                  payload: e.target.value,
+                });
 
-              router.replace("/dca/" + e.target.value);
-            }}
-            name="coinId"
-            value={state.input.coinId || ""}
-            className="block mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200"
-          >
-            {state.settings.availableTokens.map((coin, index) => (
-              <option key={coin.id} value={coin.id}>
-                #{index + 1} {coin.name}
-              </option>
-            ))}
-          </select>
+                router.replace("/dca/" + e.target.value);
+              }}
+              name="coinId"
+              value={state.input.coinId || ""}
+              className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200"
+            >
+              {state.settings.availableTokens.map((coin, index) => (
+                <option key={coin.id} value={coin.id}>
+                  #{index + 1} {coin.name}
+                </option>
+              ))}
+            </select>
+          </div>
         </label>
       </div>
-      <div className="col-span-2">
-        <label className="block">
-          <span className="font-medium text-gray-700 dark:text-gray-300">
-            Investment interval
-          </span>
-          <select
-            onChange={(opt) =>
-              dispatch({
-                type: ACTIONS.UPDATE_INVESTMENT_INTERVAL,
-                payload: opt.target.value,
-              })
-            }
-            name="investmentInterval"
-            value={state.input.investmentInterval || ""}
-            className="block mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200"
-          >
-            {availableInvestmentIntervals.map((interval) => (
-              <option key={interval.value} value={interval.value}>
-                {interval.label}
-              </option>
-            ))}
-          </select>
-        </label>
-      </div>
-
       <div className="col-span-2">
         <label className="block">
           <span className="font-medium text-gray-700 dark:text-gray-300">
@@ -191,6 +171,31 @@ const InputForm = () => {
           </div>
         </label>
       </div>
+      <div className="col-span-2">
+        <label className="block">
+          <span className="font-medium text-gray-700 dark:text-gray-300">
+            Investment interval
+          </span>
+          <select
+            onChange={(opt) =>
+              dispatch({
+                type: ACTIONS.UPDATE_INVESTMENT_INTERVAL,
+                payload: opt.target.value,
+              })
+            }
+            name="investmentInterval"
+            value={state.input.investmentInterval || ""}
+            className="block mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200"
+          >
+            {availableInvestmentIntervals.map((interval) => (
+              <option key={interval.value} value={interval.value}>
+                {interval.label}
+              </option>
+            ))}
+          </select>
+        </label>
+      </div>
+
       <div className="col-span-2">
         <label className="block">
           <span className="font-medium text-gray-700 dark:text-gray-300">
