@@ -67,7 +67,7 @@ const ChartBalance = () => {
               stroke="#F59E0B"
               fillOpacity={1}
               fill="url(#colorBalanceCrypto)"
-              name="Balance in crypto"
+              name={`Balance in ${state.input.coinSymbol}`}
             />
             <Area
               type="monotone"
