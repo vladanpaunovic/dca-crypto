@@ -46,7 +46,13 @@ const ChartBalance = () => {
                 <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
               </linearGradient>
             </defs>
-
+            <Area
+              type="monotone"
+              dataKey="totalFIAT"
+              stroke="#82ca9d"
+              fillOpacity={0}
+              name="Investment"
+            />
             <Area
               type="monotone"
               dataKey="balanceFIAT"
@@ -70,6 +76,7 @@ const ChartBalance = () => {
               fillOpacity={0}
               name="ROI"
             />
+
             <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
             <XAxis dataKey="date" />
             <YAxis
