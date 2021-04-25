@@ -20,7 +20,7 @@ export default async (req, res) => {
       `https://api.coingecko.com/api/v3/coins/${payload.coindId}/market_chart/range`,
       {
         params: {
-          vs_currency: "usd",
+          vs_currency: payload.currency,
           from: convertDateStringToUnix(payload.dateFrom),
           to: convertDateStringToUnix(payload.dateTo),
         },

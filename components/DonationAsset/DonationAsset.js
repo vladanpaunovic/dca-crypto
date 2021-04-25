@@ -38,7 +38,7 @@ const DonationAsset = ({ symbol, walletAddress, qrCode }) => {
               <span className="uppercase text-indigo-500">{symbol}</span>
             </div>
           </div>
-          <span class="text-gray-500 text-sm break-all pl-0 p-2 dark:text-gray-300">
+          <span class="text-gray-500 text-sm break-all pl-0 p-2 dark:text-gray-300 select-all">
             {walletAddress}
           </span>
           <button

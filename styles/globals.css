@@ -18,3 +18,10 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.remove-dropdown-arrow {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-indent: 1px;
+  text-overflow: "";
+}

@@ -18,6 +18,7 @@ export const ACTIONS = {
   UPDATE_CURRENCY: "UPDATE_CURRENCY",
   TOGGLE_DARK_MODE: "TOGGLE_DARK_MODE",
   UPDATE_LIST_OF_TOKENS: "UPDATE_LIST_OF_TOKENS",
+  UPDATE_CURRENCY: "UPDATE_CURRENCY",
 };
 
 const calculateDateRangeDifference = (dateFrom, dateTo) => {
@@ -118,6 +119,12 @@ const reducer = (state, action) => {
       return {
         ...state,
         settings: { ...state.settings, availableTokens: action.payload },
+      };
+
+    case ACTIONS.UPDATE_CURRENCY:
+      return {
+        ...state,
+        settings: { ...state.settings, currency: action.payload },
       };
     default:
       throw new Error();

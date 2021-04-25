@@ -51,6 +51,13 @@ const InputFormWrapper = ({ coin }) => {
   return <InputForm />;
 };
 
+const availableCurrencies = [
+  { name: "USD", value: "usd" },
+  { name: "EUR", value: "eur" },
+  { name: "GBP", value: "gbp" },
+  { name: "JPY", value: "jpy" },
+];
+
 const InputForm = () => {
   const appContext = useAppContext();
   const router = useRouter();
@@ -87,6 +94,7 @@ const InputForm = () => {
       investment: state.input.investment,
       dateFrom: state.input.dateFrom,
       dateTo: state.input.dateTo,
+      currency: state.settings.currency,
     };
 
     mutation.mutate(payload);
@@ -149,9 +157,21 @@ const InputForm = () => {
             Investment
           </span>
           <div className="mt-1 flex rounded-md shadow-sm">
-            <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200">
-              $
-            </span>
+            <select
+              onChange={(e) =>
+                dispatch({
+                  type: ACTIONS.UPDATE_CURRENCY,
+                  payload: e.target.value,
+                })
+              }
+              className="remove-dropdown-arrow inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
+            >
+              {availableCurrencies.map((c) => (
+                <option key={c.value} value={c.value}>
+                  {c.name}
+                </option>
+              ))}
+            </select>
             <input
               type="number"
               placeholder={100}
