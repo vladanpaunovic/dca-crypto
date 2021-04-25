@@ -56,6 +56,7 @@ const availableCurrencies = [
   { name: "EUR", value: "eur" },
   { name: "GBP", value: "gbp" },
   { name: "JPY", value: "jpy" },
+  { name: "RUB", value: "rub" },
 ];
 
 const InputForm = () => {
