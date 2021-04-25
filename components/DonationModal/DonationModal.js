@@ -22,15 +22,32 @@ const donationAssets = [
 ];
 
 function DonationModal() {
-  let [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isHover, setIsHover] = useState(false);
 
   return (
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="px-4 py-2 bg-gradient-to-r from-indigo-400 to-indigo-800 text-white rounded mr-2"
+        onMouseOver={() => setIsHover(true)}
+        onMouseOut={() => setIsHover(false)}
+        className="flex items-center px-4 py-2 bg-gradient-to-r from-indigo-400 to-indigo-800 text-white rounded mr-2"
       >
         Donate
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-4 w-4 ml-1"
+          fill={isHover ? "currentColor" : "none"}
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+          />
+        </svg>
       </button>
       <div className="relative">
         <Dialog
@@ -84,6 +101,15 @@ function DonationModal() {
                   </div>
                 </div>
               </div>
+            </div>
+            <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+              <button
+                type="button"
+                onClick={() => setIsOpen(false)}
+                class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
+              >
+                Close
+              </button>
             </div>
           </div>
         </Dialog>
