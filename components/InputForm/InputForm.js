@@ -10,15 +10,15 @@ import {
 import { useEffect } from "react";
 import dayjs from "dayjs";
 
-const InputFormWrapper = ({ coin }) => {
+const InputFormWrapper = (props) => {
   const { dispatch } = useAppContext();
   const router = useRouter();
 
   useEffect(() => {
-    if (coin) {
+    if (props.coinId) {
       dispatch({
         type: ACTIONS.UPDATE_COIN_ID,
-        payload: coin,
+        payload: props.coinId,
       });
     }
 
@@ -51,7 +51,7 @@ const InputFormWrapper = ({ coin }) => {
         });
       }
     }
-  }, [router.isReady, coin]);
+  }, [router.isReady, props.coin]);
 
   return <InputForm />;
 };
@@ -85,6 +85,15 @@ const InputForm = () => {
     }
   );
 
+  const payload = {
+    coinId: state.input.coinId,
+    investmentInterval: state.input.investmentInterval,
+    investment: state.input.investment,
+    dateFrom: state.input.dateFrom,
+    dateTo: state.input.dateTo,
+    currency: state.settings.currency,
+  };
+
   const submitForm = () => {
     if (isSubmitDisabled) {
       return null;
@@ -94,15 +103,13 @@ const InputForm = () => {
       return null;
     }
 
-    const payload = {
-      coindId: state.input.coinId,
-      investmentInterval: state.input.investmentInterval,
-      investment: state.input.investment,
-      dateFrom: state.input.dateFrom,
-      dateTo: state.input.dateTo,
-      currency: state.settings.currency,
-    };
+    const { coinId, ...rest } = payload;
 
+    router.replace(
+      { pathname: "/dca/" + state.input.coinId, query: rest },
+      undefined,
+      { shallow: true }
+    );
     mutation.mutate(payload);
   };
   const onSubmit = (event) => {
@@ -145,8 +152,6 @@ const InputForm = () => {
                   type: ACTIONS.UPDATE_COIN_ID,
                   payload: e.target.value,
                 });
-
-                router.replace("/dca/" + e.target.value);
               }}
               name="coinId"
               value={state.input.coinId || ""}

@@ -17,7 +17,7 @@ export default async (req, res) => {
     const payload = { ...req.body };
 
     const response = await axios.get(
-      `https://api.coingecko.com/api/v3/coins/${payload.coindId}/market_chart/range`,
+      `https://api.coingecko.com/api/v3/coins/${payload.coinId}/market_chart/range`,
       {
         params: {
           vs_currency: payload.currency,

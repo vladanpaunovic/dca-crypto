@@ -118,7 +118,7 @@ export default function Coin(props) {
             </div>
           </div>
           <div className="col-span-6 xl:col-span-2">
-            <InputFormWrapper coin={props.coin} />
+            <InputFormWrapper {...props} />
           </div>
           <div className="col-span-6 xl:col-span-4 transition-shadow border dark:border-gray-800 rounded shadow-sm">
             <div className="px-4 py-5 sm:px-6 dark:bg-gray-900">
@@ -180,5 +180,6 @@ export default function Coin(props) {
 }
 
 Coin.getInitialProps = (ctx) => {
-  return { coin: ctx.query.coin };
+  const { coin, investment, investmentInterval, dateFrom, dateTo } = ctx.query;
+  return { coinId: coin, investment, investmentInterval, dateFrom, dateTo };
 };

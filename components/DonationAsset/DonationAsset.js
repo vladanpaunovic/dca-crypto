@@ -26,19 +26,19 @@ const DonationAsset = ({ symbol, walletAddress, qrCode }) => {
   };
   return (
     <div className="w-full relative rounded-lg shadow-lg items-start p-4 flex focus:outline-none">
-      <div class="flex items-center justify-center">
+      <div className="flex items-center justify-center">
         <Image src={qrCode} alt={symbol} width="120" height="120" />
       </div>
-      <div class="text-left w-full relative">
+      <div className="text-left w-full relative">
         <div className="ml-2 flex flex-col">
-          <div class="text-gray-900 font-medium dark:text-gray-200 flex items-center">
+          <div className="text-gray-900 font-medium dark:text-gray-200 flex items-center">
             <img src={currentAsset.image} className="inline mr-1 w-5 h-5" />
             <div>
               {currentAsset.name}{" "}
               <span className="uppercase text-indigo-500">{symbol}</span>
             </div>
           </div>
-          <span class="text-gray-500 text-sm break-all pl-0 p-2 dark:text-gray-300 select-all">
+          <span className="text-gray-500 text-sm break-all pl-0 p-2 dark:text-gray-300 select-all">
             {walletAddress}
           </span>
           <button
