@@ -8,6 +8,7 @@ import {
   calculateDateRangeDifference,
 } from "../Context/mainReducer";
 import { useEffect } from "react";
+import dayjs from "dayjs";
 
 const InputFormWrapper = ({ coin }) => {
   const { dispatch } = useAppContext();
@@ -261,6 +262,7 @@ const InputForm = () => {
               })
             }
             name="dateTo"
+            max={dayjs().format("YYYY-MM-DD")}
           />
         </label>
       </div>
