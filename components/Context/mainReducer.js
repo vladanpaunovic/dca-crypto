@@ -113,7 +113,7 @@ const reducer = (state, action) => {
       }
       return {
         ...state,
-        settings: { ...state.settings, darkMode: !state.settings.darkMode },
+        settings: { ...state.settings, darkMode: action.payload },
       };
     case ACTIONS.UPDATE_LIST_OF_TOKENS:
       return {
@@ -173,8 +173,8 @@ export const useMainReducer = () => {
 
   useEffect(() => {
     const [, dispatch] = useMainReducerRaw;
-    if (store.get("theme") === "dark") {
-      dispatch({ type: ACTIONS.TOGGLE_DARK_MODE });
+    if (store.get("theme")) {
+      dispatch({ type: ACTIONS.TOGGLE_DARK_MODE, payload: store.get("theme") });
     }
   }, []);
 

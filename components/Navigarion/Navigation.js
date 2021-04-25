@@ -5,7 +5,7 @@ import Link from "next/link";
 import DonationModal from "../DonationModal/DonationModal";
 
 const Navigation = () => {
-  const { dispatch } = useAppContext();
+  const { state, dispatch } = useAppContext();
 
   return (
     <header className="text-indigo-700 body-font shadow w-full bg-white dark:bg-gray-900">
@@ -24,6 +24,7 @@ const Navigation = () => {
             onClick={() =>
               dispatch({
                 type: ACTIONS.TOGGLE_DARK_MODE,
+                payload: !state.settings.darkMode,
               })
             }
           >
