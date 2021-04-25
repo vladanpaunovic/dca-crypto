@@ -21,7 +21,7 @@ export const ACTIONS = {
   UPDATE_CURRENCY: "UPDATE_CURRENCY",
 };
 
-const calculateDateRangeDifference = (dateFrom, dateTo) => {
+export const calculateDateRangeDifference = (dateFrom, dateTo) => {
   const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
   const firstDate = new Date(dateFrom);
   const secondDate = new Date(dateTo);

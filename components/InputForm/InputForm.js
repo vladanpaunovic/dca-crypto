@@ -2,7 +2,11 @@ import { useMutation } from "react-query";
 import axios from "axios";
 import { useAppContext } from "../Context/Context";
 import { useRouter } from "next/router";
-import { ACTIONS, availableInvestmentIntervals } from "../Context/mainReducer";
+import {
+  ACTIONS,
+  availableInvestmentIntervals,
+  calculateDateRangeDifference,
+} from "../Context/mainReducer";
 import { useEffect } from "react";
 
 const InputFormWrapper = ({ coin }) => {
@@ -66,7 +70,7 @@ const InputForm = () => {
 
   // Due to the constrains of the CoinGecko API, we enable calculations only
   // agter the perod of 90 days
-  const isSubmitDisabled = state.input.duration < 90;
+  const isSubmitDisabled = state.input.duration < 90 || !state.input.investment;
 
   const mutation = useMutation(
     (payload) => axios.post("/api/calculate-dca", payload),
@@ -108,7 +112,11 @@ const InputForm = () => {
 
   useEffect(() => {
     submitForm();
-  }, [state.input.coinId, state.input.investmentInterval]);
+  }, [
+    state.input.coinId,
+    state.input.investmentInterval,
+    state.settings.currency,
+  ]);
 
   if (!state.settings.availableTokens) {
     return null;
@@ -165,7 +173,7 @@ const InputForm = () => {
                   payload: e.target.value,
                 })
               }
-              className="remove-dropdown-arrow inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
+              className="no_arrows inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
             >
               {availableCurrencies.map((c) => (
                 <option key={c.value} value={c.value}>
@@ -177,6 +185,7 @@ const InputForm = () => {
               type="number"
               placeholder={100}
               min="1"
+              max="1000000000"
               step="any"
               value={state.input.investment}
               onChange={(e) =>

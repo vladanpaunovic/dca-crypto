@@ -19,9 +19,15 @@ a {
   box-sizing: border-box;
 }
 
-.remove-dropdown-arrow {
+SELECT.no_arrows {
+  background: transparent;
   -webkit-appearance: none;
-  -moz-appearance: none;
-  text-indent: 1px;
   text-overflow: "";
+}
+SELECT.no_arrows:focus {
+  box-shadow: none;
+}
+SELECT.no_arrows::-ms-expand {
+  /* for IE 10+ */
+  display: none;
 }

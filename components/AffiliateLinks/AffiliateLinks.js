@@ -43,12 +43,9 @@ const affiliatePartners = [
 ];
 
 const AffiliatePartner = (props) => {
-  const oddClass = "bg-white dark:bg-gray-900";
-  const evenClass = "bg-gray-50 dark:bg-gray-800";
-
   const { name, pitch, description, affiliateLink, icon, index } = props;
   return (
-    <div className={`${index % 2 === 0 ? evenClass : oddClass} px-4 py-5 flex`}>
+    <div className="bg-white dark:bg-gray-900 px-4 py-5 flex">
       <div>
         <Image
           src={icon}
@@ -81,7 +78,7 @@ const AffiliatePartner = (props) => {
 
 const AffiliateLinks = () => {
   return (
-    <div className="col-span-6 md:col-span-3 mt-8 shadow overflow-hidden rounded border dark:border-gray-800">
+    <div className="col-span-6 md:col-span-3 shadow overflow-hidden rounded border dark:border-gray-800">
       <div className="p-4 dark:bg-gray-900">
         <h5 className="flex text-lg leading-6 font-medium text-gray-900 dark:text-white">
           <SupportIcon /> Sponsored content
