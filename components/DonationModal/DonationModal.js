@@ -91,7 +91,7 @@ function DonationModal() {
                   </h3>
                   <div class="mt-2">
                     <p class="text-sm text-gray-400 ">
-                      Your donation woll help improve this product
+                      Your donation will help improve this product
                     </p>
                     <div className="mt-4">
                       {donationAssets.map((asset) => (
