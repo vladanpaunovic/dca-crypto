@@ -143,7 +143,7 @@ const InputForm = () => {
           </div>
         </label>
       </div>
-      <div className="col-span-2">
+      <div className="col-span-1">
         <label className="block">
           <span className="font-medium text-gray-700 dark:text-gray-300">
             Investment
@@ -171,7 +171,7 @@ const InputForm = () => {
           </div>
         </label>
       </div>
-      <div className="col-span-2">
+      <div className="col-span-1">
         <label className="block">
           <span className="font-medium text-gray-700 dark:text-gray-300">
             Investment interval
@@ -196,7 +196,7 @@ const InputForm = () => {
         </label>
       </div>
 
-      <div className="col-span-2">
+      <div className="col-span-1">
         <label className="block">
           <span className="font-medium text-gray-700 dark:text-gray-300">
             From
@@ -215,7 +215,7 @@ const InputForm = () => {
           />
         </label>
       </div>
-      <div className="col-span-2">
+      <div className="col-span-1">
         <label className="block">
           <span className="font-medium text-gray-700 dark:text-gray-300">
             To

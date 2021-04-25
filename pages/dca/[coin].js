@@ -9,6 +9,7 @@ import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import relativeTime from "dayjs/plugin/relativeTime";
 import DataTable from "../../components/DataTable/DataTable";
+import AffiliateLinks from "../../components/AffiliateLinks/AffiliateLinks";
 
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
@@ -116,10 +117,10 @@ export default function Coin(props) {
               <img className="w-8 h-8 ml-2 " src={state.input.coinImage} />
             </div>
           </div>
-          <div className="col-span-6 xl:col-span-1 ">
+          <div className="col-span-6 xl:col-span-2">
             <InputFormWrapper coin={props.coin} />
           </div>
-          <div className="col-span-6 xl:col-span-5 transition-shadow border dark:border-gray-800 rounded shadow-sm">
+          <div className="col-span-6 xl:col-span-4 transition-shadow border dark:border-gray-800 rounded shadow-sm">
             <div className="px-4 py-5 sm:px-6 dark:bg-gray-900">
               <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white">
                 Price development of {state.input.coinSymbol}
@@ -132,8 +133,10 @@ export default function Coin(props) {
               <Chart />
             </div>
           </div>
-          <div className="col-span-6 xl:col-span-1" />
-          <div className="col-span-6 xl:col-span-5 grid-cols-6 grid grid-cols-4 gap-10 ">
+          <div className="col-span-6 xl:col-span-2">
+            <AffiliateLinks />
+          </div>
+          <div className="col-span-6 xl:col-span-4 grid-cols-6 grid grid-cols-4 gap-10 ">
             <div className="col-span-6 md:col-span-3 shadow overflow-hidden rounded border dark:border-gray-800">
               <div className="px-4 py-5 sm:px-6 dark:bg-gray-900">
                 <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white">
