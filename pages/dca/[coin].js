@@ -154,7 +154,7 @@ export default function Coin(props) {
                       href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
                         priceChartMessage
                       )}&url=${encodeURIComponent(
-                        location.host
+                        location.href
                       )}&hashtags=${coinSymbol},${currentCoin.name}`}
                       className="flex items-center justify-between transition rounded bg-indigo-600 dark:bg-yellow-500 hover:bg-blue-500 py-1 px-2 text-white dark:text-gray-900 font-medium"
                     >
