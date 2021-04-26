@@ -120,10 +120,10 @@ const reducer = (state, action) => {
         settings: { ...state.settings, currency: action.payload },
       };
     case ACTIONS.TOGGLE_DARK_MODE:
-      if (state.darkMode) {
-        store.remove("theme");
-      } else {
+      if (action.payload) {
         store.set("theme", "dark");
+      } else {
+        store.remove("theme");
       }
       return {
         ...state,

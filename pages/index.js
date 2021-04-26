@@ -25,7 +25,7 @@ export default function Coin() {
         </div>
       </main>
 
-      <footer className="w-100 flex border-t h-20 justify-center items-center dark:bg-gray-900 dark:text-gray-100 dark:border-gray-900">
+      <footer className="w-100 flex border-t h-20 justify-center items-center bg-white dark:bg-gray-900 dark:text-gray-100 dark:border-gray-900">
         DCA CC - Dollar Cost Averaging Cryptocurrency
       </footer>
     </div>
