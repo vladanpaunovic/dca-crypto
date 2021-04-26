@@ -9,7 +9,7 @@ const Navigation = () => {
   const { state, dispatch } = useAppContext();
 
   return (
-    <header className="text-indigo-700 body-font shadow w-full bg-white dark:bg-gray-900 px-4">
+    <header className="text-indigo-700 body-font shadow w-full bg-white dark:bg-gray-900 px-3">
       <div className="mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center ">
         <Link href="/">
           <a className="flex order-first lg:order-none lg:w-1/5 title-font font-medium items-center lg:items-center lg:justify-left mb-4 md:mb-0 ">
