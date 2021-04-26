@@ -156,7 +156,7 @@ export default function Coin(props) {
                       )}&url=${encodeURIComponent(
                         location.href
                       )}&hashtags=${coinSymbol},${currentCoin.name}`}
-                      className="flex items-center justify-between transition rounded bg-indigo-600 dark:bg-yellow-500 hover:bg-blue-500 py-1 px-2 text-white dark:text-gray-900 font-medium"
+                      className="flex items-center justify-between transition rounded bg-white hover:bg-indigo-50 dark:bg-gray-900 dark:hover:bg-gray-800 py-1 px-2 text-indigo-700 dark:text-yellow-500 font-medium border shadow border-transparent"
                     >
                       Tweet
                       <span>

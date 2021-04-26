@@ -277,7 +277,7 @@ const InputForm = () => {
       <div className="col-span-2">
         <button
           type="submit"
-          className="px-4 py-2 disabled:opacity-50 rounded bg-indigo-700 text-base text-white dark:bg-yellow-500 dark:text-gray-800 font-bold"
+          className="px-4 py-2 disabled:opacity-50 rounded bg-indigo-700 hover:bg-indigo-800 text-base text-white dark:bg-yellow-500 dark:hover:bg-yellow-600 dark:text-gray-800 font-bold shadow"
           disabled={isSubmitDisabled || mutation.isLoading}
         >
           {mutation.isLoading ? "Loading..." : "Calculate"}

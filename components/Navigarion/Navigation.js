@@ -4,6 +4,7 @@ import MoonSolid from "../Icons/MoonSolid";
 import Link from "next/link";
 import DonationModal from "../DonationModal/DonationModal";
 import SunshineIcon from "../Icons/SunshineIcon";
+import Logo from "../Logo/Logo";
 
 const Navigation = () => {
   const { state, dispatch } = useAppContext();
@@ -11,16 +12,7 @@ const Navigation = () => {
   return (
     <header className="text-indigo-700 body-font shadow w-full bg-white dark:bg-gray-900 px-3">
       <div className="mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center ">
-        <Link href="/">
-          <a className="flex order-first lg:order-none lg:w-1/5 title-font font-medium items-center lg:items-center lg:justify-left mb-4 md:mb-0 ">
-            <span className="pl-4 pr-2 py-1 text-lg text-white bg-indigo-600 font-medium rounded-l">
-              DCA
-            </span>
-            <span className="pl-2 pr-4 py-1 text-lg text-white bg-gray-700 font-medium rounded-r">
-              Cryptocurrency
-            </span>
-          </a>
-        </Link>
+        <Logo />
         <nav className="flex lg:w-2/5 flex-wrap items-center text-base md:ml-auto"></nav>
 
         <div className="lg:w-2/5 inline-flex lg:justify-end ml-5 lg:ml-0 ">
