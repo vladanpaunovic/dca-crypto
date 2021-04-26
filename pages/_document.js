@@ -1,6 +1,6 @@
 import Document, { Html, Head, Main, NextScript } from "next/document";
 import store from "store";
-import { INSIGHTS_TRACKING_ID } from "../config";
+import { GA_TRACKING_ID } from "../config";
 
 class MyDocument extends Document {
   static async getInitialProps(ctx) {
@@ -18,8 +18,11 @@ class MyDocument extends Document {
           <script
             async
             dangerouslySetInnerHTML={{
-              __html: `insights.init(${INSIGHTS_TRACKING_ID});
-              insights.trackPages();`,
+              __html: `window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+            
+              gtag('config', '${GA_TRACKING_ID}');`,
             }}
           />
         </Head>
