@@ -122,54 +122,56 @@ export default function Coin(props) {
             </div>
           </div>
           <div className="col-span-6 xl:col-span-2">
-            <InputFormWrapper {...props} />
-          </div>
-          <div className="col-span-6 xl:col-span-4 transition-shadow border dark:border-gray-800 rounded shadow-sm">
-            <div className="px-4 py-5 sm:px-6 dark:bg-gray-900">
-              <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white">
-                Price development of {coinSymbol}
-              </h3>
-              <p className="mt-1 text-sm text-gray-500 dark:text-white">
-                {priceChartMessage}
-              </p>
+            <div>
+              <InputFormWrapper {...props} />
             </div>
-            <div className="h-96 p-4  dark:bg-gray-900 flex items-center">
-              <Chart />
+            <div className="mt-8">
+              <AffiliateLinks />
             </div>
           </div>
-          <div className="col-span-6 xl:col-span-2">
-            <AffiliateLinks />
-          </div>
-          <div className="col-span-6 xl:col-span-4 grid-cols-6 grid grid-cols-4 gap-10 ">
-            <div className="col-span-6 md:col-span-3 shadow overflow-hidden rounded border dark:border-gray-800">
+          <div className="col-span-6 xl:col-span-4">
+            <div className="shadow border rounded dark:border-gray-800">
               <div className="px-4 py-5 sm:px-6 dark:bg-gray-900">
                 <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white">
-                  Information
+                  Price development of {coinSymbol}
                 </h3>
-                <p className="mt-1 max-w-2xl text-sm text-gray-500 dark:text-white">
-                  Summarised data regarding your investment.
+                <p className="mt-1 text-sm text-gray-500 dark:text-white">
+                  {priceChartMessage}
                 </p>
               </div>
-              <div className="border-t border-gray-200 dark:border-gray-900">
-                <dl>{allInformation()} </dl>
+              <div className="h-96 p-4 dark:bg-gray-900 flex items-center">
+                <Chart />
               </div>
             </div>
-
-            <div className="col-span-6 md:col-span-3 shadow overflow-hidden rounded border dark:border-gray-800">
-              <div className="px-4 py-5 sm:px-6 dark:bg-gray-900">
-                <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white">
-                  Balance of your asset valuation
-                </h3>
-                <p className="mt-1 max-w-2xl text-sm text-gray-500 dark:text-white">
-                  Estimate the development of your earnings over time
-                </p>
+            <div className="grid gap-8 mt-8 grid-cols-6">
+              <div className="col-span-6 md:col-span-3 shadow overflow-hidden rounded border dark:border-gray-800">
+                <div className="px-4 py-5 sm:px-6 dark:bg-gray-900">
+                  <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white">
+                    Information
+                  </h3>
+                  <p className="mt-1 max-w-2xl text-sm text-gray-500 dark:text-white">
+                    Summarised data regarding your investment.
+                  </p>
+                </div>
+                <div className="border-t border-gray-200 dark:border-gray-900">
+                  <dl>{allInformation()} </dl>
+                </div>
               </div>
-              <div className="h-60 p-4 dark:bg-gray-900 flex items-center">
-                <ChartBalance />
+              <div className="col-span-6 md:col-span-3 shadow overflow-hidden rounded border dark:border-gray-800">
+                <div className="px-4 py-5 sm:px-6 dark:bg-gray-900">
+                  <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white">
+                    Balance of your asset valuation
+                  </h3>
+                  <p className="mt-1 max-w-2xl text-sm text-gray-500 dark:text-white">
+                    Estimate the development of your earnings over time
+                  </p>
+                </div>
+                <div className="h-60 p-4 dark:bg-gray-900 flex items-center">
+                  <ChartBalance />
+                </div>
               </div>
             </div>
-
-            <div className="col-span-6 md:col-span-6 shadow overflow-hidden rounded border dark:border-gray-800">
+            <div className="col-span-6 mt-8 md:col-span-6 shadow overflow-hidden rounded border dark:border-gray-800">
               <DataTable />
             </div>
           </div>
