@@ -11,7 +11,6 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import DataTable from "../../components/DataTable/DataTable";
 import AffiliateLinks from "../../components/AffiliateLinks/AffiliateLinks";
 import { useCurrentCoin } from "../../components/Context/mainReducer";
-import { useRouter } from "next/router";
 
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
@@ -19,9 +18,6 @@ export default function Coin(props) {
   const { state } = useAppContext();
   const currentCoin = useCurrentCoin();
   const coinSymbol = currentCoin.symbol.toUpperCase();
-  const router = useRouter();
-
-  console.log(router);
 
   const information = [
     {
@@ -106,7 +102,7 @@ export default function Coin(props) {
     state.chart.insights.percentageChange > 0
       ? `+${state.chart.insights.percentageChange}% gain!`
       : state.chart.insights.percentageChange
-  }\r`;
+  }`;
 
   return (
     <div className="w-full">
@@ -153,11 +149,13 @@ export default function Coin(props) {
                   <div className="flex justify-end mt-2">
                     <a
                       target="_blank"
-                      href={`http://twitter.com/share?text=${encodeURIComponent(
+                      rel="canonical"
+                      data-size="large"
+                      href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
                         priceChartMessage
-                      )}&url=${location.href}&hashtags=${coinSymbol},${
-                        currentCoin.name
-                      }`}
+                      )}&url=${encodeURIComponent(
+                        location.host
+                      )}&hashtags=${coinSymbol},${currentCoin.name}`}
                       className="flex items-center justify-between transition rounded bg-indigo-600 dark:bg-yellow-500 hover:bg-blue-500 py-1 px-2 text-white dark:text-gray-900 font-medium"
                     >
                       Tweet
