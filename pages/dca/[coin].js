@@ -4,13 +4,14 @@ import InputFormWrapper from "../../components/InputForm/InputForm";
 import Chart from "../../components/Chart/Chart";
 import ChartBalance from "../../components/Chart/ChartBalance";
 import { useAppContext } from "../../components/Context/Context";
-import Currency from "../../components/Currency/Currency";
+import Currency, { formatPrice } from "../../components/Currency/Currency";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import relativeTime from "dayjs/plugin/relativeTime";
 import DataTable from "../../components/DataTable/DataTable";
 import AffiliateLinks from "../../components/AffiliateLinks/AffiliateLinks";
 import { useCurrentCoin } from "../../components/Context/mainReducer";
+import { useRouter } from "next/router";
 
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
@@ -18,6 +19,9 @@ export default function Coin(props) {
   const { state } = useAppContext();
   const currentCoin = useCurrentCoin();
   const coinSymbol = currentCoin.symbol.toUpperCase();
+  const router = useRouter();
+
+  console.log(router);
 
   const information = [
     {
@@ -81,21 +85,28 @@ export default function Coin(props) {
 
   const earnings = state.chart.insights.totalValue?.fiat || 0;
 
-  const priceChartMessage = (
-    <>
-      Investing <Currency value={state.input.investment} /> in {coinSymbol} from{" "}
-      {new Date(state.input.dateFrom).toLocaleDateString()} every{" "}
-      {state.input.investmentInterval} days for{" "}
-      {dayjs.duration(state.input.duration, "days").humanize()} (
-      <Currency value={state.chart.insights.totalInvestment || 0} /> in total)
-      would result in {<Currency value={earnings} />} of{" "}
-      {earnings > 0 ? "value" : "loss"}! Bought for the average price of{" "}
-      <Currency value={costAverage} /> per {coinSymbol}.{" "}
-      {state.chart.insights.percentageChange > 0
-        ? `+${state.chart.insights.percentageChange}% gain!`
-        : state.chart.insights.percentageChange}
-    </>
-  );
+  const currency = state.settings.currency;
+
+  const priceChartMessage = `Investing ${formatPrice(
+    state.input.investment || 0,
+    currency
+  )} in ${coinSymbol} from ${new Date(
+    state.input.dateFrom
+  ).toLocaleDateString()} every ${
+    state.input.investmentInterval
+  } days (${formatPrice(
+    state.chart.insights.totalInvestment || 0,
+    currency
+  )} in total) would result in ${formatPrice(earnings, currency)} of ${
+    earnings > 0 ? "value" : "loss"
+  }!\rAverage price of ${formatPrice(
+    costAverage,
+    currency
+  )} per 1${coinSymbol}.\r${
+    state.chart.insights.percentageChange > 0
+      ? `+${state.chart.insights.percentageChange}% gain!`
+      : state.chart.insights.percentageChange
+  }\r`;
 
   return (
     <div className="w-full">
@@ -135,9 +146,40 @@ export default function Coin(props) {
                 <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white">
                   Price development of {coinSymbol}
                 </h3>
-                <p className="mt-1 text-sm text-gray-500 dark:text-white">
-                  {priceChartMessage}
-                </p>
+                <div className="">
+                  <p className="mt-1 text-sm text-gray-500 dark:text-white">
+                    {priceChartMessage}
+                  </p>
+                  <div className="flex justify-end mt-2">
+                    <a
+                      target="_blank"
+                      href={`http://twitter.com/share?text=${encodeURIComponent(
+                        priceChartMessage
+                      )}&url=${location.href}&hashtags=${coinSymbol},${
+                        currentCoin.name
+                      }`}
+                      className="flex items-center justify-between transition rounded bg-indigo-600 dark:bg-yellow-500 hover:bg-blue-500 py-1 px-2 text-white dark:text-gray-900 font-medium"
+                    >
+                      Tweet
+                      <span>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="ml-1 h-4 w-4"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
+                          />
+                        </svg>
+                      </span>
+                    </a>
+                  </div>
+                </div>
               </div>
               <div className="h-96 p-4 dark:bg-gray-900 flex items-center">
                 <Chart />
