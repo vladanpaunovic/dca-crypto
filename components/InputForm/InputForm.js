@@ -127,7 +127,7 @@ const InputForm = () => {
 
   return (
     <form
-      className="grid grid-cols-2 gap-4 p-4 border dark:border-gray-800 rounded shadow-sm"
+      className="grid grid-cols-2 gap-4 p-4 border dark:border-gray-700 rounded shadow-sm"
       onSubmit={onSubmit}
       name="dca-crypto"
       id="dca-crypto"
@@ -138,7 +138,7 @@ const InputForm = () => {
             Coin
           </span>
           <div className="mt-1 flex rounded-md shadow-sm">
-            <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 text-gray-500 text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200">
+            <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 text-gray-500 text-sm dark:bg-gray-700 dark:border-gray-700 dark:text-gray-200">
               <img src={currentCoin.image} className="w-5 h-5" />
             </span>
             <select
@@ -150,7 +150,7 @@ const InputForm = () => {
               }}
               name="coinId"
               value={currentCoin.id || ""}
-              className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200"
+              className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200"
             >
               {state.settings.availableTokens.map((coin, index) => (
                 <option key={coin.id} value={coin.id}>
@@ -174,7 +174,7 @@ const InputForm = () => {
                   payload: e.target.value,
                 })
               }
-              className="no_arrows inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
+              className="no_arrows inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm dark:bg-gray-700 dark:border-gray-700 dark:text-gray-200"
             >
               {availableCurrencies.map((c) => (
                 <option key={c.value} value={c.value}>
@@ -196,7 +196,7 @@ const InputForm = () => {
                 })
               }
               name="investment"
-              className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200"
+              className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200"
               placeholder="100"
             />
           </div>
@@ -216,7 +216,7 @@ const InputForm = () => {
             }
             name="investmentInterval"
             value={state.input.investmentInterval || ""}
-            className="block mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200"
+            className="block mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200"
           >
             {availableInvestmentIntervals.map((interval) => (
               <option key={interval.value} value={interval.value}>
@@ -233,7 +233,7 @@ const InputForm = () => {
             From
           </span>
           <input
-            className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200"
+            className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200"
             type="date"
             value={state.input.dateFrom}
             onChange={(e) =>
@@ -252,7 +252,7 @@ const InputForm = () => {
             To
           </span>
           <input
-            className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200"
+            className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200"
             type="date"
             value={state.input.dateTo}
             onChange={(e) =>

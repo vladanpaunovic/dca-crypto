@@ -2,23 +2,6 @@ import ExternalLinkIcon from "../Icons/ExternalLink";
 import SupportIcon from "../Icons/SupportIcon";
 import InfoIcon from "../Icons/InfoIcon";
 import Image from "next/image";
-import { Popover } from "@headlessui/react";
-
-const AffiliatePopover = () => {
-  return (
-    <Popover className="relative ml-1">
-      <Popover.Button>
-        <InfoIcon className="w-4 h-4 text-gray-500" />
-      </Popover.Button>
-
-      <Popover.Panel className="absolute z-10">
-        <div className="w-64 border rounded bg-white dark:bg-gray-900 p-2">
-          Support this project while using one of our affiliate partners
-        </div>
-      </Popover.Panel>
-    </Popover>
-  );
-};
 
 const affiliatePartners = [
   {
@@ -78,7 +61,7 @@ const AffiliatePartner = (props) => {
 
 const AffiliateLinks = () => {
   return (
-    <div className="col-span-6 md:col-span-3 shadow overflow-hidden rounded border dark:border-gray-800">
+    <div className="col-span-6 md:col-span-3 shadow overflow-hidden rounded border dark:border-gray-700">
       <div className="p-4 dark:bg-gray-900">
         <h5 className="flex text-lg leading-6 font-medium text-gray-900 dark:text-white">
           <SupportIcon /> Support this site

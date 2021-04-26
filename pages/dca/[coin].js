@@ -137,7 +137,7 @@ export default function Coin(props) {
             </div>
           </div>
           <div className="col-span-6 xl:col-span-4">
-            <div className="shadow border rounded dark:border-gray-800">
+            <div className="shadow border rounded dark:border-gray-700">
               <div className="px-4 py-5 sm:px-6 dark:bg-gray-900">
                 <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white">
                   Price development of {coinSymbol}
@@ -184,7 +184,7 @@ export default function Coin(props) {
               </div>
             </div>
             <div className="grid gap-8 mt-8 grid-cols-6">
-              <div className="col-span-6 md:col-span-3 shadow overflow-hidden rounded border dark:border-gray-800">
+              <div className="col-span-6 md:col-span-3 shadow overflow-hidden rounded border dark:border-gray-700">
                 <div className="px-4 py-5 sm:px-6 dark:bg-gray-900">
                   <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white">
                     Information
@@ -197,7 +197,7 @@ export default function Coin(props) {
                   <dl>{allInformation()} </dl>
                 </div>
               </div>
-              <div className="col-span-6 md:col-span-3 shadow overflow-hidden rounded border dark:border-gray-800">
+              <div className="col-span-6 md:col-span-3 shadow overflow-hidden rounded border dark:border-gray-700">
                 <div className="px-4 py-5 sm:px-6 dark:bg-gray-900">
                   <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white">
                     Balance of your asset valuation
@@ -211,14 +211,14 @@ export default function Coin(props) {
                 </div>
               </div>
             </div>
-            <div className="col-span-6 mt-8 md:col-span-6 shadow overflow-hidden rounded border dark:border-gray-800">
+            <div className="col-span-6 mt-8 md:col-span-6 shadow overflow-hidden rounded border dark:border-gray-700">
               <DataTable />
             </div>
           </div>
         </div>
       </main>
 
-      <footer className="w-100 flex border-t h-20 justify-center items-center dark:bg-gray-900 dark:text-gray-100 dark:border-gray-900">
+      <footer className="w-100 flex border-t h-20 justify-center items-center dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700">
         DCA CRYPTO
       </footer>
     </div>
