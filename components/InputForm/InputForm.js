@@ -52,6 +52,13 @@ const InputFormWrapper = (props) => {
           payload: router.query.dateTo,
         });
       }
+
+      if (router.query.currency) {
+        dispatch({
+          type: ACTIONS.UPDATE_CURRENCY,
+          payload: router.query.currency,
+        });
+      }
     }
   }, [router.isReady, props.coin]);
 
@@ -175,6 +182,7 @@ const InputForm = () => {
                 })
               }
               className="no_arrows inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm dark:bg-gray-700 dark:border-gray-700 dark:text-gray-200"
+              value={state.settings.currency}
             >
               {availableCurrencies.map((c) => (
                 <option key={c.value} value={c.value}>
