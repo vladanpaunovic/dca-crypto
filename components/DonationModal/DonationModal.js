@@ -1,25 +1,7 @@
 import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import DonationAsset from "../DonationAsset/DonationAsset";
-
-const donationAssets = [
-  {
-    coinId: "bitcoin",
-    walletAddress: "3E5K5Cem3B2A67pFVpj4r427XWrKyRYyZh",
-    qrCode: "/qr-codes-crypto-wallets/btc_address.png",
-  },
-  {
-    coinId: "ethereum",
-    walletAddress: "0x1F7ceeB6dc181cACF895E8c893796C5b2ca3D639",
-    qrCode: "/qr-codes-crypto-wallets/eth_address.png",
-  },
-  {
-    coinId: "cardano",
-    walletAddress:
-      "Ae2tdPwUPEYyPZzavAuUSpJ5mbfR9wEzp9SSA48wAshYMAWJHWQ66Ug5sm7",
-    qrCode: "/qr-codes-crypto-wallets/ada_address.png",
-  },
-];
+import { donationAssets } from "../../config";
 
 function DonationModal() {
   const [isOpen, setIsOpen] = useState(false);

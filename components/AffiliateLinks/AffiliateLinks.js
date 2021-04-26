@@ -81,8 +81,12 @@ const AffiliateLinks = () => {
     <div className="col-span-6 md:col-span-3 shadow overflow-hidden rounded border dark:border-gray-800">
       <div className="p-4 dark:bg-gray-900">
         <h5 className="flex text-lg leading-6 font-medium text-gray-900 dark:text-white">
-          <SupportIcon /> Sponsored content
+          <SupportIcon /> Support this site
         </h5>
+        <p className="mt-1 max-w-2xl text-sm text-gray-500 dark:text-white">
+          Likes below are affiliate links, meaning, at no additional cost to
+          you, I will earn a commision if you click trough and make a purchase
+        </p>
       </div>
       <div className="border-t border-gray-200 dark:border-gray-900">
         {affiliatePartners.map((partner, index) => (

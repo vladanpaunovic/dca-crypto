@@ -10,6 +10,7 @@ import {
 } from "../Context/mainReducer";
 import { useEffect } from "react";
 import dayjs from "dayjs";
+import { availableCurrencies } from "../../config";
 
 const InputFormWrapper = (props) => {
   const { dispatch } = useAppContext();
@@ -56,14 +57,6 @@ const InputFormWrapper = (props) => {
 
   return <InputForm />;
 };
-
-const availableCurrencies = [
-  { name: "USD", value: "usd" },
-  { name: "EUR", value: "eur" },
-  { name: "GBP", value: "gbp" },
-  { name: "JPY", value: "jpy" },
-  { name: "RUB", value: "rub" },
-];
 
 const InputForm = () => {
   const appContext = useAppContext();
