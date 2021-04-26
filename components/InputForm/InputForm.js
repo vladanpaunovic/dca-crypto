@@ -6,6 +6,7 @@ import {
   ACTIONS,
   availableInvestmentIntervals,
   calculateDateRangeDifference,
+  useCurrentCoin,
 } from "../Context/mainReducer";
 import { useEffect } from "react";
 import dayjs from "dayjs";
@@ -67,6 +68,7 @@ const availableCurrencies = [
 const InputForm = () => {
   const appContext = useAppContext();
   const router = useRouter();
+  const currentCoin = useCurrentCoin();
   const { state, dispatch } = appContext;
 
   // Due to the constrains of the CoinGecko API, we enable calculations only
@@ -144,7 +146,7 @@ const InputForm = () => {
           </span>
           <div className="mt-1 flex rounded-md shadow-sm">
             <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 text-gray-500 text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200">
-              <img src={state.input.coinImage} className="w-5 h-5" />
+              <img src={currentCoin.image} className="w-5 h-5" />
             </span>
             <select
               onChange={(e) => {
@@ -154,7 +156,7 @@ const InputForm = () => {
                 });
               }}
               name="coinId"
-              value={state.input.coinId || ""}
+              value={currentCoin.id || ""}
               className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200"
             >
               {state.settings.availableTokens.map((coin, index) => (

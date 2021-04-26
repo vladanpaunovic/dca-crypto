@@ -1,6 +1,8 @@
 import { useReducer, useEffect } from "react";
 import dayjs from "dayjs";
 import store from "store";
+import { useAppContext } from "./Context";
+import { useRouter } from "next/router";
 
 export const ACTIONS = {
   // Input actions
@@ -31,6 +33,21 @@ export const calculateDateRangeDifference = (dateFrom, dateTo) => {
   return diffDays;
 };
 
+export const useCurrentCoin = (coinId = null) => {
+  const router = useRouter();
+  const { state } = useAppContext();
+  const currentCoin = state.settings.availableTokens.find(
+    (c) => c.id === (coinId || router.query.coin)
+  );
+
+  if (!currentCoin) {
+    console.log(coinId);
+    throw new Error("Can't assotiate coin id to the coin object");
+  }
+
+  return currentCoin;
+};
+
 const reducer = (state, action) => {
   switch (action.type) {
     // Input
@@ -45,9 +62,6 @@ const reducer = (state, action) => {
           input: {
             ...state.input,
             coinId: currentCoin.id,
-            coinName: currentCoin.name,
-            coinImage: currentCoin.image,
-            coinSymbol: currentCoin.symbol.toUpperCase(),
           },
         };
       }
@@ -145,9 +159,6 @@ const dateTo = dayjs().format("YYYY-MM-DD");
 
 const DEFAULT_INPUT = {
   coinId: null,
-  coinName: null,
-  coinImage: null,
-  coinSymbol: null,
   investment: 100,
   investmentInterval: availableInvestmentIntervals[1].value,
   dateFrom,

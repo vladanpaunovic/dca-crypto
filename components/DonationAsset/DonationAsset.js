@@ -1,15 +1,11 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { useAppContext } from "../Context/Context";
+import { useCurrentCoin } from "../Context/mainReducer";
 
-const DonationAsset = ({ symbol, walletAddress, qrCode }) => {
+const DonationAsset = ({ coinId, walletAddress, qrCode }) => {
   const [isClicked, setIsClicked] = useState(false);
 
-  const { state } = useAppContext();
-
-  const currentAsset = state.settings.availableTokens.find(
-    (t) => t.symbol === symbol
-  );
+  const currentCoin = useCurrentCoin(coinId);
 
   useEffect(() => {
     setTimeout(() => {
@@ -27,15 +23,17 @@ const DonationAsset = ({ symbol, walletAddress, qrCode }) => {
   return (
     <div className="w-full relative rounded-lg shadow-lg items-start p-4 flex focus:outline-none">
       <div className="flex items-center justify-center">
-        <Image src={qrCode} alt={symbol} width="120" height="120" />
+        <Image src={qrCode} alt={currentCoin.symbol} width="120" height="120" />
       </div>
       <div className="text-left w-full relative">
         <div className="ml-2 flex flex-col">
           <div className="text-gray-900 font-medium dark:text-gray-200 flex items-center">
-            <img src={currentAsset.image} className="inline mr-1 w-5 h-5" />
+            <img src={currentCoin.image} className="inline mr-1 w-5 h-5" />
             <div>
-              {currentAsset.name}{" "}
-              <span className="uppercase text-indigo-500">{symbol}</span>
+              {currentCoin.name}{" "}
+              <span className="uppercase text-indigo-500">
+                {currentCoin.symbol}
+              </span>
             </div>
           </div>
           <span className="text-gray-500 text-sm break-all pl-0 p-2 dark:text-gray-300 select-all">

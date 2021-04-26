@@ -10,11 +10,14 @@ import duration from "dayjs/plugin/duration";
 import relativeTime from "dayjs/plugin/relativeTime";
 import DataTable from "../../components/DataTable/DataTable";
 import AffiliateLinks from "../../components/AffiliateLinks/AffiliateLinks";
+import { useCurrentCoin } from "../../components/Context/mainReducer";
 
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
 export default function Coin(props) {
   const { state } = useAppContext();
+  const currentCoin = useCurrentCoin();
+  const coinSymbol = currentCoin.symbol.toUpperCase();
 
   const information = [
     {
@@ -46,11 +49,11 @@ export default function Coin(props) {
       ),
     },
     {
-      label: `Value in ${state.input.coinSymbol}`,
+      label: `Value in ${coinSymbol}`,
       value: (
         <>
           {state.chart.insights.totalValue?.crypto || 0}{" "}
-          <span className="font-bold">{state.input.coinSymbol}</span>
+          <span className="font-bold">{coinSymbol}</span>
         </>
       ),
     },
@@ -80,13 +83,13 @@ export default function Coin(props) {
   const priceChartMessage = (
     <>
       Starting from {state.input.dateFrom}, investing{" "}
-      <Currency value={state.input.investment} /> in {state.input.coinSymbol}{" "}
-      every {state.input.investmentInterval} days for{" "}
+      <Currency value={state.input.investment} /> in {coinSymbol} every{" "}
+      {state.input.investmentInterval} days for{" "}
       {dayjs.duration(state.input.duration, "days").humanize()} (
       <Currency value={state.chart.insights.totalInvestment || 0} /> in total)
       could result in {<Currency value={earnings} />} of{" "}
       {earnings > 0 ? "value" : "loss"}! Bought for the average price of{" "}
-      <Currency value={costAverage} /> per {state.input.coinSymbol}.{" "}
+      <Currency value={costAverage} /> per {coinSymbol}.{" "}
       {state.chart.insights.percentageChange > 0
         ? `+${state.chart.insights.percentageChange}% gain!`
         : state.chart.insights.percentageChange}
@@ -97,8 +100,8 @@ export default function Coin(props) {
     <div className="w-full">
       <Head>
         <title>
-          DCA Crypto - Dollar cost average {state.input.coinName} (
-          {state.input.coinSymbol}) backtesting
+          DCA Crypto - Dollar cost average {currentCoin.name} ({coinSymbol})
+          backtesting
         </title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -110,11 +113,11 @@ export default function Coin(props) {
               <h1 className="text-2xl text-gray-900 dark:text-gray-100">
                 Dollar-cost averaging (DCA) calculator for{" "}
                 <span className="text-indigo-700 dark:text-yellow-500 capitalize">
-                  {state.input.coinName} ({state.input.coinSymbol})
+                  {currentCoin.name} ({coinSymbol})
                 </span>{" "}
                 backtesting
               </h1>
-              <img className="w-8 h-8 ml-2 " src={state.input.coinImage} />
+              <img className="w-8 h-8 ml-2 " src={currentCoin.image} />
             </div>
           </div>
           <div className="col-span-6 xl:col-span-2">
@@ -123,7 +126,7 @@ export default function Coin(props) {
           <div className="col-span-6 xl:col-span-4 transition-shadow border dark:border-gray-800 rounded shadow-sm">
             <div className="px-4 py-5 sm:px-6 dark:bg-gray-900">
               <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white">
-                Price development of {state.input.coinSymbol}
+                Price development of {coinSymbol}
               </h3>
               <p className="mt-1 text-sm text-gray-500 dark:text-white">
                 {priceChartMessage}

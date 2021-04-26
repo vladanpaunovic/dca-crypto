@@ -11,11 +11,12 @@ import {
 import CustomTooltip from "./CustomTooltip";
 import { CHART_SYNCID } from "./Chart";
 import { kFormatter } from "./helpers";
+import { useCurrentCoin } from "../Context/mainReducer";
 
 const ChartBalance = () => {
   const { state } = useAppContext();
-
   const { chart } = state;
+  const currentCoin = useCurrentCoin();
 
   const allValues = chart.data.map((v) => parseFloat(v.balanceFIAT));
   const minValue = Math.min(...allValues);
@@ -67,7 +68,7 @@ const ChartBalance = () => {
               stroke="#F59E0B"
               fillOpacity={1}
               fill="url(#colorBalanceCrypto)"
-              name={`Balance in ${state.input.coinSymbol}`}
+              name={`Balance in ${currentCoin.symbol.toUpperCase()}`}
             />
             <Area
               type="monotone"
