@@ -1,6 +1,6 @@
 import Document, { Html, Head, Main, NextScript } from "next/document";
 import store from "store";
-import { GA_TRACKING_ID } from "../config";
+import { INSIGHTS_TRACKING_ID } from "../config";
 
 class MyDocument extends Document {
   static async getInitialProps(ctx) {
@@ -14,18 +14,12 @@ class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          <script
-            async
-            src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
-          ></script>
+          <script async src="https://getinsights.io/js/insights.js"></script>
           <script
             async
             dangerouslySetInnerHTML={{
-              __html: `window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-            
-              gtag('config', '${GA_TRACKING_ID}');`,
+              __html: `insights.init(${INSIGHTS_TRACKING_ID});
+              insights.trackPages();`,
             }}
           />
         </Head>
