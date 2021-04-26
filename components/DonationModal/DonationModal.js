@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Dialog } from "@headlessui/react";
 import DonationAsset from "../DonationAsset/DonationAsset";
 import { donationAssets } from "../../config";
@@ -6,6 +6,7 @@ import { donationAssets } from "../../config";
 function DonationModal() {
   const [isOpen, setIsOpen] = useState(false);
   const [isHover, setIsHover] = useState(false);
+  const buttonRef = useRef();
 
   return (
     <>
@@ -33,6 +34,7 @@ function DonationModal() {
       </button>
       <div className="relative">
         <Dialog
+          initialFocus={buttonRef}
           open={isOpen}
           onClose={() => setIsOpen(false)}
           className="fixed z-10 inset-0 overflow-y-auto text-center"
@@ -77,7 +79,11 @@ function DonationModal() {
                     </p>
                     <div className="mt-4">
                       {donationAssets.map((asset) => (
-                        <DonationAsset key={asset.coinId} {...asset} />
+                        <DonationAsset
+                          ref={buttonRef}
+                          key={asset.coinId}
+                          {...asset}
+                        />
                       ))}
                     </div>
                   </div>
