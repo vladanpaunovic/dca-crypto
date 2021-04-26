@@ -14,7 +14,10 @@ class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          <script async src="https://getinsights.io/js/insights.js"></script>
+          <script
+            async
+            src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}}`}
+          />
           <script
             async
             dangerouslySetInnerHTML={{
