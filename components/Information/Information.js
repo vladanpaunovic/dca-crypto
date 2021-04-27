@@ -25,7 +25,7 @@ const InformationPopover = ({ description }) => {
             } bg-black`}
           />
           <Popover.Panel className="relative">
-            <div className="fixed inset-x-0 bottom-0 w-full border-t bg-gray-100 dark:bg-gray-900 shadow p-4 flex z-10 sm:absolute sm:w-80 sm:top-0 sm:h-52">
+            <div className="fixed inset-x-0 bottom-0 w-full border-t dark:border-gray-700 bg-gray-100 dark:bg-gray-900 shadow p-4 flex z-10 sm:absolute sm:w-80 sm:top-0 sm:h-52">
               {description}
             </div>
           </Popover.Panel>

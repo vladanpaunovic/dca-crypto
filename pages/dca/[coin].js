@@ -98,7 +98,7 @@ const Coin = (props) => {
                     Estimate the development of your earnings over time
                   </p>
                 </div>
-                <div className="h-80 p-4 dark:bg-gray-900 flex items-center">
+                <div className="h-72 p-4 dark:bg-gray-900 flex items-center">
                   <ChartBalance />
                 </div>
               </div>
