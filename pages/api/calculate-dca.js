@@ -101,6 +101,7 @@ export default async (req, res) => {
         totalValue: { crypto: totalValueCrypto, fiat: totalValueFIAT },
         percentageChange,
         duration: dayjs(payload.dateTo).diff(payload.dateFrom),
+        opportunityCost: chartData[0].balanceCrypto * mostRecentEntry.coinPrice,
       },
     };
 

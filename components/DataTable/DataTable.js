@@ -1,8 +1,10 @@
 import { useAppContext } from "../Context/Context";
+import { useCurrentCoin } from "../Context/mainReducer";
 import Currency from "../Currency/Currency";
 
 const DataTable = () => {
   const { state } = useAppContext();
+  const currentCoin = useCurrentCoin();
   return (
     <div className="flex flex-col">
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -33,7 +35,13 @@ const DataTable = () => {
                     scope="col"
                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-100"
                   >
-                    Balance
+                    Crypto Balance ({currentCoin.symbol})
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-100"
+                  >
+                    FIAT Balance ({state.settings.currency})
                   </th>
                   <th
                     scope="col"
@@ -58,6 +66,9 @@ const DataTable = () => {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm">
                         <Currency value={entry.totalFIAT} />
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm">
+                        {entry.balanceCrypto} {currentCoin.symbol.toUpperCase()}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm">
                         <Currency value={entry.balanceFIAT} />

@@ -57,6 +57,22 @@ export default function Coin(props) {
         </>
       ),
     },
+    {
+      label: `HODL opportunity cost`,
+      value: (
+        <>
+          <Currency value={state.chart.insights.opportunityCost} />
+        </>
+      ),
+      description: (
+        <>
+          Investing only <Currency value={state.input.investment} />{" "}
+          {dayjs.duration(state.input.duration, "days").humanize()} ago would be
+          worth <Currency value={state.chart.insights.opportunityCost} /> on{" "}
+          {new Date(state.input.dateTo).toLocaleDateString()}
+        </>
+      ),
+    },
   ];
 
   const allInformation = () => {
@@ -71,6 +87,11 @@ export default function Coin(props) {
         </dt>
         <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 dark:text-white">
           {i.value}
+          {i.description && (
+            <p className="mt-1 max-w-2xl text-sm text-gray-500 dark:text-white">
+              {i.description}
+            </p>
+          )}
         </dd>
       </div>
     ));
@@ -209,7 +230,7 @@ export default function Coin(props) {
                     Estimate the development of your earnings over time
                   </p>
                 </div>
-                <div className="h-60 p-4 dark:bg-gray-900 flex items-center">
+                <div className="h-80 p-4 dark:bg-gray-900 flex items-center">
                   <ChartBalance />
                 </div>
               </div>
