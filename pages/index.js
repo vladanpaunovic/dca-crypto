@@ -1,9 +1,6 @@
 import Head from "next/head";
 import AllCoinsTable from "../components/AllCoinsTable/AllCoinsTable";
-import {
-  AppContextProvider,
-  useAppContext,
-} from "../components/Context/Context";
+import { AppContextProvider } from "../components/Context/Context";
 import Hero from "../components/Hero/Hero";
 import { defaultCurrency } from "../config";
 import { getAllCoins } from "../queries/queries";
@@ -22,7 +19,7 @@ export async function getServerSideProps(context) {
 
 export default function HomeWrapper(props) {
   return (
-    <AppContextProvider availableTokens={availableTokens}>
+    <AppContextProvider availableTokens={props.availableTokens}>
       <Home {...props} />
     </AppContextProvider>
   );
