@@ -1,11 +1,7 @@
-import { useAppContext } from "../Context/Context";
-import { ACTIONS } from "../Context/mainReducer";
-import MoonSolid from "../Icons/MoonSolid";
-
 import DonationModal from "../DonationModal/DonationModal";
-import SunshineIcon from "../Icons/SunshineIcon";
 import Logo from "../Logo/Logo";
 import { useTheme } from "next-themes";
+import { MoonIcon, SunIcon } from "@heroicons/react/outline";
 
 const Navigation = () => {
   const { theme, setTheme } = useTheme();

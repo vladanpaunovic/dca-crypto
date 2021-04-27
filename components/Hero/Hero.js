@@ -1,5 +1,4 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { useAppContext } from "../Context/Context";
 import { MoonIcon, SunIcon } from "@heroicons/react/outline";
 import Logo from "../Logo/Logo";
 import Link from "next/link";
