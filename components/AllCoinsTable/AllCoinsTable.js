@@ -23,16 +23,10 @@ const AllCoinsTable = () => {
             <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-900">
               <thead className="bg-gray-50 dark:bg-gray-900">
                 <tr>
-                  <th
-                    colSpan={1}
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-100"
-                  >
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-100">
                     Search
                   </th>
-                  <th
-                    colSpan={3}
-                    className="pL-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-100"
-                  >
+                  <th className="pL-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-100">
                     <div className="col-span-3 sm:col-span-2">
                       <div className="flex rounded-md shadow-sm">
                         <input
