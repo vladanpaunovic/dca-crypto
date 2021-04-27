@@ -14,19 +14,23 @@ dayjs.extend(relativeTime);
 const InformationPopover = ({ description }) => {
   return (
     <Popover>
-      <Popover.Button className="ml-1">
-        <InformationCircleIcon className="w-4 h-4 hover:text-indigo-900 dark:hover:text-yellow-500" />
-      </Popover.Button>
-      <Popover.Overlay
-        className={`${
-          open ? "opacity-30 fixed inset-0" : "opacity-0"
-        } bg-black`}
-      />
-      <Popover.Panel className="relative">
-        <div className="fixed inset-x-0 bottom-0 w-full border-t bg-gray-100 dark:bg-gray-900 shadow p-4 flex z-10 sm:absolute sm:w-80 sm:top-0 sm:h-52">
-          {description}
-        </div>
-      </Popover.Panel>
+      {({ open }) => (
+        <>
+          <Popover.Button className="ml-1">
+            <InformationCircleIcon className="w-4 h-4 hover:text-indigo-900 dark:hover:text-yellow-500" />
+          </Popover.Button>
+          <Popover.Overlay
+            className={`${
+              open ? "opacity-30 fixed inset-0" : "opacity-0"
+            } bg-black`}
+          />
+          <Popover.Panel className="relative">
+            <div className="fixed inset-x-0 bottom-0 w-full border-t bg-gray-100 dark:bg-gray-900 shadow p-4 flex z-10 sm:absolute sm:w-80 sm:top-0 sm:h-52">
+              {description}
+            </div>
+          </Popover.Panel>
+        </>
+      )}
     </Popover>
   );
 };

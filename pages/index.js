@@ -1,8 +1,34 @@
 import Head from "next/head";
 import AllCoinsTable from "../components/AllCoinsTable/AllCoinsTable";
+import {
+  AppContextProvider,
+  useAppContext,
+} from "../components/Context/Context";
 import Hero from "../components/Hero/Hero";
+import { defaultCurrency } from "../config";
+import { getAllCoins } from "../queries/queries";
 
-export default function Coin() {
+export async function getServerSideProps(context) {
+  const availableTokens = await getAllCoins(
+    context.query.currency || defaultCurrency
+  );
+
+  return {
+    props: {
+      availableTokens,
+    },
+  };
+}
+
+export default function HomeWrapper(props) {
+  return (
+    <AppContextProvider availableTokens={availableTokens}>
+      <Home {...props} />
+    </AppContextProvider>
+  );
+}
+
+function Home() {
   return (
     <div className="w-full">
       <Head>

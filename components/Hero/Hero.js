@@ -2,54 +2,11 @@
 import { useAppContext } from "../Context/Context";
 import { MoonIcon, SunIcon } from "@heroicons/react/outline";
 import Logo from "../Logo/Logo";
-import { ACTIONS } from "../Context/mainReducer";
 import Link from "next/link";
-import { useState } from "react";
-
-const popularAssets = [
-  {
-    id: "bitcoin",
-    name: "Bitcoin",
-  },
-  {
-    id: "ethereum",
-    name: "Ethereum",
-  },
-  {
-    id: "binancecoin",
-    name: "Binance Coin",
-  },
-  {
-    id: "ripple",
-    name: "XRP",
-  },
-  {
-    id: "cardano",
-    name: "Cardano",
-  },
-  {
-    id: "dogecoin",
-    name: "Dogecoin",
-  },
-  {
-    id: "polkadot",
-    name: "Polkadot",
-  },
-  {
-    id: "uniswap",
-    name: "Uniswap",
-  },
-  {
-    id: "litecoin",
-    name: "Litecoin",
-  },
-];
+import { useTheme } from "next-themes";
 
 export default function Hero() {
-  const [randomCoin] = useState(
-    popularAssets[Math.floor(Math.random() * popularAssets.length)]
-  );
-  const { state, dispatch } = useAppContext();
+  const { theme, setTheme } = useTheme();
   return (
     <div className="relative bg-white dark:bg-gray-900 overflow-hidden">
       <div className="max-w-7xl mx-auto">
@@ -77,16 +34,13 @@ export default function Hero() {
                   <button
                     className="ml-2 dark:text-white text-gray hover:text-gray-900 rounded-full p-1 mr-2 focus:outline-none"
                     onClick={() =>
-                      dispatch({
-                        type: ACTIONS.TOGGLE_DARK_MODE,
-                        payload: !state.settings.darkMode,
-                      })
+                      setTheme(theme === "light" ? "dark" : "light")
                     }
                   >
-                    {state.settings.darkMode ? (
-                      <SunIcon className="w-5 h-5" />
-                    ) : (
+                    {theme === "light" ? (
                       <MoonIcon className="w-5 h-5" />
+                    ) : (
+                      <SunIcon className="w-5 h-5" />
                     )}
                   </button>
                 </div>
@@ -101,7 +55,7 @@ export default function Hero() {
                   Dollar-cost averaging calculator for
                 </span>{" "}
                 <span className="block text-indigo-600 dark:text-yellow-500 xl:inline">
-                  {randomCoin.name}
+                  Crypto
                 </span>
               </h1>
               <p className="mt-3 text-base text-gray-500 dark:text-gray-200 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
@@ -121,9 +75,9 @@ export default function Hero() {
               </p>
               <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
                 <div className="rounded-md shadow">
-                  <Link href={`/dca/${randomCoin.id}`}>
+                  <Link href={`/dca/bitcoin`}>
                     <a className="w-full flex items-center justify-center px-8 py-3 border dark:bg-yellow-500 dark:text-gray-900 border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10">
-                      DCA {randomCoin.name}
+                      DCA Bitcoin
                     </a>
                   </Link>
                 </div>

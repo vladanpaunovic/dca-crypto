@@ -1,5 +1,4 @@
 import Document, { Html, Head, Main, NextScript } from "next/document";
-import store from "store";
 import { GA_TRACKING_ID } from "../config";
 
 class MyDocument extends Document {
@@ -9,8 +8,6 @@ class MyDocument extends Document {
   }
 
   render() {
-    const themeBackground =
-      store.get("theme") === "dark" ? "bg-white" : "bg-gray-900";
     return (
       <Html lang="en">
         <Head>
@@ -29,7 +26,7 @@ class MyDocument extends Document {
             }}
           />
         </Head>
-        <body className={themeBackground}>
+        <body className="bg-white dark:bg-gray-900">
           <Main />
           <NextScript />
         </body>

@@ -26,3 +26,5 @@ export const donationAssets = [
     qrCode: "/qr-codes-crypto-wallets/ada_address.png",
   },
 ];
+
+export const defaultCurrency = availableCurrencies[0].value;

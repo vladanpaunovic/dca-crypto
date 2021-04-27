@@ -1,11 +1,10 @@
-import { createContext, useContext, useState } from "react";
-import { useRouter } from "next/router";
+import { createContext, useContext } from "react";
 import { useMainReducer } from "./mainReducer";
 
 const AppContext = createContext();
 
-export function AppWrapper({ children }) {
-  const [state, dispatch] = useMainReducer();
+export function AppContextProvider({ children, availableTokens }) {
+  const [state, dispatch] = useMainReducer(availableTokens);
 
   const initialState = {
     state,

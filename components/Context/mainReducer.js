@@ -1,6 +1,5 @@
-import { useReducer, useEffect } from "react";
+import { useReducer } from "react";
 import dayjs from "dayjs";
-import store from "store";
 import { useAppContext } from "./Context";
 import { useRouter } from "next/router";
 
@@ -18,7 +17,6 @@ export const ACTIONS = {
 
   // Settings actions
   UPDATE_CURRENCY: "UPDATE_CURRENCY",
-  TOGGLE_DARK_MODE: "TOGGLE_DARK_MODE",
   UPDATE_LIST_OF_TOKENS: "UPDATE_LIST_OF_TOKENS",
   UPDATE_CURRENCY: "UPDATE_CURRENCY",
 };
@@ -119,16 +117,6 @@ const reducer = (state, action) => {
         ...state,
         settings: { ...state.settings, currency: action.payload },
       };
-    case ACTIONS.TOGGLE_DARK_MODE:
-      if (action.payload) {
-        store.set("theme", "dark");
-      } else {
-        store.remove("theme");
-      }
-      return {
-        ...state,
-        settings: { ...state.settings, darkMode: action.payload },
-      };
     case ACTIONS.UPDATE_LIST_OF_TOKENS:
       return {
         ...state,
@@ -166,28 +154,19 @@ const DEFAULT_INPUT = {
   duration: calculateDateRangeDifference(dateFrom, dateTo),
 };
 
-const initialState = {
-  input: DEFAULT_INPUT,
-  chart: {
-    data: [],
-    insights: {},
-  },
-  settings: {
-    currency: "usd",
-    darkMode: false,
-    availableTokens: [],
-  },
-};
+export const useMainReducer = (availableTokens) => {
+  const initialState = {
+    input: DEFAULT_INPUT,
+    chart: {
+      data: [],
+      insights: {},
+    },
+    settings: {
+      currency: "usd",
+      darkMode: false,
+      availableTokens,
+    },
+  };
 
-export const useMainReducer = () => {
-  const useMainReducerRaw = useReducer(reducer, initialState);
-
-  useEffect(() => {
-    const [, dispatch] = useMainReducerRaw;
-    if (store.get("theme")) {
-      dispatch({ type: ACTIONS.TOGGLE_DARK_MODE, payload: store.get("theme") });
-    }
-  }, []);
-
-  return useMainReducerRaw;
+  return useReducer(reducer, initialState);
 };
