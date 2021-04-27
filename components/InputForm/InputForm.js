@@ -134,7 +134,7 @@ const InputForm = () => {
 
   return (
     <form
-      className="grid grid-cols-2 gap-4 p-4 border dark:border-gray-700 rounded shadow-sm"
+      className="grid grid-cols-2 gap-4 p-4 border dark:border-gray-700 sm:rounded shadow-sm"
       onSubmit={onSubmit}
       name="dca-crypto"
       id="dca-crypto"

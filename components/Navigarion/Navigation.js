@@ -10,12 +10,11 @@ const Navigation = () => {
   const { state, dispatch } = useAppContext();
 
   return (
-    <header className="text-indigo-700 body-font shadow w-full bg-white dark:bg-gray-900 px-3">
-      <div className="mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center ">
+    <header className="text-indigo-700 body-font shadow w-full bg-white dark:bg-gray-900 px-4 py-6 sm:px-8">
+      <div className="mx-auto flex flex-wrap justify-between flex-row items-center ">
         <Logo />
-        <nav className="flex lg:w-2/5 flex-wrap items-center text-base md:ml-auto"></nav>
 
-        <div className="lg:w-2/5 inline-flex lg:justify-end ml-5 lg:ml-0 ">
+        <div className="inline-flex lg:justify-end ml-5 lg:ml-0 ">
           <button
             className="transition dark:text-white text-gray hover:text-gray-900 rounded-full p-1 mr-2 focus:outline-none"
             onClick={() =>

@@ -12,7 +12,7 @@ export default function Coin() {
       <main className="w-full bg-white dark:bg-gray-900">
         <Hero />
         <div className="container max-w-7xl mx-auto max-w-80 bg-white dark:bg-gray-900">
-          <h3 className="font-medium dark:text-white mt-4">
+          <h3 className="font-medium text-indigo-500 dark:text-white mt-4 px-4 xl:px-0">
             Select coin to calculate DCA
           </h3>
           <AllCoinsTable />

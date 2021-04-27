@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import { Dialog } from "@headlessui/react";
 import DonationAsset from "../DonationAsset/DonationAsset";
 import { donationAssets } from "../../config";
+import { HeartIcon } from "@heroicons/react/outline";
 
 function DonationModal() {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,23 +15,13 @@ function DonationModal() {
         onClick={() => setIsOpen(true)}
         onMouseOver={() => setIsHover(true)}
         onMouseOut={() => setIsHover(false)}
-        className="flex items-center px-4 py-2 bg-gradient-to-r from-indigo-400 to-indigo-800 text-white rounded mr-2"
+        className="flex items-center sm:px-4 sm:py-2 sm:bg-gradient-to-r sm:from-indigo-400 sm:to-indigo-800 sm:text-white rounded"
       >
-        Donate
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-4 w-4 ml-1"
+        <span className="hidden sm:block">Donate</span>
+        <HeartIcon
           fill={isHover ? "currentColor" : "none"}
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-          />
-        </svg>
+          className="h-5 w-5 ml-1"
+        />
       </button>
       <div className="relative">
         <Dialog

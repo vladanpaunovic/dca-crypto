@@ -115,17 +115,20 @@ export default function Coin(props) {
       </Head>
       <Navigation />
       <main>
-        <div className="grid grid-cols-6 w-full gap-8 p-8 bg-white dark:bg-gray-900">
+        <div className="grid grid-cols-6 w-full gap-8 p-0 sm:p-8 bg-white dark:bg-gray-900">
           <div className="col-span-6">
             <div className="flex">
-              <h1 className="text-2xl text-gray-900 dark:text-gray-100">
+              <h1 className="text-2xl px-4 sm:px-0 text-gray-900 dark:text-gray-100">
                 Dollar-cost averaging (DCA) calculator for{" "}
                 <span className="text-indigo-700 dark:text-yellow-500 capitalize">
                   {currentCoin.name} ({coinSymbol})
                 </span>{" "}
                 backtesting
               </h1>
-              <img className="w-8 h-8 ml-2 " src={currentCoin.image} />
+              <img
+                className="w-8 h-8 ml-2 hidden sm:block"
+                src={currentCoin.image}
+              />
             </div>
           </div>
           <div className="col-span-6 xl:col-span-2">
@@ -137,7 +140,7 @@ export default function Coin(props) {
             </div>
           </div>
           <div className="col-span-6 xl:col-span-4">
-            <div className="shadow border rounded dark:border-gray-700">
+            <div className="shadow border sm:rounded dark:border-gray-700">
               <div className="px-4 py-5 sm:px-6 dark:bg-gray-900">
                 <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white">
                   Price development of {coinSymbol}
@@ -184,7 +187,7 @@ export default function Coin(props) {
               </div>
             </div>
             <div className="grid gap-8 mt-8 grid-cols-6">
-              <div className="col-span-6 md:col-span-3 shadow overflow-hidden rounded border dark:border-gray-700">
+              <div className="col-span-6 md:col-span-3 shadow overflow-hidden sm:rounded border dark:border-gray-700">
                 <div className="px-4 py-5 sm:px-6 dark:bg-gray-900">
                   <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white">
                     Information
@@ -197,7 +200,7 @@ export default function Coin(props) {
                   <dl>{allInformation()} </dl>
                 </div>
               </div>
-              <div className="col-span-6 md:col-span-3 shadow overflow-hidden rounded border dark:border-gray-700">
+              <div className="col-span-6 md:col-span-3 shadow overflow-hidden sm:rounded border dark:border-gray-700">
                 <div className="px-4 py-5 sm:px-6 dark:bg-gray-900">
                   <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white">
                     Balance of your asset valuation
@@ -211,7 +214,7 @@ export default function Coin(props) {
                 </div>
               </div>
             </div>
-            <div className="col-span-6 mt-8 md:col-span-6 shadow overflow-hidden rounded border dark:border-gray-700">
+            <div className="col-span-6 mt-8 md:col-span-6 shadow overflow-hidden sm:rounded border dark:border-gray-700">
               <DataTable />
             </div>
           </div>
