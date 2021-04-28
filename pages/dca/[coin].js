@@ -10,6 +10,7 @@ import Information from "../../components/Information/Information";
 import { getAllCoins } from "../../queries/queries";
 import { defaultCurrency } from "../../config";
 import { useCurrentCoin } from "../../components/Context/mainReducer";
+import { TweetMessage } from "../../components/TweetMessage/TweetMessage";
 
 export async function getServerSideProps(context) {
   const {
@@ -80,6 +81,7 @@ const Coin = (props) => {
                 <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white">
                   Price development of {coinSymbol}
                 </h3>
+                <TweetMessage />
               </div>
               <div className="h-96 p-4 dark:bg-gray-900 flex items-center">
                 <Chart />

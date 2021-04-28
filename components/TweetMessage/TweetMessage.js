@@ -3,12 +3,15 @@ import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { formatPrice } from "../Currency/Currency";
+import { useCurrentCoin } from "../Context/mainReducer";
 
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
 
 export const TweetMessage = () => {
-  const { state } = useAppContext;
+  const { state } = useAppContext();
+  const currentCoin = useCurrentCoin();
+  const coinSymbol = currentCoin.symbol.toUpperCase();
   const costAverage =
     state.chart.data[state.chart.data.length - 1]?.costAverage;
 
