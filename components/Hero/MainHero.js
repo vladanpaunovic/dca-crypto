@@ -10,7 +10,10 @@ export default function Hero() {
   const { theme, setTheme } = useTheme();
   const { state } = useAppContext();
 
-  const topTokens = state.settings.availableTokens.slice(0, 8);
+  const stablecoins = ["tether", "usd-coin"];
+  const topTokens = state.settings.availableTokens
+    .filter((t) => !stablecoins.includes(t.id))
+    .slice(0, 10);
 
   // Show different token every day
   const randomToken = topTokens[new Date().getDay()];
