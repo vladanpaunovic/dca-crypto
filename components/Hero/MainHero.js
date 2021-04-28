@@ -66,19 +66,9 @@ export default function Hero() {
                 </span>
               </h1>
               <p className="mt-3 text-base text-gray-500 dark:text-gray-200 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-                Dollar-cost averaging (DCA) is an investment strategy in which
-                an investor divides up the total amount to be invested across
-                periodic purchases of a target asset in an effort to reduce the
-                impact of volatility on the overall purchase (
-                <a
-                  href="https://www.investopedia.com/terms/d/dollarcostaveraging.asp"
-                  target="_blank"
-                  rel="nofollow"
-                  className="underline"
-                >
-                  source
-                </a>
-                )
+                Over the last three years, people saving $50 per week in Bitcoin
+                turned $ 7,850 into $ 59,929. We help you calculate, visualise
+                and understand the potential of investing in cryptocurencies.
               </p>
               <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
                 <div className="rounded-md shadow">
