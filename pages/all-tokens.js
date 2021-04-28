@@ -36,6 +36,10 @@ function Home() {
       <Head>
         <title>DCA Crypto - Dollar cost average cryptocurrency</title>
         <link rel="icon" href="/favicon.ico" />
+        <meta
+          name="description"
+          content={`List of all cryptocurrencies available for calculating dollar cost average. Visualise and examine the impact of your investments in top 100 cryptocurrencies.`}
+        />
       </Head>
       <main className="w-full bg-white dark:bg-gray-900">
         <AllTokensHero />
