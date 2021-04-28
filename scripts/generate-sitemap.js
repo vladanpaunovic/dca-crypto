@@ -53,7 +53,7 @@ const generateSitemaps = async () => {
 
   const formattedSitemap = formatted(generatedSitemap);
 
-  const pathName = path.join(__dirname, "../", "public", "sitemap.xlm");
+  const pathName = path.join(__dirname, "../", "public", "sitemap.xml");
   fs.writeFileSync(pathName, formattedSitemap, "utf8");
 };
 
