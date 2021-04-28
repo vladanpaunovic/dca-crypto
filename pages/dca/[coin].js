@@ -54,8 +54,12 @@ const Coin = (props) => {
       <Head>
         <title>
           DCA Crypto - Dollar cost average {currentCoin.name} ({coinSymbol})
-          backtesting
+          calculator
         </title>
+        <meta
+          name="description"
+          content={`Dollar cost average calculator for ${currentCoin.name} (${coinSymbol}). Visualise and examine the impact of your investments in ${currentCoin.name} or any other popular crypto.`}
+        />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navigation />
