@@ -10,6 +10,7 @@ export const ACTIONS = {
   UPDATE_INVESTMENT_INTERVAL: "UPDATE_INVESTMENT_INTERVAL",
   UPDATE_DATE_FROM: "DATE_FROM",
   UPDATE_DATE_TO: "DATE_TO",
+  SET_COIN_LOADING: "SET_COIN_LOADING",
 
   // Chart actions
   SET_CHART_DATA: "SET_CHART_DATA",
@@ -100,6 +101,15 @@ const reducer = (state, action) => {
         },
       };
 
+    case ACTIONS.SET_COIN_LOADING:
+      return {
+        ...state,
+        input: {
+          ...state.input,
+          isLoading: action.payload,
+        },
+      };
+
     // Chart
     case ACTIONS.SET_CHART_DATA:
       return {
@@ -152,6 +162,7 @@ const DEFAULT_INPUT = {
   dateFrom,
   dateTo,
   duration: calculateDateRangeDifference(dateFrom, dateTo),
+  isLoading: false,
 };
 
 export const useMainReducer = (availableTokens) => {

@@ -83,6 +83,10 @@ const InputForm = () => {
           type: ACTIONS.SET_CHART_DATA,
           payload: data.data,
         });
+        dispatch({
+          type: ACTIONS.SET_COIN_LOADING,
+          payload: false,
+        });
       },
     }
   );
@@ -100,6 +104,11 @@ const InputForm = () => {
     if (isSubmitDisabled) {
       return null;
     }
+
+    dispatch({
+      type: ACTIONS.SET_COIN_LOADING,
+      payload: true,
+    });
 
     if (!state.input.coinId) {
       return null;

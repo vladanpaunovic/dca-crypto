@@ -12,6 +12,7 @@ import {
 import CustomTooltip from "./CustomTooltip";
 import useChartLegend from "./useChartLegend";
 import { kFormatter } from "./helpers";
+import Loading from "../Loading/Loading";
 
 export const CHART_SYNCID = "main-chart";
 
@@ -30,7 +31,7 @@ const Chart = () => {
 
   return (
     <div style={{ width: "100%", height: "100%" }}>
-      {chart.data.length ? (
+      {chart.data.length && !state.input.isLoading ? (
         <ResponsiveContainer>
           <AreaChart
             data={chart.data}
@@ -82,7 +83,9 @@ const Chart = () => {
             />
           </AreaChart>
         </ResponsiveContainer>
-      ) : null}
+      ) : (
+        <Loading />
+      )}
     </div>
   );
 };
