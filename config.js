@@ -28,3 +28,5 @@ export const donationAssets = [
 ];
 
 export const defaultCurrency = availableCurrencies[0].value;
+
+export const CACHE_INVALIDATION_INTERVAL = 3600; // 1 hour

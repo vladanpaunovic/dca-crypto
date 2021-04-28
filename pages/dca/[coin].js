@@ -8,7 +8,7 @@ import DataTable from "../../components/DataTable/DataTable";
 import AffiliateLinks from "../../components/AffiliateLinks/AffiliateLinks";
 import Information from "../../components/Information/Information";
 import { getAllCoins } from "../../queries/queries";
-import { defaultCurrency } from "../../config";
+import { CACHE_INVALIDATION_INTERVAL, defaultCurrency } from "../../config";
 import { useCurrentCoin } from "../../components/Context/mainReducer";
 import { TweetMessage } from "../../components/TweetMessage/TweetMessage";
 
@@ -22,6 +22,11 @@ export async function getServerSideProps(context) {
   } = context.query;
   const availableTokens = await getAllCoins(
     context.query.currency || defaultCurrency
+  );
+
+  context.res.setHeader(
+    "Cache-Control",
+    `s-maxage=${CACHE_INVALIDATION_INTERVAL}, stale-while-revalidate`
   );
 
   return {

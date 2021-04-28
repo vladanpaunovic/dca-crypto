@@ -3,7 +3,7 @@ import AllCoinsTable from "../components/AllCoinsTable/AllCoinsTable";
 import { AppContextProvider } from "../components/Context/Context";
 import ExplainerSection from "../components/ExplainerSection/ExplainerSection";
 import MainHero from "../components/Hero/MainHero";
-import { defaultCurrency } from "../config";
+import { CACHE_INVALIDATION_INTERVAL, defaultCurrency } from "../config";
 import { getAllCoins } from "../queries/queries";
 
 export async function getServerSideProps(context) {
@@ -13,7 +13,7 @@ export async function getServerSideProps(context) {
 
   context.res.setHeader(
     "Cache-Control",
-    "s-maxage=600, stale-while-revalidate"
+    `s-maxage=${CACHE_INVALIDATION_INTERVAL}, stale-while-revalidate`
   );
 
   return {
