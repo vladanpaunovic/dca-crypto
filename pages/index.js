@@ -35,7 +35,7 @@ function Home() {
       </Head>
       <main className="w-full bg-white dark:bg-gray-900">
         <MainHero />
-        <div className="container max-w-7xl mx-auto max-w-80 bg-white dark:bg-gray-900">
+        <div className="container lg:px-6 max-w-7xl mx-auto max-w-80 bg-white dark:bg-gray-900">
           <h2 className="font-medium text-indigo-500 dark:text-white mt-10 px-4 xl:px-0 text-xl">
             Select coin to calculate DCA
           </h2>

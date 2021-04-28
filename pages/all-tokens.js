@@ -34,7 +34,7 @@ function Home() {
       </Head>
       <main className="w-full bg-white dark:bg-gray-900">
         <AllTokensHero />
-        <div className="container max-w-7xl mx-auto max-w-80 bg-white dark:bg-gray-900 mt-10">
+        <div className="container lg:px-6 max-w-7xl mx-auto max-w-80 bg-white dark:bg-gray-900 mt-10">
           <AllCoinsTable showSearch />
         </div>
       </main>

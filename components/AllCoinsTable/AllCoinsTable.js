@@ -23,7 +23,7 @@ const AllCoinsTable = ({ showOnlyNTokens, showSearch }) => {
                   <tr>
                     <th
                       colSpan={4}
-                      className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-100"
+                      className="px-6 py-3 text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-100"
                     >
                       <div className="flex shadow max-w-sm rounded">
                         <input
