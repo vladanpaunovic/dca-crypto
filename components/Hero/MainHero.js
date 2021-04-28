@@ -4,6 +4,7 @@ import Logo from "../Logo/Logo";
 import Link from "next/link";
 import { useTheme } from "next-themes";
 import { useAppContext } from "../Context/Context";
+import { formatPrice } from "../Currency/Currency";
 
 export default function Hero() {
   const { theme, setTheme } = useTheme();
@@ -66,9 +67,10 @@ export default function Hero() {
                 </span>
               </h1>
               <p className="mt-3 text-base text-gray-500 dark:text-gray-200 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-                Over the last three years, people saving $50 per week in Bitcoin
-                turned $ 7,850 into $ 59,929. We help you calculate, visualise
-                and understand the potential of investing in cryptocurencies.
+                Calculate, visualise and understand the potential of investing
+                in cryptocurencies. People saving $50 in Bitcoin per week, over
+                the last three years turned {formatPrice(6100)} into{" "}
+                {formatPrice(37951)}
               </p>
               <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
                 <div className="rounded-md shadow">

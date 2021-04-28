@@ -1,9 +1,10 @@
+import { defaultCurrency } from "../../config";
 import { useAppContext } from "../Context/Context";
 
 export const formatPrice = (value, currency) =>
   parseFloat(value).toLocaleString("en-US", {
     style: "currency",
-    currency,
+    currency: currency || defaultCurrency,
     minimumFractionDigits: 0,
   });
 
