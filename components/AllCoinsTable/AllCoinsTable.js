@@ -91,9 +91,9 @@ const AllCoinsTable = ({ showOnlyNTokens, showSearch }) => {
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-center">
                           #{entry.market_cap_rank}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm">
+                        <td className="px-6 whitespace-nowrap text-sm">
                           <Link href={`/dca/${entry.id}`}>
-                            <a className="flex items-center ">
+                            <a className="flex items-center py-4">
                               <img
                                 className="w-7 mr-2"
                                 src={entry.image}

@@ -42,10 +42,14 @@ function Home() {
       <main className="w-full bg-white dark:bg-gray-900">
         <MainHero />
         <div className="container lg:px-6 max-w-7xl mx-auto max-w-80 ">
-          <h2 className="font-medium text-indigo-500 dark:text-white mt-10 px-4 xl:px-0 text-xl">
-            Select a coin to calculate DCA
+          <h2 className="text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white sm:text-5xl md:text-4xl block">
+            Select a coin to{" "}
+            <span className="inline text-indigo-600 dark:text-yellow-500 ">
+              calculate
+            </span>{" "}
+            dollar cost average
           </h2>
-          <AllCoinsTable showOnlyNTokens={4} />
+          <AllCoinsTable showOnlyNTokens={10} />
         </div>
         <section className="mt-10 container lg:px-6 max-w-7xl mx-auto max-w-80 ">
           <ExplainerSection />
