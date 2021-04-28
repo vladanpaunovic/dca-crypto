@@ -59,7 +59,7 @@ export default function Hero() {
             <div className="sm:text-center lg:text-left">
               <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white sm:text-5xl md:text-6xl">
                 <span className="block xl:inline">
-                  Select coin to calculate
+                  Select a coin to calculate
                 </span>{" "}
                 <span className="block text-indigo-600 dark:text-yellow-500 xl:inline">
                   DCA
