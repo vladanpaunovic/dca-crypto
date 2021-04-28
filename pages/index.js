@@ -11,6 +11,11 @@ export async function getServerSideProps(context) {
     context.query.currency || defaultCurrency
   );
 
+  context.res.setHeader(
+    "Cache-Control",
+    "s-maxage=600, stale-while-revalidate"
+  );
+
   return {
     props: {
       availableTokens,
