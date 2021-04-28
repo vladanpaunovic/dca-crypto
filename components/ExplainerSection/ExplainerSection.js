@@ -4,11 +4,12 @@ const ExplainerSection = () => {
   return (
     <div className="flex flex-col sm:flex-row px-4 xl:px-0">
       <div className="sm:w-4/6">
-        <h3 className="text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white sm:text-5xl md:text-6xl">
-          What is dollar cost averaging?{" "}
+        <h3 className="text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white sm:text-5xl md:text-4xl">
+          What is dollar cost averaging{" "}
           <span className="block text-indigo-600 dark:text-yellow-500 xl:inline">
-            What is DCA?
+            (DCA)
           </span>
+          ?
         </h3>
         <p className="mt-3 text-base text-gray-500 dark:text-gray-200 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
           Dollar cost averaging (DCA) is an investment strategy where a person
