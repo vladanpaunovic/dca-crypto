@@ -5,7 +5,7 @@ const prettier = require("prettier");
 const getDate = new Date().toISOString();
 
 const coinGeckoApi = "https://api.coingecko.com/api/v3/coins/markets";
-const WEBSITE_DOMAIN = "https://dca-cc.com.com";
+const WEBSITE_DOMAIN = "https://dca-cc.com";
 
 const formatted = (sitemap) => prettier.format(sitemap, { parser: "html" });
 
