@@ -84,7 +84,7 @@ const Chart = () => {
           </AreaChart>
         </ResponsiveContainer>
       ) : (
-        <Loading />
+        <Loading withWrapper />
       )}
     </div>
   );

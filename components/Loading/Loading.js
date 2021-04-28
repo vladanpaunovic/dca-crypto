@@ -2,7 +2,7 @@ import ReactLoading from "react-loading";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
-const Loading = () => {
+const Loading = ({ withWrapper, height, width }) => {
   const { theme } = useTheme();
   const [color, setColor] = useState();
 
@@ -10,10 +10,17 @@ const Loading = () => {
     const isDark = theme === "dark";
     setColor(isDark ? "white" : "black");
   }, []);
+
+  if (withWrapper) {
+    return (
+      <div className="w-full h-full flex items-center justify-center">
+        <ReactLoading type="bars" color={color} width={width} height={height} />
+      </div>
+    );
+  }
+
   return (
-    <div className="w-full h-full flex items-center justify-center">
-      <ReactLoading type="bars" color={color} />
-    </div>
+    <ReactLoading type="bars" color={color} width={width} height={height} />
   );
 };
 
