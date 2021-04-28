@@ -1,7 +1,7 @@
 import Head from "next/head";
 import AllCoinsTable from "../components/AllCoinsTable/AllCoinsTable";
 import { AppContextProvider } from "../components/Context/Context";
-import MainHero from "../components/Hero/MainHero";
+import AllTokensHero from "../components/Hero/AllTokensHero";
 import { defaultCurrency } from "../config";
 import { getAllCoins } from "../queries/queries";
 
@@ -33,12 +33,9 @@ function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="w-full bg-white dark:bg-gray-900">
-        <MainHero />
-        <div className="container max-w-7xl mx-auto max-w-80 bg-white dark:bg-gray-900">
-          <h3 className="font-medium text-indigo-500 dark:text-white mt-4 px-4 xl:px-0">
-            Select coin to calculate DCA
-          </h3>
-          <AllCoinsTable showOnlyNTokens={10} />
+        <AllTokensHero />
+        <div className="container max-w-7xl mx-auto max-w-80 bg-white dark:bg-gray-900 mt-10">
+          <AllCoinsTable showSearch />
         </div>
       </main>
 
