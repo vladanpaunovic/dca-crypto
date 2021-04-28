@@ -4,7 +4,7 @@ export const formatPrice = (value, currency) =>
   parseFloat(value).toLocaleString("en-US", {
     style: "currency",
     currency,
-    minimumFractionDigits: 2,
+    minimumFractionDigits: 0,
   });
 
 const Currency = ({ value }) => {

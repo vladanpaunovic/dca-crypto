@@ -23,10 +23,10 @@ const AllCoinsTable = () => {
             <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-900">
               <thead className="bg-gray-50 dark:bg-gray-900">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-100">
-                    Search
-                  </th>
-                  <th className="pL-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-100">
+                  <th
+                    colSpan={4}
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-100"
+                  >
                     <div className="col-span-3 sm:col-span-2">
                       <div className="flex rounded-md shadow-sm">
                         <input
@@ -36,7 +36,7 @@ const AllCoinsTable = () => {
                           name="search"
                           id="search"
                           className="focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-700 focus:border-indigo-500 flex-1 block w-full rounded-none rounded sm:text-sm border-gray-300"
-                          placeholder="Bitcoin"
+                          placeholder="Search cryptocurrency..."
                         />
                       </div>
                     </div>
