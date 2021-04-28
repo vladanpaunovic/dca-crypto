@@ -32,8 +32,8 @@ const ExplainerSection = () => {
           ).
         </p>
       </div>
-      <div className="sm:w-2/6">
-        <SavingsIllustration className="w-full fill-current text-indigo-500 dark:text-yellow-500" />
+      <div className="sm:w-2/6 flex items-center justify-center">
+        <SavingsIllustration className="w-80 h-80 fill-current text-indigo-500 dark:text-yellow-500" />
       </div>
     </div>
   );

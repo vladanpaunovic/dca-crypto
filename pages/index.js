@@ -1,6 +1,7 @@
 import Head from "next/head";
 import AllCoinsTable from "../components/AllCoinsTable/AllCoinsTable";
 import { AppContextProvider } from "../components/Context/Context";
+import { formatPrice } from "../components/Currency/Currency";
 import ExplainerSection from "../components/ExplainerSection/ExplainerSection";
 import MainHero from "../components/Hero/MainHero";
 import { CACHE_INVALIDATION_INTERVAL, defaultCurrency } from "../config";
@@ -40,15 +41,50 @@ function Home() {
       </Head>
       <main className="w-full bg-white dark:bg-gray-900">
         <MainHero />
-        <div className="container lg:px-6 max-w-7xl mx-auto max-w-80 bg-white dark:bg-gray-900">
+        <div className="container lg:px-6 max-w-7xl mx-auto max-w-80 ">
           <h2 className="font-medium text-indigo-500 dark:text-white mt-10 px-4 xl:px-0 text-xl">
             Select a coin to calculate DCA
           </h2>
-          <AllCoinsTable showOnlyNTokens={10} />
-          <section className="mt-10">
-            <ExplainerSection />
-          </section>
+          <AllCoinsTable showOnlyNTokens={4} />
         </div>
+        <section className="mt-10 container lg:px-6 max-w-7xl mx-auto max-w-80 ">
+          <ExplainerSection />
+        </section>
+        <section className="mt-16 bg-indigo-500 dark:bg-yellow-500 flex items-center justify-center">
+          <div className="container lg:px-6 max-w-7xl mx-auto max-w-80 py-10 ">
+            <div className="w-full text-center">
+              <h3 className="text-3xl px-4 sm:text-4xl tracking-tight pb-16 font-bold text-gray-100 dark:text-gray-900">
+                Annual return dollar cost averaging {formatPrice(50)} a week
+              </h3>
+            </div>
+            <div className="flex">
+              <div className="flex w-1/3 flex-col text-center">
+                <span className="w-full tracking-tight text-6xl font-extrabold text-gray-100 dark:text-gray-900">
+                  346%
+                </span>
+                <span className="w-full text-indigo-200 dark:text-yellow-800 font-medium text-lg">
+                  Bitcoin
+                </span>
+              </div>
+              <div className="flex w-1/3 flex-col text-center">
+                <span className="w-full tracking-tight text-6xl font-extrabold text-gray-100 dark:text-gray-900">
+                  746%
+                </span>
+                <span className="w-full text-indigo-200 dark:text-yellow-800 font-medium text-lg">
+                  Ethereum
+                </span>
+              </div>
+              <div className="flex w-1/3 flex-col text-center">
+                <span className="w-full tracking-tight text-6xl font-extrabold text-gray-100 dark:text-gray-900">
+                  2227%
+                </span>
+                <span className="w-full text-indigo-200 dark:text-yellow-800 font-medium text-lg">
+                  Binance Coin
+                </span>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
 
       <footer className="w-100 flex border-t h-20 justify-center items-center bg-white dark:bg-gray-900 dark:text-gray-100 dark:border-gray-900">
