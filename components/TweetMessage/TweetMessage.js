@@ -5,11 +5,13 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import { formatPrice } from "../Currency/Currency";
 import { useCurrentCoin } from "../Context/mainReducer";
 import { WEBSITE_URL } from "../../config";
+import { useRouter } from "next/router";
 
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
 
 export const TweetMessage = () => {
+  const router = useRouter();
   const { state } = useAppContext();
   const currentCoin = useCurrentCoin();
   const coinSymbol = currentCoin.symbol.toUpperCase();
@@ -19,6 +21,8 @@ export const TweetMessage = () => {
   const earnings = state.chart.insights.totalValue?.fiat || 0;
 
   const currency = state.settings.currency;
+
+  const locationHref = `${WEBSITE_URL}/${router.asPath}`;
 
   const priceChartMessage = `Investing ${formatPrice(
     state.input.investment || 0,
@@ -53,9 +57,9 @@ export const TweetMessage = () => {
           data-size="large"
           href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
             priceChartMessage
-          )}&url=${encodeURIComponent(
-            location ? location.href : WEBSITE_URL
-          )}&hashtags=${coinSymbol},${currentCoin.name}`}
+          )}&url=${encodeURIComponent(locationHref)}&hashtags=${coinSymbol},${
+            currentCoin.name
+          }`}
           className="flex items-center justify-between transition rounded bg-white hover:bg-indigo-50 dark:bg-gray-900 dark:hover:bg-gray-800 py-1 px-2 text-indigo-700 dark:text-yellow-500 font-medium border shadow border-transparent"
         >
           Tweet
