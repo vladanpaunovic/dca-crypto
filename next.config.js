@@ -1,10 +1,10 @@
+const { PHASE_PRODUCTION_BUILD } = require("next/constants");
 const generateSitemap = require("./scripts/generate-sitemap.js");
 
-module.exports = {
-  webpack: (config, { isServer }) => {
-    if (isServer) {
-      generateSitemap();
-    }
-    return config;
-  },
+module.exports = (phase, { defaultConfig }) => {
+  if (phase === PHASE_PRODUCTION_BUILD && isServer) {
+    generateSitemap();
+  }
+
+  return defaultConfig;
 };
