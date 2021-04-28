@@ -93,8 +93,13 @@ const AllCoinsTable = () => {
                         <td className="px-6 py-4 whitespace-nowrap text-sm">
                           <Link href={`/dca/${entry.id}`}>
                             <a className="flex items-center ">
-                              <img className="w-7 mr-4" src={entry.image} />
-                              {entry.name} {entry.symbol.toUpperCase()}
+                              <img className="w-7 mr-2" src={entry.image} />
+                              <span className="font-medium">
+                                {entry.name}
+                              </span>{" "}
+                              <span className="ml-1 text-gray-400">
+                                {entry.symbol.toUpperCase()}
+                              </span>
                             </a>
                           </Link>
                         </td>
