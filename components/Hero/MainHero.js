@@ -69,8 +69,8 @@ export default function Hero() {
               <p className="mt-3 text-base text-gray-500 dark:text-gray-200 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
                 Calculate, visualise and understand the potential of investing
                 in cryptocurencies. People saving $50 in Bitcoin per week, over
-                the last three years turned {formatPrice(6100)} into{" "}
-                {formatPrice(37951)}
+                the last three years turned {formatPrice(8100)} into{" "}
+                {formatPrice(56087)}
               </p>
               <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
                 <div className="rounded-md shadow">
