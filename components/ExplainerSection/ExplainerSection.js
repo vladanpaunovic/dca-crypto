@@ -20,7 +20,7 @@ const ExplainerSection = () => {
         </p>
         <p className="mt-3 text-base text-gray-500 dark:text-gray-200 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
           Investors choose this investment strategy when long term growth of an
-          asset is foreseen, but a removal of short term volatility is desired.(
+          asset is foreseen, but a removal of short term volatility is desired (
           <a
             href="https://www.investopedia.com/terms/d/dollarcostaveraging.asp"
             target="_blank"
@@ -29,7 +29,7 @@ const ExplainerSection = () => {
           >
             investopedia
           </a>
-          )
+          ).
         </p>
       </div>
       <div className="sm:w-2/6">
