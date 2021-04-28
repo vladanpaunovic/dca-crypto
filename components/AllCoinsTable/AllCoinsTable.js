@@ -94,7 +94,12 @@ const AllCoinsTable = ({ showOnlyNTokens, showSearch }) => {
                         <td className="px-6 py-4 whitespace-nowrap text-sm">
                           <Link href={`/dca/${entry.id}`}>
                             <a className="flex items-center ">
-                              <img className="w-7 mr-2" src={entry.image} />
+                              <img
+                                className="w-7 mr-2"
+                                src={entry.image}
+                                width={28}
+                                height={28}
+                              />
                               <span className="font-medium">
                                 DCA {entry.name}
                               </span>{" "}
