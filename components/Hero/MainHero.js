@@ -18,7 +18,7 @@ export default function Hero() {
   return (
     <div className="relative bg-white dark:bg-gray-900 overflow-hidden">
       <div className="max-w-7xl mx-auto">
-        <div className="relative z-10 pb-8 bg-white dark:bg-gray-900 lg:max-w-5xl lg:w-full lg:pb-28 xl:pb-32 sm:pb-16 md:pb-20">
+        <div className="relative z-10 pb-8 bg-white dark:bg-gray-900 lg:max-w-5xl lg:w-full lg:pb-28 sm:pb-16 md:pb-20">
           <svg
             className="hidden lg:block absolute right-0 inset-y-0 h-full w-48 text-white dark:text-gray-900  transform translate-x-1/2"
             fill="currentColor"
