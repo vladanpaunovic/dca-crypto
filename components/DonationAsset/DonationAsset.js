@@ -31,7 +31,7 @@ const DonationAsset = ({ coinId, walletAddress, qrCode }) => {
             <img src={currentCoin.image} className="inline mr-1 w-5 h-5" />
             <div>
               {currentCoin.name}{" "}
-              <span className="uppercase text-indigo-500">
+              <span className="uppercase text-indigo-500 dark:text-yellow-500">
                 {currentCoin.symbol}
               </span>
             </div>
@@ -41,8 +41,10 @@ const DonationAsset = ({ coinId, walletAddress, qrCode }) => {
           </span>
           <button
             onClick={handleOnClick}
-            className={`transition hover:bg-indigo-500 hover:text-gray-200 flex items-center font-medium dark:text-gray-200 text-sm border py-1 px-2 rounded ${
-              isClicked ? "bg-indigo-500  text-gray-200" : ""
+            className={`transition dark:border-gray-700  hover:bg-indigo-500 dark:hover:bg-yellow-500 hover:text-gray-200 dark:hover:text-gray-800 flex items-center font-medium dark:text-gray-200 text-sm border py-1 px-2 rounded ${
+              isClicked
+                ? "bg-indigo-500 dark:bg-yellow-500  text-gray-200 dark:text-gray-900"
+                : ""
             }`}
           >
             <svg
