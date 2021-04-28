@@ -4,9 +4,9 @@ const ExplainerSection = () => {
   return (
     <div className="flex flex-col sm:flex-row px-4 xl:px-0">
       <div className="sm:w-4/6">
-        <h3 className="text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white sm:text-5xl md:text-4xl">
+        <h3 className="text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white sm:text-5xl md:text-4xl block">
           What is dollar cost averaging{" "}
-          <span className="block text-indigo-600 dark:text-yellow-500 xl:inline">
+          <span className="inline text-indigo-600 dark:text-yellow-500 ">
             (DCA)
           </span>
           ?
