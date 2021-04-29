@@ -1,4 +1,5 @@
-import { signIn, signOut, useSession } from "next-auth/client";
+import { signIn, useSession } from "next-auth/client";
+import Dashboard from "../../components/Dashboard/Dashboard";
 
 export default function Page() {
   const [session, loading] = useSession();
@@ -13,8 +14,7 @@ export default function Page() {
       )}
       {session && (
         <>
-          Signed in as {session.user.email} <br />
-          <button onClick={() => signOut()}>Sign out</button>
+          <Dashboard />
         </>
       )}
     </>
