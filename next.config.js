@@ -1,3 +1,4 @@
+require("dotenv").config();
 const { PHASE_PRODUCTION_BUILD } = require("next/constants");
 const generateSitemap = require("./scripts/generate-sitemap.js");
 
