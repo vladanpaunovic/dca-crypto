@@ -1,8 +1,8 @@
 import NextAuth from "next-auth";
 import Providers from "next-auth/providers";
 import User from "../../../server/models/User";
-import bcrypt from "bcrypt";
 import connectDB from "../../../server/mongodb";
+import argon2 from "argon2";
 
 const auth = NextAuth({
   // Configure one or more authentication providers
@@ -18,13 +18,12 @@ const auth = NextAuth({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        console.log(credentials);
         const user = await User.findOne({ email: credentials.email });
 
         if (user) {
-          const isMatchingUser = await bcrypt.compare(
-            credentials.password,
-            user.password
+          const isMatchingUser = argon2.verify(
+            user.password,
+            credentials.password
           );
 
           if (isMatchingUser) {
