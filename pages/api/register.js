@@ -1,4 +1,4 @@
-import argon2 from "argon2";
+// import argon2 from "argon2";
 import User from "../../server/models/User";
 import connectDB from "../../server/mongodb";
 
@@ -13,11 +13,11 @@ const register = async (req, res) => {
           return res.json({ success: false, error: "existing_user", existing });
         }
         // Hash password to store it in DB
-        var passwordhash = await argon2.hash(password);
+        // var passwordhash = await argon2.hash(password);
         var user = new User({
           name,
           email,
-          password: passwordhash,
+          password,
         });
         // Create new user
         var usercreated = await user.save();

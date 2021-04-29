@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import Providers from "next-auth/providers";
 import User from "../../../server/models/User";
 import connectDB from "../../../server/mongodb";
-import argon2 from "argon2";
+// import argon2 from "argon2";
 
 const auth = NextAuth({
   // Configure one or more authentication providers
@@ -21,10 +21,12 @@ const auth = NextAuth({
         const user = await User.findOne({ email: credentials.email });
 
         if (user) {
-          const isMatchingUser = argon2.verify(
-            user.password,
-            credentials.password
-          );
+          // const isMatchingUser = argon2.verify(
+          //   user.password,
+          //   credentials.password
+          // );
+
+          const isMatchingUser = user.password === credentials.password;
 
           if (isMatchingUser) {
             return user;
