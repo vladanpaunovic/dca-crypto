@@ -11,8 +11,8 @@
     "@headlessui/react": "^1.0.0",
     "@heroicons/react": "^1.0.1",
     "@tailwindcss/forms": "^0.3.2",
-    "argon2": "^0.27.2",
     "axios": "^0.21.1",
+    "bcryptjs": "^2.4.3",
     "dayjs": "^1.10.4",
     "dotenv": "^8.2.0",
     "mongoose": "^5.12.6",
@@ -25,6 +25,7 @@
     "react-query": "^3.13.10",
     "react-select": "^4.3.0",
     "recharts": "^2.0.9",
+    "simplecrypt": "^0.1.0",
     "store": "^2.0.12"
   },
   "devDependencies": {

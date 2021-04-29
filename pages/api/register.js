@@ -1,6 +1,7 @@
 // import argon2 from "argon2";
 import User from "../../server/models/User";
 import connectDB from "../../server/mongodb";
+import bcryptjs from "bcryptjs";
 
 const register = async (req, res) => {
   if (req.method === "POST") {
@@ -13,11 +14,12 @@ const register = async (req, res) => {
           return res.json({ success: false, error: "existing_user", existing });
         }
         // Hash password to store it in DB
-        // var passwordhash = await argon2.hash(password);
+        // var passwordhash = await argon2.hash(password)
+        const passwordHash = await bcryptjs.hash(password, 10);
         var user = new User({
           name,
           email,
-          password,
+          password: passwordHash,
         });
         // Create new user
         var usercreated = await user.save();
