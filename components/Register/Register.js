@@ -21,7 +21,7 @@ const Register = () => {
     setIsRegistered(false);
 
     try {
-      const response = await cmsClient.post("/users", {
+      const response = await cmsClient().post("/users", {
         username: name,
         password,
         email,

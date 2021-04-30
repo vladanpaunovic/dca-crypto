@@ -1,6 +1,7 @@
 import Menu from "./Menu/Menu";
 import { PencilAltIcon, TrashIcon } from "@heroicons/react/outline";
 import NewBotModal from "./NewBotModal/NewBotModal";
+import DashboardTitle from "./DashboardTitle";
 
 const demoBots = [
   {
@@ -32,14 +33,6 @@ const DashboardLayout = ({ children }) => {
         <Menu />
       </div>
       <div className="h-screen w-full">{children}</div>
-    </div>
-  );
-};
-
-const DashboardTitle = ({ title }) => {
-  return (
-    <div className="p-8 text-4xl font-medium text-white dark:text-gray-900 bg-indigo-500 dark:bg-yellow-500">
-      {title}
     </div>
   );
 };
@@ -151,9 +144,7 @@ const Dashboard = () => {
               <BotList />
             </div>
           </div>
-          <div className="w-1/2 ml-4">
-            <div className="border rounded h-96">Statistics</div>
-          </div>
+          <div className="w-1/2 ml-4"></div>
         </div>
       </div>
     </DashboardLayout>

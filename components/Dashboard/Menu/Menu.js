@@ -9,6 +9,7 @@ import {
 } from "@heroicons/react/outline";
 import Logo from "../../Logo/Logo";
 import { useTheme } from "next-themes";
+import Link from "next/link";
 
 const Menu = () => {
   const { theme, setTheme } = useTheme();
@@ -33,14 +34,18 @@ const Menu = () => {
         </div>
         <ul className="mt-16">
           <li className="hover:bg-gray-200 dark:hover:bg-gray-700 rounded mb-2 dark:text-gray-300">
-            <a href="#" className="flex p-2">
-              <TemplateIcon className="w-6 h-6 mr-2" /> Dashboard
-            </a>
+            <Link href="/dashboard">
+              <a className="flex p-2">
+                <TemplateIcon className="w-6 h-6 mr-2" /> Dashboard
+              </a>
+            </Link>
           </li>
           <li className="hover:bg-gray-200 dark:hover:bg-gray-700 rounded mb-2 dark:text-gray-300">
-            <a href="#" className="flex p-2">
-              <SwitchHorizontalIcon className="w-6 h-6 mr-2" /> My Exchanges
-            </a>
+            <Link href="/my-exchanges">
+              <a className="flex p-2">
+                <SwitchHorizontalIcon className="w-6 h-6 mr-2" /> My Exchanges
+              </a>
+            </Link>
           </li>
           <li className="hover:bg-gray-200 dark:hover:bg-gray-700 rounded mb-2 dark:text-gray-300">
             <a href="#" className="flex p-2">

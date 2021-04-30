@@ -1,6 +1,5 @@
 import NextAuth from "next-auth";
 import Providers from "next-auth/providers";
-import connectDB from "../../../server/mongodb";
 import cmsClient from "../../../server/cmsClient";
 
 const auth = NextAuth({
@@ -18,7 +17,7 @@ const auth = NextAuth({
       },
       async authorize(credentials) {
         try {
-          const response = await cmsClient.post("/auth/local", {
+          const response = await cmsClient().post("/auth/local", {
             identifier: credentials.email,
             password: credentials.password,
           });

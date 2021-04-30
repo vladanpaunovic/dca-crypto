@@ -3,7 +3,7 @@ import { QueryClientProvider, QueryClient } from "react-query";
 import { ThemeProvider } from "next-themes";
 import { Provider } from "next-auth/client";
 
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 
 function App({ Component, pageProps }) {
   return (
