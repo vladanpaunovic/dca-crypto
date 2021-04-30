@@ -1,13 +1,162 @@
 import Menu from "./Menu/Menu";
+import { PencilAltIcon, TrashIcon } from "@heroicons/react/outline";
+import NewBotModal from "./NewBotModal/NewBotModal";
 
-const Dashboard = () => {
+const demoBots = [
+  {
+    exchange: "Binance",
+    currency: "USD",
+    balance: 236,
+    targetAsset: "BTC",
+    interval: 7,
+    investment: 10,
+    status: "running",
+    estimatedBalance: "26 days",
+  },
+  {
+    exchange: "Coinbase",
+    currency: "USD",
+    targetAsset: "ETH",
+    interval: 30,
+    investment: 50,
+    status: "running",
+    balance: 154,
+    estimatedBalance: "3 months",
+  },
+];
+
+const DashboardLayout = ({ children }) => {
   return (
     <div className="flex h-full">
       <div className="h-screen border-r dark:border-gray-700 shadow">
         <Menu />
       </div>
-      <div className="h-screen w-full p-4">content</div>
+      <div className="h-screen w-full">{children}</div>
     </div>
+  );
+};
+
+const DashboardTitle = ({ title }) => {
+  return (
+    <div className="p-8 text-4xl font-medium text-white dark:text-gray-900 bg-indigo-500 dark:bg-yellow-500">
+      {title}
+    </div>
+  );
+};
+
+const BotList = () => {
+  return (
+    <div className="flex flex-col">
+      <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+          <div className="shadow overflow-hidden border border-gray-200 dark:border-gray-700 sm:rounded-lg">
+            <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+              <thead className="bg-gray-50 dark:bg-gray-700">
+                <tr>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-100 uppercase tracking-wider"
+                  >
+                    Symbol
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-100 uppercase tracking-wider"
+                  >
+                    Investment
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-100 uppercase tracking-wider"
+                  >
+                    Balance
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-100 uppercase tracking-wider"
+                  >
+                    Status
+                  </th>
+                  <th scope="col" className="relative px-6 py-3">
+                    <span className="sr-only">Edit</span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
+                {demoBots.map((bot) => (
+                  <tr key={bot.currency + bot.targetAsset}>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="text-sm text-gray-900 dark:text-gray-50">
+                        {bot.exchange.toUpperCase()}:
+                        <span className="text-gray-500 dark:text-gray-100 ">
+                          {bot.currency}
+                          {bot.targetAsset}
+                        </span>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="text-sm text-gray-900 dark:text-gray-100 ">
+                        ${bot.investment}
+                      </div>
+                      <div className="text-sm text-gray-500">
+                        Every {bot.interval} days
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="text-sm text-gray-900 dark:text-gray-100 ">
+                        {bot.balance} {bot.currency}
+                      </div>
+                      <div className="text-sm text-gray-500">
+                        Enough for {bot.estimatedBalance}
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-400">
+                        Active
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <button className="text-gray-200 dark:text-gray-600 hover:text-gray-900  dark:hover:text-gray-100 transition rounded-full">
+                        <PencilAltIcon className="w-5 h-5" />
+                      </button>
+                      <button className="ml-2 text-gray-200 dark:text-gray-600 hover:text-red-500 dark:hover:text-red-500 transition rounded-full">
+                        <TrashIcon className="w-5 h-5" />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+                <tr>
+                  <td colSpan={5} className="px-5 py-1 whitespace-nowrap">
+                    <NewBotModal />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const Dashboard = () => {
+  return (
+    <DashboardLayout>
+      <div>
+        <DashboardTitle title="Dashboard" />
+        <div className="p-8 flex">
+          <div className="w-1/2 mr-4">
+            <h2 className="text-lg">Available bots</h2>
+            <div className="mt-4 ">
+              <BotList />
+            </div>
+          </div>
+          <div className="w-1/2 ml-4">
+            <div className="border rounded h-96">Statistics</div>
+          </div>
+        </div>
+      </div>
+    </DashboardLayout>
   );
 };
 

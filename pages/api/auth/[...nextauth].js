@@ -1,8 +1,7 @@
 import NextAuth from "next-auth";
 import Providers from "next-auth/providers";
-import User from "../../../server/models/User";
 import connectDB from "../../../server/mongodb";
-import bcryptjs from "bcryptjs";
+import cmsClient from "../../../server/cmsClient";
 
 const auth = NextAuth({
   // Configure one or more authentication providers
@@ -18,17 +17,15 @@ const auth = NextAuth({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        const user = await User.findOne({ email: credentials.email });
+        try {
+          const response = await cmsClient.post("/auth/local", {
+            identifier: credentials.email,
+            password: credentials.password,
+          });
 
-        if (user) {
-          const isMatchingUser = await bcryptjs.compare(
-            credentials.password,
-            user.password
-          );
-
-          if (isMatchingUser) {
-            return user;
-          }
+          return response.data;
+        } catch (e) {
+          throw new Error(e);
         }
 
         return null;
@@ -39,8 +36,41 @@ const auth = NextAuth({
     }),
   ],
 
+  callbacks: {
+    /**
+     * @param  {object}  token     Decrypted JSON Web Token
+     * @param  {object}  user      User object      (only available on sign in)
+     * @param  {object}  account   Provider account (only available on sign in)
+     * @param  {object}  profile   Provider profile (only available on sign in)
+     * @param  {boolean} isNewUser True if new user (only available on sign in)
+     * @return {object}            JSON Web Token that will be saved
+     */
+    async jwt(token, user, account, profile, isNewUser) {
+      // Add access_token to the token right after signin
+      if (user?.jwt) {
+        token = {
+          ...user,
+          accessToken: user.jwt,
+        };
+      }
+      return token;
+    },
+
+    /**
+     * @param  {object} session      Session object
+     * @param  {object} token        User object    (if using database sessions)
+     *                               JSON Web Token (if not using database sessions)
+     * @return {object}              Session that will be returned to the client
+     */
+    async session(session, token) {
+      // Add property to session, like an access_token from a provider.
+      session = token;
+      delete session.jwt;
+      return session;
+    },
+  },
   // A database is optional, but required to persist accounts in a database
-  //   database: process.env.DATABASE_URL,
+  // database: process.env.DATABASE_URL,
 });
 
-export default connectDB(auth);
+export default auth;
