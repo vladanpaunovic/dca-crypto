@@ -40,7 +40,7 @@ const NewBotModal = () => {
   const [availableExchanges, setAvailableExchanges] = useState([]);
 
   const allExchanges = async () => {
-    const response = await cmsClient.get("/available-exchanges");
+    const response = await cmsClient().get("/available-exchanges");
     setAvailableExchanges(response.data);
   };
 
