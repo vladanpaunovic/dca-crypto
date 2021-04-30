@@ -1,12 +1,13 @@
 import { PlusCircleIcon } from "@heroicons/react/outline";
 import { useState } from "react";
 import { Dialog } from "@headlessui/react";
-import { useEffect } from "react";
 import cmsClient from "../../../server/cmsClient";
 import Loading from "../../Loading/Loading";
+import { useQuery } from "react-query";
+import { useSession } from "next-auth/client";
 
 const NewBotForm = (props) => {
-  const [exchange, setExchange] = useState();
+  const [exchange] = useState();
 
   return (
     <form className="mt-8">
@@ -23,8 +24,11 @@ const NewBotForm = (props) => {
               className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded sm:text-sm border-gray-300 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200"
             >
               {props.availableExchanges.map((exchange) => (
-                <option key={exchange._id} _id={exchange.value}>
-                  {exchange.label}
+                <option
+                  key={exchange.available_exchange._id}
+                  _id={exchange.available_exchange.value}
+                >
+                  {exchange.available_exchange.label}
                 </option>
               ))}
             </select>
@@ -37,18 +41,21 @@ const NewBotForm = (props) => {
 
 const NewBotModal = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [availableExchanges, setAvailableExchanges] = useState([]);
+  const [session] = useSession();
 
-  const allExchanges = async () => {
-    const response = await cmsClient().get("/available-exchanges");
-    setAvailableExchanges(response.data);
-  };
+  const { data, isLoading } = useQuery("only-my-exchanges", async () => {
+    const response = await cmsClient(session.accessToken).get("/exchanges");
+    return response.data;
+  });
 
-  useEffect(() => allExchanges(), []);
-
+  console.log(data);
   return (
     <>
-      {availableExchanges ? (
+      {isLoading ? (
+        <div className="p-1">
+          <Loading width={25} height={25} />
+        </div>
+      ) : (
         <button
           onClick={() => setIsOpen(true)}
           className="w-full focus:outline-none flex items-center text-gray-200 dark:text-gray-600 dark:border-gray-700 hover:text-gray-900 dark:hover:text-gray-100 transition rounded"
@@ -56,10 +63,6 @@ const NewBotModal = () => {
           <PlusCircleIcon className="w-8 h-8 mr-2" />
           Add new bot
         </button>
-      ) : (
-        <div className="p-1">
-          <Loading width={25} height={25} />
-        </div>
       )}
 
       <div className="relative">
@@ -87,7 +90,7 @@ const NewBotModal = () => {
                     Add new bot
                   </h3>
                   <div className="mt-2">
-                    <NewBotForm availableExchanges={availableExchanges} />
+                    <NewBotForm availableExchanges={data} />
                   </div>
                 </div>
               </div>
