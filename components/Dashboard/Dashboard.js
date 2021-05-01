@@ -2,9 +2,11 @@ import Menu from "./Menu/Menu";
 import { PencilAltIcon, TrashIcon } from "@heroicons/react/outline";
 import NewBotModal from "./NewBotModal/NewBotModal";
 import DashboardTitle from "./DashboardTitle";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import cmsClient from "../../server/cmsClient";
 import { useSession } from "next-auth/client";
+import Loading from "../Loading/Loading";
+import { queryClient } from "../../pages/_app";
 
 const demoBots = [
   {
@@ -42,6 +44,16 @@ const DashboardLayout = ({ children }) => {
 
 const BotList = () => {
   const [session] = useSession();
+
+  const { mutate, isLoading: isRemoving } = useMutation({
+    mutationFn: async (payload) =>
+      await cmsClient(session.accessToken).delete(`/trading-bots/${payload}`),
+    mutationKey: "remove-bot",
+    onSettled: async () => {
+      await queryClient.refetchQueries(["my-bots"]);
+    },
+  });
+
   const { data, isLoading } = useQuery("my-bots", async () => {
     const response = await cmsClient(session.accessToken).get("/trading-bots");
 
@@ -120,10 +132,13 @@ const BotList = () => {
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                      <button className="text-gray-200 dark:text-gray-600 hover:text-gray-900  dark:hover:text-gray-100 transition rounded-full">
+                      {/* <button className="text-gray-200 dark:text-gray-600 hover:text-gray-900  dark:hover:text-gray-100 transition rounded-full">
                         <PencilAltIcon className="w-5 h-5" />
-                      </button>
-                      <button className="ml-2 text-gray-200 dark:text-gray-600 hover:text-red-500 dark:hover:text-red-500 transition rounded-full">
+                      </button> */}
+                      <button
+                        onClick={() => mutate(bot._id)}
+                        className="ml-2 text-gray-200 dark:text-gray-600 hover:text-red-500 dark:hover:text-red-500 transition rounded-full"
+                      >
                         <TrashIcon className="w-5 h-5" />
                       </button>
                     </td>
@@ -131,7 +146,13 @@ const BotList = () => {
                 ))}
                 <tr>
                   <td colSpan={5} className="px-5 py-1 whitespace-nowrap">
-                    <NewBotModal />
+                    {isRemoving ? (
+                      <div className="py-2">
+                        <Loading width={20} height={20} />
+                      </div>
+                    ) : (
+                      <NewBotModal />
+                    )}
                   </td>
                 </tr>
               </tbody>

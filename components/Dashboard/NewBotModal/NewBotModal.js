@@ -3,30 +3,71 @@ import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import cmsClient from "../../../server/cmsClient";
 import Loading from "../../Loading/Loading";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { useSession } from "next-auth/client";
+import InputBox from "../InputBox";
+import { queryClient } from "../../../pages/_app";
 
 const NewBotForm = (props) => {
-  const [exchange] = useState();
+  const onlyMyExchanges = queryClient.getQueryData("only-my-exchanges");
+  const [session] = useSession();
+
+  const [state, setState] = useState({
+    exchange: null,
+    available_exchange: "choose-exchange",
+    users_permissions_user: session.user.id,
+    origin_currency: "",
+    destination_currency: "",
+    origin_currency_amount: 0,
+    investing_interval: 7,
+  });
+
+  const { mutate, isLoading } = useMutation({
+    mutationFn: async (payload) =>
+      await cmsClient(session.accessToken).post("/trading-bots", payload),
+    mutationKey: "add-bot",
+    onSettled: async () => {
+      await queryClient.refetchQueries(["my-bots"]);
+      props.onClose();
+    },
+  });
+
+  const handleOnsubmit = (e) => {
+    e.preventDefault();
+
+    mutate(state);
+  };
 
   return (
-    <form className="mt-8">
+    <form className="mt-8" onSubmit={handleOnsubmit}>
       <div className="col-span-2">
         <label className="block">
           <span className="font-medium text-gray-700 dark:text-gray-300">
             Select exchange
           </span>
-          <div className="mt-1 flex rounded-md shadow-sm">
+          <div className="mt-1 mb-2 flex rounded-md shadow-sm">
             <select
               name="coinId"
-              value={exchange}
-              onChange={(e) => setExchange(e.target.value)}
+              value={state.available_exchange}
+              onChange={(e) => {
+                const exchange = onlyMyExchanges.find(
+                  (ex) => ex.available_exchange.id === e.target.value
+                );
+                setState({
+                  ...state,
+                  available_exchange: e.target.value,
+                  exchange,
+                });
+              }}
               className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded sm:text-sm border-gray-300 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200"
             >
+              <option value="choose-exchange" disabled>
+                Choose exchange
+              </option>
               {props.availableExchanges.map((exchange) => (
                 <option
                   key={exchange.available_exchange._id}
-                  _id={exchange.available_exchange.value}
+                  value={exchange.available_exchange._id}
                 >
                   {exchange.available_exchange.label}
                 </option>
@@ -34,6 +75,53 @@ const NewBotForm = (props) => {
             </select>
           </div>
         </label>
+        <InputBox
+          identifier="origin_currency"
+          label="Origin currency"
+          value={state.origin_currency}
+          onChange={(e) =>
+            setState({ ...state, origin_currency: e.target.value })
+          }
+        />
+        <InputBox
+          identifier="destination_currency"
+          label="Destination currency"
+          value={state.destination_currency}
+          onChange={(e) =>
+            setState({ ...state, destination_currency: e.target.value })
+          }
+        />
+        <InputBox
+          identifier="origin_currency_amount"
+          label="Amount"
+          value={state.origin_currency_amount}
+          onChange={(e) =>
+            setState({ ...state, origin_currency_amount: e.target.value })
+          }
+        />
+        <InputBox
+          identifier="investing_interval"
+          label="Investing interval"
+          value={state.investing_interval}
+          onChange={(e) =>
+            setState({ ...state, investing_interval: e.target.value })
+          }
+        />
+
+        <button
+          type="submit"
+          disabled={isLoading}
+          className="flex py-1 px-4 bg-indigo-500 rounded text-gray-100"
+        >
+          {isLoading ? (
+            <>
+              <span className="mr-1">Submit</span>{" "}
+              <Loading width={25} height={25} />
+            </>
+          ) : (
+            "Submit"
+          )}
+        </button>
       </div>
     </form>
   );
@@ -48,7 +136,6 @@ const NewBotModal = () => {
     return response.data;
   });
 
-  console.log(data);
   return (
     <>
       {isLoading ? (
@@ -90,7 +177,10 @@ const NewBotModal = () => {
                     Add new bot
                   </h3>
                   <div className="mt-2">
-                    <NewBotForm availableExchanges={data} />
+                    <NewBotForm
+                      availableExchanges={data}
+                      onClose={() => setIsOpen(false)}
+                    />
                   </div>
                 </div>
               </div>

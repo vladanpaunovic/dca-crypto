@@ -6,25 +6,7 @@ import Loading from "../../Loading/Loading";
 import { useMutation, useQuery } from "react-query";
 import { useSession } from "next-auth/client";
 import { queryClient } from "../../../pages/_app";
-
-const InputBox = (props) => {
-  return (
-    <label className="block mb-3">
-      <span className="font-medium text-gray-700 dark:text-gray-300">
-        {props.label}
-      </span>
-      <input
-        className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200"
-        type="text"
-        placeholder="******"
-        value={props.value}
-        name={props.identifier}
-        onChange={(e) => props.onChange(e)}
-        required
-      />
-    </label>
-  );
-};
+import InputBox from "../InputBox";
 
 const BinanceForm = ({ exchange, onClose }) => {
   const [session] = useSession();
@@ -47,7 +29,7 @@ const BinanceForm = ({ exchange, onClose }) => {
     e.preventDefault();
 
     const payload = {
-      api_requirements: state,
+      api_requirements: JSON.stringify(state),
       available_exchange: exchange._id,
       users_permissions_user: session.user._id,
     };
@@ -110,7 +92,7 @@ const CoinbaseProForm = ({ exchange, onClose }) => {
     e.preventDefault();
 
     const payload = {
-      api_requirements: state,
+      api_requirements: JSON.stringify(state),
       available_exchange: exchange._id,
       users_permissions_user: session.user._id,
     };
@@ -177,7 +159,7 @@ const CryptoComForm = ({ exchange, onClose }) => {
     e.preventDefault();
 
     const payload = {
-      api_requirements: state,
+      api_requirements: JSON.stringify(state),
       available_exchange: exchange._id,
       users_permissions_user: session.user._id,
     };
