@@ -13,6 +13,7 @@
     "@tailwindcss/forms": "^0.3.2",
     "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",
+    "ccxt": "^1.49.21",
     "dayjs": "^1.10.4",
     "dotenv": "^8.2.0",
     "mongoose": "^5.12.6",

@@ -8,29 +8,6 @@ import { useSession } from "next-auth/client";
 import Loading from "../Loading/Loading";
 import { queryClient } from "../../pages/_app";
 
-const demoBots = [
-  {
-    exchange: "Binance",
-    currency: "USD",
-    balance: 236,
-    targetAsset: "BTC",
-    interval: 7,
-    investment: 10,
-    status: "running",
-    estimatedBalance: "26 days",
-  },
-  {
-    exchange: "Coinbase",
-    currency: "USD",
-    targetAsset: "ETH",
-    interval: 30,
-    investment: 50,
-    status: "running",
-    balance: 154,
-    estimatedBalance: "3 months",
-  },
-];
-
 const DashboardLayout = ({ children }) => {
   return (
     <div className="flex h-full">
@@ -60,9 +37,16 @@ const BotList = () => {
     return response.data;
   });
 
+  // const { data, isLoading } = useQuery("my-bots", async () => {
+  //   const response = await cmsClient(session.accessToken).get("/trading-bots");
+
+  //   return response.data;
+  // });
+
   if (isLoading) {
     return null;
   }
+
   return (
     <div className="flex flex-col">
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -105,7 +89,7 @@ const BotList = () => {
                   <tr key={bot.id}>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm text-gray-900 dark:text-gray-50">
-                        {bot.available_exchange.label.toUpperCase()}:
+                        {bot.available_exchange.identifier.toUpperCase()}:
                         <span className="text-gray-500 dark:text-gray-100 ">
                           {bot.origin_currency}
                           {bot.destination_currency}

@@ -1,5 +1,5 @@
 import { PlusCircleIcon } from "@heroicons/react/outline";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Dialog } from "@headlessui/react";
 import cmsClient from "../../../server/cmsClient";
 import Loading from "../../Loading/Loading";
@@ -7,14 +7,17 @@ import { useMutation, useQuery } from "react-query";
 import { useSession } from "next-auth/client";
 import InputBox from "../InputBox";
 import { queryClient } from "../../../pages/_app";
+import apiClient from "../../../server/apiClient";
 
 const NewBotForm = (props) => {
   const onlyMyExchanges = queryClient.getQueryData("only-my-exchanges");
   const [session] = useSession();
+  const [allProducts, setAllProducts] = useState([]);
 
   const [state, setState] = useState({
     exchange: null,
     available_exchange: "choose-exchange",
+    trading_pair: null,
     users_permissions_user: session.user.id,
     origin_currency: "",
     destination_currency: "",
@@ -35,8 +38,32 @@ const NewBotForm = (props) => {
   const handleOnsubmit = (e) => {
     e.preventDefault();
 
-    mutate(state);
+    mutate({
+      ...state,
+      trading_pair: state.trading_pair.id,
+      exchange: state.exchange._id,
+    });
   };
+
+  const getExchangeProducts = async (exchangeId, credentials) => {
+    const response = await apiClient.get(
+      `/exchanges/${exchangeId}/get-markets`,
+      {
+        params: { credentials },
+      }
+    );
+
+    setAllProducts(response.data);
+  };
+
+  useEffect(() => {
+    if (state.exchange) {
+      const credentials = state.exchange.api_requirements;
+      const exchangeId = state.exchange.available_exchange.identifier;
+
+      getExchangeProducts(exchangeId, credentials);
+    }
+  }, [state.exchange]);
 
   return (
     <form className="mt-8" onSubmit={handleOnsubmit}>
@@ -75,22 +102,39 @@ const NewBotForm = (props) => {
             </select>
           </div>
         </label>
-        <InputBox
-          identifier="origin_currency"
-          label="Origin currency"
-          value={state.origin_currency}
-          onChange={(e) =>
-            setState({ ...state, origin_currency: e.target.value })
-          }
-        />
-        <InputBox
-          identifier="destination_currency"
-          label="Destination currency"
-          value={state.destination_currency}
-          onChange={(e) =>
-            setState({ ...state, destination_currency: e.target.value })
-          }
-        />
+
+        <label className="block mb-2">
+          <span className="font-medium text-gray-700 dark:text-gray-300">
+            Pair
+          </span>
+          <select
+            onChange={(e) => {
+              const tradingPair = allProducts.find(
+                (product) => product.id === e.target.value
+              );
+
+              setState({
+                ...state,
+                trading_pair: tradingPair,
+                origin_currency: tradingPair.base,
+                destination_currency: tradingPair.quote,
+              });
+            }}
+            name="origin_currency"
+            value={state.trading_pair?.id || ""}
+            className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200"
+          >
+            <option value="choose-exchange" disabled>
+              Choose base currency
+            </option>
+            {allProducts.map((product) => (
+              <option key={product.id} value={product.id}>
+                {product.symbol}
+              </option>
+            ))}
+          </select>
+        </label>
+
         <InputBox
           identifier="origin_currency_amount"
           label="Amount"

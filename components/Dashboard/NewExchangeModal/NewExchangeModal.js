@@ -8,11 +8,13 @@ import { useSession } from "next-auth/client";
 import { queryClient } from "../../../pages/_app";
 import InputBox from "../InputBox";
 
-const BinanceForm = ({ exchange, onClose }) => {
+const ExchangeForm = ({ exchange, onClose }) => {
   const [session] = useSession();
   const [state, setState] = useState({
     api_key: "",
     secret_key: "",
+    ...(exchange.hasPassword ? { passphrase: "" } : {}),
+    ...(exchange.hasUUID ? { uuid: "" } : {}),
   });
 
   const { mutate, isLoading } = useMutation({
@@ -51,6 +53,22 @@ const BinanceForm = ({ exchange, onClose }) => {
         value={state.secret_key}
         onChange={(e) => setState({ ...state, secret_key: e.target.value })}
       />
+      {exchange.hasPassword && (
+        <InputBox
+          identifier="passphrase"
+          label="Passphrase"
+          value={state.passphrase}
+          onChange={(e) => setState({ ...state, passphrase: e.target.value })}
+        />
+      )}
+      {exchange.hasUUID && (
+        <InputBox
+          identifier="uuid"
+          label="UUID"
+          value={state.uuid}
+          onChange={(e) => setState({ ...state, uuid: e.target.value })}
+        />
+      )}
 
       <button
         type="submit"
@@ -68,154 +86,10 @@ const BinanceForm = ({ exchange, onClose }) => {
       </button>
     </form>
   );
-};
-
-const CoinbaseProForm = ({ exchange, onClose }) => {
-  const [session] = useSession();
-  const [state, setState] = useState({
-    api_key: "",
-    secret_key: "",
-    passphrase: "",
-  });
-
-  const { mutate, isLoading } = useMutation({
-    mutationFn: async (payload) =>
-      await cmsClient(session.accessToken).post("/exchanges", payload),
-    mutationKey: "add-exchange",
-    onSettled: async () => {
-      onClose();
-      await queryClient.refetchQueries(["only-my-exchanges"]);
-    },
-  });
-
-  const handleOnsubmit = async (e) => {
-    e.preventDefault();
-
-    const payload = {
-      api_requirements: JSON.stringify(state),
-      available_exchange: exchange._id,
-      users_permissions_user: session.user._id,
-    };
-
-    mutate(payload);
-  };
-
-  return (
-    <form onSubmit={handleOnsubmit}>
-      <InputBox
-        identifier="api_key"
-        label="Api key"
-        value={state.api_key}
-        onChange={(e) => setState({ ...state, api_key: e.target.value })}
-      />
-      <InputBox
-        identifier="secret_key"
-        label="Secret key"
-        value={state.secret_key}
-        onChange={(e) => setState({ ...state, secret_key: e.target.value })}
-      />
-      <InputBox
-        identifier="passphrase"
-        label="Passphrase"
-        value={state.passphrase}
-        onChange={(e) => setState({ ...state, passphrase: e.target.value })}
-      />
-      <button
-        type="submit"
-        disabled={isLoading}
-        className="flex py-1 px-4 bg-indigo-500 rounded text-gray-100"
-      >
-        {isLoading ? (
-          <>
-            <span className="mr-1">Submit</span>{" "}
-            <Loading width={25} height={25} />
-          </>
-        ) : (
-          "Submit"
-        )}
-      </button>
-    </form>
-  );
-};
-
-const CryptoComForm = ({ exchange, onClose }) => {
-  const [session] = useSession();
-  const [state, setState] = useState({
-    api_key: "",
-    secret_key: "",
-  });
-
-  const { mutate, isLoading } = useMutation({
-    mutationFn: async (payload) =>
-      await cmsClient(session.accessToken).post("/exchanges", payload),
-    mutationKey: "add-exchange",
-    onSettled: async () => {
-      onClose();
-      await queryClient.refetchQueries(["only-my-exchanges"]);
-    },
-  });
-
-  const handleOnsubmit = async (e) => {
-    e.preventDefault();
-
-    const payload = {
-      api_requirements: JSON.stringify(state),
-      available_exchange: exchange._id,
-      users_permissions_user: session.user._id,
-    };
-
-    mutate(payload);
-  };
-
-  return (
-    <form onSubmit={handleOnsubmit}>
-      <InputBox
-        identifier="api_key"
-        label="Api key"
-        value={state.api_key}
-        onChange={(e) => setState({ ...state, api_key: e.target.value })}
-      />
-      <InputBox
-        identifier="secret_key"
-        label="Secret key"
-        value={state.secret_key}
-        onChange={(e) => setState({ ...state, secret_key: e.target.value })}
-      />
-
-      <button
-        type="submit"
-        disabled={isLoading}
-        className="flex py-1 px-4 bg-indigo-500 rounded text-gray-100"
-      >
-        {isLoading ? (
-          <>
-            <span className="mr-1">Submit</span>{" "}
-            <Loading width={25} height={25} />
-          </>
-        ) : (
-          "Submit"
-        )}
-      </button>
-    </form>
-  );
-};
-
-const ExchangeForm = (props) => {
-  const { exchange } = props;
-  switch (exchange.identifier) {
-    case "binance":
-      return <BinanceForm {...props} />;
-    case "coinbase-pro":
-      return <CoinbaseProForm {...props} />;
-    case "crypto-com":
-      return <CryptoComForm {...props} />;
-    default:
-      return null;
-  }
 };
 
 const NewExchangeForm = (props) => {
-  const [exchange, setExchange] = useState({ _id: "choose-exchange" });
+  const [exchange, setExchange] = useState(undefined);
   const onlyMyExchanges = queryClient.getQueryData("only-my-exchanges");
 
   const myExchangeIds = new Set(
@@ -236,7 +110,7 @@ const NewExchangeForm = (props) => {
           <div className="mt-1 flex rounded-md shadow-sm">
             <select
               name="coinId"
-              value={exchange._id}
+              value={exchange ? exchange._id : undefined}
               onChange={(e) => {
                 const selectedExchange = filtered.find(
                   (ex) => ex._id === e.target.value
