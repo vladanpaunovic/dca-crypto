@@ -92,13 +92,12 @@ const Dashboard = () => {
       <div>
         <DashboardTitle title="Dashboard" />
         <div className="p-8 flex">
-          <div className="w-1/2 mr-4">
+          <div className="w-full">
             <h2 className="text-lg">Available bots</h2>
             <div className="mt-4 ">
               <BotList />
             </div>
           </div>
-          <div className="w-1/2 ml-4"></div>
         </div>
       </div>
     </DashboardLayout>
