@@ -1,12 +1,11 @@
 import Menu from "./Menu/Menu";
-import { PencilAltIcon, TrashIcon } from "@heroicons/react/outline";
 import NewBotModal from "./NewBotModal/NewBotModal";
 import DashboardTitle from "./DashboardTitle";
-import { useMutation, useQuery } from "react-query";
+import { useQuery } from "react-query";
 import cmsClient from "../../server/cmsClient";
 import { useSession } from "next-auth/client";
 import Loading from "../Loading/Loading";
-import { queryClient } from "../../pages/_app";
+import BotItem from "./BotItem";
 
 const DashboardLayout = ({ children }) => {
   return (
@@ -22,26 +21,11 @@ const DashboardLayout = ({ children }) => {
 const BotList = () => {
   const [session] = useSession();
 
-  const { mutate, isLoading: isRemoving } = useMutation({
-    mutationFn: async (payload) =>
-      await cmsClient(session.accessToken).delete(`/trading-bots/${payload}`),
-    mutationKey: "remove-bot",
-    onSettled: async () => {
-      await queryClient.refetchQueries(["my-bots"]);
-    },
-  });
-
   const { data, isLoading } = useQuery("my-bots", async () => {
     const response = await cmsClient(session.accessToken).get("/trading-bots");
 
     return response.data;
   });
-
-  // const { data, isLoading } = useQuery("my-bots", async () => {
-  //   const response = await cmsClient(session.accessToken).get("/trading-bots");
-
-  //   return response.data;
-  // });
 
   if (isLoading) {
     return null;
@@ -86,57 +70,11 @@ const BotList = () => {
               </thead>
               <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
                 {data.map((bot) => (
-                  <tr key={bot.id}>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900 dark:text-gray-50">
-                        {bot.available_exchange.identifier.toUpperCase()}:
-                        <span className="text-gray-500 dark:text-gray-100 ">
-                          {bot.origin_currency}
-                          {bot.destination_currency}
-                        </span>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900 dark:text-gray-100 ">
-                        ${bot.origin_currency_amount}
-                      </div>
-                      <div className="text-sm text-gray-500">
-                        Every {bot.investing_interval} days
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900 dark:text-gray-100 ">
-                        {bot.origin_currency}
-                      </div>
-                      <div className="text-sm text-gray-500">Enough for</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-400">
-                        Active
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                      {/* <button className="text-gray-200 dark:text-gray-600 hover:text-gray-900  dark:hover:text-gray-100 transition rounded-full">
-                        <PencilAltIcon className="w-5 h-5" />
-                      </button> */}
-                      <button
-                        onClick={() => mutate(bot._id)}
-                        className="ml-2 text-gray-200 dark:text-gray-600 hover:text-red-500 dark:hover:text-red-500 transition rounded-full"
-                      >
-                        <TrashIcon className="w-5 h-5" />
-                      </button>
-                    </td>
-                  </tr>
+                  <BotItem key={bot.id} {...bot} />
                 ))}
                 <tr>
                   <td colSpan={5} className="px-5 py-1 whitespace-nowrap">
-                    {isRemoving ? (
-                      <div className="py-2">
-                        <Loading width={20} height={20} />
-                      </div>
-                    ) : (
-                      <NewBotModal />
-                    )}
+                    <NewBotModal />
                   </td>
                 </tr>
               </tbody>

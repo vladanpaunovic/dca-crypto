@@ -48,9 +48,7 @@ const NewBotForm = (props) => {
   const getExchangeProducts = async (exchangeId, credentials) => {
     const response = await apiClient.get(
       `/exchanges/${exchangeId}/get-markets`,
-      {
-        params: { credentials },
-      }
+      { params: { credentials } }
     );
 
     setAllProducts(response.data);
