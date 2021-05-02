@@ -1,7 +1,8 @@
 import { PlusCircleIcon, XIcon } from "@heroicons/react/outline";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Dialog } from "@headlessui/react";
 import cmsClient from "../../../server/cmsClient";
+import apiClient from "../../../server/apiClient";
 import Loading from "../../Loading/Loading";
 import { useMutation, useQuery } from "react-query";
 import { useSession } from "next-auth/client";
@@ -10,6 +11,7 @@ import InputBox from "../InputBox";
 
 const ExchangeForm = ({ exchange, onClose }) => {
   const [session] = useSession();
+  const [authError, setAuthError] = useState(null);
   const [state, setState] = useState({
     api_key: "",
     secret_key: "",
@@ -27,17 +29,37 @@ const ExchangeForm = ({ exchange, onClose }) => {
     },
   });
 
+  const validateCredentials = useMutation({
+    mutationFn: async (payload) =>
+      await apiClient.post(
+        `/exchanges/${exchange.identifier}/validate-credentials`,
+        payload
+      ),
+    mutationKey: "validate-exchange-access",
+    onSuccess: async (data, payload) => {
+      if (data.data.validated) {
+        const payload = {
+          api_requirements: JSON.stringify(state),
+          available_exchange: exchange._id,
+          users_permissions_user: session.user._id,
+        };
+        mutate(payload);
+      }
+    },
+  });
+
   const handleOnsubmit = async (e) => {
     e.preventDefault();
+    setAuthError(null);
 
-    const payload = {
-      api_requirements: JSON.stringify(state),
-      available_exchange: exchange._id,
-      users_permissions_user: session.user._id,
-    };
-
-    mutate(payload);
+    validateCredentials.mutate({ credentials: JSON.stringify(state) });
   };
+
+  useEffect(() => {
+    if (validateCredentials.data?.data?.validated === false) {
+      setAuthError(validateCredentials.data.data.error.name);
+    }
+  }, [validateCredentials.data]);
 
   return (
     <form onSubmit={handleOnsubmit}>
@@ -84,6 +106,8 @@ const ExchangeForm = ({ exchange, onClose }) => {
           "Submit"
         )}
       </button>
+
+      {authError}
     </form>
   );
 };
