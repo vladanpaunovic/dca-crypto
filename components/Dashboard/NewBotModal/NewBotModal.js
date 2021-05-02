@@ -1,5 +1,5 @@
 import { PlusCircleIcon } from "@heroicons/react/outline";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import cmsClient from "../../../server/cmsClient";
 import Loading from "../../Loading/Loading";
