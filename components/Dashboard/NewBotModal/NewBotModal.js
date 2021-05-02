@@ -12,7 +12,6 @@ import apiClient from "../../../server/apiClient";
 const NewBotForm = (props) => {
   const onlyMyExchanges = queryClient.getQueryData("only-my-exchanges");
   const [session] = useSession();
-  const [allProducts, setAllProducts] = useState([]);
 
   const [state, setState] = useState({
     exchange: null,
@@ -35,34 +34,56 @@ const NewBotForm = (props) => {
     },
   });
 
+  const getMarkets = useQuery({
+    queryKey: "get-markets",
+    queryFn: async () => {
+      const credentials = state.exchange.api_requirements;
+      const exchangeId = state.exchange.available_exchange.identifier;
+
+      const response = await apiClient.get(
+        `/exchanges/${exchangeId}/get-markets`,
+        { params: { credentials } }
+      );
+
+      return response.data;
+    },
+    enabled: !!state.exchange,
+  });
+
+  const getTicker = useQuery({
+    queryKey: state.trading_pair
+      ? `get-ticker-${state.trading_pair.id}`
+      : "get-ticket-init",
+    queryFn: async () => {
+      const credentials = state.exchange.api_requirements;
+      const exchangeId = state.exchange.available_exchange.identifier;
+
+      const response = await apiClient.get(
+        `/exchanges/${exchangeId}/fetch-ticker`,
+        { params: { credentials, symbol: state.trading_pair.symbol } }
+      );
+
+      return response.data;
+    },
+    onSuccess: (data) => {
+      setState({
+        ...state,
+        origin_currency_amount:
+          state.trading_pair.limits.amount.min * data.close * 1.1,
+      });
+    },
+    enabled: !!state.trading_pair && !!state.trading_pair.id,
+  });
+
   const handleOnsubmit = (e) => {
     e.preventDefault();
 
     mutate({
       ...state,
-      trading_pair: state.trading_pair.id,
+      trading_pair: state.trading_pair.symbol,
       exchange: state.exchange._id,
     });
   };
-
-  const getExchangeProducts = async (exchangeId, credentials) => {
-    const response = await apiClient.get(
-      `/exchanges/${exchangeId}/get-markets`,
-      { params: { credentials } }
-    );
-
-    setAllProducts(response.data);
-    setState({ ...state, trading_pair: response.data[0] });
-  };
-
-  useEffect(() => {
-    if (state.exchange) {
-      const credentials = state.exchange.api_requirements;
-      const exchangeId = state.exchange.available_exchange.identifier;
-
-      getExchangeProducts(exchangeId, credentials);
-    }
-  }, [state.exchange]);
 
   return (
     <form className="mt-8" onSubmit={handleOnsubmit}>
@@ -102,7 +123,7 @@ const NewBotForm = (props) => {
           </div>
         </label>
 
-        {state.exchange && state.trading_pair && (
+        {state.exchange && (
           <>
             <label className="block mb-2">
               <span className="font-medium text-gray-700 dark:text-gray-300">
@@ -110,7 +131,7 @@ const NewBotForm = (props) => {
               </span>
               <select
                 onChange={(e) => {
-                  const tradingPair = allProducts.find(
+                  const tradingPair = getMarkets.data.find(
                     (product) => product.id === e.target.value
                   );
 
@@ -125,25 +146,47 @@ const NewBotForm = (props) => {
                 value={state.trading_pair?.id || ""}
                 className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200"
               >
-                <option value="choose-traiding-pair" disabled>
+                <option value="choose-trading-pair" disabled>
                   Choose trading pair
                 </option>
-                {allProducts.map((product) => (
+                {getMarkets.data?.map((product) => (
                   <option key={product.id} value={product.id}>
                     {product.symbol}
                   </option>
                 ))}
               </select>
             </label>
+          </>
+        )}
+
+        {state.exchange && state.trading_pair && (
+          <>
             <InputBox
               identifier="origin_currency_amount"
-              label={`Capital in ${state.trading_pair.quote}`}
+              label={`Capital in ${state.trading_pair?.quote}`}
               value={state.origin_currency_amount}
               type="number"
+              min={
+                getTicker.isLoading
+                  ? 0
+                  : state.trading_pair?.limits?.amount?.min *
+                    getTicker.data?.close *
+                    1.1
+              }
               onChange={(e) =>
                 setState({ ...state, origin_currency_amount: e.target.value })
               }
             />
+            <p className="text-sm mb-2 text-gray-500 dark:text-gray-200">
+              Minimum order for {state.trading_pair?.base}, on{" "}
+              {state.exchange.available_exchange.label} is{" "}
+              {getTicker.isLoading
+                ? "Loading..."
+                : state.trading_pair?.limits?.amount?.min *
+                  getTicker.data?.close *
+                  1.1}{" "}
+              {state.trading_pair?.quote}
+            </p>
             <InputBox
               identifier="investing_interval"
               label="Investing interval"
@@ -157,7 +200,7 @@ const NewBotForm = (props) => {
             </h4>
             <p className="mb-2 mt-1 max-w-2xl text-sm text-gray-500 dark:text-white">
               You will invest {state.origin_currency_amount}{" "}
-              {state.trading_pair.quote} in {state.trading_pair.base} every{" "}
+              {state.trading_pair?.quote} in {state.trading_pair?.base} every{" "}
               {state.investing_interval} days
             </p>
             <button
