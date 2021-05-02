@@ -12,6 +12,7 @@ const InputBox = (props) => {
         name={props.identifier}
         onChange={(e) => props.onChange(e)}
         required
+        {...props}
       />
     </label>
   );

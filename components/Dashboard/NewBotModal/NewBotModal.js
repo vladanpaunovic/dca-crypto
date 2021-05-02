@@ -21,7 +21,7 @@ const NewBotForm = (props) => {
     users_permissions_user: session.user.id,
     origin_currency: "",
     destination_currency: "",
-    origin_currency_amount: 0,
+    origin_currency_amount: 10,
     investing_interval: 7,
   });
 
@@ -52,6 +52,7 @@ const NewBotForm = (props) => {
     );
 
     setAllProducts(response.data);
+    setState({ ...state, trading_pair: response.data[0] });
   };
 
   useEffect(() => {
@@ -101,69 +102,80 @@ const NewBotForm = (props) => {
           </div>
         </label>
 
-        <label className="block mb-2">
-          <span className="font-medium text-gray-700 dark:text-gray-300">
-            Pair
-          </span>
-          <select
-            onChange={(e) => {
-              const tradingPair = allProducts.find(
-                (product) => product.id === e.target.value
-              );
+        {state.exchange && state.trading_pair && (
+          <>
+            <label className="block mb-2">
+              <span className="font-medium text-gray-700 dark:text-gray-300">
+                Pair
+              </span>
+              <select
+                onChange={(e) => {
+                  const tradingPair = allProducts.find(
+                    (product) => product.id === e.target.value
+                  );
 
-              setState({
-                ...state,
-                trading_pair: tradingPair,
-                origin_currency: tradingPair.base,
-                destination_currency: tradingPair.quote,
-              });
-            }}
-            name="origin_currency"
-            value={state.trading_pair?.id || ""}
-            className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200"
-          >
-            <option value="choose-exchange" disabled>
-              Choose base currency
-            </option>
-            {allProducts.map((product) => (
-              <option key={product.id} value={product.id}>
-                {product.symbol}
-              </option>
-            ))}
-          </select>
-        </label>
-
-        <InputBox
-          identifier="origin_currency_amount"
-          label="Amount"
-          value={state.origin_currency_amount}
-          onChange={(e) =>
-            setState({ ...state, origin_currency_amount: e.target.value })
-          }
-        />
-        <InputBox
-          identifier="investing_interval"
-          label="Investing interval"
-          value={state.investing_interval}
-          onChange={(e) =>
-            setState({ ...state, investing_interval: e.target.value })
-          }
-        />
-
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="flex py-1 px-4 bg-indigo-500 rounded text-gray-100"
-        >
-          {isLoading ? (
-            <>
-              <span className="mr-1">Submit</span>{" "}
-              <Loading width={25} height={25} />
-            </>
-          ) : (
-            "Submit"
-          )}
-        </button>
+                  setState({
+                    ...state,
+                    trading_pair: tradingPair,
+                    origin_currency: tradingPair.base,
+                    destination_currency: tradingPair.quote,
+                  });
+                }}
+                name="origin_currency"
+                value={state.trading_pair?.id || ""}
+                className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200"
+              >
+                <option value="choose-traiding-pair" disabled>
+                  Choose trading pair
+                </option>
+                {allProducts.map((product) => (
+                  <option key={product.id} value={product.id}>
+                    {product.symbol}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <InputBox
+              identifier="origin_currency_amount"
+              label={`Capital in ${state.trading_pair.quote}`}
+              value={state.origin_currency_amount}
+              type="number"
+              onChange={(e) =>
+                setState({ ...state, origin_currency_amount: e.target.value })
+              }
+            />
+            <InputBox
+              identifier="investing_interval"
+              label="Investing interval"
+              value={state.investing_interval}
+              onChange={(e) =>
+                setState({ ...state, investing_interval: e.target.value })
+              }
+            />
+            <h4 className="font-medium text-gray-900 dark:text-white ">
+              Summary
+            </h4>
+            <p className="mb-2 mt-1 max-w-2xl text-sm text-gray-500 dark:text-white">
+              You will invest {state.origin_currency_amount}{" "}
+              {state.trading_pair.quote} in {state.trading_pair.base} every{" "}
+              {state.investing_interval} days
+            </p>
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="flex py-1 px-4 bg-indigo-500 rounded text-gray-100"
+            >
+              {isLoading ? (
+                <>
+                  <span className="mr-1">Submit</span>{" "}
+                  <Loading width={25} height={25} />
+                </>
+              ) : (
+                "Submit"
+              )}
+            </button>
+          </>
+        )}
       </div>
     </form>
   );

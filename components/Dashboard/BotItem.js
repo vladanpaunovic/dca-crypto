@@ -1,6 +1,5 @@
 import { PencilAltIcon, TrashIcon } from "@heroicons/react/outline";
 import { useSession } from "next-auth/client";
-import { useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { queryClient } from "../../pages/_app";
 import apiClient from "../../server/apiClient";
@@ -33,9 +32,15 @@ const BotItem = (bot) => {
     queryKey: `my-balance-${botExchange}`,
   });
 
-  console.log(balance.data);
+  if (!balance.data) {
+    return null;
+  }
+
   const baseCurrencyBalance = balance.data.free[bot.destination_currency];
   const isActive = baseCurrencyBalance > bot.origin_currency_amount;
+  const durationEstimate = Math.floor(
+    baseCurrencyBalance / (bot.origin_currency_amount / bot.investing_interval)
+  );
 
   return (
     <tr key={bot.id}>
@@ -50,7 +55,7 @@ const BotItem = (bot) => {
       </td>
       <td className="px-6 py-4 whitespace-nowrap">
         <div className="text-sm text-gray-900 dark:text-gray-100 ">
-          ${bot.origin_currency_amount}
+          {bot.origin_currency_amount.toFixed(6)} {bot.destination_currency}
         </div>
         <div className="text-sm text-gray-500">
           Every {bot.investing_interval} days
@@ -62,9 +67,13 @@ const BotItem = (bot) => {
         ) : (
           <>
             <div className="text-sm text-gray-900 dark:text-gray-100 ">
-              {baseCurrencyBalance} {bot.origin_currency}
+              {baseCurrencyBalance.toFixed(6)} {bot.destination_currency}
             </div>
-            <div className="text-sm text-gray-500">Enough for</div>
+            <div className="text-sm text-gray-500">
+              {isActive
+                ? `Enough for ${durationEstimate} days`
+                : "Insufficient balance"}
+            </div>
           </>
         )}
       </td>
