@@ -5,6 +5,7 @@ import { useQuery } from "react-query";
 import cmsClient from "../../server/cmsClient";
 import { useSession } from "next-auth/client";
 import BotItem from "./BotItem";
+import DashboardChart from "./DashboardChart/DashboardChart";
 
 const DashboardLayout = ({ children }) => {
   return (
@@ -126,10 +127,14 @@ const Dashboard = () => {
         <DashboardTitle title="Dashboard" />
         <div className="p-8 grid grid-cols-3 gap-8">
           <div className="col-span-2">
-            <div className="rounded p-6 shadow border">Performance</div>
+            <div className="rounded p-6 shadow border">
+              <div className="h-80">
+                <DashboardChart />
+              </div>
+            </div>
           </div>
           <div className="col-span-1">
-            <div className="rounded p-6 shadow border">Chart info</div>
+            <div className="rounded p-6 shadow border">chart info</div>
           </div>
           <div className="col-span-3">
             <BotList />

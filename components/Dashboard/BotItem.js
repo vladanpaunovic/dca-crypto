@@ -210,7 +210,14 @@ const BotItem = (bot) => {
 
   const diffUntilNextOrder = () => {
     if (!bot.isActive || bot.errorMessage) {
-      return "Disabled";
+      return (
+        <>
+          <span className="line-through">
+            {dayjs().to(dayjs(nextOrderDate))}
+          </span>{" "}
+          (disabled)
+        </>
+      );
     }
 
     return dayjs().to(dayjs(nextOrderDate));
@@ -239,13 +246,6 @@ const BotItem = (bot) => {
     );
   };
 
-  if (bot.trading_pair === "BTC/USD") {
-    const allCryptoValue2 = bot.orders.reduce(
-      (prev, curr) => prev + curr.amount * priceNow,
-      0
-    );
-    console.log(bot.orders);
-  }
   return (
     <tr key={bot.id} className=" ">
       <td className="px-6 py-4">
@@ -273,7 +273,7 @@ const BotItem = (bot) => {
         </div>
         <div className="text-sm text-gray-400">
           {formatCurrency(allInvestments, bot.destination_currency)} every{" "}
-          {bot.investing_interval} days
+          {bot.investing_interval} {bot.investing_interval > 1 ? "days" : "day"}
         </div>
       </td>
       <td className="px-6 py-4">
@@ -356,7 +356,7 @@ const BotItem = (bot) => {
                     </h4>
                     <p className="mb-2 text-gray-600 dark:text-gray-300">
                       Removing the trading bot will stop the execution of
-                      upciming trades and remove all data related to it from our
+                      upcoming trades and remove all data related to it from our
                       systems.
                     </p>
                     <p className="mb-4 text-gray-600 dark:text-gray-300">
