@@ -46,6 +46,11 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
+"@coingecko/cryptoformat@^0.4.2":
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/@coingecko/cryptoformat/-/cryptoformat-0.4.2.tgz#52ae246a15425aba1967ae4695bfc2e4e3c67375"
+  integrity sha512-7yIHZkKaCfBH6KnN30ykmYIKZ3eiSnZVgAL0BEnFdVhgM6QFZh52kvajgxdrjdKZdrjDIVzQb1J2G6RI0LpxqQ==
+
 "@emotion/cache@^11.0.0", "@emotion/cache@^11.1.3":
   version "11.1.3"
   resolved "https://registry.yarnpkg.com/@emotion/cache/-/cache-11.1.3.tgz#c7683a9484bcd38d5562f2b9947873cf66829afd"

@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@coingecko/cryptoformat": "^0.4.2",
     "@headlessui/react": "^1.0.0",
     "@heroicons/react": "^1.0.1",
     "@tailwindcss/forms": "^0.3.2",

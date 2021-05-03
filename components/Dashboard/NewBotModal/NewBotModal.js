@@ -165,7 +165,7 @@ const NewBotForm = (props) => {
               identifier="origin_currency_amount"
               label={`Capital in ${state.trading_pair?.quote}`}
               value={state.origin_currency_amount}
-              type="number"
+              type="text"
               min={
                 getTicker.isLoading
                   ? 0
