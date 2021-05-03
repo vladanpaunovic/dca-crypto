@@ -143,7 +143,7 @@ const NewBotForm = (props) => {
                   });
                 }}
                 name="origin_currency"
-                value={state.trading_pair?.id || ""}
+                value={state.trading_pair?.id || "choose-trading-pair"}
                 className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200"
               >
                 <option value="choose-trading-pair" disabled>

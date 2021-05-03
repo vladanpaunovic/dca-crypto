@@ -134,7 +134,7 @@ const NewExchangeForm = (props) => {
           <div className="mt-1 flex rounded-md shadow-sm">
             <select
               name="coinId"
-              value={exchange ? exchange._id : undefined}
+              value={exchange ? exchange._id : "choose-exchange"}
               onChange={(e) => {
                 const selectedExchange = filtered.find(
                   (ex) => ex._id === e.target.value
