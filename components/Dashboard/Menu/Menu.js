@@ -14,10 +14,10 @@ const Menu = () => {
   const { theme, setTheme } = useTheme();
 
   return (
-    <div className="p-4 h-screen flex flex-col justify-between bg-indigo-500 dark:bg-gray-600">
+    <div className="p-4 h-screen flex flex-col justify-between bg-indigo-500 dark:bg-gray-800">
       <div>
         <div className="flex flex-col items-center justify-center">
-          <div className="border rounded px-2 py-1 font-medium bg-gray-100 shadow dark:bg-gray-700 dark:border-gray-900">
+          <div className="border rounded px-2 py-1 font-medium bg-gray-100 shadow dark:bg-gray-800 dark:border-gray-900">
             <span className="text-indigo-500 dark:text-yellow-500">DCA</span>CC
           </div>
         </div>
