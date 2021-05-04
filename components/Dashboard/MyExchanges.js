@@ -32,10 +32,6 @@ const ExchangesList = () => {
     "only-my-exchanges",
     async () => {
       const response = await cmsClient(session.accessToken).get("/exchanges");
-      dispatch({
-        type: DASHBOARD_ACTIONS.SET_MY_EXCHANGES,
-        payload: response.data,
-      });
 
       return response.data;
     }

@@ -4,6 +4,7 @@ import {
   TrashIcon,
   ExclamationCircleIcon,
   RefreshIcon,
+  CheckIcon,
 } from "@heroicons/react/outline";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
@@ -17,6 +18,9 @@ import Loading from "../Loading/Loading";
 import { Popover, Transition } from "@headlessui/react";
 import { formatCurrency } from "@coingecko/cryptoformat";
 import { kFormatter } from "../Chart/helpers";
+import { useDashboardContext } from "../DashboardContext/DashboardContext";
+import { ACTIONS } from "../DashboardContext/dashboardReducer";
+import getPercentageChange from "../helpers/getPercentageChange";
 
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
@@ -141,6 +145,7 @@ const BotStatus = (bot) => {
 };
 
 const BotItem = (bot) => {
+  const { dispatch, state } = useDashboardContext();
   const [session] = useSession();
   const { mutate, isLoading: isRemoving } = useMutation({
     mutationFn: async (payload) =>
@@ -215,7 +220,7 @@ const BotItem = (bot) => {
           <span className="line-through">
             {dayjs().to(dayjs(nextOrderDate))}
           </span>{" "}
-          (disabled)
+          disabled
         </>
       );
     }
@@ -228,55 +233,77 @@ const BotItem = (bot) => {
   );
 
   const getPercentageDifference = () => {
-    const percentageDifference =
-      100 *
-      Math.abs(
-        (allInvestments - allCryptoValue) /
-          ((allInvestments + allCryptoValue) / 2)
-      );
-
+    const percentageDifference = getPercentageChange(
+      allInvestments,
+      allCryptoValue
+    );
     if (isNaN(percentageDifference)) {
       return "0%";
     }
 
     return percentageDifference > 0 ? (
-      <span className="text-green-500">+{percentageDifference.toFixed(2)}</span>
+      <span className="text-green-500">+{percentageDifference}</span>
     ) : (
-      <span className="text-red-400">{percentageDifference.toFixed(2)}</span>
+      <span className="text-red-400">{percentageDifference}</span>
     );
   };
 
   return (
-    <tr key={bot.id} className=" ">
-      <td className="px-6 py-4">
-        <div className="text-sm text-gray-900 dark:text-gray-100 font-medium">
-          {bot.index}
+    <tr key={bot.id} className="hover:bg-gray-50">
+      <td
+        className="py-4 cursor-pointer"
+        onClick={() => {
+          dispatch({ type: ACTIONS.SET_SELECTED_BOT, payload: bot });
+        }}
+      >
+        <div className="text-sm flex justify-center text-gray-900 dark:text-gray-100 ">
+          {state.selectedBot && state.selectedBot._id === bot._id && (
+            <CheckIcon className="w-6 h-6 text-green-500 bg-green-100 rounded-full p-1" />
+          )}
         </div>
       </td>
-      <td className="px-6 py-4">
+      <td
+        className="pr-6 py-4 cursor-pointer"
+        onClick={() => {
+          dispatch({ type: ACTIONS.SET_SELECTED_BOT, payload: bot });
+        }}
+      >
         <div className="text-sm text-gray-900 dark:text-gray-50">
-          <span className="font-semibold">
-            {bot.available_exchange.identifier.toUpperCase()}:
-          </span>
-          <span className="font-medium">
-            {bot.origin_currency}
-            {bot.destination_currency}
-          </span>
+          <div className="flex items-center">
+            <span className="font-semibold">
+              {bot.available_exchange.identifier.toUpperCase()}:
+            </span>
+            <span className="font-medium">
+              {bot.origin_currency}
+              {bot.destination_currency}
+            </span>
+          </div>
           <div className="text-sm text-gray-400">
             Buying {bot.origin_currency} with {bot.destination_currency}
           </div>
         </div>
       </td>
-      <td className="px-6 py-4">
+      <td
+        className="px-6 py-4 cursor-pointer"
+        onClick={() => {
+          dispatch({ type: ACTIONS.SET_SELECTED_BOT, payload: bot });
+        }}
+      >
         <div className="text-sm text-gray-900 dark:text-gray-100 ">
           {formatCurrency(allInvestments, bot.destination_currency)}
         </div>
         <div className="text-sm text-gray-400">
-          {formatCurrency(allInvestments, bot.destination_currency)} every{" "}
-          {bot.investing_interval} {bot.investing_interval > 1 ? "days" : "day"}
+          {formatCurrency(bot.origin_currency_amount, bot.destination_currency)}{" "}
+          every {bot.investing_interval}{" "}
+          {bot.investing_interval > 1 ? "days" : "day"}
         </div>
       </td>
-      <td className="px-6 py-4">
+      <td
+        className="px-6 py-4 cursor-pointer"
+        onClick={() => {
+          dispatch({ type: ACTIONS.SET_SELECTED_BOT, payload: bot });
+        }}
+      >
         <div className="text-sm text-gray-900 dark:text-gray-50">
           <div className="text-sm text-gray-900 dark:text-gray-100 ">
             {formatCurrency(allCryptoValue, bot.destination_currency)}
@@ -286,7 +313,12 @@ const BotItem = (bot) => {
           </div>
         </div>
       </td>
-      <td className="px-6 py-4">
+      <td
+        className="px-6 py-4 cursor-pointer"
+        onClick={() => {
+          dispatch({ type: ACTIONS.SET_SELECTED_BOT, payload: bot });
+        }}
+      >
         {balance.isLoading ? (
           <Loading width={20} height={20} />
         ) : (
@@ -312,7 +344,12 @@ const BotItem = (bot) => {
           </>
         )}
       </td>
-      <td className="px-6 py-4">
+      <td
+        className="px-6 py-4 cursor-pointer"
+        onClick={() => {
+          dispatch({ type: ACTIONS.SET_SELECTED_BOT, payload: bot });
+        }}
+      >
         <div className="text-sm text-gray-900 dark:text-gray-50">
           <div className="text-sm text-gray-900 dark:text-gray-100 ">
             {diffUntilNextOrder()}
@@ -322,7 +359,7 @@ const BotItem = (bot) => {
           </div>
         </div>
       </td>
-      <td className="px-6 py-4">
+      <td className="pl-6 py-4">
         <div className="flex">
           <BotStatus {...bot} />
         </div>
