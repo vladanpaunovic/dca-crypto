@@ -1,15 +1,9 @@
 import axios from "axios";
 import dayjs from "dayjs";
+import getPercentageChange from "../../components/helpers/getPercentageChange";
 
 const convertDateStringToUnix = (dateString) =>
   new Date(dateString).getTime() / 1000;
-
-function getPercentageChange(oldNumber, newNumber) {
-  var decreaseValue = newNumber - oldNumber;
-
-  const output = (decreaseValue / oldNumber) * 100;
-  return output.toFixed(2);
-}
 
 export default async (req, res) => {
   const payload = { ...req.body };
