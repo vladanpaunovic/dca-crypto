@@ -248,26 +248,19 @@ const BotItem = (bot) => {
     );
   };
 
+  const handleOnClick = () =>
+    dispatch({ type: ACTIONS.SET_SELECTED_BOT, payload: bot });
+
   return (
     <tr key={bot.id} className="hover:bg-gray-50">
-      <td
-        className="py-4 cursor-pointer"
-        onClick={() => {
-          dispatch({ type: ACTIONS.SET_SELECTED_BOT, payload: bot });
-        }}
-      >
+      <td className="py-4 cursor-pointer" onClick={handleOnClick}>
         <div className="text-sm flex justify-center text-gray-900 dark:text-gray-100 ">
           {state.selectedBot && state.selectedBot._id === bot._id && (
             <CheckIcon className="w-6 h-6 text-green-500 bg-green-100 rounded-full p-1" />
           )}
         </div>
       </td>
-      <td
-        className="pr-6 py-4 cursor-pointer"
-        onClick={() => {
-          dispatch({ type: ACTIONS.SET_SELECTED_BOT, payload: bot });
-        }}
-      >
+      <td className="pr-6 py-4 cursor-pointer" onClick={handleOnClick}>
         <div className="text-sm text-gray-900 dark:text-gray-50">
           <div className="flex items-center">
             <span className="font-semibold">
@@ -283,12 +276,7 @@ const BotItem = (bot) => {
           </div>
         </div>
       </td>
-      <td
-        className="px-6 py-4 cursor-pointer"
-        onClick={() => {
-          dispatch({ type: ACTIONS.SET_SELECTED_BOT, payload: bot });
-        }}
-      >
+      <td className="px-6 py-4 cursor-pointer" onClick={handleOnClick}>
         <div className="text-sm text-gray-900 dark:text-gray-100 ">
           {formatCurrency(allInvestments, bot.destination_currency)}
         </div>
@@ -298,12 +286,7 @@ const BotItem = (bot) => {
           {bot.investing_interval > 1 ? "days" : "day"}
         </div>
       </td>
-      <td
-        className="px-6 py-4 cursor-pointer"
-        onClick={() => {
-          dispatch({ type: ACTIONS.SET_SELECTED_BOT, payload: bot });
-        }}
-      >
+      <td className="px-6 py-4 cursor-pointer" onClick={handleOnClick}>
         <div className="text-sm text-gray-900 dark:text-gray-50">
           <div className="text-sm text-gray-900 dark:text-gray-100 ">
             {formatCurrency(allCryptoValue, bot.destination_currency)}
@@ -313,12 +296,7 @@ const BotItem = (bot) => {
           </div>
         </div>
       </td>
-      <td
-        className="px-6 py-4 cursor-pointer"
-        onClick={() => {
-          dispatch({ type: ACTIONS.SET_SELECTED_BOT, payload: bot });
-        }}
-      >
+      <td className="px-6 py-4 cursor-pointer" onClick={handleOnClick}>
         {balance.isLoading ? (
           <Loading width={20} height={20} />
         ) : (
@@ -344,12 +322,7 @@ const BotItem = (bot) => {
           </>
         )}
       </td>
-      <td
-        className="px-6 py-4 cursor-pointer"
-        onClick={() => {
-          dispatch({ type: ACTIONS.SET_SELECTED_BOT, payload: bot });
-        }}
-      >
+      <td className="px-6 py-4 cursor-pointer" onClick={handleOnClick}>
         <div className="text-sm text-gray-900 dark:text-gray-50">
           <div className="text-sm text-gray-900 dark:text-gray-100 ">
             {diffUntilNextOrder()}
