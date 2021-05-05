@@ -44,14 +44,14 @@ const BotStatus = (bot) => {
       <Popover className="relative">
         {({ open }) => (
           <>
-            <Popover.Button className="focus:outline-none px-1 py-1 mr-2 flex items-center justify-between text-xs leading-5 font-semibold rounded-full  bg-red-100 text-red-800 dark:bg-red-400">
-              <span className="ml-1">Error</span>
+            <Popover.Button
+              title="Error accured. Click to reveal information."
+              className="focus:outline-none px-1 py-1 flex items-center justify-between text-xs leading-5 font-semibold rounded-full  bg-red-100 text-red-800 dark:bg-red-400"
+            >
               {updateTradingBot.isLoading ? (
-                <span className="mx-1">
-                  <Loading width={15} height={15} />
-                </span>
+                <Loading width={20} height={20} type="spin" />
               ) : (
-                <ExclamationCircleIcon className="ml-1 w-5 h-5" />
+                <ExclamationCircleIcon className="w-5 h-5" />
               )}
             </Popover.Button>
             <Transition
@@ -63,7 +63,7 @@ const BotStatus = (bot) => {
               leaveFrom="transform scale-100 opacity-100"
               leaveTo="transform scale-95 opacity-0"
             >
-              <Popover.Panel className="absolute z-10 w-screen px-4 mt-3 transform -translate-x-2/2 right-1/2 max-w-sm">
+              <Popover.Panel className="absolute z-10 w-screen px-4 transform -translate-x-2/2 left-1/2 max-w-sm">
                 <div className="p-4 bg-white dark:bg-gray-900 rounded border dark:border-gray-700 shadow max-w-sm">
                   <h4 className="text-normal font-medium mb-2">Order failed</h4>
                   <p className="mb-2 text-gray-600 dark:text-gray-300">
@@ -110,33 +110,32 @@ const BotStatus = (bot) => {
   return (
     <button
       onClick={() => updateTradingBot.mutate({ isActive: !bot.isActive })}
-      className={`focus:outline-none px-1 py-1 mr-2 flex items-center justify-between text-xs leading-5 font-semibold rounded-full ${
+      className={`focus:outline-none px-1 py-1 flex items-center justify-between text-xs leading-5 font-semibold rounded-full ${
         bot.isActive
           ? " bg-green-100 text-green-800 dark:bg-green-400"
           : " bg-gray-100 text-gray-800 dark:bg-gray-400"
       }`}
       title={bot.errorMessage}
+      title={
+        bot.isActive
+          ? "This bot is enaled. Disable?"
+          : "This bot is disabled. Enable?"
+      }
     >
       {bot.isActive ? (
         <>
-          <span className="ml-1">Active</span>
           {updateTradingBot.isLoading ? (
-            <span className="mx-1">
-              <Loading width={15} height={15} />
-            </span>
+            <Loading width={20} height={20} type="spin" />
           ) : (
-            <PauseIcon className="ml-1 w-5 h-5" />
+            <PauseIcon className="w-5 h-5" />
           )}
         </>
       ) : (
         <>
-          <span className="ml-1">Disabled</span>
           {updateTradingBot.isLoading ? (
-            <span className="mx-1">
-              <Loading width={15} height={15} />
-            </span>
+            <Loading width={20} height={20} type="spin" />
           ) : (
-            <PlayIcon className="ml-1 w-5 h-5" />
+            <PlayIcon className="w-5 h-5" type="spin" />
           )}
         </>
       )}
@@ -144,7 +143,7 @@ const BotStatus = (bot) => {
   );
 };
 
-const BotItem = (bot) => {
+const BotItem_old = (bot) => {
   const { dispatch, state } = useDashboardContext();
   const [session] = useSession();
   const { mutate, isLoading: isRemoving } = useMutation({
@@ -251,12 +250,19 @@ const BotItem = (bot) => {
   const handleOnClick = () =>
     dispatch({ type: ACTIONS.SET_SELECTED_BOT, payload: bot });
 
+  const isSelected = state.selectedBot && state.selectedBot._id === bot._id;
+
   return (
-    <tr key={bot.id} className="hover:bg-gray-50">
+    <tr
+      key={bot.id}
+      className={`hover:bg-gray-100 dark:hover:bg-gray-800 ${
+        isSelected && "bg-gray-100 dark:bg-gray-800"
+      }`}
+    >
       <td className="py-4 cursor-pointer" onClick={handleOnClick}>
         <div className="text-sm flex justify-center text-gray-900 dark:text-gray-100 ">
-          {state.selectedBot && state.selectedBot._id === bot._id && (
-            <CheckIcon className="w-6 h-6 text-green-500 bg-green-100 rounded-full p-1" />
+          {isSelected && (
+            <CheckIcon className="w-6 h-6 text-green-900 dark:text-green-200 border border-green-300 dark:border-green-800 bg-green-100 dark:bg-green-800 rounded-full p-1" />
           )}
         </div>
       </td>
@@ -394,6 +400,170 @@ const BotItem = (bot) => {
             </>
           )}
         </Popover>
+      </td>
+    </tr>
+  );
+};
+
+const BotItem = (bot) => {
+  const { dispatch, state } = useDashboardContext();
+  const [session] = useSession();
+  const { mutate, isLoading: isRemoving } = useMutation({
+    mutationFn: async (payload) =>
+      await cmsClient(session.accessToken).delete(`/trading-bots/${payload}`),
+    mutationKey: "remove-bot",
+    onSettled: async () => {
+      await queryClient.refetchQueries(["my-bots"]);
+    },
+  });
+
+  const credentials = bot.exchange.api_requirements;
+  const botExchange = bot.available_exchange.identifier;
+
+  const balance = useQuery({
+    queryFn: async () => {
+      const response = await apiClient.post(
+        `/exchanges/${botExchange}/balance`,
+        { credentials }
+      );
+
+      return response.data;
+    },
+    queryKey: `my-balance-${botExchange}`,
+  });
+
+  const getTicker = useQuery({
+    queryKey: `get-ticker-${bot.trading_pair}`,
+    queryFn: async () => {
+      const credentials = bot.exchange.api_requirements;
+      const exchangeId = bot.available_exchange.identifier;
+
+      const response = await apiClient.get(
+        `/exchanges/${exchangeId}/fetch-ticker`,
+        { params: { credentials, symbol: bot.trading_pair } }
+      );
+
+      return response.data;
+    },
+  });
+
+  if (!balance.data) {
+    return null;
+  }
+
+  const baseCurrencyBalance = balance.data.free[bot.destination_currency];
+  const hasBalance = baseCurrencyBalance > bot.origin_currency_amount;
+  const durationEstimate = Math.floor(
+    baseCurrencyBalance / (bot.origin_currency_amount / bot.investing_interval)
+  );
+
+  const lastOrder = bot.orders[bot.orders.length - 1];
+  const nextOrderDate = dayjs(lastOrder ? lastOrder.dateTime : new Date()).add(
+    bot.investing_interval,
+    "day"
+  );
+
+  const allInvestments = bot.orders.reduce(
+    (prev, curr) => prev + curr.amount * curr.price,
+    0
+  );
+
+  const priceNow = getTicker.data ? getTicker.data.ask : 0;
+  const allCryptoValue = bot.orders.reduce(
+    (prev, curr) => prev + curr.amount * priceNow,
+    0
+  );
+
+  const diffUntilNextOrder = () => {
+    if (!bot.isActive || bot.errorMessage) {
+      return (
+        <>
+          <span className="line-through">
+            {dayjs().to(dayjs(nextOrderDate))}
+          </span>{" "}
+          disabled
+        </>
+      );
+    }
+
+    return dayjs().to(dayjs(nextOrderDate));
+  };
+
+  const timeSinceLastOrder = dayjs().to(
+    dayjs(lastOrder ? lastOrder.dateTime : new Date())
+  );
+
+  const getPercentageDifference = () => {
+    const percentageDifference = getPercentageChange(
+      allInvestments,
+      allCryptoValue
+    );
+    if (isNaN(percentageDifference)) {
+      return "0%";
+    }
+
+    return percentageDifference > 0 ? (
+      <span className="text-green-500">+{percentageDifference}</span>
+    ) : (
+      <span className="text-red-400">{percentageDifference}</span>
+    );
+  };
+
+  const handleOnClick = () =>
+    dispatch({ type: ACTIONS.SET_SELECTED_BOT, payload: bot });
+
+  const isSelected = state.selectedBot && state.selectedBot._id === bot._id;
+
+  return (
+    <tr
+      key={bot.id}
+      className={`hover:bg-gray-200 dark:hover:bg-gray-800 ${
+        isSelected
+          ? "bg-gray-200 dark:bg-gray-800"
+          : "bg-white dark:bg-gray-900"
+      }`}
+    >
+      <td className="px-4 py-4 cursor-pointer" onClick={handleOnClick}>
+        <div className="text-sm text-gray-900 dark:text-gray-50">
+          <div className="flex items-baseline">
+            <span className="font-semibold">
+              {bot.available_exchange.identifier.toUpperCase()}:
+            </span>
+            <span className="font-medium">
+              {bot.origin_currency}
+              {bot.destination_currency}
+            </span>
+          </div>
+          <div className="text-sm text-gray-400">
+            Buying {bot.origin_currency} with {bot.destination_currency}
+          </div>
+          <div className="text-sm text-gray-400 ">
+            {formatCurrency(
+              bot.origin_currency_amount,
+              bot.destination_currency
+            )}{" "}
+            every {bot.investing_interval}{" "}
+            {bot.investing_interval > 1 ? "days" : "day"}
+          </div>
+        </div>
+      </td>
+      <td
+        className="pr-6 py-4 cursor-pointer align-top"
+        onClick={handleOnClick}
+      >
+        <div className="text-sm text-gray-900 dark:text-gray-50 flex flex-col ">
+          <div className="text-sm text-gray-900 dark:text-gray-100 ">
+            {formatCurrency(allCryptoValue, bot.destination_currency)}
+          </div>
+          <div className="text-sm text-gray-400">
+            {getPercentageDifference()}
+          </div>
+        </div>
+      </td>
+      <td className="pr-6 py-4 align-top">
+        <span className="flex justify-end">
+          <BotStatus {...bot} />
+        </span>
       </td>
     </tr>
   );

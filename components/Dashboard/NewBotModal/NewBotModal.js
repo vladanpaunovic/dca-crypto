@@ -8,8 +8,11 @@ import { useSession } from "next-auth/client";
 import InputBox from "../InputBox";
 import { queryClient } from "../../../pages/_app";
 import apiClient from "../../../server/apiClient";
+import { useDashboardContext } from "../../DashboardContext/DashboardContext";
+import { ACTIONS } from "../../DashboardContext/dashboardReducer";
 
 const NewBotForm = (props) => {
+  const { dispatch } = useDashboardContext();
   const onlyMyExchanges = queryClient.getQueryData("only-my-exchanges");
   const [session] = useSession();
 
@@ -28,8 +31,10 @@ const NewBotForm = (props) => {
     mutationFn: async (payload) =>
       await cmsClient(session.accessToken).post("/trading-bots", payload),
     mutationKey: "add-bot",
-    onSettled: async () => {
+    onSettled: async (data) => {
       await queryClient.refetchQueries(["my-bots"]);
+      dispatch({ type: ACTIONS.SET_SELECTED_BOT, payload: data.data });
+
       props.onClose();
     },
   });
