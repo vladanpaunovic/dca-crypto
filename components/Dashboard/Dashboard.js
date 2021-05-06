@@ -125,9 +125,16 @@ const ChartInfo = () => {
   const { state } = useDashboardContext();
   const [session] = useSession();
 
-  const title = state.selectedBot
-    ? `${state.selectedBot.trading_pair}`
-    : "Dashboard";
+  const title = state.selectedBot ? (
+    <>
+      {state.selectedBot.available_exchange.identifier.toUpperCase()}:
+      <span className="text-indigo-500 dark:text-yellow-500">
+        {state.selectedBot.trading_pair}
+      </span>
+    </>
+  ) : (
+    "Dashboard"
+  );
 
   if (!state.selectedBot) {
     return null;
@@ -194,7 +201,6 @@ const ChartInfo = () => {
   );
 
   const allCryptoValue = totalBaseAmount * priceNow;
-
   const totalInvestment =
     state.selectedBot.orders.length * state.selectedBot.origin_currency_amount;
 
@@ -255,7 +261,7 @@ const ChartInfo = () => {
     <>
       <div className="flex justify-between items-center  mb-10">
         <h1 className="text-black dark:text-gray-100 text-4xl font-bold flex items-center">
-          {title} summary{" "}
+          {title}
           <span
             className={`ml-2 ${
               valueDifference >= 0 ? "text-green-500" : "text-red-500"
@@ -327,13 +333,6 @@ const ChartInfo = () => {
       </div>
       <div className="grid grid-cols-3 gap-8">
         <Stat
-          title="Investment"
-          value={formatCurrency(
-            totalInvestment,
-            state.selectedBot.destination_currency
-          )}
-        />
-        <Stat
           title={`Current holdings in ${state.selectedBot.destination_currency}`}
           value={formatCurrency(
             allCryptoValue,
@@ -345,6 +344,13 @@ const ChartInfo = () => {
           value={formatCurrency(
             totalBaseAmount,
             state.selectedBot.origin_currency
+          )}
+        />
+        <Stat
+          title="Investment"
+          value={formatCurrency(
+            totalInvestment,
+            state.selectedBot.destination_currency
           )}
         />
 

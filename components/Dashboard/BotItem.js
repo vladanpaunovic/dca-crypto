@@ -68,7 +68,7 @@ const BotStatus = (bot) => {
                     While processing your order, we received the following error
                     from your exchange:
                   </p>
-                  <pre className="bg-gray-100 dark:bg-gray-800 p-2 text-normal mb-4 rounded">
+                  <pre className="bg-gray-100 dark:bg-gray-800 dark:text-gray-100 p-2 text-normal mb-4 rounded">
                     {bot.errorMessage}
                   </pre>
                   <p className="mb-4 text-gray-600 dark:text-gray-300">
@@ -179,53 +179,22 @@ const BotItem = (bot) => {
     return null;
   }
 
-  const baseCurrencyBalance = balance.data.free[bot.destination_currency];
-  const hasBalance = baseCurrencyBalance > bot.origin_currency_amount;
-  const durationEstimate = Math.floor(
-    baseCurrencyBalance / (bot.origin_currency_amount / bot.investing_interval)
-  );
-
-  const lastOrder = bot.orders[bot.orders.length - 1];
-  const nextOrderDate = dayjs(lastOrder ? lastOrder.dateTime : new Date()).add(
-    bot.investing_interval,
-    bot.investing_type
-  );
-
-  const allInvestments = bot.orders.reduce(
-    (prev, curr) => prev + curr.amount * curr.price,
-    0
-  );
+  const totalInvestment = bot.orders.length * bot.origin_currency_amount;
 
   const priceNow = getTicker.data ? getTicker.data.ask : 0;
-  const allCryptoValue = bot.orders.reduce(
-    (prev, curr) => prev + curr.amount * priceNow,
+  const totalBaseAmount = bot.orders.reduce(
+    (prev, curr) => prev + curr.amount,
     0
   );
 
-  const diffUntilNextOrder = () => {
-    if (!bot.isActive || bot.errorMessage) {
-      return (
-        <>
-          <span className="line-through">
-            {dayjs().to(dayjs(nextOrderDate))}
-          </span>{" "}
-          disabled
-        </>
-      );
-    }
+  const allCryptoValue = totalBaseAmount * priceNow;
 
-    return dayjs().to(dayjs(nextOrderDate));
-  };
-
-  const timeSinceLastOrder = dayjs().to(
-    dayjs(lastOrder ? lastOrder.dateTime : new Date())
+  const percentageDifference = getPercentageChange(
+    totalInvestment,
+    allCryptoValue
   );
 
   const getPercentageDifference = () => {
-    const percentageDifference = getPercentageChange(
-      allInvestments,
-      allCryptoValue
-    );
     if (isNaN(percentageDifference)) {
       return "0%";
     }

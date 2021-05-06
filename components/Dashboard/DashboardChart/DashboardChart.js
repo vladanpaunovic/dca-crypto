@@ -131,6 +131,7 @@ const DashboardChart = () => {
           {match.map((m) =>
             m.order ? (
               <ReferenceDot
+                key={m.order.id}
                 x={m.date}
                 y={m.price}
                 stroke="green"
