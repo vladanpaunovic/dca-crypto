@@ -1,7 +1,5 @@
 import ccxt from "ccxt";
 
-const isProd = process.env.NODE_ENV === "production";
-
 export default async (req, res) => {
   const credentials = JSON.parse(req.query.credentials);
 
@@ -16,7 +14,7 @@ export default async (req, res) => {
   });
 
   // Set sandbox environment in testing
-  exchangeClient.setSandboxMode(!isProd);
+  exchangeClient.setSandboxMode(process.env.IS_SANDBOX);
 
   const markets = await exchangeClient.fetchMarkets();
 

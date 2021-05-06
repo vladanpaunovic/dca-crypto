@@ -1,5 +1,4 @@
 import ccxt from "ccxt";
-const isProd = process.env.NODE_ENV === "production";
 
 export default async (req, res) => {
   let output = { validated: false };
@@ -16,7 +15,7 @@ export default async (req, res) => {
     });
 
     // Set sandbox environment in testing
-    exchangeClient.setSandboxMode(!isProd);
+    exchangeClient.setSandboxMode(process.env.IS_SANDBOX);
     const balance = await exchangeClient.fetchBalance();
     output = balance;
   } catch (error) {

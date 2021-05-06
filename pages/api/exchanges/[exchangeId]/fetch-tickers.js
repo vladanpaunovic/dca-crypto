@@ -1,8 +1,6 @@
 import ccxt from "ccxt";
 import dayjs from "dayjs";
 
-const isProd = process.env.NODE_ENV === "production";
-
 export default async (req, res) => {
   const credentials = JSON.parse(req.query.credentials);
 
@@ -17,7 +15,7 @@ export default async (req, res) => {
   });
 
   // Set sandbox environment in testing
-  exchangeClient.setSandboxMode(!isProd);
+  exchangeClient.setSandboxMode(process.env.IS_SANDBOX);
 
   const intervalType = {
     minute: "1m",

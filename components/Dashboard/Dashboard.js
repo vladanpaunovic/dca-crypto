@@ -175,8 +175,9 @@ const ChartInfo = () => {
     queryKey: `my-balance-${botExchange}`,
   });
 
-  const baseCurrencyBalance =
-    balance.data.free[state.selectedBot.destination_currency];
+  const baseCurrencyBalance = balance.data
+    ? balance.data.free[state.selectedBot.destination_currency]
+    : 0;
   const hasBalance =
     baseCurrencyBalance > state.selectedBot.origin_currency_amount;
   const durationEstimate = Math.floor(
