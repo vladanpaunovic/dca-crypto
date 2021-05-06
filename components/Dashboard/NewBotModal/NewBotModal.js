@@ -228,7 +228,7 @@ const NewBotForm = (props) => {
             <p className="mb-2 mt-1 max-w-2xl text-sm text-gray-500 dark:text-white">
               You will invest {state.origin_currency_amount}{" "}
               {state.trading_pair?.quote} in {state.trading_pair?.base} every{" "}
-              {state.investing_interval} days
+              {state.investing_interval} {state.interval_type}
             </p>
             <button
               type="submit"
