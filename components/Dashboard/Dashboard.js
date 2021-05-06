@@ -208,7 +208,7 @@ const ChartInfo = () => {
     state.selectedBot.orders[state.selectedBot.orders.length - 1];
   const nextOrderDate = dayjs(lastOrder ? lastOrder.dateTime : new Date()).add(
     state.selectedBot.investing_interval,
-    "day"
+    state.selectedBot.interval_type
   );
 
   const diffUntilNextOrder = () => {
@@ -324,7 +324,7 @@ const ChartInfo = () => {
           </div>
         )}
       </div>
-      <div className="grid grid-cols-4 gap-8">
+      <div className="grid grid-cols-3 gap-8">
         <Stat
           title="Investment"
           value={formatCurrency(
@@ -355,7 +355,9 @@ const ChartInfo = () => {
           )}
           description={
             hasBalance ? (
-              `Enough for ${kFormatter(durationEstimate)} days`
+              `Enough for ${kFormatter(durationEstimate)} ${
+                state.selectedBot.interval_type
+              }s`
             ) : (
               <span className="text-red-400">Insufficient for next order</span>
             )

@@ -25,6 +25,7 @@ const NewBotForm = (props) => {
     destination_currency: "",
     origin_currency_amount: 10,
     investing_interval: 7,
+    interval_type: "day",
   });
 
   const { mutate, isLoading } = useMutation({
@@ -200,6 +201,27 @@ const NewBotForm = (props) => {
                 setState({ ...state, investing_interval: e.target.value })
               }
             />
+            <label className="block mb-2">
+              <span className="font-medium text-gray-700 dark:text-gray-300">
+                Interval type
+              </span>
+              <select
+                onChange={(e) => {
+                  setState({
+                    ...state,
+                    interval_type: e.target.value,
+                  });
+                }}
+                name="interval_type"
+                value={state.interval_type}
+                className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200"
+              >
+                <option value="minute">Minutes</option>
+                <option value="hour">Hours</option>
+                <option value="day">Days</option>
+                <option value="week">Weeks</option>
+              </select>
+            </label>
             <h4 className="font-medium text-gray-900 dark:text-white ">
               Summary
             </h4>

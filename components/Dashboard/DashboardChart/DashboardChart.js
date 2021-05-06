@@ -4,25 +4,30 @@ import {
   Area,
   CartesianGrid,
   XAxis,
-  Legend,
   YAxis,
   Tooltip,
+  ReferenceDot,
   ResponsiveContainer,
 } from "recharts";
 import apiClient from "../../../server/apiClient";
 import { kFormatter } from "../../Chart/helpers";
 import { useDashboardContext } from "../../DashboardContext/DashboardContext";
 import Loading from "../../Loading/Loading";
+import localizedFormat from "dayjs/plugin/localizedFormat";
+import dayjs from "dayjs";
+dayjs.extend(localizedFormat);
 
 export const CHART_SYNCID = "dashboard-chart";
 
-const datesAreOnSameDay = (first, second) =>
-  first.getFullYear() === second.getFullYear() &&
-  first.getMonth() === second.getMonth() &&
-  first.getDate() === second.getDate();
-
 const DashboardChart = () => {
   const { state } = useDashboardContext();
+
+  const refetchInterval = {
+    minute: 60000,
+    hour: 3600000,
+    day: 84000000,
+    week: 588000000,
+  };
 
   const getTickers = useQuery({
     queryKey: state.selectedBot
@@ -39,6 +44,7 @@ const DashboardChart = () => {
             credentials,
             symbol: state.selectedBot.trading_pair,
             since: state.selectedBot.createdAt,
+            interval_type: state.selectedBot.interval_type,
           },
         }
       );
@@ -46,6 +52,7 @@ const DashboardChart = () => {
       return response.data;
     },
     enabled: !!state.selectedBot,
+    refetchInterval: refetchInterval[state.selectedBot.interval_type],
   });
 
   if (!state.selectedBot) {
@@ -65,9 +72,9 @@ const DashboardChart = () => {
     .reduce((prev, curr) => {
       const executedOrderIndex = tempOrdersList.findIndex((order) => {
         if (order) {
-          return datesAreOnSameDay(
-            new Date(order.createdAt),
-            new Date(curr.date)
+          return dayjs(order.createdAt).isSame(
+            curr.date,
+            state.selectedBot.interval_type
           );
         }
 
@@ -87,7 +94,7 @@ const DashboardChart = () => {
     }, [])
     .map((day) => ({
       ...day,
-      date: new Date(day.date).toLocaleDateString(),
+      date: dayjs(day.date).format("LLL"),
       ...(day.order
         ? { totalHoldings: day.order.balanceInQuoteCurrency * day.price }
         : {}),
@@ -119,8 +126,19 @@ const DashboardChart = () => {
             fillOpacity={0}
             fill="url(#price)"
             name={`Price (${state.selectedBot.destination_currency})`}
-            // dot={{ stroke: "#F59E0B" }}
           />
+
+          {match.map((m) =>
+            m.order ? (
+              <ReferenceDot
+                x={m.date}
+                y={m.price}
+                stroke="green"
+                r={4}
+                fill="green"
+              />
+            ) : null
+          )}
 
           <Area
             connectNulls
@@ -128,7 +146,6 @@ const DashboardChart = () => {
             dataKey="order.averageCost"
             name={`Average cost (${state.selectedBot.destination_currency})`}
             fill="url(#orderPrice)"
-            dot={{ stroke: "green", strokeWidth: 4 }}
           />
 
           <Area

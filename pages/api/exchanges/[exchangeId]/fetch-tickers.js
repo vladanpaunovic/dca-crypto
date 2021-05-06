@@ -19,12 +19,22 @@ export default async (req, res) => {
   // Set sandbox environment in testing
   exchangeClient.setSandboxMode(!isProd);
 
-  const tenDaysAgo = dayjs(req.query.since).subtract(30, "day");
+  const intervalType = {
+    minute: "1m",
+    hour: "1h",
+    day: "1d",
+    week: "1w",
+  };
+
+  const tenIntervalsAgo = dayjs(req.query.since).subtract(
+    30,
+    req.query.interval_type
+  );
 
   const tickers = await exchangeClient.fetchOHLCV(
     req.query.symbol,
-    "1d",
-    new Date(tenDaysAgo).getTime()
+    intervalType[req.query.interval_type],
+    new Date(tenIntervalsAgo).getTime()
   );
 
   const output = tickers.map((tick) => ({
