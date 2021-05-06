@@ -1,5 +1,4 @@
 import Menu from "./Menu/Menu";
-import NewBotModal from "./NewBotModal/NewBotModal";
 import { useMutation, useQuery } from "react-query";
 import cmsClient from "../../server/cmsClient";
 import { useSession } from "next-auth/client";
@@ -107,14 +106,16 @@ const RemoveButton = () => {
 
 const Stat = (props) => {
   return (
-    <div className="shadow-lg border dark:border-gray-800 rounded-lg">
-      <div className="flex items-center space-x-4 p-6">
-        <div className="flex-1">
-          <p className="text-gray-500 font-semibold">{props.title}</p>
-          <div className="flex items-baseline space-x-4 ">
-            <h2 className="text-2xl font-semibold">{props.value}</h2>
+    <div className={props.className}>
+      <div className="shadow-lg border dark:border-gray-800 rounded-lg">
+        <div className="flex items-center space-x-4 p-6">
+          <div className="flex-1">
+            <p className="text-gray-500 font-semibold">{props.title}</p>
+            <div className="flex items-baseline space-x-4 ">
+              <h2 className="text-2xl font-semibold">{props.value}</h2>
+            </div>
+            <p className="text-gray-500 mt-1">{props.description}</p>
           </div>
-          <p className="text-gray-500 mt-1">{props.description}</p>
         </div>
       </div>
     </div>
@@ -323,9 +324,10 @@ const ChartInfo = () => {
           </div>
         )}
       </div>
-      <div className="grid grid-cols-5 gap-8">
+      <div className="grid grid-cols-3 gap-8">
         <Stat
           title={`Current holdings`}
+          className="col-span-2"
           value={
             allCryptoValue < totalInvestment ? (
               <span className="text-red-500">
@@ -358,6 +360,7 @@ const ChartInfo = () => {
                   valueDifference >= 0 ? "text-green-500" : "text-red-500"
                 }`}
               >
+                {valueDifference > 0 ? "+" : ""}
                 {formatCurrency(
                   valueDifference,
                   state.selectedBot.destination_currency
