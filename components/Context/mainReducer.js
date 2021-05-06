@@ -40,7 +40,6 @@ export const useCurrentCoin = (coinId = null) => {
   );
 
   if (!currentCoin) {
-    console.log(coinId);
     throw new Error("Can't assotiate coin id to the coin object");
   }
 

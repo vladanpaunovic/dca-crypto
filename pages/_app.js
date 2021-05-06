@@ -2,8 +2,9 @@ import "../styles/globals.css";
 import { QueryClientProvider, QueryClient } from "react-query";
 import { ThemeProvider } from "next-themes";
 import { Provider } from "next-auth/client";
+import { ReactQueryDevtools } from "react-query/devtools";
 
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 
 function App({ Component, pageProps }) {
   return (
@@ -11,6 +12,7 @@ function App({ Component, pageProps }) {
       <ThemeProvider attribute="class" defaultTheme="system">
         <QueryClientProvider client={queryClient}>
           <Component {...pageProps} />
+          <ReactQueryDevtools />
         </QueryClientProvider>
       </ThemeProvider>
     </Provider>

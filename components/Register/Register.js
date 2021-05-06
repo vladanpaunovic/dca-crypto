@@ -6,30 +6,32 @@ import {
 } from "@heroicons/react/outline";
 import { useState } from "react";
 import LoginIllustration from "../../Illustrations/LoginIllustration";
-import apiClient from "../../server/apiClient";
+import cmsClient from "../../server/cmsClient";
 
 const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isRegistered, setIsRegistered] = useState(false);
-  const [hasError, setHasError] = useState(null);
+  const [error, setError] = useState(null);
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
-    setHasError(false);
+    setError(null);
     setIsRegistered(false);
 
-    const response = await apiClient.post("/register", {
-      name,
-      password,
-      email,
-    });
+    try {
+      const response = await cmsClient().post("/users", {
+        username: name,
+        password,
+        email,
+      });
 
-    if (response.data.success) {
-      setIsRegistered(true);
-    } else {
-      setHasError(response.statusText);
+      if (response.data._id) {
+        setIsRegistered(true);
+      }
+    } catch (e) {
+      setError(e.response.data.message[0].messages[0].message);
     }
   };
   return (
@@ -49,8 +51,8 @@ const Register = () => {
                 <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 mt-6">
                   Success!
                 </h3>
-                <p className="text-gray-100 dark:text-gray-400">
-                  You can now sign in
+                <p className="text-gray-400 dark:text-gray-100">
+                  Please confirm your email
                 </p>
               </div>
             ) : (
@@ -139,10 +141,9 @@ const Register = () => {
                         REGISTER NOW
                       </button>
                     </div>
-                    {hasError && (
+                    {error && (
                       <p className="text-gray-50 bg-red-500 p-4 rounded-md">
-                        User with such email already exists in our database. Try
-                        another one.
+                        {error}
                       </p>
                     )}
                   </div>
