@@ -107,8 +107,8 @@ const RemoveButton = () => {
 
 const Stat = (props) => {
   return (
-    <div className="shadow border dark:border-gray-700 rounded-lg">
-      <div className="flex items-center space-x-4 p-4">
+    <div className="shadow-lg border dark:border-gray-800 rounded-lg">
+      <div className="flex items-center space-x-4 p-6">
         <div className="flex-1">
           <p className="text-gray-500 font-semibold">{props.title}</p>
           <div className="flex items-baseline space-x-4 ">
@@ -117,6 +117,18 @@ const Stat = (props) => {
           <p className="text-gray-500 mt-1">{props.description}</p>
         </div>
       </div>
+    </div>
+  );
+};
+
+const OrderItem = (props) => {
+  console.log(props);
+  return (
+    <div className="grid grid-cols-4 gap-8">
+      <div>date: {props.dateTime}</div>
+      <div>price: {props.price}</div>
+      <div>average price:{props.averageCost}</div>
+      <div>total investment:{props.totalInvestment}</div>
     </div>
   );
 };
@@ -182,9 +194,10 @@ const ChartInfo = () => {
     queryKey: `my-balance-${botExchange}`,
   });
 
-  const baseCurrencyBalance = balance.data
-    ? balance.data.free[state.selectedBot.destination_currency]
-    : 0;
+  const baseCurrencyBalance =
+    balance.data && balance.data.free
+      ? balance.data.free[state.selectedBot.destination_currency]
+      : 0;
   const hasBalance =
     baseCurrencyBalance > state.selectedBot.origin_currency_amount;
   const durationEstimate = Math.floor(
@@ -300,7 +313,7 @@ const ChartInfo = () => {
               your exchange:
             </p>
 
-            <pre className="mb-4 bg-gray-100 p-2 rounded">
+            <pre className="mb-4 bg-gray-100 dark:bg-gray-800 p-2 rounded">
               {state.selectedBot.errorMessage}
             </pre>
 
@@ -334,10 +347,23 @@ const ChartInfo = () => {
       <div className="grid grid-cols-5 gap-8">
         <Stat
           title={`Current holdings`}
-          value={formatCurrency(
-            allCryptoValue,
-            state.selectedBot.destination_currency
-          )}
+          value={
+            allCryptoValue < totalInvestment ? (
+              <span className="text-red-500">
+                {formatCurrency(
+                  allCryptoValue,
+                  state.selectedBot.destination_currency
+                )}
+              </span>
+            ) : (
+              <span className="text-green-500">
+                {formatCurrency(
+                  allCryptoValue,
+                  state.selectedBot.destination_currency
+                )}
+              </span>
+            )
+          }
           description={formatCurrency(
             totalBaseAmount,
             state.selectedBot.origin_currency
@@ -350,6 +376,18 @@ const ChartInfo = () => {
             totalInvestment,
             state.selectedBot.destination_currency
           )}
+          description={
+            <>
+              {formatCurrency(
+                state.selectedBot.origin_currency_amount,
+                state.selectedBot.destination_currency
+              )}{" "}
+              every {state.selectedBot.investing_interval}{" "}
+              {state.selectedBot.investing_interval > 1
+                ? `${state.selectedBot.interval_type}s`
+                : state.selectedBot.interval_type}
+            </>
+          }
         />
 
         <Stat
@@ -360,7 +398,7 @@ const ChartInfo = () => {
           )}
           description={
             hasBalance ? (
-              `Enough for ${kFormatter(durationEstimate)} ${
+              `Enough for ${kFormatter(durationEstimate)} more ${
                 state.selectedBot.interval_type
               }s`
             ) : (
@@ -375,7 +413,7 @@ const ChartInfo = () => {
             priceNow,
             state.selectedBot.destination_currency
           )}
-          // description={`Base volume ${getTicker.data.baseVolume}`}
+          description={`Volume ${getTicker.data.baseVolume.toFixed(2)}`}
         />
 
         <Stat
@@ -403,9 +441,20 @@ const Dashboard = () => {
                 <div className="mb-10">
                   <ChartInfo />
                 </div>
-                <h2 className="text-xl font-medium mb-8">Performance</h2>
-                <div className="h-80">
-                  <DashboardChart />
+                <div className="shadow-lg border dark:border-gray-800 rounded-lg p-6 mb-8">
+                  <h2 className="text-xl font-medium mb-8">Performance</h2>
+                  <div className="h-80">
+                    <DashboardChart />
+                  </div>
+                </div>
+                <div className="shadow-lg border dark:border-gray-800 rounded-lg p-6">
+                  <h2 className="text-xl font-medium mb-8">Your orders</h2>
+                  <div>
+                    {state.selectedBot &&
+                      state.selectedBot.orders.map((order) => (
+                        <OrderItem {...order} />
+                      ))}
+                  </div>
                 </div>
               </>
             ) : (
