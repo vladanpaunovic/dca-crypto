@@ -275,27 +275,6 @@ const ChartInfo = () => {
       <div className="flex justify-between items-center  mb-10">
         <h1 className="text-black dark:text-gray-100 text-4xl font-bold flex items-center">
           {title}
-          <span
-            className={`ml-2 ${
-              valueDifference >= 0 ? "text-green-500" : "text-red-500"
-            }`}
-          >
-            {valueDifference > 0 ? "+" : ""}
-            {formatCurrency(
-              valueDifference,
-              state.selectedBot.destination_currency
-            )}
-          </span>
-          <span
-            className={`border text-sm px-2 py-1 ml-2 rounded ${
-              percentageDifference >= 0
-                ? "bg-green-200 dark:bg-green-900 dark:border-green-900"
-                : "bg-red-200 dark:bg-red-900 dark:border-red-900"
-            }`}
-          >
-            {percentageDifference &&
-              getPercentageDifference(percentageDifference)}
-          </span>
         </h1>
         <RemoveButton />
       </div>
@@ -364,10 +343,28 @@ const ChartInfo = () => {
               </span>
             )
           }
-          description={formatCurrency(
-            totalBaseAmount,
-            state.selectedBot.origin_currency
-          )}
+          description={
+            <div className="flex items-center">
+              <span
+                className={
+                  valueDifference >= 0 ? "text-green-500" : "text-red-500"
+                }
+              >
+                {percentageDifference &&
+                  getPercentageDifference(percentageDifference)}
+              </span>
+              <span
+                className={`ml-2 ${
+                  valueDifference >= 0 ? "text-green-500" : "text-red-500"
+                }`}
+              >
+                {formatCurrency(
+                  valueDifference,
+                  state.selectedBot.destination_currency
+                )}
+              </span>
+            </div>
+          }
         />
 
         <Stat
