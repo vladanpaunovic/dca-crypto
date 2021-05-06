@@ -239,10 +239,13 @@ const BotItem = (bot) => {
               bot.origin_currency_amount,
               bot.destination_currency
             )}{" "}
-            every {bot.investing_interval}{" "}
-            {bot.investing_interval > 1
-              ? `${bot.interval_type}s`
-              : bot.interval_type}
+            every{" "}
+            <b>
+              {bot.investing_interval}{" "}
+              {bot.investing_interval > 1
+                ? `${bot.interval_type}s`
+                : bot.interval_type}
+            </b>
           </div>
         </div>
       </td>

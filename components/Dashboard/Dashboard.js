@@ -331,21 +331,19 @@ const ChartInfo = () => {
           </div>
         )}
       </div>
-      <div className="grid grid-cols-3 gap-8">
+      <div className="grid grid-cols-5 gap-8">
         <Stat
-          title={`Current holdings in ${state.selectedBot.destination_currency}`}
+          title={`Current holdings`}
           value={formatCurrency(
             allCryptoValue,
             state.selectedBot.destination_currency
           )}
-        />
-        <Stat
-          title={`Current holdings in ${state.selectedBot.origin_currency}`}
-          value={formatCurrency(
+          description={formatCurrency(
             totalBaseAmount,
             state.selectedBot.origin_currency
           )}
         />
+
         <Stat
           title="Investment"
           value={formatCurrency(
@@ -369,6 +367,15 @@ const ChartInfo = () => {
               <span className="text-red-400">Insufficient for next order</span>
             )
           }
+        />
+
+        <Stat
+          title="Current price"
+          value={formatCurrency(
+            priceNow,
+            state.selectedBot.destination_currency
+          )}
+          // description={`Base volume ${getTicker.data.baseVolume}`}
         />
 
         <Stat
