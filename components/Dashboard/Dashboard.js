@@ -22,6 +22,7 @@ import Loading from "../Loading/Loading";
 import apiClient from "../../server/apiClient";
 import { ACTIONS } from "../DashboardContext/dashboardReducer";
 import DashboardLayout from "./DashboardLayout";
+import OrdersDataTable from "./OrdersDataTable";
 
 const RemoveButton = () => {
   const { state, dispatch } = useDashboardContext();
@@ -507,13 +508,10 @@ const Dashboard = () => {
                     <DashboardChart />
                   </div>
                 </div>
-                <div className="shadow-lg border dark:border-gray-800 rounded-lg p-6">
-                  <h2 className="text-xl font-medium mb-8">Your orders</h2>
+                <div className="shadow-lg border dark:border-gray-800 rounded-lg">
+                  <h2 className="text-xl font-medium mb-8 p-6">Your orders</h2>
                   <div>
-                    {state.selectedBot &&
-                      state.selectedBot.orders.map((order) => (
-                        <OrderItem key={order.id} {...order} />
-                      ))}
+                    <OrdersDataTable />
                   </div>
                 </div>
               </>
