@@ -107,7 +107,7 @@ const RemoveButton = () => {
 const Stat = (props) => {
   return (
     <div className={props.className}>
-      <div className="shadow-lg border dark:border-gray-800 rounded-lg">
+      <div className="shadow-lg border dark:border-gray-800 rounded-lg relative">
         <div className="flex items-center space-x-4 p-6">
           <div className="flex-1">
             <p className="text-gray-500 font-semibold">{props.title}</p>
@@ -115,6 +115,9 @@ const Stat = (props) => {
               <h2 className="text-2xl font-semibold">{props.value}</h2>
             </div>
             <p className="text-gray-500 mt-1">{props.description}</p>
+            <div className="absolute left-0 bottom-0 w-full">
+              {props.progressBar}
+            </div>
           </div>
         </div>
       </div>
@@ -293,9 +296,9 @@ const ChartInfo = () => {
               your exchange:
             </p>
 
-            <pre className="mb-4 bg-gray-100 dark:bg-gray-800 p-2 rounded">
+            <p className="mb-4 bg-gray-100 dark:bg-gray-800 p-2 rounded">
               {state.selectedBot.errorMessage}
-            </pre>
+            </p>
 
             <p className="mb-4 text-gray-600 dark:text-gray-300">
               This bot will remain <b>disabled</b> until you fix the issue with
@@ -413,16 +416,42 @@ const ChartInfo = () => {
             priceNow,
             state.selectedBot.destination_currency
           )}
-          description={`Volume ${getTicker.data.baseVolume.toFixed(2)}`}
+          description={`Volume ${
+            getTicker.data ? getTicker.data.baseVolume.toFixed(2) : 0
+          }`}
         />
 
         <Stat
           title="Next order"
           value={diffUntilNextOrder()}
           description={`Last trade ${timeSinceLastOrder}`}
+          progressBar={
+            <NextOrderProgress
+              previousOrder={lastOrder ? lastOrder.dateTime : new Date()}
+              nextOrder={nextOrderDate}
+            />
+          }
         />
       </div>
     </>
+  );
+};
+
+const NextOrderProgress = (props) => {
+  const start = new Date(props.previousOrder);
+  const end = new Date(props.nextOrder);
+  const now = new Date();
+  const p = Math.round(((now - start) / (end - start)) * 100) + "%";
+
+  return (
+    <div className="relative">
+      <div className="overflow-hidden h-2 text-xs flex rounded-b-lg bg-indigo-200 dark:bg-gray-700">
+        <div
+          style={{ width: p }}
+          className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-indigo-500 dark:bg-yellow-500"
+        ></div>
+      </div>
+    </div>
   );
 };
 
@@ -452,7 +481,7 @@ const Dashboard = () => {
                   <div>
                     {state.selectedBot &&
                       state.selectedBot.orders.map((order) => (
-                        <OrderItem {...order} />
+                        <OrderItem key={order.id} {...order} />
                       ))}
                   </div>
                 </div>
