@@ -20,7 +20,7 @@ const BotListNew = () => {
       return response.data;
     },
     {
-      refetchInterval: 2000,
+      refetchInterval: 10000,
       onSettled: (data) => {
         if (state.selectedBot) {
           const currentBot = data.find(
