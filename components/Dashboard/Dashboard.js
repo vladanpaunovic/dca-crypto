@@ -189,7 +189,9 @@ const ChartInfo = () => {
         state.selectedBot.investing_interval)
   );
 
-  const priceNow = getTicker.data ? getTicker.data.bid : 0;
+  const priceNow = getTicker.data
+    ? getTicker.data.bid || getTicker.data.ask
+    : 0;
   const averageCost =
     state.selectedBot.orders && state.selectedBot.orders.length
       ? state.selectedBot.orders[state.selectedBot.orders.length - 1]

@@ -179,7 +179,9 @@ const BotItem = (bot) => {
 
   const totalInvestment = bot.orders.length * bot.origin_currency_amount;
 
-  const priceNow = getTicker.data ? getTicker.data.bid : 0;
+  const priceNow = getTicker.data
+    ? getTicker.data.bid || getTicker.data.ask
+    : 0;
   const totalBaseAmount = bot.orders.reduce(
     (prev, curr) => prev + curr.amount,
     0
