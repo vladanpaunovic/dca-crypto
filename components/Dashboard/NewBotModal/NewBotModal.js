@@ -41,7 +41,9 @@ const NewBotForm = (props) => {
   });
 
   const getMarkets = useQuery({
-    queryKey: "get-markets",
+    queryKey: `get-markets-${
+      state.exchange ? state.exchange.available_exchange.identifier : "init"
+    }`,
     queryFn: async () => {
       const credentials = state.exchange.api_requirements;
       const exchangeId = state.exchange.available_exchange.identifier;
