@@ -190,9 +190,11 @@ const ChartInfo = () => {
   );
 
   const priceNow = getTicker.data ? getTicker.data.ask : 0;
-  const averageCost = state.selectedBot.orders
-    ? state.selectedBot.orders[state.selectedBot.orders.length - 1].averageCost
-    : priceNow;
+  const averageCost =
+    state.selectedBot.orders && state.selectedBot.orders.length
+      ? state.selectedBot.orders[state.selectedBot.orders.length - 1]
+          .averageCost
+      : priceNow;
 
   const totalBaseAmount = state.selectedBot.orders.reduce(
     (prev, curr) => prev + curr.amount,
