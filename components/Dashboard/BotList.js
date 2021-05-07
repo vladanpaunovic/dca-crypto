@@ -47,7 +47,7 @@ const BotList = () => {
                 <tr>
                   <th
                     colSpan={3}
-                    className="w-full px-4 py-6 text-left text-lg font-medium text-gray-500 dark:text-gray-100 tracking-wider"
+                    className="w-full px-4 py-6 text-left text-lg font-medium  dark:text-gray-100 tracking-wider"
                   >
                     Your bots
                   </th>
@@ -77,9 +77,11 @@ const BotList = () => {
                 <tr>
                   <td
                     colSpan={3}
-                    className="px-3 py-1 whitespace-nowrap bg-white dark:bg-gray-900"
+                    className="px-3 py-4 bg-white dark:bg-gray-900"
                   >
-                    <NewBotModal />
+                    <div className="flex justify-center">
+                      <NewBotModal />
+                    </div>
                   </td>
                 </tr>
               </tbody>
