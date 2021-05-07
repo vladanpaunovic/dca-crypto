@@ -6,7 +6,7 @@ import { ACTIONS } from "../DashboardContext/dashboardReducer";
 import BotItem from "./BotItem";
 import NewBotModal from "./NewBotModal/NewBotModal";
 
-const BotListNew = () => {
+const BotList = () => {
   const [session] = useSession();
   const { state, dispatch } = useDashboardContext();
 
@@ -91,4 +91,4 @@ const BotListNew = () => {
   );
 };
 
-export default BotListNew;
+export default BotList;

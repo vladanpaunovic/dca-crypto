@@ -15,7 +15,6 @@ import cmsClient from "../../server/cmsClient";
 import Loading from "../Loading/Loading";
 import { Popover, Transition } from "@headlessui/react";
 import { formatCurrency } from "@coingecko/cryptoformat";
-import { kFormatter } from "../Chart/helpers";
 import { useDashboardContext } from "../DashboardContext/DashboardContext";
 import { ACTIONS } from "../DashboardContext/dashboardReducer";
 import getPercentageChange from "../helpers/getPercentageChange";
@@ -61,16 +60,16 @@ const BotStatus = (bot) => {
               leaveFrom="transform scale-100 opacity-100"
               leaveTo="transform scale-95 opacity-0"
             >
-              <Popover.Panel className="absolute z-10 w-screen px-4 transform -translate-x-2/2 left-1/2 max-w-sm">
+              <Popover.Panel className="absolute z-10 w-screen px-4 transform -translate-x-2/2 right-1/2 max-w-sm">
                 <div className="p-4 bg-white dark:bg-gray-900 rounded border dark:border-gray-700 shadow max-w-sm">
                   <h4 className="text-normal font-medium mb-2">Order failed</h4>
                   <p className="mb-2 text-gray-600 dark:text-gray-300">
                     While processing your order, we received the following error
                     from your exchange:
                   </p>
-                  <pre className="bg-gray-100 dark:bg-gray-800 dark:text-gray-100 p-2 text-normal mb-4 rounded">
+                  <p className="bg-red-100 dark:bg-gray-800 dark:text-gray-100 p-2 text-normal mb-4 rounded">
                     {bot.errorMessage}
-                  </pre>
+                  </p>
                   <p className="mb-4 text-gray-600 dark:text-gray-300">
                     This bot will remain <b>disabled</b> until you fix the issue
                     with your exchange. Once fixed, please mark it as resolved

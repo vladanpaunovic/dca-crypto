@@ -1,5 +1,5 @@
 import { PlusCircleIcon, XIcon } from "@heroicons/react/outline";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Dialog } from "@headlessui/react";
 import cmsClient from "../../../server/cmsClient";
 import apiClient from "../../../server/apiClient";
@@ -164,6 +164,7 @@ const NewExchangeForm = (props) => {
 
 const NewExchangeModal = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const closeButtonRef = useRef();
   const { data, isLoading } = useQuery("my-exchanges", async () => {
     const response = await cmsClient().get("/available-exchanges");
     return response.data;
@@ -190,6 +191,7 @@ const NewExchangeModal = () => {
           open={isOpen}
           onClose={() => setIsOpen(false)}
           className="fixed z-10 inset-0 overflow-y-auto text-center"
+          initialFocus={closeButtonRef}
         >
           <Dialog.Overlay className="fixed inset-0 bg-black opacity-90 " />
           <span
@@ -219,6 +221,7 @@ const NewExchangeModal = () => {
               </div>
             </div>
             <button
+              ref={closeButtonRef}
               type="button"
               onClick={() => setIsOpen(false)}
               className="absolute top-4 right-4 w-full inline-flex justify-center border-gray-300 dark:border-gray-800 dark:bg-gray-900 p-2 bg-white text-base font-medium text-gray-700 dark:text-yellow-500 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"

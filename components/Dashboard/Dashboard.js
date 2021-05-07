@@ -1,4 +1,3 @@
-import Menu from "./Menu/Menu";
 import { useIsFetching, useMutation, useQuery } from "react-query";
 import cmsClient from "../../server/cmsClient";
 import { useSession } from "next-auth/client";
@@ -10,6 +9,15 @@ import {
   ArrowSmDownIcon,
   TrashIcon,
   RefreshIcon,
+  ArrowUpIcon,
+  ArrowDownIcon,
+  ClockIcon,
+  PresentationChartLineIcon,
+  CurrencyDollarIcon,
+  TrendingDownIcon,
+  TrendingUpIcon,
+  SwitchHorizontalIcon,
+  CashIcon,
 } from "@heroicons/react/outline";
 import getPercentageChange from "../helpers/getPercentageChange";
 import BotList from "./BotList";
@@ -99,11 +107,14 @@ const Stat = (props) => {
   return (
     <div className={props.className}>
       <div className="shadow-lg border dark:border-gray-800 rounded-lg relative">
-        <div className="flex items-center space-x-4 p-6">
+        <div className="flex items-start p-4">
+          <div className="p-3 mr-6 shadow-2xl bg-indigo-500 dark:bg-yellow-500 rounded">
+            {props.icon}
+          </div>
           <div className="flex-1">
             <p className="text-gray-500 font-semibold">{props.title}</p>
-            <div className="flex items-baseline space-x-4 ">
-              <h2 className="text-2xl font-semibold">{props.value}</h2>
+            <div className="flex items-baseline  ">
+              <h2 className="text-xl font-semibold">{props.value}</h2>
             </div>
             <div className="text-gray-500 mt-1">{props.description}</div>
             <div className="absolute left-0 bottom-0 w-full">
@@ -119,17 +130,6 @@ const Stat = (props) => {
 const ChartInfo = () => {
   const { state } = useDashboardContext();
   const [session] = useSession();
-
-  const title = state.selectedBot ? (
-    <>
-      {state.selectedBot.available_exchange.identifier.toUpperCase()}:
-      <span className="text-indigo-500 dark:text-yellow-500">
-        {state.selectedBot.trading_pair}
-      </span>
-    </>
-  ) : (
-    "Dashboard"
-  );
 
   if (!state.selectedBot) {
     return null;
@@ -260,12 +260,6 @@ const ChartInfo = () => {
 
   return (
     <>
-      <div className="flex justify-between items-center  mb-10">
-        <h1 className="text-black dark:text-gray-100 text-4xl font-bold flex items-center">
-          {title}
-        </h1>
-        <RemoveButton />
-      </div>
       <div className="mb-10">
         {!state.selectedBot.isActive && state.selectedBot.errorMessage && (
           <div
@@ -315,6 +309,13 @@ const ChartInfo = () => {
         <Stat
           className="col-span-3 sm:col-span-1"
           title={`Current holdings`}
+          icon={
+            allCryptoValue < totalInvestment ? (
+              <TrendingDownIcon className="w-6 h-6 text-white dark:text-gray-900" />
+            ) : (
+              <TrendingUpIcon className="w-6 h-6 text-white dark:text-gray-900" />
+            )
+          }
           value={
             allCryptoValue < totalInvestment ? (
               <span className="text-red-500">
@@ -360,6 +361,9 @@ const ChartInfo = () => {
         <Stat
           className="col-span-3 sm:col-span-1"
           title="Investment"
+          icon={
+            <CurrencyDollarIcon className="w-6 h-6 text-white dark:text-gray-900" />
+          }
           value={formatCurrency(
             totalInvestment,
             state.selectedBot.destination_currency
@@ -381,6 +385,9 @@ const ChartInfo = () => {
         <Stat
           className="col-span-3 sm:col-span-1"
           title="Balance on exchange"
+          icon={
+            <SwitchHorizontalIcon className="w-6 h-6 text-white dark:text-gray-900" />
+          }
           value={formatCurrency(
             baseCurrencyBalance,
             state.selectedBot.destination_currency
@@ -399,6 +406,7 @@ const ChartInfo = () => {
         <Stat
           className="col-span-3 sm:col-span-1"
           title="Current price"
+          icon={<CashIcon className="w-6 h-6 text-white dark:text-gray-900" />}
           value={formatCurrency(
             priceNow,
             state.selectedBot.destination_currency
@@ -411,6 +419,9 @@ const ChartInfo = () => {
         <Stat
           className="col-span-3 sm:col-span-1"
           title="Average cost"
+          icon={
+            <PresentationChartLineIcon className="w-6 h-6 text-white dark:text-gray-900" />
+          }
           value={formatCurrency(
             averageCost,
             state.selectedBot.destination_currency
@@ -424,6 +435,7 @@ const ChartInfo = () => {
         <Stat
           className="col-span-3 sm:col-span-1"
           title="Next order"
+          icon={<ClockIcon className="w-6 h-6 text-white dark:text-gray-900" />}
           value={diffUntilNextOrder()}
           description={`Last trade ${timeSinceLastOrder}`}
           progressBar={
@@ -460,6 +472,17 @@ const Dashboard = () => {
   const { state } = useDashboardContext();
   const isFetching = useIsFetching();
 
+  const title = state.selectedBot ? (
+    <>
+      {state.selectedBot.available_exchange.identifier.toUpperCase()}:
+      <span className="text-indigo-500 dark:text-yellow-500">
+        {state.selectedBot.trading_pair}
+      </span>
+    </>
+  ) : (
+    "Dashboard"
+  );
+
   const emptyState = isFetching ? (
     <div className="flex w-full h-screen items-center justify-center">
       <Loading />
@@ -484,21 +507,27 @@ const Dashboard = () => {
     <DashboardLayout>
       <div>
         <div className="lg:flex">
-          <div className="w-12/12 lg:w-3/12 border-r dark:border-gray-700 bg-white dark:bg-gray-900">
-            <BotList />
-          </div>
-          <div className="w-12/12 lg:w-9/12  p-10">
+          <div className="w-12/12 lg:w-9/12 p-8">
             {state.selectedBot ? (
               <>
-                <div className="mb-10">
-                  <ChartInfo />
+                <div className="flex justify-between items-center mb-8">
+                  <h1 className="text-black dark:text-gray-100 text-4xl font-bold flex items-center">
+                    {title}
+                  </h1>
+                  <RemoveButton />
                 </div>
                 <div className="shadow-lg border dark:border-gray-800 rounded-lg p-6 mb-8">
-                  <h2 className="text-xl font-medium mb-8">Performance</h2>
+                  <h2 className="mb-4 text-lg font-medium">
+                    Asset performance over time
+                  </h2>
                   <div className="h-80">
                     <DashboardChart />
                   </div>
                 </div>
+                <div className="mb-10">
+                  <ChartInfo />
+                </div>
+
                 <div className="shadow-lg border dark:border-gray-800 rounded-lg">
                   <h2 className="text-xl font-medium mb-8 p-6">Your orders</h2>
                   <div>
@@ -509,6 +538,9 @@ const Dashboard = () => {
             ) : (
               emptyState
             )}
+          </div>
+          <div className="w-12/12 lg:w-3/12 border-l shadow-xl dark:border-gray-700 bg-white dark:bg-gray-900">
+            <BotList />
           </div>
         </div>
       </div>
