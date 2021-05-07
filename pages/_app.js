@@ -3,6 +3,7 @@ import { QueryClientProvider, QueryClient } from "react-query";
 import { ThemeProvider } from "next-themes";
 import { Provider } from "next-auth/client";
 import { ReactQueryDevtools } from "react-query/devtools";
+import * as Sentry from "@sentry/react";
 
 export const queryClient = new QueryClient();
 
@@ -19,4 +20,4 @@ function App({ Component, pageProps }) {
   );
 }
 
-export default App;
+export default Sentry.withProfiler(App);

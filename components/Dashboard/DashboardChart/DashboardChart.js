@@ -31,7 +31,7 @@ const DashboardChart = () => {
 
   const getTickers = useQuery({
     queryKey: state.selectedBot
-      ? `get-tickers-${state.selectedBot.trading_pair}`
+      ? `get-tickers-${state.selectedBot.id}`
       : "get-tickers-init",
     queryFn: async () => {
       const credentials = state.selectedBot.exchange.api_requirements;
@@ -99,6 +99,8 @@ const DashboardChart = () => {
         ? { totalHoldings: day.order.balanceInQuoteCurrency * day.price }
         : {}),
     }));
+
+  console.log(match);
 
   return (
     <div style={{ width: "100%", height: "100%" }}>
