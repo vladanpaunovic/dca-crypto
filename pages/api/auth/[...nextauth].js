@@ -1,6 +1,7 @@
 import NextAuth from "next-auth";
 import Providers from "next-auth/providers";
 import cmsClient from "../../../server/cmsClient";
+import { withSentry } from "@sentry/nextjs";
 
 const auth = NextAuth({
   // Configure one or more authentication providers
@@ -72,4 +73,4 @@ const auth = NextAuth({
   // database: process.env.DATABASE_URL,
 });
 
-export default auth;
+export default withSentry(auth);

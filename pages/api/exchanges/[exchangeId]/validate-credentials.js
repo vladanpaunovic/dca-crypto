@@ -1,6 +1,7 @@
 import ccxt from "ccxt";
+import { withSentry } from "@sentry/nextjs";
 
-export default async (req, res) => {
+const handler = async (req, res) => {
   let output = { validated: false };
 
   try {
@@ -26,3 +27,5 @@ export default async (req, res) => {
 
   res.status(200).json(output);
 };
+
+export default withSentry(handler);

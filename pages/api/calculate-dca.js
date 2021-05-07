@@ -1,11 +1,12 @@
 import axios from "axios";
 import dayjs from "dayjs";
 import getPercentageChange from "../../components/helpers/getPercentageChange";
+import { withSentry } from "@sentry/nextjs";
 
 const convertDateStringToUnix = (dateString) =>
   new Date(dateString).getTime() / 1000;
 
-export default async (req, res) => {
+const handler = async (req, res) => {
   const payload = { ...req.body };
 
   const response = await axios.get(
@@ -99,3 +100,5 @@ export default async (req, res) => {
 
   res.status(200).json(output);
 };
+
+export default withSentry(handler);
