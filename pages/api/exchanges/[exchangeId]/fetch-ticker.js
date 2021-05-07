@@ -1,6 +1,7 @@
 import ccxt from "ccxt";
+import { withSentry } from "@sentry/nextjs";
 
-export default async (req, res) => {
+const handler = async (req, res) => {
   const credentials = JSON.parse(req.query.credentials);
 
   const key = credentials.api_key;
@@ -20,3 +21,5 @@ export default async (req, res) => {
 
   res.status(200).json(tick);
 };
+
+export default withSentry(handler);
