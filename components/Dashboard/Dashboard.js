@@ -449,7 +449,7 @@ const NextOrderProgress = (props) => {
       <div className="overflow-hidden h-2 text-xs flex rounded-b-lg bg-indigo-200 dark:bg-gray-700">
         <div
           style={{ width: p }}
-          className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-indigo-500 dark:bg-yellow-500"
+          className="shadow-none transition flex flex-col text-center whitespace-nowrap text-white justify-center bg-indigo-500 dark:bg-yellow-500"
         ></div>
       </div>
     </div>
