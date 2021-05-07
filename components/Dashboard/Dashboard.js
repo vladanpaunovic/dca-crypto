@@ -114,7 +114,7 @@ const Stat = (props) => {
             <div className="flex items-baseline space-x-4 ">
               <h2 className="text-2xl font-semibold">{props.value}</h2>
             </div>
-            <p className="text-gray-500 mt-1">{props.description}</p>
+            <div className="text-gray-500 mt-1">{props.description}</div>
             <div className="absolute left-0 bottom-0 w-full">
               {props.progressBar}
             </div>
@@ -126,7 +126,6 @@ const Stat = (props) => {
 };
 
 const OrderItem = (props) => {
-  console.log(props);
   return (
     <div className="grid grid-cols-4 gap-8">
       <div>date: {props.dateTime}</div>
@@ -211,6 +210,9 @@ const ChartInfo = () => {
   );
 
   const priceNow = getTicker.data ? getTicker.data.ask : 0;
+  const averageCost = state.selectedBot.orders
+    ? state.selectedBot.orders[state.selectedBot.orders.length - 1].averageCost
+    : priceNow;
 
   const totalBaseAmount = state.selectedBot.orders.reduce(
     (prev, curr) => prev + curr.amount,
@@ -330,7 +332,6 @@ const ChartInfo = () => {
       <div className="grid grid-cols-3 gap-8">
         <Stat
           title={`Current holdings`}
-          className="col-span-2"
           value={
             allCryptoValue < totalInvestment ? (
               <span className="text-red-500">
@@ -419,6 +420,18 @@ const ChartInfo = () => {
           description={`Volume ${
             getTicker.data ? getTicker.data.baseVolume.toFixed(2) : 0
           }`}
+        />
+
+        <Stat
+          title="Average cost"
+          value={formatCurrency(
+            averageCost,
+            state.selectedBot.destination_currency
+          )}
+          description={`Difference ${formatCurrency(
+            priceNow - averageCost,
+            state.selectedBot.destination_currency
+          )}`}
         />
 
         <Stat
