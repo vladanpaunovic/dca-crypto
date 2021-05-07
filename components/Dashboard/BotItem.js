@@ -142,7 +142,6 @@ const BotStatus = (bot) => {
 
 const BotItem = (bot) => {
   const { dispatch, state } = useDashboardContext();
-  const [session] = useSession();
 
   const credentials = bot.exchange.api_requirements;
   const botExchange = bot.available_exchange.identifier;
@@ -205,8 +204,11 @@ const BotItem = (bot) => {
     );
   };
 
-  const handleOnClick = () =>
+  const handleOnClick = async () => {
     dispatch({ type: ACTIONS.SET_SELECTED_BOT, payload: bot });
+
+    await queryClient.refetchQueries([`get-tickers-${bot.trading_pair}`]);
+  };
 
   const isSelected = state.selectedBot && state.selectedBot._id === bot._id;
 
