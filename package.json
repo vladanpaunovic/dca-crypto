@@ -12,6 +12,8 @@
     "@headlessui/react": "^1.0.0",
     "@heroicons/react": "^1.0.1",
     "@sentry/nextjs": "^6.3.5",
+    "@sentry/react": "^6.3.5",
+    "@sentry/tracing": "^6.3.5",
     "@tailwindcss/forms": "^0.3.2",
     "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",

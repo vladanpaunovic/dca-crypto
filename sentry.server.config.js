@@ -2,12 +2,19 @@
 // The config you add here will be used whenever the server handles a request.
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/
 
-import * as Sentry from '@sentry/nextjs';
+import * as Sentry from "@sentry/nextjs";
+const Tracing = require("@sentry/tracing");
 
 const SENTRY_DSN = process.env.SENTRY_DSN || process.env.NEXT_PUBLIC_SENTRY_DSN;
 
 Sentry.init({
-  dsn: SENTRY_DSN || 'https://ed13939ea60d40c79eaf8e2f9a259094@o574491.ingest.sentry.io/5752487',
+  dsn:
+    SENTRY_DSN ||
+    "https://ed13939ea60d40c79eaf8e2f9a259094@o574491.ingest.sentry.io/5752487",
+  integrations: [
+    // enable HTTP calls tracing
+    new Sentry.Integrations.Http({ tracing: true }),
+  ],
   // Note: if you want to override the automatic release value, do not set a
   // `release` value here - use the environment variable `SENTRY_RELEASE`, so
   // that it will also get attached to your source maps
