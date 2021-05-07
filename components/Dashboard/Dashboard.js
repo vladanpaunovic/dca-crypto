@@ -1,5 +1,5 @@
 import Menu from "./Menu/Menu";
-import { useMutation, useQuery } from "react-query";
+import { useIsFetching, useMutation, useQuery } from "react-query";
 import cmsClient from "../../server/cmsClient";
 import { useSession } from "next-auth/client";
 import DashboardChart from "./DashboardChart/DashboardChart";
@@ -21,17 +21,7 @@ import { queryClient } from "../../pages/_app";
 import Loading from "../Loading/Loading";
 import apiClient from "../../server/apiClient";
 import { ACTIONS } from "../DashboardContext/dashboardReducer";
-
-const DashboardLayout = ({ children }) => {
-  return (
-    <div className="flex h-full">
-      <div className="h-full border-r dark:border-gray-700 shadow">
-        <Menu />
-      </div>
-      <div className="h-full w-full">{children}</div>
-    </div>
-  );
-};
+import DashboardLayout from "./DashboardLayout";
 
 const RemoveButton = () => {
   const { state, dispatch } = useDashboardContext();
@@ -331,6 +321,7 @@ const ChartInfo = () => {
       </div>
       <div className="grid grid-cols-3 gap-8">
         <Stat
+          className="col-span-3 sm:col-span-1"
           title={`Current holdings`}
           value={
             allCryptoValue < totalInvestment ? (
@@ -375,6 +366,7 @@ const ChartInfo = () => {
         />
 
         <Stat
+          className="col-span-3 sm:col-span-1"
           title="Investment"
           value={formatCurrency(
             totalInvestment,
@@ -395,6 +387,7 @@ const ChartInfo = () => {
         />
 
         <Stat
+          className="col-span-3 sm:col-span-1"
           title="Balance on exchange"
           value={formatCurrency(
             baseCurrencyBalance,
@@ -412,6 +405,7 @@ const ChartInfo = () => {
         />
 
         <Stat
+          className="col-span-3 sm:col-span-1"
           title="Current price"
           value={formatCurrency(
             priceNow,
@@ -423,6 +417,7 @@ const ChartInfo = () => {
         />
 
         <Stat
+          className="col-span-3 sm:col-span-1"
           title="Average cost"
           value={formatCurrency(
             averageCost,
@@ -435,6 +430,7 @@ const ChartInfo = () => {
         />
 
         <Stat
+          className="col-span-3 sm:col-span-1"
           title="Next order"
           value={diffUntilNextOrder()}
           description={`Last trade ${timeSinceLastOrder}`}
@@ -470,14 +466,36 @@ const NextOrderProgress = (props) => {
 
 const Dashboard = () => {
   const { state } = useDashboardContext();
+  const isFetching = useIsFetching();
+
+  const emptyState = isFetching ? (
+    <div className="flex w-full h-screen items-center justify-center">
+      <Loading />
+    </div>
+  ) : (
+    <div className="w-full h-screen flex items-center justify-center">
+      <div>
+        <h3 className="mb-2 text-xl font-medium text-center">
+          Please select a bot to start with
+        </h3>
+        <p className="mb-16 text-center">
+          By selecting a bot you will reveal it's detailed view
+        </p>
+        <div className="flex justify-center">
+          <ChooseIllustration className="w-44 h-44" />
+        </div>
+      </div>
+    </div>
+  );
+
   return (
     <DashboardLayout>
       <div>
-        <div className="flex">
-          <div className="w-3/12 h-full min-h-screen border-r dark:border-gray-700 bg-white dark:bg-gray-900">
+        <div className="lg:flex">
+          <div className="w-12/12 lg:w-3/12 border-r dark:border-gray-700 bg-white dark:bg-gray-900">
             <BotList />
           </div>
-          <div className="w-9/12 h-full min-h-screen p-10">
+          <div className="w-12/12 lg:w-9/12  p-10">
             {state.selectedBot ? (
               <>
                 <div className="mb-10">
@@ -500,19 +518,7 @@ const Dashboard = () => {
                 </div>
               </>
             ) : (
-              <div className="w-full h-screen flex items-center justify-center">
-                <div>
-                  <h3 className="mb-2 text-xl font-medium text-center">
-                    Please select a bot to start with
-                  </h3>
-                  <p className="mb-16 text-center">
-                    By selecting a bot you will reveal it's detailed view
-                  </p>
-                  <div className="flex justify-center">
-                    <ChooseIllustration className="w-44 h-44" />
-                  </div>
-                </div>
-              </div>
+              emptyState
             )}
           </div>
         </div>

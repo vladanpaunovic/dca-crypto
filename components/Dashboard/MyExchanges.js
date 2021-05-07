@@ -1,27 +1,13 @@
-import Menu from "./Menu/Menu";
 import { PencilAltIcon, TrashIcon } from "@heroicons/react/outline";
 import NewExchangeModal from "./NewExchangeModal/NewExchangeModal";
 import DashboardTitle from "./DashboardTitle";
 import { useSession } from "next-auth/client";
 import cmsClient from "../../server/cmsClient";
-import {
-  useDashboardContext,
-  DASHBOARD_ACTIONS,
-} from "../DashboardContext/DashboardContext";
+import { useDashboardContext } from "../DashboardContext/DashboardContext";
 import { useMutation, useQuery } from "react-query";
 import { queryClient } from "../../pages/_app";
 import Loading from "../Loading/Loading";
-
-const DashboardLayout = ({ children }) => {
-  return (
-    <div className="flex h-full">
-      <div className="h-screen border-r dark:border-gray-700 shadow">
-        <Menu />
-      </div>
-      <div className="h-screen w-full">{children}</div>
-    </div>
-  );
-};
+import DashboardLayout from "./DashboardLayout";
 
 const ExchangesList = () => {
   const [session] = useSession();

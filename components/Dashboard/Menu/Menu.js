@@ -2,69 +2,83 @@ import { signOut } from "next-auth/client";
 import {
   TemplateIcon,
   SwitchHorizontalIcon,
-  UserIcon,
   MoonIcon,
   LogoutIcon,
   SunIcon,
 } from "@heroicons/react/outline";
 import { useTheme } from "next-themes";
 import Link from "next/link";
+import Logo from "../../Logo/Logo";
+import { useState } from "react";
 
 const Menu = () => {
   const { theme, setTheme } = useTheme();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <div className="p-4 h-screen flex flex-col justify-between bg-indigo-500 dark:bg-gray-800">
-      <div>
-        <div className="flex flex-col items-center justify-center">
-          <div className="border rounded px-2 py-1 font-medium bg-gray-100 shadow dark:bg-gray-800 dark:border-gray-900">
-            <span className="text-indigo-500 dark:text-yellow-500">DCA</span>CC
-          </div>
+    <nav className="relative flex flex-wrap items-center justify-between px-2 py-3 bg-indigo-500 dark:bg-gray-800 border-b dark:border-gray-800">
+      <div className="w-full mx-auto flex flex-wrap items-center justify-between">
+        <div className="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
+          <Logo />
+          <button
+            className="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
+            type="button"
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            <span className="block relative w-6 h-px rounded-sm bg-white"></span>
+            <span className="block relative w-6 h-px rounded-sm bg-white mt-1"></span>
+            <span className="block relative w-6 h-px rounded-sm bg-white mt-1"></span>
+          </button>
         </div>
-        <ul className="mt-16">
-          <li className="hover:bg-indigo-400 dark:hover:bg-gray-700 rounded mb-2 text-gray-50 dark:text-gray-300">
-            <Link href="/dashboard">
-              <a className="text-xs flex p-2 flex-col justify-center items-center w-full">
-                <TemplateIcon className="w-6 h-6 mb-2" /> Dashboard
-              </a>
-            </Link>
-          </li>
-          <li className="hover:bg-indigo-400 dark:hover:bg-gray-700 rounded mb-2 text-gray-50 dark:text-gray-300">
-            <Link href="/my-exchanges">
-              <a className="text-xs flex p-2  flex-col justify-center items-center w-full">
-                <SwitchHorizontalIcon className="w-6 h-6 mb-2" /> Exchanges
-              </a>
-            </Link>
-          </li>
-          <li className="hover:bg-indigo-400 dark:hover:bg-gray-700 rounded mb-2 text-gray-50 dark:text-gray-300">
-            <a
-              href="#"
-              className="text-xs flex p-2 flex-col justify-center items-center w-full"
-            >
-              <UserIcon className="h-6 mb-2" /> Account
-            </a>
-          </li>
-        </ul>
-      </div>
-      <div>
-        <button
-          className="transition dark:text-white text-gray w-full hover:text-gray-900 rounded-full p-1 focus:outline-none flex justify-center items-center mb-2"
-          onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+        <div
+          className={`lg:flex flex-grow items-center ${
+            menuOpen ? "" : "hidden"
+          }`}
+          id="example-navbar-warning"
         >
-          {theme === "light" ? (
-            <MoonIcon className="w-5 h-5" />
-          ) : (
-            <SunIcon className="w-5 h-5" />
-          )}
-        </button>
-        <button
-          onClick={() => signOut()}
-          className="text-xs hover:bg-indigo-400 dark:hover:bg-gray-700 text-gray-300 hover:text-gray-900 rounded mb-2 dark:text-gray-500 dark:hover:text-gray-200 flex flex-col items-center w-full p-2"
-        >
-          <LogoutIcon className="w-6 h-6 mb-2" /> Sign out
-        </button>
+          <ul className="flex flex-col lg:flex-row list-none ml-auto mt-5 lg:mt-0">
+            <li className="nav-item">
+              <Link href="/dashboard">
+                <a className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75">
+                  <TemplateIcon className="w-6 h-6 mr-1" /> Dashboard
+                </a>
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link href="/my-exchanges">
+                <a
+                  className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75"
+                  href="#pablo"
+                >
+                  <SwitchHorizontalIcon className="w-6 h-6 mr-1" /> Exchanges
+                </a>
+              </Link>
+            </li>
+
+            <li className="nav-item">
+              <button
+                className="transition px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75"
+                onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+              >
+                {theme === "light" ? (
+                  <MoonIcon className="w-5 h-5" />
+                ) : (
+                  <SunIcon className="w-5 h-5" />
+                )}
+              </button>
+            </li>
+            <li className="nav-item">
+              <button
+                onClick={() => signOut()}
+                className="text-xs px-3 py-2 flex items-center uppercase font-bold leading-snug text-white hover:opacity-75 "
+              >
+                <LogoutIcon className="w-6 h-6 mr-1" /> Sign out
+              </button>
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
+    </nav>
   );
 };
 
