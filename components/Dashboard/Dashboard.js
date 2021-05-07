@@ -116,17 +116,6 @@ const Stat = (props) => {
   );
 };
 
-const OrderItem = (props) => {
-  return (
-    <div className="grid grid-cols-4 gap-8">
-      <div>date: {props.dateTime}</div>
-      <div>price: {props.price}</div>
-      <div>average price:{props.averageCost}</div>
-      <div>total investment:{props.totalInvestment}</div>
-    </div>
-  );
-};
-
 const ChartInfo = () => {
   const { state } = useDashboardContext();
   const [session] = useSession();
