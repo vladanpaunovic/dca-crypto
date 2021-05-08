@@ -115,7 +115,7 @@ const MyExchanges = () => {
   return (
     <DashboardLayout>
       <div>
-        <DashboardTitle title="My Exchanges" />
+        <DashboardTitle title="Your Exchanges" />
         <div className="p-8 flex">
           <div className="w-1/2 mr-4">
             <h2 className="text-lg">Connected exchanges</h2>
