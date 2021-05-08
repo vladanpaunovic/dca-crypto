@@ -1,0 +1,12 @@
+name: 15-minute-cron
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+jobs:
+  cron:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check API health
+        run: curl --request HEAD --url 'https://dca-cc-cms.herokuapp.com/_health'
+      - name: Check website health
+        run: curl --request HEAD --url 'https://dca-cc.com/_health'
