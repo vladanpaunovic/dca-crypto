@@ -11,6 +11,18 @@ import apiClient from "../../../server/apiClient";
 import { useDashboardContext } from "../../DashboardContext/DashboardContext";
 import { ACTIONS } from "../../DashboardContext/dashboardReducer";
 
+const Exchange = (props) => {
+  return (
+    <button
+      type="button"
+      onClick={() => props.onClick(props)}
+      className="p-2 bg-gray-100 dark:bg-gray-800 font-medium text-gray-900 dark:text-yellow-500 rounded hover:opacity-60 transition"
+    >
+      {props.available_exchange.label}
+    </button>
+  );
+};
+
 const NewBotForm = (props) => {
   const { dispatch } = useDashboardContext();
   const onlyMyExchanges = queryClient.getQueryData("only-my-exchanges");
@@ -96,40 +108,34 @@ const NewBotForm = (props) => {
   return (
     <form className="mt-8" onSubmit={handleOnsubmit}>
       <div className="col-span-2">
-        <label className="block">
-          <span className="font-medium text-gray-700 dark:text-gray-300">
-            Select exchange
-          </span>
-          <div className="mt-1 mb-2 flex rounded-md shadow-sm">
-            <select
-              name="coinId"
-              value={state.available_exchange}
-              onChange={(e) => {
-                const exchange = onlyMyExchanges.find(
-                  (ex) => ex.available_exchange.id === e.target.value
-                );
-                setState({
-                  ...state,
-                  available_exchange: e.target.value,
-                  exchange,
-                });
-              }}
-              className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded sm:text-sm border-gray-300 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200"
-            >
-              <option value="choose-exchange" disabled>
-                Choose exchange
-              </option>
+        {!state.exchange && (
+          <>
+            {" "}
+            <span className="block font-medium text-gray-700 dark:text-gray-300">
+              Select exchange
+            </span>
+            <div className="grid grid-cols-3 gap-4 my-4">
               {props.availableExchanges.map((exchange) => (
-                <option
-                  key={exchange.available_exchange._id}
-                  value={exchange.available_exchange._id}
-                >
-                  {exchange.available_exchange.label}
-                </option>
+                <Exchange
+                  {...exchange}
+                  key={exchange.id}
+                  onClick={(e) => {
+                    const exchange = onlyMyExchanges.find(
+                      (ex) =>
+                        ex.available_exchange.id === e.available_exchange.id
+                    );
+
+                    setState({
+                      ...state,
+                      available_exchange: e.available_exchange.id,
+                      exchange,
+                    });
+                  }}
+                />
               ))}
-            </select>
-          </div>
-        </label>
+            </div>
+          </>
+        )}
 
         {state.exchange && (
           <>
