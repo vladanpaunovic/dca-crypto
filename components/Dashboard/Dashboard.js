@@ -31,6 +31,7 @@ import apiClient from "../../server/apiClient";
 import { ACTIONS } from "../DashboardContext/dashboardReducer";
 import DashboardLayout from "./DashboardLayout";
 import OrdersDataTable from "./OrdersDataTable";
+import BotStatus from "./BotStatus";
 
 const RemoveButton = () => {
   const { state, dispatch } = useDashboardContext();
@@ -516,7 +517,12 @@ const Dashboard = () => {
                   <h1 className="text-black dark:text-gray-100 text-4xl font-bold flex items-center">
                     {title}
                   </h1>
-                  <RemoveButton />
+                  <div className="flex">
+                    <BotStatus {...state.selectedBot} />
+                    <span className="ml-4">
+                      <RemoveButton />
+                    </span>
+                  </div>
                 </div>
                 <div className="shadow-lg border dark:border-gray-800 rounded-lg p-6 mb-8">
                   <h2 className="mb-4 text-lg font-medium">
