@@ -1,9 +1,10 @@
 import ccxt from "ccxt";
 import dayjs from "dayjs";
 import { withSentry } from "@sentry/nextjs";
+import { decrypt } from "../../../../server/cryptography";
 
 const handler = async (req, res) => {
-  const credentials = JSON.parse(req.query.credentials);
+  const credentials = JSON.parse(decrypt(req.query.credentials));
 
   const key = credentials.api_key;
   const secret = credentials.secret_key;

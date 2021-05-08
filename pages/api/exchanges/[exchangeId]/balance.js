@@ -1,9 +1,11 @@
 import ccxt from "ccxt";
 import { withSentry } from "@sentry/nextjs";
+import { decrypt } from "../../../../server/cryptography";
 
 const handler = async (req, res) => {
   let output = { validated: false };
-  const credentials = JSON.parse(req.body.credentials);
+
+  const credentials = JSON.parse(decrypt(req.body.credentials));
   const key = credentials.api_key;
   const secret = credentials.secret_key;
   const passphrase = credentials.passphrase;
