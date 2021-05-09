@@ -69,7 +69,7 @@ const Menu = () => {
             </li>
             <li className="nav-item">
               <button
-                onClick={() => signOut()}
+                onClick={() => signOut({ callbackUrl: "/" })}
                 className="text-xs px-3 py-2 flex items-center uppercase font-bold leading-snug text-white hover:opacity-75 "
               >
                 <LogoutIcon className="w-6 h-6 mr-1" /> Sign out
