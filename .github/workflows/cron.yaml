@@ -9,6 +9,6 @@ jobs:
       - name: Check API health
         run: curl --request HEAD --url 'https://dca-cc-cms.herokuapp.com/_health'
       - name: Check API health when connected to the database
-        run: curl --request HEAD --url 'https://dca-cc-cms.herokuapp.com/healtcheck'
+        run: curl --request GET --url 'https://dca-cc-cms.herokuapp.com/healtcheck'
       - name: Check website health
         run: curl --request HEAD --url 'https://dca-cc.com/api/_health'
