@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useTheme } from "next-themes";
 import { useAppContext } from "../Context/Context";
 import { formatPrice } from "../Currency/Currency";
-import { signOut, useSession } from "next-auth/client";
+import { useSession } from "next-auth/client";
 
 export default function Hero() {
   const [session] = useSession();
@@ -52,12 +52,11 @@ export default function Hero() {
                 </a>
               </Link>
             ) : (
-              <button
-                onClick={() => signOut()}
-                className="px-2 py-1 bg-gray-100 dark:bg-gray-800 dark:text-yellow-500 rounded font-medium"
-              >
-                Sign out
-              </button>
+              <Link href="/dashboard">
+                <a className="px-2 py-1 bg-gray-100 dark:bg-gray-800 dark:text-yellow-500 rounded font-medium">
+                  Dashboard
+                </a>
+              </Link>
             )}
           </div>
         </nav>

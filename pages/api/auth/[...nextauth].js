@@ -79,7 +79,12 @@ const auth = NextAuth({
      * @return {string}          URL the client will be redirect to
      */
     async redirect(url, baseUrl) {
-      return url.startsWith(baseUrl) ? url : baseUrl;
+      if (!url) {
+        return baseUrl;
+      }
+
+      return url;
+      // return url.startsWith(baseUrl) ? url : baseUrl;
     },
   },
   // A database is optional, but required to persist accounts in a database
