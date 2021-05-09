@@ -94,11 +94,11 @@ const ResetPassword = ({ code }) => {
               </button>
             </div>
             {isSuccessful && (
-              <p className="bg-green-600 p-2 rounded flex items-center">
+              <p className="bg-green-400 p-2 rounded flex items-center ">
                 <CheckCircleIcon className="w-5 h-5 mr-2" />
                 <span>
                   The password has been reset.{" "}
-                  <Link href="/auth/signin">
+                  <Link href="/auth/signin?redirect=/dashboard">
                     <a className="underline text-indigo-500 dark:text-yellow-500">
                       Sign in?
                     </a>

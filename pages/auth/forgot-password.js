@@ -89,7 +89,7 @@ const ForgotPassword = () => {
               </button>
             </div>
             {isSuccessful && (
-              <p className="bg-green-600 p-2 rounded flex items-center">
+              <p className="bg-green-400 p-2 rounded flex items-center">
                 <InformationCircleIcon className="w-5 h-5 mr-2" />
                 The reset password link has been sent to your email.
               </p>
