@@ -5,8 +5,10 @@ import Link from "next/link";
 import { useTheme } from "next-themes";
 import { useAppContext } from "../Context/Context";
 import { formatPrice } from "../Currency/Currency";
+import { signOut, useSession } from "next-auth/client";
 
 export default function Hero() {
+  const [session] = useSession();
   const { theme, setTheme } = useTheme();
   const { state } = useAppContext();
 
@@ -43,11 +45,20 @@ export default function Hero() {
                 )}
               </button>
             </div>
-            <Link href="/auth/signin?callbackUrl=/dashboard">
-              <a className="px-2 py-1 bg-gray-100 dark:bg-gray-800 dark:text-yellow-500 rounded font-medium">
-                Sign in
-              </a>
-            </Link>
+            {!session ? (
+              <Link href="/auth/signin?callbackUrl=/dashboard">
+                <a className="px-2 py-1 bg-gray-100 dark:bg-gray-800 dark:text-yellow-500 rounded font-medium">
+                  Sign in
+                </a>
+              </Link>
+            ) : (
+              <button
+                onClick={() => signOut()}
+                className="px-2 py-1 bg-gray-100 dark:bg-gray-800 dark:text-yellow-500 rounded font-medium"
+              >
+                Sign out
+              </button>
+            )}
           </div>
         </nav>
       </div>
