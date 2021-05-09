@@ -3,15 +3,10 @@ import { useMutation } from "react-query";
 import { useState } from "react/cjs/react.development";
 import Logo from "../../components/Logo/Logo";
 import cmsClient from "../../server/cmsClient";
-import {
-  CheckCircleIcon,
-  ExclamationIcon,
-  InformationCircleIcon,
-} from "@heroicons/react/outline";
+import { CheckCircleIcon, ExclamationIcon } from "@heroicons/react/outline";
 import Link from "next/link";
-import { useRouter } from "next/router";
 
-export default function SignIn() {
+const ResetPassword = ({ code }) => {
   const [userPassword, setUserPassword] = useState("");
   const [isSuccessful, setIsSuccessfull] = useState(false);
   const [responseError, setResponseError] = useState(null);
@@ -43,7 +38,7 @@ export default function SignIn() {
     e.preventDefault();
 
     resetPassword.mutate({
-      code: router.query.code,
+      code,
       password: userPassword,
       passwordConfirmation: userPassword,
     });
@@ -119,4 +114,14 @@ export default function SignIn() {
       <div className="md:w-2/3 pattern-domino bg-gray-50 dark:bg-gray-900"></div>
     </div>
   );
+};
+
+export async function getServerSideProps(context) {
+  return {
+    props: {
+      code: context.query.code,
+    },
+  };
 }
+
+export default ResetPassword;

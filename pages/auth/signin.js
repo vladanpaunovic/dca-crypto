@@ -3,7 +3,7 @@ import Logo from "../../components/Logo/Logo";
 import Link from "next/link";
 import { getCsrfToken } from "next-auth/client";
 
-export default function SignIn({ csrfToken }) {
+const SignIn = ({ csrfToken }) => {
   return (
     <div className="flex">
       <div className="w-full md:w-1/3 min-h-screen flex items-center justify-center bg-white dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
@@ -96,7 +96,7 @@ export default function SignIn({ csrfToken }) {
       <div className="md:w-2/3 pattern-domino bg-gray-50 dark:bg-gray-900"></div>
     </div>
   );
-}
+};
 
 // This is the recommended way for Next.js 9.3 or newer
 export async function getServerSideProps(context) {
@@ -106,3 +106,5 @@ export async function getServerSideProps(context) {
     },
   };
 }
+
+export default SignIn;

@@ -8,7 +8,7 @@ import {
   InformationCircleIcon,
 } from "@heroicons/react/outline";
 
-export default function SignIn() {
+const ForgotPassword = () => {
   const [userEmail, setUserEmail] = useState("");
   const [isSuccessful, setIsSuccessfull] = useState(false);
   const [responseError, setResponseError] = useState(null);
@@ -106,4 +106,12 @@ export default function SignIn() {
       <div className="md:w-2/3 pattern-domino bg-gray-50 dark:bg-gray-900"></div>
     </div>
   );
+};
+
+export async function getServerSideProps(context) {
+  return {
+    props: {},
+  };
 }
+
+export default ForgotPassword;
