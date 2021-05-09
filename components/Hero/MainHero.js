@@ -34,14 +34,16 @@ export default function Hero() {
 
           <div className="relative pt-6 pl-4">
             <nav
-              className="relative flex items-center justify-between sm:h-10 lg:justify-start"
+              className="relative flex items-center justify-between sm:h-10"
               aria-label="Global"
             >
               <div className="flex items-center flex-grow flex-shrink-0 lg:flex-grow-0">
                 <div className="flex items-center  md:w-auto">
                   <Logo />
                 </div>
-                <div className="-mr-2">
+              </div>
+              <div className="flex items-center justify-end mr-4">
+                <div className="mr-2">
                   <button
                     className="ml-2 dark:text-white text-gray hover:text-gray-900 rounded-full p-1 mr-2 focus:outline-none"
                     onClick={() =>
@@ -55,6 +57,11 @@ export default function Hero() {
                     )}
                   </button>
                 </div>
+                <Link href="/auth/signin?redirect=/dashboard">
+                  <a className="px-2 py-1 bg-gray-100 dark:bg-gray-800 dark:text-yellow-500 rounded font-medium">
+                    Sign in
+                  </a>
+                </Link>
               </div>
             </nav>
           </div>

@@ -69,6 +69,9 @@ const auth = NextAuth({
       return session;
     },
   },
+  pages: {
+    signIn: "/auth/signin",
+  },
   // A database is optional, but required to persist accounts in a database
   // database: process.env.DATABASE_URL,
 });
