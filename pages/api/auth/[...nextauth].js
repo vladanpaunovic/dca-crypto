@@ -72,6 +72,16 @@ const auth = NextAuth({
   pages: {
     signIn: "/auth/signin",
   },
+  callbacks: {
+    /**
+     * @param  {string} url      URL provided as callback URL by the client
+     * @param  {string} baseUrl  Default base URL of site (can be used as fallback)
+     * @return {string}          URL the client will be redirect to
+     */
+    async redirect(url, baseUrl) {
+      return url.startsWith(baseUrl) ? url : baseUrl;
+    },
+  },
   // A database is optional, but required to persist accounts in a database
   // database: process.env.DATABASE_URL,
 });
