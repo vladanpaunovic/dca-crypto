@@ -25,7 +25,7 @@ const auth = NextAuth({
 
           return response.data;
         } catch (e) {
-          throw new Error(e);
+          throw new Error(e.response.data.message[0].messages[0].message);
         }
 
         return null;
@@ -80,6 +80,7 @@ const auth = NextAuth({
   },
   pages: {
     signIn: "/auth/signin",
+    error: "/auth/error",
   },
   // A database is optional, but required to persist accounts in a database
   // database: process.env.DATABASE_URL,
