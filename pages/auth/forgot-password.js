@@ -1,6 +1,6 @@
 import Loading from "../../components/Loading/Loading";
 import { useMutation } from "react-query";
-import { useState } from "react/cjs/react.development";
+import { useState } from "react";
 import Logo from "../../components/Logo/Logo";
 import cmsClient from "../../server/cmsClient";
 import {
@@ -107,11 +107,5 @@ const ForgotPassword = () => {
     </div>
   );
 };
-
-export async function getServerSideProps(context) {
-  return {
-    props: {},
-  };
-}
 
 export default ForgotPassword;

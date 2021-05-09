@@ -1,16 +1,16 @@
 import Loading from "../../components/Loading/Loading";
 import { useMutation } from "react-query";
-import { useState } from "react/cjs/react.development";
+import { useState } from "react";
 import Logo from "../../components/Logo/Logo";
 import cmsClient from "../../server/cmsClient";
 import { CheckCircleIcon, ExclamationIcon } from "@heroicons/react/outline";
 import Link from "next/link";
+import ErrorPage from "next/error";
 
 const ResetPassword = ({ code }) => {
   const [userPassword, setUserPassword] = useState("");
   const [isSuccessful, setIsSuccessfull] = useState(false);
   const [responseError, setResponseError] = useState(null);
-  const router = useRouter();
 
   const resetPassword = useMutation({
     mutationKey: "reset-password",
@@ -43,6 +43,10 @@ const ResetPassword = ({ code }) => {
       passwordConfirmation: userPassword,
     });
   };
+
+  if (!code) {
+    return <ErrorPage statusCode={404} />;
+  }
 
   return (
     <div className="flex">
@@ -119,7 +123,7 @@ const ResetPassword = ({ code }) => {
 export async function getServerSideProps(context) {
   return {
     props: {
-      code: context.query.code,
+      code: context.query.code || null,
     },
   };
 }
