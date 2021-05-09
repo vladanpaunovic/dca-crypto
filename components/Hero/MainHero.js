@@ -57,7 +57,7 @@ export default function Hero() {
                     )}
                   </button>
                 </div>
-                <Link href="/auth/signin?redirect=/dashboard">
+                <Link href="/auth/signin?callbackUrl=/dashboard">
                   <a className="px-2 py-1 bg-gray-100 dark:bg-gray-800 dark:text-yellow-500 rounded font-medium">
                     Sign in
                   </a>
