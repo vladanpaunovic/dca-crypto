@@ -68,16 +68,7 @@ const auth = NextAuth({
       delete session.jwt;
       return session;
     },
-  },
-  pages: {
-    signIn: "/auth/signin",
-  },
-  callbacks: {
-    /**
-     * @param  {string} url      URL provided as callback URL by the client
-     * @param  {string} baseUrl  Default base URL of site (can be used as fallback)
-     * @return {string}          URL the client will be redirect to
-     */
+
     async redirect(url, baseUrl) {
       if (!url) {
         return baseUrl;
@@ -86,6 +77,9 @@ const auth = NextAuth({
       return url;
       // return url.startsWith(baseUrl) ? url : baseUrl;
     },
+  },
+  pages: {
+    signIn: "/auth/signin",
   },
   // A database is optional, but required to persist accounts in a database
   // database: process.env.DATABASE_URL,
