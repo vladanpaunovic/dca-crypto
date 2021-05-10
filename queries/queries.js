@@ -1,8 +1,11 @@
 import axios from "axios";
 import { useSession } from "next-auth/client";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { useDashboardContext } from "../components/DashboardContext/DashboardContext";
+import { ACTIONS } from "../components/DashboardContext/dashboardReducer";
+import { queryClient } from "../pages/_app";
 import apiClient from "../server/apiClient";
+import cmsClient from "../server/cmsClient";
 
 const API_URL = "https://api.coingecko.com/api/v3/";
 
@@ -74,5 +77,38 @@ export const useGetBalance = (botExchange) => {
       return response.data;
     },
     queryKey: `my-balance-${botExchange}`,
+  });
+};
+
+export const useRemoveTradingBot = () => {
+  const [session] = useSession();
+  const { dispatch } = useDashboardContext();
+
+  const mutation = useMutation({
+    mutationFn: async (payload) =>
+      await cmsClient(session.accessToken).delete(`/trading-bots/${payload}`),
+    mutationKey: "remove-bot",
+    onSettled: async () => {
+      await queryClient.refetchQueries(["my-bots"]);
+      dispatch({ type: ACTIONS.SET_SELECTED_BOT, payload: null });
+    },
+  });
+
+  return mutation;
+};
+
+export const useUpdateTradingBot = () => {
+  const [session] = useSession();
+  return useMutation({
+    mutationFn: async (payload) => {
+      return await cmsClient(session.accessToken).put(
+        `/trading-bots/${state.selectedBot.id}`,
+        payload
+      );
+    },
+    mutationKey: "update-bot",
+    onSuccess: async () => {
+      await queryClient.refetchQueries(["my-bots"]);
+    },
   });
 };

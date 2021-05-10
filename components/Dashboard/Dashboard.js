@@ -1,6 +1,4 @@
-import { useIsFetching, useMutation } from "react-query";
-import cmsClient from "../../server/cmsClient";
-import { useSession } from "next-auth/client";
+import { useIsFetching } from "react-query";
 import DashboardChart from "./DashboardChart/DashboardChart";
 import { useDashboardContext } from "../DashboardContext/DashboardContext";
 import { formatCurrency } from "@coingecko/cryptoformat";
@@ -23,27 +21,21 @@ import ChooseIllustration from "../../Illustrations/ChooseIllustration";
 import { kFormatter } from "../Chart/helpers";
 import dayjs from "dayjs";
 import { Popover, Transition } from "@headlessui/react";
-import { queryClient } from "../../pages/_app";
 import Loading from "../Loading/Loading";
-import { ACTIONS } from "../DashboardContext/dashboardReducer";
 import DashboardLayout from "./DashboardLayout";
 import OrdersDataTable from "./OrdersDataTable";
 import BotStatus from "./BotStatus";
-import { useGetTickers, useGetBalance } from "../../queries/queries";
+import {
+  useGetTickers,
+  useGetBalance,
+  useRemoveTradingBot,
+  useUpdateTradingBot,
+} from "../../queries/queries";
 
 const RemoveButton = () => {
-  const { state, dispatch } = useDashboardContext();
-  const [session] = useSession();
+  const { state } = useDashboardContext();
 
-  const { mutate, isLoading: isRemoving } = useMutation({
-    mutationFn: async (payload) =>
-      await cmsClient(session.accessToken).delete(`/trading-bots/${payload}`),
-    mutationKey: "remove-bot",
-    onSettled: async () => {
-      await queryClient.refetchQueries(["my-bots"]);
-      dispatch({ type: ACTIONS.SET_SELECTED_BOT, payload: null });
-    },
-  });
+  const { mutate, isLoading: isRemoving } = useRemoveTradingBot();
 
   return (
     <Popover className="relative">
@@ -128,25 +120,13 @@ const Stat = (props) => {
 
 const ChartInfo = () => {
   const { state } = useDashboardContext();
-  const [session] = useSession();
   const getTickers = useGetTickers();
 
   if (!state.selectedBot) {
     return null;
   }
 
-  const updateTradingBot = useMutation({
-    mutationFn: async (payload) =>
-      await cmsClient(session.accessToken).put(
-        `/trading-bots/${state.selectedBot.id}`,
-        payload
-      ),
-    mutationKey: "update-bot",
-    onSuccess: async () => {
-      await queryClient.refetchQueries(["my-bots"]);
-    },
-  });
-
+  const updateTradingBot = useUpdateTradingBot();
   const botExchange = state.selectedBot.available_exchange.identifier;
 
   const balance = useGetBalance(botExchange);

@@ -8,7 +8,6 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import apiClient from "../../../server/apiClient";
 import { kFormatter } from "../../Chart/helpers";
 import { useDashboardContext } from "../../DashboardContext/DashboardContext";
 import Loading from "../../Loading/Loading";
@@ -24,7 +23,7 @@ dayjs.extend(isSameOrBefore);
 
 const mapFormatting = (entry, bot) => {
   switch (entry.dataKey) {
-    case "orders.totalInvestment":
+    case "orders.totalBalance":
     case "orders.averageCost":
     case "price":
       return (
@@ -33,7 +32,7 @@ const mapFormatting = (entry, bot) => {
         </>
       );
 
-    case "orders.totalBalance":
+    case "orders.totalInvestment":
       const countOrders = entry.payload.orders?.countOrders;
       return (
         <>
