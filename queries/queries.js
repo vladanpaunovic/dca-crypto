@@ -35,7 +35,7 @@ export const useGetTickers = () => {
     week: 588000000,
   };
 
-  const query = useQuery({
+  return useQuery({
     queryKey: `get-tickers-${state.selectedBot.id}`,
     queryFn: async () => {
       const credentials = state.selectedBot.exchange.api_requirements;
@@ -59,8 +59,6 @@ export const useGetTickers = () => {
     enabled: !!state.selectedBot,
     refetchInterval: refetchInterval[state.selectedBot.interval_type],
   });
-
-  return query;
 };
 
 export const useGetBalance = (botExchange) => {
@@ -80,11 +78,38 @@ export const useGetBalance = (botExchange) => {
   });
 };
 
+export const useGetTicker = ({ state, onSuccess }) => {
+  return useQuery({
+    queryKey: state.trading_pair
+      ? `get-ticker-${state.trading_pair.id}`
+      : "get-ticket-init",
+    queryFn: async () => {
+      const credentials = state.exchange.api_requirements;
+      const exchangeId = state.exchange.available_exchange.identifier;
+
+      const response = await apiClient.get(
+        `/exchanges/${exchangeId}/fetch-ticker`,
+        { params: { credentials, symbol: state.trading_pair.symbol } }
+      );
+
+      return response.data;
+    },
+    onSuccess: (data) => {
+      onSuccess({
+        ...state,
+        origin_currency_amount:
+          state.trading_pair.limits.amount.min * data.close * 1.1,
+      });
+    },
+    enabled: !!state.trading_pair && !!state.trading_pair.id,
+  });
+};
+
 export const useRemoveTradingBot = () => {
   const [session] = useSession();
   const { dispatch } = useDashboardContext();
 
-  const mutation = useMutation({
+  return useMutation({
     mutationFn: async (payload) =>
       await cmsClient(session.accessToken).delete(`/trading-bots/${payload}`),
     mutationKey: "remove-bot",
@@ -93,8 +118,6 @@ export const useRemoveTradingBot = () => {
       dispatch({ type: ACTIONS.SET_SELECTED_BOT, payload: null });
     },
   });
-
-  return mutation;
 };
 
 export const useUpdateTradingBot = () => {
@@ -110,5 +133,28 @@ export const useUpdateTradingBot = () => {
     onSuccess: async () => {
       await queryClient.refetchQueries(["my-bots"]);
     },
+  });
+};
+
+export const useGetMarkets = (exchange) => {
+  const { state } = useDashboardContext();
+  console.log("HEE", state.exchange);
+
+  return useQuery({
+    queryKey: `get-markets-${
+      exchange ? exchange.available_exchange.identifier : "init"
+    }`,
+    queryFn: async () => {
+      const credentials = exchange.api_requirements;
+      const exchangeId = exchange.available_exchange.identifier;
+
+      const response = await apiClient.get(
+        `/exchanges/${exchangeId}/get-markets`,
+        { params: { credentials } }
+      );
+
+      return response.data;
+    },
+    enabled: !!exchange,
   });
 };

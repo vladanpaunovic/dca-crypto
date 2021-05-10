@@ -7,9 +7,9 @@ import { useMutation, useQuery } from "react-query";
 import { useSession } from "next-auth/client";
 import InputBox from "../InputBox";
 import { queryClient } from "../../../pages/_app";
-import apiClient from "../../../server/apiClient";
 import { useDashboardContext } from "../../DashboardContext/DashboardContext";
 import { ACTIONS } from "../../DashboardContext/dashboardReducer";
+import { useGetMarkets, useGetTicker } from "../../../queries/queries";
 
 const Exchange = (props) => {
   return (
@@ -52,47 +52,10 @@ const NewBotForm = (props) => {
     },
   });
 
-  const getMarkets = useQuery({
-    queryKey: `get-markets-${
-      state.exchange ? state.exchange.available_exchange.identifier : "init"
-    }`,
-    queryFn: async () => {
-      const credentials = state.exchange.api_requirements;
-      const exchangeId = state.exchange.available_exchange.identifier;
-
-      const response = await apiClient.get(
-        `/exchanges/${exchangeId}/get-markets`,
-        { params: { credentials } }
-      );
-
-      return response.data;
-    },
-    enabled: !!state.exchange,
-  });
-
-  const getTicker = useQuery({
-    queryKey: state.trading_pair
-      ? `get-ticker-${state.trading_pair.id}`
-      : "get-ticket-init",
-    queryFn: async () => {
-      const credentials = state.exchange.api_requirements;
-      const exchangeId = state.exchange.available_exchange.identifier;
-
-      const response = await apiClient.get(
-        `/exchanges/${exchangeId}/fetch-ticker`,
-        { params: { credentials, symbol: state.trading_pair.symbol } }
-      );
-
-      return response.data;
-    },
-    onSuccess: (data) => {
-      setState({
-        ...state,
-        origin_currency_amount:
-          state.trading_pair.limits.amount.min * data.close * 1.1,
-      });
-    },
-    enabled: !!state.trading_pair && !!state.trading_pair.id,
+  const getMarkets = useGetMarkets(state.exchange);
+  const getTicker = useGetTicker({
+    state,
+    onSuccess: (data) => setState(data),
   });
 
   const handleOnsubmit = (e) => {
