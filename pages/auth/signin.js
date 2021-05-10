@@ -1,9 +1,9 @@
-import { LockClosedIcon } from "@heroicons/react/solid";
+import { ExclamationCircleIcon, LockClosedIcon } from "@heroicons/react/solid";
 import Logo from "../../components/Logo/Logo";
 import Link from "next/link";
 import { getCsrfToken } from "next-auth/client";
 
-const SignIn = ({ csrfToken }) => {
+const SignIn = ({ csrfToken, error }) => {
   return (
     <div className="flex">
       <div className="w-full md:w-1/3 min-h-screen flex items-center justify-center bg-white dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
@@ -84,6 +84,14 @@ const SignIn = ({ csrfToken }) => {
                 Sign in
               </button>
             </div>
+            {error && (
+              <p className="rounded p-2 bg-red-100 dark:bg-gray-800 dark:text-red-400 mt-4 flex items-center">
+                <span className="p-3 bg-red-500 dark:bg-red-500 rounded mr-2">
+                  <ExclamationCircleIcon className="w-5 h-5 text-red-200 dark:text-gray-700" />
+                </span>
+                {error}
+              </p>
+            )}
             <p className="rounded p-2 bg-gray-100 dark:bg-gray-800 dark:text-gray-400 mt-4 flex items-center">
               <span className="p-3 bg-indigo-500 dark:bg-yellow-500 rounded mr-2">
                 <LockClosedIcon className="w-5 h-5 text-gray-200 dark:text-gray-700" />
@@ -104,6 +112,7 @@ export async function getServerSideProps(context) {
   return {
     props: {
       csrfToken: await getCsrfToken(context),
+      error: context.query.error || null,
     },
   };
 }
