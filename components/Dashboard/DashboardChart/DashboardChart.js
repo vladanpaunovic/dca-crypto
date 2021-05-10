@@ -16,6 +16,7 @@ import Loading from "../../Loading/Loading";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import dayjs from "dayjs";
 import { formatCurrency } from "@coingecko/cryptoformat";
+import { useMemo } from "react";
 
 dayjs.extend(localizedFormat);
 
@@ -107,6 +108,45 @@ const DashboardChart = () => {
     refetchInterval: refetchInterval[state.selectedBot.interval_type],
   });
 
+  const memoizedValue = useMemo(() => {
+    let tempOrdersList = [...state.selectedBot.orders];
+    if (!getTickers.data) {
+      return [];
+    }
+
+    const match = getTickers.data
+      .reduce((prev, curr) => {
+        const executedOrderIndex = tempOrdersList.findIndex((order) => {
+          if (order) {
+            const isSame = dayjs(order.createdAt).isSame(
+              curr.date,
+              state.selectedBot.interval_type
+            );
+            return isSame;
+          }
+          return false;
+        });
+        if (tempOrdersList[executedOrderIndex]) {
+          const output = [
+            ...prev,
+            { ...curr, order: tempOrdersList[executedOrderIndex] },
+          ];
+          delete tempOrdersList[executedOrderIndex];
+          return output;
+        }
+        return [...prev, curr];
+      }, [])
+      .map((day) => ({
+        ...day,
+        date: dayjs(day.date).format("LLL"),
+        ...(day.order
+          ? { totalHoldings: day.order.balanceInQuoteCurrency * day.price }
+          : {}),
+      }));
+
+    return match;
+  }, [getTickers.data]);
+
   if (!state.selectedBot) {
     return "Please, select bot to view performance";
   }
@@ -119,44 +159,11 @@ const DashboardChart = () => {
     );
   }
 
-  let tempOrdersList = [...state.selectedBot.orders];
-  const match = getTickers.data
-    .reduce((prev, curr) => {
-      const executedOrderIndex = tempOrdersList.findIndex((order) => {
-        if (order) {
-          return dayjs(order.createdAt).isSame(
-            curr.date,
-            state.selectedBot.interval_type
-          );
-        }
-
-        return false;
-      });
-
-      if (tempOrdersList[executedOrderIndex]) {
-        const output = [
-          ...prev,
-          { ...curr, order: tempOrdersList[executedOrderIndex] },
-        ];
-        delete tempOrdersList[executedOrderIndex];
-        return output;
-      }
-
-      return [...prev, curr];
-    }, [])
-    .map((day) => ({
-      ...day,
-      date: dayjs(day.date).format("LLL"),
-      ...(day.order
-        ? { totalHoldings: day.order.balanceInQuoteCurrency * day.price }
-        : {}),
-    }));
-
   return (
     <div style={{ width: "100%", height: "100%" }}>
       <ResponsiveContainer>
         <AreaChart
-          data={match}
+          data={memoizedValue}
           margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
           syncId={CHART_SYNCID}
         >
@@ -213,7 +220,7 @@ const DashboardChart = () => {
             name={`Balance ${state.selectedBot.origin_currency}`}
             fill="url(#orderPrice)"
           />
-          {match.map((m) =>
+          {memoizedValue.map((m) =>
             m.order ? (
               <ReferenceDot
                 key={m.order.id}
