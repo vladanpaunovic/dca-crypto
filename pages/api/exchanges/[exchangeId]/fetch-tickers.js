@@ -19,21 +19,11 @@ const handler = async (req, res) => {
   // Set sandbox environment in testing
   exchangeClient.setSandboxMode(process.env.IS_SANDBOX);
 
-  const intervalType = {
-    minute: "1m",
-    hour: "1h",
-    day: "1d",
-    week: "1w",
-  };
-
-  const tenIntervalsAgo = dayjs(req.query.since).subtract(
-    30,
-    req.query.interval_type
-  );
+  const tenIntervalsAgo = dayjs(req.query.since).subtract(30, "day");
 
   const tickers = await exchangeClient.fetchOHLCV(
     req.query.symbol,
-    intervalType[req.query.interval_type],
+    "1d",
     new Date(tenIntervalsAgo).getTime()
   );
 

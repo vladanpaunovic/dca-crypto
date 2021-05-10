@@ -1,4 +1,4 @@
-import { useIsFetching, useMutation, useQuery } from "react-query";
+import { useIsFetching, useMutation } from "react-query";
 import cmsClient from "../../server/cmsClient";
 import { useSession } from "next-auth/client";
 import DashboardChart from "./DashboardChart/DashboardChart";
@@ -9,8 +9,6 @@ import {
   ArrowSmDownIcon,
   TrashIcon,
   RefreshIcon,
-  ArrowUpIcon,
-  ArrowDownIcon,
   ClockIcon,
   PresentationChartLineIcon,
   CurrencyDollarIcon,
@@ -27,11 +25,11 @@ import dayjs from "dayjs";
 import { Popover, Transition } from "@headlessui/react";
 import { queryClient } from "../../pages/_app";
 import Loading from "../Loading/Loading";
-import apiClient from "../../server/apiClient";
 import { ACTIONS } from "../DashboardContext/dashboardReducer";
 import DashboardLayout from "./DashboardLayout";
 import OrdersDataTable from "./OrdersDataTable";
 import BotStatus from "./BotStatus";
+import { useGetTickers, useGetBalance } from "../../queries/queries";
 
 const RemoveButton = () => {
   const { state, dispatch } = useDashboardContext();
@@ -131,6 +129,7 @@ const Stat = (props) => {
 const ChartInfo = () => {
   const { state } = useDashboardContext();
   const [session] = useSession();
+  const getTickers = useGetTickers();
 
   if (!state.selectedBot) {
     return null;
@@ -148,35 +147,9 @@ const ChartInfo = () => {
     },
   });
 
-  const getTicker = useQuery({
-    queryKey: `get-ticker-${state.selectedBot.trading_pair}`,
-    queryFn: async () => {
-      const credentials = state.selectedBot.exchange.api_requirements;
-      const exchangeId = state.selectedBot.available_exchange.identifier;
-
-      const response = await apiClient.get(
-        `/exchanges/${exchangeId}/fetch-ticker`,
-        { params: { credentials, symbol: state.selectedBot.trading_pair } }
-      );
-
-      return response.data;
-    },
-  });
-
-  const credentials = state.selectedBot.exchange.api_requirements;
   const botExchange = state.selectedBot.available_exchange.identifier;
 
-  const balance = useQuery({
-    queryFn: async () => {
-      const response = await apiClient.post(
-        `/exchanges/${botExchange}/balance`,
-        { credentials }
-      );
-
-      return response.data;
-    },
-    queryKey: `my-balance-${botExchange}`,
-  });
+  const balance = useGetBalance(botExchange);
 
   const baseCurrencyBalance =
     balance.data && balance.data.free
@@ -190,9 +163,10 @@ const ChartInfo = () => {
         state.selectedBot.investing_interval)
   );
 
-  const priceNow = getTicker.data
-    ? getTicker.data.bid || getTicker.data.ask
+  const priceNow = getTickers.data
+    ? getTickers.data[getTickers.data.length - 1].price
     : 0;
+
   const averageCost =
     state.selectedBot.orders && state.selectedBot.orders.length
       ? state.selectedBot.orders[state.selectedBot.orders.length - 1]
@@ -205,6 +179,7 @@ const ChartInfo = () => {
   );
 
   const allCryptoValue = totalBaseAmount * priceNow;
+
   const totalInvestment =
     state.selectedBot.orders.length * state.selectedBot.origin_currency_amount;
 
@@ -414,9 +389,7 @@ const ChartInfo = () => {
             priceNow,
             state.selectedBot.destination_currency
           )}
-          description={`Volume ${
-            getTicker.data ? getTicker.data.baseVolume.toFixed(2) : 0
-          }`}
+          description={state.selectedBot.available_exchange.label}
         />
 
         <Stat
