@@ -138,7 +138,6 @@ export const useUpdateTradingBot = () => {
 
 export const useGetMarkets = (exchange) => {
   const { state } = useDashboardContext();
-  console.log("HEE", state.exchange);
 
   return useQuery({
     queryKey: `get-markets-${
