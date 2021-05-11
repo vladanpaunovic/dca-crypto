@@ -150,8 +150,9 @@ const ExchangesList = () => {
                       {/* <button className="text-gray-200 dark:text-gray-600 hover:text-gray-900  dark:hover:text-gray-100 transition rounded-full">
                         <PencilAltIcon className="w-5 h-5" />
                       </button> */}
-
-                      <WarningPopover exchange={exchange} />
+                      <div className="flex justify-end">
+                        <WarningPopover exchange={exchange} />
+                      </div>
                     </td>
                   </tr>
                 ))}
