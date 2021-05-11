@@ -1,3 +1,4 @@
+import { useTheme } from "next-themes";
 import { PlusCircleIcon } from "@heroicons/react/outline";
 import { Dialog } from "@headlessui/react";
 import { useDashboardContext } from "../../DashboardContext/DashboardContext";
@@ -47,15 +48,55 @@ const IconOption = (props) => {
           />
           {props.label}
         </div>
-        <span className="px-2 bg-gray-200 rounded-full">Connect</span>
+        <span className="px-2 bg-gray-200 rounded-full dark:bg-gray-900 dark:text-gray-200">
+          Connect
+        </span>
       </div>
     </components.Option>
   );
 };
 
+const customStyles = (theme) => {
+  const isLight = theme === "light";
+  return {
+    menu: (provided) => ({
+      ...provided,
+      backgroundColor: isLight ? "#F3F4F6" : "#1F2937",
+    }),
+    option: (provided) => {
+      return {
+        ...provided,
+        "&:hover": {
+          backgroundColor: isLight ? "#E5E7EB" : "#111827",
+        },
+        backgroundColor: isLight ? "white" : "#1F2937",
+        color: isLight ? "#1F2937" : "#F3F4F6",
+      };
+    },
+    menubar: (provided) => ({
+      ...provided,
+      backgroundColor: isLight ? "white" : "#1F2937",
+    }),
+    control: (provider) => {
+      return {
+        ...provider,
+        backgroundColor: isLight ? "white" : "#1F2937",
+        borderColor: isLight ? "#E5E7EB" : "#1F2937",
+      };
+    },
+    input: (provider) => ({
+      ...provider,
+      color: isLight ? "#1F2937" : "#F3F4F6",
+    }),
+    singleValue: (provided) => {
+      return { ...provided, color: isLight ? "#1F2937" : "#F3F4F6" };
+    },
+  };
+};
+
 function Exchanges() {
   const { state, dispatch } = useDashboardContext();
-
+  const { theme } = useTheme();
   const [myExchanges, availableExchanges] = useAllExchanges();
 
   const options = myExchanges.data
@@ -94,6 +135,7 @@ function Exchanges() {
             components={{ Option: IconOption }}
             className="react-select-container mt-1"
             value={setValue(state.newBot.exchange)}
+            styles={customStyles(theme)}
             classNamePrefix="react-select"
             placeholder="Choose..."
             isLoading={myExchanges.isLoading}
@@ -113,6 +155,7 @@ function CryptoCurrencyList() {
   const { state, dispatch } = useDashboardContext();
   const getMarkets = useGetMarketsForSelectedExchange();
   const getTicker = useGetTickerForBot();
+  const { theme } = useTheme();
 
   const options = getMarkets.data
     ? getMarkets.data.map((market) => ({
@@ -141,6 +184,7 @@ function CryptoCurrencyList() {
             options={options}
             value={state.newBot.tradingPair}
             className="react-select-container mt-1"
+            styles={customStyles(theme)}
             classNamePrefix="react-select"
             isLoading={getMarkets.isLoading}
             loadingMessage="Fetching list from exchange..."
@@ -339,7 +383,7 @@ const NewBotModal = () => {
                 <div className="mt-4">
                   <NewBotForm />
                 </div>
-                <p className="py-4 px-2 bg-gray-200 rounded-lg text-xs mt-8 mb-4 text-center">
+                <p className="py-4 px-2 bg-gray-200 dark:bg-gray-800 rounded-lg text-xs mt-8 mb-4 text-center">
                   Buying {state.newBot.tradingPair?.value.base} for {investment}{" "}
                   every {state.newBot.investment_interval} {interval}.
                 </p>
@@ -356,7 +400,7 @@ const NewBotModal = () => {
         <button
           type="submit"
           disabled={isSubmitDisabled || addTradingBot.isLoading}
-          className="transition disabled:opacity-50 mt-3 w-full inline-flex justify-center rounded-md border dark:bg-yellow-900 shadow-sm px-4 py-2 bg-indigo-500 text-base font-medium text-white dark:text-gray-900 hover:opacity-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+          className="transition disabled:opacity-50 mt-3 w-full inline-flex justify-center rounded-md dark:bg-yellow-500 shadow-sm px-4 py-2 bg-indigo-500 text-base font-medium text-white dark:text-gray-900 hover:opacity-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-yellow-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
         >
           Create bot{" "}
           {addTradingBot.isLoading && (
@@ -367,7 +411,9 @@ const NewBotModal = () => {
         </button>
         <button
           type="button"
-          onClick={() => setIsOpen(false)}
+          onClick={() =>
+            dispatch({ type: ACTIONS.SET_IS_MODAL_OPEN, payload: false })
+          }
           className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 dark:border-gray-800 dark:bg-gray-900 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 dark:text-yellow-500 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
         >
           Close
