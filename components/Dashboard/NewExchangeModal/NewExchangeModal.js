@@ -8,6 +8,7 @@ import { useMutation, useQuery } from "react-query";
 import { useSession } from "next-auth/client";
 import { queryClient } from "../../../pages/_app";
 import InputBox from "../InputBox";
+import { useAvailableExchanges } from "../../../queries/queries";
 
 const ExchangeForm = ({ exchange, onClose }) => {
   const [session] = useSession();
@@ -165,10 +166,7 @@ const NewExchangeForm = (props) => {
 const NewExchangeModal = () => {
   const [isOpen, setIsOpen] = useState(false);
   const closeButtonRef = useRef();
-  const { data, isLoading } = useQuery("my-exchanges", async () => {
-    const response = await cmsClient().get("/available-exchanges");
-    return response.data;
-  });
+  const { data, isLoading } = useAvailableExchanges();
 
   return (
     <>

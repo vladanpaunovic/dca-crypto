@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useSession } from "next-auth/client";
+import { useEffect } from "react";
 import { useMutation, useQuery } from "react-query";
 import { useDashboardContext } from "../components/DashboardContext/DashboardContext";
 import { ACTIONS } from "../components/DashboardContext/dashboardReducer";
@@ -78,6 +79,27 @@ export const useGetBalance = (botExchange) => {
   });
 };
 
+export const useGetBalanceForNewBot = () => {
+  const { state } = useDashboardContext();
+
+  const getBalanceForNewBot = useQuery({
+    queryFn: async () => {
+      const credentials = state.newBot.exchange.api_requirements;
+      const botExchange = state.newBot.exchange.available_exchange.identifier;
+      const response = await apiClient.post(
+        `/exchanges/${botExchange}/balance`,
+        { credentials }
+      );
+
+      return response.data;
+    },
+    queryKey: `my-balanc-new-bot-${state.newBot.exchange?.available_exchange?.identifier}`,
+    enabled: !!state.newBot.exchange?.api_requirements,
+  });
+
+  return getBalanceForNewBot;
+};
+
 export const useGetTicker = ({ state, onSuccess }) => {
   return useQuery({
     queryKey: state.trading_pair
@@ -102,6 +124,39 @@ export const useGetTicker = ({ state, onSuccess }) => {
       });
     },
     enabled: !!state.trading_pair && !!state.trading_pair.id,
+  });
+};
+
+export const useGetTickerForBot = () => {
+  const { state, dispatch } = useDashboardContext();
+  return useQuery({
+    queryKey: `get-ticker-for-new-bot-${state.newBot.tradingPair?.value?.id}`,
+    queryFn: async () => {
+      const credentials = state.newBot.exchange.api_requirements;
+      const exchangeId = state.newBot.exchange.available_exchange.identifier;
+
+      const response = await apiClient.get(
+        `/exchanges/${exchangeId}/fetch-ticker`,
+        {
+          params: {
+            credentials,
+            symbol: state.newBot.tradingPair.value.symbol,
+          },
+        }
+      );
+
+      return response.data;
+    },
+    onSuccess: (data) => {
+      dispatch({
+        type: ACTIONS.SET_MINIMUM_AMOUNT,
+        payload:
+          state.newBot.tradingPair?.value?.limits?.amount?.min *
+          data.close *
+          1.1,
+      });
+    },
+    enabled: !!state.newBot.tradingPair?.value?.id,
   });
 };
 
@@ -136,10 +191,11 @@ export const useUpdateTradingBot = () => {
   });
 };
 
-export const useGetMarkets = (exchange) => {
-  const { state } = useDashboardContext();
+export const useGetMarketsForSelectedExchange = () => {
+  const { state, dispatch } = useDashboardContext();
+  const exchange = state.newBot.exchange;
 
-  return useQuery({
+  const getMarkets = useQuery({
     queryKey: `get-markets-${
       exchange ? exchange.available_exchange.identifier : "init"
     }`,
@@ -155,5 +211,96 @@ export const useGetMarkets = (exchange) => {
       return response.data;
     },
     enabled: !!exchange,
+  });
+
+  useEffect(() => {
+    if (getMarkets.isSuccess) {
+      dispatch({
+        type: ACTIONS.SET_TRADING_PAIR,
+        payload: {
+          value: getMarkets.data[0],
+          label: getMarkets.data[0].symbol,
+        },
+      });
+    }
+  }, [getMarkets.isSuccess]);
+
+  return getMarkets;
+};
+
+export const useMyExchanges = () => {
+  const [session] = useSession();
+  return useQuery("only-my-exchanges", async () => {
+    const response = await cmsClient(session.accessToken).get("/exchanges");
+    return response.data;
+  });
+};
+
+export const useAvailableExchanges = () => {
+  return useQuery("available-exchanges", async () => {
+    const response = await cmsClient().get("/available-exchanges");
+    return response.data;
+  });
+};
+
+export const useAllExchanges = () => {
+  const myExchanges = useMyExchanges();
+  const availableExchanges = useAvailableExchanges();
+
+  if (
+    myExchanges.isLoading ||
+    !myExchanges.data ||
+    availableExchanges.isLoading ||
+    !availableExchanges.data
+  ) {
+    return [myExchanges, availableExchanges];
+  }
+
+  const myExchangeIds = new Set(
+    myExchanges.data.map((a) => a.available_exchange._id)
+  );
+
+  const filtered = availableExchanges.data.filter(
+    (ex) => !myExchangeIds.has(ex._id)
+  );
+
+  return [myExchanges, { ...availableExchanges, data: filtered }];
+};
+
+export const useAddTradingBot = () => {
+  const [session] = useSession();
+  const { dispatch } = useDashboardContext();
+
+  return useMutation({
+    mutationFn: async (payload) =>
+      await cmsClient(session.accessToken).post("/trading-bots", payload),
+    mutationKey: "add-bot",
+    onSettled: async (data) => {
+      await queryClient.refetchQueries(["my-bots"]);
+      dispatch({ type: ACTIONS.SET_SELECTED_BOT, payload: data.data });
+      dispatch({ type: ACTIONS.SET_IS_MODAL_OPEN, payload: false });
+    },
+  });
+};
+
+export const useAddExchange = () => {
+  const [session] = useSession();
+  const { dispatch } = useDashboardContext();
+  return useMutation({
+    mutationFn: async (payload) =>
+      await cmsClient(session.accessToken).post("/exchanges", payload),
+    mutationKey: "add-exchange",
+    onSettled: async (data) => {
+      await queryClient.refetchQueries(["only-my-exchanges"]);
+
+      dispatch({
+        type: ACTIONS.CLEAR_NEW_EXCHANGE,
+      });
+
+      dispatch({
+        type: ACTIONS.SET_EXCHANGE,
+        payload: { ...data.data, isActive: true },
+      });
+    },
   });
 };

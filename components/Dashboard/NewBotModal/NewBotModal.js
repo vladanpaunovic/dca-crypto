@@ -1,256 +1,405 @@
 import { PlusCircleIcon } from "@heroicons/react/outline";
-import { useState } from "react";
 import { Dialog } from "@headlessui/react";
-import cmsClient from "../../../server/cmsClient";
-import Loading from "../../Loading/Loading";
-import { useMutation, useQuery } from "react-query";
-import { useSession } from "next-auth/client";
-import InputBox from "../InputBox";
-import { queryClient } from "../../../pages/_app";
 import { useDashboardContext } from "../../DashboardContext/DashboardContext";
+import {
+  useAddTradingBot,
+  useAllExchanges,
+  useGetBalanceForNewBot,
+  useGetMarketsForSelectedExchange,
+  useGetTickerForBot,
+} from "../../../queries/queries";
 import { ACTIONS } from "../../DashboardContext/dashboardReducer";
-import { useGetMarkets, useGetTicker } from "../../../queries/queries";
+import MoneyTransferIllustration from "../../../Illustrations/MoneyTransferIllustration";
+import Loading from "../../Loading/Loading";
+import Select, { components } from "react-select";
+import { formatCurrency } from "@coingecko/cryptoformat";
+import { useSession } from "next-auth/client";
+import ExchangeForm from "./ExchangeForm";
 
-const Exchange = (props) => {
+const IconOption = (props) => {
+  if (props.data.value.isActive) {
+    return (
+      <components.Option {...props}>
+        <div className="flex items-center">
+          <img
+            src={`${process.env.NEXT_PUBLIC_CMS_URL}${props.data.value.available_exchange.logo.url}`}
+            width={10}
+            height={10}
+            className="w-5 h-5 rounded-full mr-2"
+            alt={props.label}
+          />
+          {props.data.label}
+        </div>
+      </components.Option>
+    );
+  }
+
   return (
-    <button
-      type="button"
-      onClick={() => props.onClick(props)}
-      className="p-2 bg-gray-100 dark:bg-gray-800 font-medium text-gray-900 dark:text-yellow-500 rounded hover:opacity-60 transition"
-    >
-      {props.available_exchange.label}
-    </button>
+    <components.Option {...props}>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center">
+          <img
+            src={`${process.env.NEXT_PUBLIC_CMS_URL}${props.value.logo.url}`}
+            width={10}
+            height={10}
+            className="w-5 h-5 rounded-full mr-2"
+            alt={props.label}
+          />
+          {props.label}
+        </div>
+        <span className="px-2 bg-gray-200 rounded-full">Connect</span>
+      </div>
+    </components.Option>
   );
 };
 
-const NewBotForm = (props) => {
-  const { dispatch } = useDashboardContext();
-  const onlyMyExchanges = queryClient.getQueryData("only-my-exchanges");
-  const [session] = useSession();
+function Exchanges() {
+  const { state, dispatch } = useDashboardContext();
 
-  const [state, setState] = useState({
-    exchange: null,
-    available_exchange: "choose-exchange",
-    trading_pair: null,
-    users_permissions_user: session.user.id,
-    origin_currency: "",
-    destination_currency: "",
-    origin_currency_amount: 10,
-    investing_interval: 7,
-    interval_type: "day",
-  });
+  const [myExchanges, availableExchanges] = useAllExchanges();
 
-  const { mutate, isLoading } = useMutation({
-    mutationFn: async (payload) =>
-      await cmsClient(session.accessToken).post("/trading-bots", payload),
-    mutationKey: "add-bot",
-    onSettled: async (data) => {
-      await queryClient.refetchQueries(["my-bots"]);
-      dispatch({ type: ACTIONS.SET_SELECTED_BOT, payload: data.data });
+  const options = myExchanges.data
+    ? myExchanges.data.map((exchange) => {
+        return {
+          value: { ...exchange, isActive: true },
+          label: exchange.available_exchange.label,
+        };
+      })
+    : [];
 
-      props.onClose();
-    },
-  });
-
-  const getMarkets = useGetMarkets(state.exchange);
-  const getTicker = useGetTicker({
-    state,
-    onSuccess: (data) => setState(data),
-  });
-
-  const handleOnsubmit = (e) => {
-    e.preventDefault();
-
-    mutate({
-      ...state,
-      trading_pair: state.trading_pair.symbol,
-      exchange: state.exchange._id,
-    });
+  const setValue = (value) => {
+    if (value?.available_exchange) {
+      return {
+        value,
+        label: value.available_exchange.label,
+      };
+    }
+    return null;
   };
 
+  const availableOptions = availableExchanges.data
+    ? availableExchanges.data.map((exchange) => ({
+        value: { ...exchange, isActive: false },
+        label: exchange.label,
+      }))
+    : [];
+
   return (
-    <form className="mt-8" onSubmit={handleOnsubmit}>
-      <div className="col-span-2">
-        {!state.exchange && (
-          <>
-            {" "}
-            <span className="block font-medium text-gray-700 dark:text-gray-300">
-              Select exchange
-            </span>
-            <div className="grid grid-cols-3 gap-4 my-4">
-              {props.availableExchanges.map((exchange) => (
-                <Exchange
-                  {...exchange}
-                  key={exchange.id}
-                  onClick={(e) => {
-                    const exchange = onlyMyExchanges.find(
-                      (ex) =>
-                        ex.available_exchange.id === e.available_exchange.id
-                    );
-
-                    setState({
-                      ...state,
-                      available_exchange: e.available_exchange.id,
-                      exchange,
-                    });
-                  }}
-                />
-              ))}
-            </div>
-          </>
-        )}
-
-        {state.exchange && (
-          <>
-            <label className="block mb-2">
-              <span className="font-medium text-gray-700 dark:text-gray-300">
-                Pair
-              </span>
-              <select
-                onChange={(e) => {
-                  const tradingPair = getMarkets.data.find(
-                    (product) => product.id === e.target.value
-                  );
-
-                  setState({
-                    ...state,
-                    trading_pair: tradingPair,
-                    origin_currency: tradingPair.base,
-                    destination_currency: tradingPair.quote,
-                  });
-                }}
-                name="origin_currency"
-                value={state.trading_pair?.id || "choose-trading-pair"}
-                className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200"
-              >
-                <option value="choose-trading-pair" disabled>
-                  Choose trading pair
-                </option>
-                {getMarkets.data?.map((product) => (
-                  <option key={product.id} value={product.id}>
-                    {product.symbol}
-                  </option>
-                ))}
-              </select>
-            </label>
-          </>
-        )}
-
-        {state.exchange && state.trading_pair && (
-          <>
-            <InputBox
-              identifier="origin_currency_amount"
-              label={`Capital in ${state.trading_pair?.quote}`}
-              value={state.origin_currency_amount}
-              type="text"
-              min={
-                getTicker.isLoading
-                  ? 0
-                  : state.trading_pair?.limits?.amount?.min *
-                    getTicker.data?.close *
-                    1.1
-              }
-              onChange={(e) =>
-                setState({ ...state, origin_currency_amount: e.target.value })
-              }
-            />
-            <p className="text-sm mb-2 text-gray-500 dark:text-gray-200">
-              Minimum order for {state.trading_pair?.base}, on{" "}
-              {state.exchange.available_exchange.label} is{" "}
-              {getTicker.isLoading
-                ? "Loading..."
-                : state.trading_pair?.limits?.amount?.min *
-                  getTicker.data?.close *
-                  1.1}{" "}
-              {state.trading_pair?.quote}
-            </p>
-            <InputBox
-              identifier="investing_interval"
-              label="Investing interval"
-              value={state.investing_interval}
-              onChange={(e) =>
-                setState({ ...state, investing_interval: e.target.value })
-              }
-            />
-            <label className="block mb-2">
-              <span className="font-medium text-gray-700 dark:text-gray-300">
-                Interval type
-              </span>
-              <select
-                onChange={(e) => {
-                  setState({
-                    ...state,
-                    interval_type: e.target.value,
-                  });
-                }}
-                name="interval_type"
-                value={state.interval_type}
-                className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200"
-              >
-                <option value="minute">Minutes</option>
-                <option value="hour">Hours</option>
-                <option value="day">Days</option>
-                <option value="week">Weeks</option>
-              </select>
-            </label>
-            <h4 className="font-medium text-gray-900 dark:text-white ">
-              Summary
-            </h4>
-            <p className="mb-2 mt-1 max-w-2xl text-sm text-gray-500 dark:text-white">
-              You will invest {state.origin_currency_amount}{" "}
-              {state.trading_pair?.quote} in {state.trading_pair?.base} every{" "}
-              {state.investing_interval} {state.interval_type}
-            </p>
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="flex py-1 px-4 bg-indigo-500 rounded text-gray-100"
-            >
-              {isLoading ? (
-                <>
-                  <span className="mr-1">Submit</span>{" "}
-                  <Loading width={25} height={25} />
-                </>
-              ) : (
-                "Submit"
-              )}
-            </button>
-          </>
-        )}
+    <div className="w-full">
+      <div>
+        <label className="text-sm">
+          <span className="font-medium">Exchange</span>
+          <Select
+            options={[...options, ...availableOptions]}
+            components={{ Option: IconOption }}
+            className="react-select-container mt-1"
+            value={setValue(state.newBot.exchange)}
+            classNamePrefix="react-select"
+            placeholder="Choose..."
+            isLoading={myExchanges.isLoading}
+            loadingMessage="Fetching list from exchange..."
+            isDisabled={myExchanges.isLoading}
+            onChange={(payload) => {
+              dispatch({ type: ACTIONS.SET_EXCHANGE, payload: payload.value });
+            }}
+          />
+        </label>
       </div>
-    </form>
+    </div>
+  );
+}
+
+function CryptoCurrencyList() {
+  const { state, dispatch } = useDashboardContext();
+  const getMarkets = useGetMarketsForSelectedExchange();
+  const getTicker = useGetTickerForBot();
+
+  const options = getMarkets.data
+    ? getMarkets.data.map((market) => ({
+        value: market,
+        label: market.symbol,
+      }))
+    : [];
+
+  const fromCurrency = state.newBot.tradingPair
+    ? formatCurrency(1, state.newBot.tradingPair.value.base)
+    : "loading...";
+  const quotePrice =
+    getTicker.data && state.newBot.tradingPair
+      ? formatCurrency(
+          getTicker.data.close,
+          state.newBot.tradingPair.value.quote
+        )
+      : "loading...";
+
+  return (
+    <div className="w-full">
+      <div>
+        <label className="text-sm">
+          <span className="font-medium">Cryptocurrency pair</span>
+          <Select
+            options={options}
+            value={state.newBot.tradingPair}
+            className="react-select-container mt-1"
+            classNamePrefix="react-select"
+            isLoading={getMarkets.isLoading}
+            loadingMessage="Fetching list from exchange..."
+            isDisabled={getMarkets.isLoading}
+            placeholder="Choose asset..."
+            onChange={(payload) => {
+              dispatch({ type: ACTIONS.SET_TRADING_PAIR, payload });
+            }}
+          />
+          <p className="text-xs mt-1 text-gray-600">
+            Current price for {fromCurrency} = {quotePrice}
+          </p>
+        </label>
+      </div>
+    </div>
+  );
+}
+
+const NewBotForm = () => {
+  const { state, dispatch } = useDashboardContext();
+  const getBalance = useGetBalanceForNewBot();
+
+  const baseCurrencyBalanceRaw =
+    getBalance.data?.free[state.newBot.tradingPair?.value?.quoteId];
+  const baseCurrencyBalance =
+    getBalance.data && getBalance.data.free
+      ? formatCurrency(
+          baseCurrencyBalanceRaw,
+          state.newBot.tradingPair.value.quote
+        )
+      : "loading...";
+
+  const minimumInvestment =
+    state.newBot.tradingPair?.value && state.newBot.minimum_amount
+      ? formatCurrency(
+          state.newBot.minimum_amount,
+          state.newBot.tradingPair.value.quote
+        )
+      : "loading...";
+
+  return (
+    <>
+      <label className="block mb-3">
+        <span className="font-medium text-gray-700 dark:text-gray-300">
+          Investment
+        </span>
+        <input
+          className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200"
+          type="number"
+          name="investment"
+          required
+          value={state.newBot.investment}
+          disabled={!state.newBot.tradingPair}
+          min={Math.round(state.newBot.minimum_amount)}
+          stap="any"
+          onChange={(e) =>
+            dispatch({
+              type: ACTIONS.SET_BOT_INVESTMENT,
+              payload: e.target.value,
+            })
+          }
+        />
+        <p
+          className={`mt-1 text-xs ${
+            state.newBot.investment < state.newBot.minimum_amount
+              ? "text-red-500"
+              : "text-gray-600 "
+          }`}
+        >
+          Minimum investment is {minimumInvestment}
+        </p>
+      </label>
+
+      <label className="block">
+        <span className="font-medium text-gray-700 dark:text-gray-300">
+          Every
+        </span>
+        <div className="mt-1 flex rounded-md shadow-sm">
+          <input
+            type="number"
+            min="1"
+            max="100"
+            step="1"
+            name="investment_interval"
+            disabled={!state.newBot.tradingPair}
+            value={state.newBot.investment_interval}
+            onChange={(e) =>
+              dispatch({
+                type: ACTIONS.SET_BOT_INVESTMENT_INTERVAL,
+                payload: e.target.value,
+              })
+            }
+            className=" flex-1 block rounded-none rounded-l-md sm:text-sm border-gray-300 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200"
+          />
+          <select
+            value={state.newBot.interval_type}
+            disabled={!state.newBot.tradingPair}
+            onChange={(e) =>
+              dispatch({
+                type: ACTIONS.SET_BOT_INTERVAL_TYPE,
+                payload: e.target.value,
+              })
+            }
+            className="focus:border-gray-300 no_arrows inline-flex w-2/6 items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-sm dark:bg-gray-700 dark:border-gray-700 dark:text-gray-200"
+          >
+            <option value="minute">minutes</option>
+            <option value="hour">hours</option>
+            <option value="day">days</option>
+            <option value="week">weeks</option>
+          </select>
+        </div>
+        <p
+          className={`mt-1 text-xs ${
+            baseCurrencyBalanceRaw < state.newBot.investment
+              ? "text-red-500"
+              : "text-gray-600 "
+          }`}
+        >
+          Current balance on exchange is {baseCurrencyBalance}
+          {baseCurrencyBalanceRaw < state.newBot.investment &&
+            " (insufficient balance)"}
+        </p>
+      </label>
+    </>
   );
 };
 
 const NewBotModal = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const { state, dispatch } = useDashboardContext();
   const [session] = useSession();
 
-  const { data, isLoading } = useQuery("only-my-exchanges", async () => {
-    const response = await cmsClient(session.accessToken).get("/exchanges");
-    return response.data;
-  });
+  const getBalance = useGetBalanceForNewBot();
+
+  const baseCurrencyBalanceRaw =
+    getBalance.data?.free[state.newBot.tradingPair?.value?.quoteId] || 0;
+  const addTradingBot = useAddTradingBot();
+
+  const isSubmitDisabled =
+    !state.newBot.tradingPair ||
+    !state.newBot.exchange ||
+    !state.newBot.investment ||
+    !state.newBot.investment_interval ||
+    !state.newBot.interval_type ||
+    state.newBot.investment < state.newBot.minimum_amount ||
+    baseCurrencyBalanceRaw < state.newBot.investment;
+
+  const investment = state.newBot.tradingPair?.value
+    ? formatCurrency(
+        state.newBot.investment,
+        state.newBot.tradingPair.value.quote
+      )
+    : "loading...";
+  const interval =
+    state.newBot.investment_interval > 1
+      ? `${state.newBot.interval_type}s`
+      : state.newBot.interval_type;
+
+  const handleOnSubmit = (e) => {
+    e.preventDefault();
+
+    const payload = {
+      origin_currency: state.newBot.tradingPair.value.baseId,
+      destination_currency: state.newBot.tradingPair.value.quoteId,
+      origin_currency_amount: state.newBot.investment,
+      investing_interval: state.newBot.investment_interval,
+      available_exchange: state.newBot.exchange.available_exchange.id,
+      trading_pair: state.newBot.tradingPair.value.symbol,
+      interval_type: state.newBot.interval_type,
+      users_permissions_user: session.user.id,
+      exchange: state.newBot.exchange._id,
+    };
+
+    addTradingBot.mutate(payload);
+  };
+
+  const dialogContent = (
+    <form onSubmit={handleOnSubmit} disabled={isSubmitDisabled}>
+      <div className="bg-white dark:bg-gray-900 px-4 pt-5 rounded-t-lg pb-4 sm:p-6 sm:pb-4 ">
+        <div>
+          <div className="mt-2">
+            <h3
+              className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100"
+              id="modal-title"
+            >
+              Add new bot
+            </h3>
+            <div className="mt-6">
+              <Exchanges />
+            </div>
+
+            {state.newBot.exchange ? (
+              <>
+                <div className="mt-4">
+                  <CryptoCurrencyList />
+                </div>
+                <div className="mt-4">
+                  <NewBotForm />
+                </div>
+                <p className="py-4 px-2 bg-gray-200 rounded-lg text-xs mt-8 mb-4 text-center">
+                  Buying {state.newBot.tradingPair?.value.base} for {investment}{" "}
+                  every {state.newBot.investment_interval} {interval}.
+                </p>
+              </>
+            ) : (
+              <div className="flex items-center justify-center">
+                <MoneyTransferIllustration className="w-48 h-48" />
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+      <div className="bg-gray-50 rounded-b-lg dark:bg-gray-800 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+        <button
+          type="submit"
+          disabled={isSubmitDisabled || addTradingBot.isLoading}
+          className="transition disabled:opacity-50 mt-3 w-full inline-flex justify-center rounded-md border dark:bg-yellow-900 shadow-sm px-4 py-2 bg-indigo-500 text-base font-medium text-white dark:text-gray-900 hover:opacity-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+        >
+          Create bot{" "}
+          {addTradingBot.isLoading && (
+            <span className="ml-1">
+              <Loading width={20} height={20} />
+            </span>
+          )}
+        </button>
+        <button
+          type="button"
+          onClick={() => setIsOpen(false)}
+          className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 dark:border-gray-800 dark:bg-gray-900 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 dark:text-yellow-500 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+        >
+          Close
+        </button>
+      </div>
+    </form>
+  );
+
+  const addExchange = (
+    <div>
+      <ExchangeForm exchange={state.newExchange} />
+    </div>
+  );
 
   return (
     <>
-      {isLoading ? (
-        <div className="p-1">
-          <Loading width={25} height={25} />
-        </div>
-      ) : (
-        <button
-          onClick={() => setIsOpen(true)}
-          className="focus:outline-none flex items-center text-gray-500 dark:text-gray-600 dark:border-gray-700 hover:text-gray-900 dark:hover:text-gray-100 transition rounded"
-        >
-          <PlusCircleIcon className="w-8 h-8 mr-2" />
-          Add new bot
-        </button>
-      )}
+      <button
+        onClick={() =>
+          dispatch({ type: ACTIONS.SET_IS_MODAL_OPEN, payload: true })
+        }
+        className="focus:outline-none flex items-center text-gray-500 dark:text-gray-600 dark:border-gray-700 hover:text-gray-900 dark:hover:text-gray-100 transition rounded"
+      >
+        <PlusCircleIcon className="w-8 h-8 mr-2" />
+        Add new bot
+      </button>
 
       <div className="relative">
         <Dialog
-          open={isOpen}
-          onClose={() => setIsOpen(false)}
+          open={state.newBot.isModalOpen}
+          onClose={() =>
+            dispatch({ type: ACTIONS.SET_IS_MODAL_OPEN, payload: false })
+          }
           className="fixed z-10 inset-0 overflow-y-auto text-center"
         >
           <Dialog.Overlay className="fixed inset-0 bg-black opacity-90 " />
@@ -261,34 +410,8 @@ const NewBotModal = () => {
             &#8203;
           </span>
 
-          <div className="inline-block align-middle rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-xl sm:w-full">
-            <div className="bg-white dark:bg-gray-900 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-              <div>
-                <div className="mt-6">
-                  <h3
-                    className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100"
-                    id="modal-title"
-                  >
-                    Add new bot
-                  </h3>
-                  <div className="mt-2">
-                    <NewBotForm
-                      availableExchanges={data}
-                      onClose={() => setIsOpen(false)}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="bg-gray-50 dark:bg-gray-800 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-              <button
-                type="button"
-                onClick={() => setIsOpen(false)}
-                className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 dark:border-gray-800 dark:bg-gray-900 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 dark:text-yellow-500 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-              >
-                Close
-              </button>
-            </div>
+          <div className="inline-block align-middle rounded-lg text-left shadow-xl transform transition-all sm:my-8 sm:max-w-sm sm:w-full">
+            {state.newExchange ? addExchange : dialogContent}
           </div>
         </Dialog>
       </div>
