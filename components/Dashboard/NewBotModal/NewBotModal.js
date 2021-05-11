@@ -207,8 +207,11 @@ const NewBotForm = () => {
   const { state, dispatch } = useDashboardContext();
   const getBalance = useGetBalanceForNewBot();
 
-  const baseCurrencyBalanceRaw =
-    getBalance.data?.free[state.newBot.tradingPair?.value?.quoteId];
+  const baseCurrencyBalanceRaw = getBalance.data?.free
+    ? getBalance.data?.free[state.newBot.tradingPair?.value?.quoteId]
+    : 0;
+
+  console.log(getBalance.data);
   const baseCurrencyBalance =
     getBalance.data && getBalance.data.free
       ? formatCurrency(
@@ -318,8 +321,9 @@ const NewBotModal = () => {
 
   const getBalance = useGetBalanceForNewBot();
 
-  const baseCurrencyBalanceRaw =
-    getBalance.data?.free[state.newBot.tradingPair?.value?.quoteId] || 0;
+  const baseCurrencyBalanceRaw = getBalance.data?.free
+    ? getBalance.data?.free[state.newBot.tradingPair?.value?.quoteId]
+    : 0;
   const addTradingBot = useAddTradingBot();
 
   const isSubmitDisabled =

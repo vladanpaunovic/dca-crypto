@@ -1,4 +1,8 @@
-import { PencilAltIcon, TrashIcon } from "@heroicons/react/outline";
+import {
+  ExclamationCircleIcon,
+  PencilAltIcon,
+  TrashIcon,
+} from "@heroicons/react/outline";
 import NewExchangeModal from "./NewExchangeModal/NewExchangeModal";
 import DashboardTitle from "./DashboardTitle";
 import { useSession } from "next-auth/client";
@@ -8,11 +12,76 @@ import { useMutation, useQuery } from "react-query";
 import { queryClient } from "../../pages/_app";
 import Loading from "../Loading/Loading";
 import DashboardLayout from "./DashboardLayout";
+import { Popover, Transition } from "@headlessui/react";
+
+const WarningPopover = ({ exchange }) => {
+  const [session] = useSession();
+  const { mutate, isLoading } = useMutation({
+    mutationFn: async (payload) =>
+      await cmsClient(session.accessToken).delete(`/exchanges/${payload}`),
+    mutationKey: "remove-exchange",
+    onSettled: async () => {
+      await queryClient.refetchQueries(["only-my-exchanges"]);
+    },
+  });
+
+  return (
+    <Popover className="relative">
+      {({ open }) => (
+        <>
+          <Popover.Button
+            title="Error accured. Click to reveal information."
+            className="ml-2 text-gray-200 dark:text-gray-600 hover:text-red-500 dark:hover:text-red-500 transition rounded-full"
+          >
+            {isLoading ? (
+              <Loading width={20} height={20} type="spin" />
+            ) : (
+              <TrashIcon className="w-5 h-5" />
+            )}
+          </Popover.Button>
+          <Transition
+            show={open}
+            enter="transition duration-100 ease-out"
+            enterFrom="transform scale-95 opacity-0"
+            enterTo="transform scale-100 opacity-100"
+            leave="transition duration-75 ease-out"
+            leaveFrom="transform scale-100 opacity-100"
+            leaveTo="transform scale-95 opacity-0"
+          >
+            <Popover.Panel className="absolute z-10 w-screen px-4 transform -translate-x-2/2 right-1/2 max-w-sm">
+              <div className="p-4 bg-white dark:bg-gray-900 rounded border dark:border-gray-700 shadow max-w-sm">
+                <h4 className="text-normal font-medium mb-2 text-left">
+                  Are you sure?
+                </h4>
+                <p className="mb-4 text-gray-600 dark:text-gray-300 whitespace-normal text-left">
+                  By removing API keys you are removing all trading bots
+                  assotiated to it as well all as orders created!
+                </p>
+                <button
+                  disabled={isLoading}
+                  onClick={() => mutate(exchange._id)}
+                  className="flex justify-center items-center rounded font-medium bg-red-400 dark:bg-red-700 p-2 text-red-900 dark:text-red-200 w-full"
+                >
+                  Yes, remove {exchange.available_exchange.label} API keys
+                  {isLoading ? (
+                    <span className="mx-1">
+                      <Loading width={20} height={20} />
+                    </span>
+                  ) : (
+                    <TrashIcon className="ml-2 w-5 h-5" />
+                  )}
+                </button>
+              </div>
+            </Popover.Panel>
+          </Transition>
+        </>
+      )}
+    </Popover>
+  );
+};
 
 const ExchangesList = () => {
   const [session] = useSession();
-
-  const { dispatch } = useDashboardContext();
 
   const { data, isLoading: isLoadingExchanges } = useQuery(
     "only-my-exchanges",
@@ -37,9 +106,9 @@ const ExchangesList = () => {
   }
   return (
     <div className="flex flex-col">
-      <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div className="-my-2  sm:-mx-6 lg:-mx-8">
         <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-          <div className="shadow overflow-hidden border border-gray-200 dark:border-gray-700 sm:rounded-lg">
+          <div className="shadow  border border-gray-200 dark:border-gray-700 sm:rounded-lg">
             <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
               <thead className="bg-gray-50 dark:bg-gray-700">
                 <tr>
@@ -81,13 +150,8 @@ const ExchangesList = () => {
                       {/* <button className="text-gray-200 dark:text-gray-600 hover:text-gray-900  dark:hover:text-gray-100 transition rounded-full">
                         <PencilAltIcon className="w-5 h-5" />
                       </button> */}
-                      <button
-                        onClick={() => mutate(exchange._id)}
-                        disabled={isLoading}
-                        className="ml-2 text-gray-200 dark:text-gray-600 hover:text-red-500 dark:hover:text-red-500 transition rounded-full"
-                      >
-                        <TrashIcon className="w-5 h-5" />
-                      </button>
+
+                      <WarningPopover exchange={exchange} />
                     </td>
                   </tr>
                 ))}
