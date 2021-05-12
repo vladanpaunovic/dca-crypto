@@ -463,10 +463,10 @@ const Dashboard = () => {
     <DashboardLayout>
       <div>
         <div className="lg:flex">
-          <div className="w-12/12 lg:w-3/12 shadow-xl dark:border-gray-700 bg-white dark:bg-gray-900">
+          <div className="w-12/12 lg:w-96 shadow-xl dark:border-gray-700 bg-white dark:bg-gray-900">
             <BotList />
           </div>
-          <div className="w-12/12 lg:w-9/12 p-8">
+          <div className="w-12/12 lg:w-full p-8">
             {state.selectedBot ? (
               <>
                 <div className="flex justify-between items-center mb-8">
