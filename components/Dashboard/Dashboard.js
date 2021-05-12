@@ -98,8 +98,8 @@ const Stat = (props) => {
   return (
     <div className={props.className}>
       <div className="relative">
-        <div className="flex items-start p-4">
-          <div className="p-3 mr-6 shadow-2xl bg-indigo-500 dark:bg-yellow-500 rounded">
+        <div className="flex items-start p-4 ">
+          <div className="p-3 mr-6 bg-gradient-to-br from-indigo-400 dark:from-yellow-400 to-indigo-600 dark:to-yellow-600 rounded">
             {props.icon}
           </div>
           <div className="flex-1">
@@ -416,10 +416,10 @@ const NextOrderProgress = (props) => {
 
   return (
     <div className="relative">
-      <div className="overflow-hidden rounded-full h-2 text-xs flex bg-indigo-200 dark:bg-gray-700">
+      <div className="overflow-hidden rounded-full h-2 text-xs flex bg-gray-200 dark:bg-gray-700">
         <div
           style={{ width: p }}
-          className="shadow-none rounded-full transition flex flex-col text-center whitespace-nowrap text-white justify-center bg-indigo-500 dark:bg-yellow-500"
+          className="shadow-none rounded-full transition flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-br from-indigo-300 dark:from-yellow-400 to-indigo-600 dark:to-yellow-600"
         ></div>
       </div>
     </div>

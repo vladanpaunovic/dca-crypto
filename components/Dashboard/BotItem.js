@@ -12,6 +12,47 @@ import getPercentageChange from "../helpers/getPercentageChange";
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
 
+const PingDot = ({ state }) => {
+  switch (state) {
+    case "active": {
+      return (
+        <div className="relative h-3 w-3" title="Bot operational">
+          <span className="flex h-3 w-3">
+            <span
+              className={`relative inline-flex rounded-full h-3 w-3 bg-green-400`}
+            ></span>
+          </span>
+        </div>
+      );
+    }
+    case "disabled": {
+      return (
+        <div className="relative h-3 w-3" title="Bot is disabled">
+          <span className="flex h-3 w-3">
+            <span
+              className={`relative inline-flex rounded-full h-3 w-3 bg-gray-500`}
+            ></span>
+          </span>
+        </div>
+      );
+    }
+    default: {
+      return (
+        <div className="relative h-3 w-3" title="An error occured in this bot">
+          <span className="flex h-3 w-3">
+            <span
+              className={`animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75`}
+            ></span>
+            <span
+              className={`relative inline-flex rounded-full h-3 w-3 bg-red-500`}
+            ></span>
+          </span>
+        </div>
+      );
+    }
+  }
+};
+
 const BotItem = (bot) => {
   const { dispatch, state } = useDashboardContext();
 
@@ -68,56 +109,6 @@ const BotItem = (bot) => {
     allCryptoValue
   );
 
-  const PingDot = ({ state }) => {
-    switch (state) {
-      case "active": {
-        return (
-          <div className="relative h-3 w-3" title="Bot operational">
-            <span className="flex h-3 w-3">
-              <span
-                className={`absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75`}
-              ></span>
-              <span
-                className={`relative inline-flex rounded-full h-3 w-3 bg-green-500`}
-              ></span>
-            </span>
-          </div>
-        );
-      }
-      case "disabled": {
-        return (
-          <div className="relative h-3 w-3" title="Bot is disabled">
-            <span className="flex h-3 w-3">
-              <span
-                className={`absolute inline-flex h-full w-full rounded-full bg-gray-400 opacity-75`}
-              ></span>
-              <span
-                className={`relative inline-flex rounded-full h-3 w-3 bg-gray-500`}
-              ></span>
-            </span>
-          </div>
-        );
-      }
-      default: {
-        return (
-          <div
-            className="relative h-3 w-3"
-            title="An error occured in this bot"
-          >
-            <span className="flex h-3 w-3">
-              <span
-                className={`animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75`}
-              ></span>
-              <span
-                className={`relative inline-flex rounded-full h-3 w-3 bg-red-500`}
-              ></span>
-            </span>
-          </div>
-        );
-      }
-    }
-  };
-
   const getPercentageDifference = () => {
     if (isNaN(percentageDifference)) {
       return "0%";
@@ -161,17 +152,19 @@ const BotItem = (bot) => {
     >
       <td className="px-4 py-4 cursor-pointer" onClick={handleOnClick}>
         <div className="text-sm text-gray-900 dark:text-gray-50">
-          <div className="flex items-baseline">
-            <span className="font-semibold">
-              {bot.available_exchange
-                ? bot.available_exchange.identifier.toUpperCase()
-                : null}
-              :
-            </span>
-            <span className="font-medium">
-              {bot.origin_currency}
-              {bot.destination_currency}
-            </span>
+          <div className="flex items-baseline justify-between">
+            <div>
+              <span className="font-semibold">
+                {bot.available_exchange
+                  ? bot.available_exchange.identifier.toUpperCase()
+                  : null}
+                :
+              </span>
+              <span className="font-medium">
+                {bot.origin_currency}
+                {bot.destination_currency}
+              </span>
+            </div>
             <span className="ml-2">{previewStatus()}</span>
           </div>
           <div className="text-xs text-gray-400">
