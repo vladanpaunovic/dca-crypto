@@ -144,7 +144,7 @@ const ExchangeForm = ({ exchange }) => {
                     <textarea
                       spellCheck={false}
                       rows={2}
-                      className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200"
+                      className="mt-1 block w-full resize-none shadow-sm sm:text-sm border-gray-300 rounded dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200"
                       required
                       value={state.api_key}
                       onChange={(e) =>
@@ -160,7 +160,7 @@ const ExchangeForm = ({ exchange }) => {
                     <textarea
                       spellCheck={false}
                       rows={2}
-                      className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200"
+                      className="mt-1 block w-full resize-none shadow-sm sm:text-sm border-gray-300 rounded dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200"
                       required
                       value={state.secret_key}
                       onChange={(e) =>
