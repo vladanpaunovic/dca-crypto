@@ -124,7 +124,7 @@ const ExchangeForm = ({ exchange }) => {
                   <div className="flex items-center my-6 justify-between">
                     <div className="flex items-center">
                       <img
-                        src={`${process.env.NEXT_PUBLIC_CMS_URL}${exchange.logo.url}`}
+                        src={exchange.logo.url}
                         width={10}
                         height={10}
                         className="w-5 h-5 rounded-full mr-2"

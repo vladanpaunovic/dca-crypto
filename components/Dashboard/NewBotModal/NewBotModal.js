@@ -23,7 +23,7 @@ const IconOption = (props) => {
       <components.Option {...props}>
         <div className="flex items-center">
           <img
-            src={`${process.env.NEXT_PUBLIC_CMS_URL}${props.data.value.available_exchange.logo.url}`}
+            src={props.data.value.available_exchange.logo.url}
             width={10}
             height={10}
             className="w-5 h-5 rounded-full mr-2"
@@ -40,7 +40,7 @@ const IconOption = (props) => {
       <div className="flex items-center justify-between">
         <div className="flex items-center">
           <img
-            src={`${process.env.NEXT_PUBLIC_CMS_URL}${props.value.logo.url}`}
+            src={props.value.logo.url}
             width={10}
             height={10}
             className="w-5 h-5 rounded-full mr-2"
