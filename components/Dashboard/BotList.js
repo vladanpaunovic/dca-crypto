@@ -46,7 +46,7 @@ const BotList = () => {
               <thead className="bg-white dark:bg-gray-900">
                 <tr>
                   <th
-                    colSpan={3}
+                    colSpan={2}
                     className="w-full px-4 py-6 text-left text-lg font-medium  dark:text-gray-100 tracking-wider"
                   >
                     Your bots
@@ -65,9 +65,6 @@ const BotList = () => {
                   >
                     Holdings
                   </th>
-                  <th scope="col" className="w-2/12 relative px-6 py-3">
-                    <span className="sr-only">Status</span>
-                  </th>
                 </tr>
               </thead>
               <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-800">
@@ -76,7 +73,7 @@ const BotList = () => {
                 ))}
                 <tr>
                   <td
-                    colSpan={3}
+                    colSpan={2}
                     className="px-3 py-4 bg-white dark:bg-gray-900"
                   >
                     <div className="flex justify-center">

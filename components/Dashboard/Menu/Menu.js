@@ -16,7 +16,7 @@ const Menu = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <nav className="relative flex flex-wrap items-center justify-between px-2 py-3 bg-indigo-500 dark:bg-gray-800 border-b dark:border-gray-800">
+    <nav className="relative flex flex-wrap items-center justify-between px-2 py-3 bg-white  dark:bg-gray-800 border-b dark:border-gray-800">
       <div className="w-full mx-auto flex flex-wrap items-center justify-between">
         <div className="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
           <Logo />
@@ -39,7 +39,7 @@ const Menu = () => {
           <ul className="flex flex-col lg:flex-row list-none ml-auto mt-5 lg:mt-0">
             <li className="nav-item">
               <Link href="/dashboard">
-                <a className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75">
+                <a className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-gray-600 dark:text-gray-400 hover:opacity-75">
                   <TemplateIcon className="w-6 h-6 mr-1" /> Dashboard
                 </a>
               </Link>
@@ -47,7 +47,7 @@ const Menu = () => {
             <li className="nav-item">
               <Link href="/my-exchanges">
                 <a
-                  className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75"
+                  className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-gray-600 dark:text-gray-400 hover:opacity-75"
                   href="#pablo"
                 >
                   <SwitchHorizontalIcon className="w-6 h-6 mr-1" /> Exchanges
@@ -57,7 +57,7 @@ const Menu = () => {
 
             <li className="nav-item">
               <button
-                className="transition px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75"
+                className="transition px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-gray-600 dark:text-gray-400 hover:opacity-75"
                 onClick={() => setTheme(theme === "light" ? "dark" : "light")}
               >
                 {theme === "light" ? (
@@ -70,7 +70,7 @@ const Menu = () => {
             <li className="nav-item">
               <button
                 onClick={() => signOut({ callbackUrl: "/" })}
-                className="text-xs px-3 py-2 flex items-center uppercase font-bold leading-snug text-white hover:opacity-75 "
+                className="text-xs px-3 py-2 flex items-center uppercase font-bold leading-snug text-gray-600 dark:text-gray-400 hover:opacity-75 "
               >
                 <LogoutIcon className="w-6 h-6 mr-1" /> Sign out
               </button>

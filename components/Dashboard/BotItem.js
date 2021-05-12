@@ -68,6 +68,56 @@ const BotItem = (bot) => {
     allCryptoValue
   );
 
+  const PingDot = ({ state }) => {
+    switch (state) {
+      case "active": {
+        return (
+          <div className="relative h-3 w-3" title="Bot operational">
+            <span className="flex h-3 w-3">
+              <span
+                className={`absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75`}
+              ></span>
+              <span
+                className={`relative inline-flex rounded-full h-3 w-3 bg-green-500`}
+              ></span>
+            </span>
+          </div>
+        );
+      }
+      case "disabled": {
+        return (
+          <div className="relative h-3 w-3" title="Bot is disabled">
+            <span className="flex h-3 w-3">
+              <span
+                className={`absolute inline-flex h-full w-full rounded-full bg-gray-400 opacity-75`}
+              ></span>
+              <span
+                className={`relative inline-flex rounded-full h-3 w-3 bg-gray-500`}
+              ></span>
+            </span>
+          </div>
+        );
+      }
+      default: {
+        return (
+          <div
+            className="relative h-3 w-3"
+            title="An error occured in this bot"
+          >
+            <span className="flex h-3 w-3">
+              <span
+                className={`animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75`}
+              ></span>
+              <span
+                className={`relative inline-flex rounded-full h-3 w-3 bg-red-500`}
+              ></span>
+            </span>
+          </div>
+        );
+      }
+    }
+  };
+
   const getPercentageDifference = () => {
     if (isNaN(percentageDifference)) {
       return "0%";
@@ -90,26 +140,14 @@ const BotItem = (bot) => {
 
   const previewStatus = () => {
     if (bot.errorMessage) {
-      return (
-        <span className="focus:outline-none px-2 py-1 text-xs flex justify-center leading-5 font-semibold rounded-full bg-red-100 text-red-800 dark:bg-red-400">
-          Error
-        </span>
-      );
+      return <PingDot state="error" />;
     }
 
     if (bot.isActive) {
-      return (
-        <span className="focus:outline-none px-2 py-1 text-xs flex justify-center leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-400">
-          Active
-        </span>
-      );
+      return <PingDot state="active" />;
     }
 
-    return (
-      <span className="focus:outline-none px-2 py-1 text-xs flex justify-center leading-5 font-semibold rounded-full bg-gray-100 text-gray-800 dark:bg-gray-400">
-        Disabled
-      </span>
-    );
+    return <PingDot state="disabled" />;
   };
 
   return (
@@ -134,6 +172,7 @@ const BotItem = (bot) => {
               {bot.origin_currency}
               {bot.destination_currency}
             </span>
+            <span className="ml-2">{previewStatus()}</span>
           </div>
           <div className="text-sm text-gray-400">
             Buying {bot.origin_currency} with {bot.destination_currency}
@@ -164,14 +203,6 @@ const BotItem = (bot) => {
           <div className="text-sm text-gray-400">
             {getPercentageDifference()}
           </div>
-        </div>
-      </td>
-      <td
-        className="pr-6 py-4 cursor-pointer align-top"
-        onClick={handleOnClick}
-      >
-        <div className="text-sm text-gray-900 dark:text-gray-50 flex flex-col ">
-          {previewStatus()}
         </div>
       </td>
     </tr>
