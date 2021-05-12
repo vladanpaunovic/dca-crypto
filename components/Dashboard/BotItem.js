@@ -19,7 +19,7 @@ const PingDot = ({ state }) => {
         <div className="relative h-3 w-3" title="Bot operational">
           <span className="flex h-3 w-3">
             <span
-              className={`relative inline-flex rounded-full h-3 w-3 bg-green-400`}
+              className={`relative inline-flex rounded-full h-3 w-3 bg-gradient-to-br from-green-200  to-green-400`}
             ></span>
           </span>
         </div>
@@ -30,7 +30,7 @@ const PingDot = ({ state }) => {
         <div className="relative h-3 w-3" title="Bot is disabled">
           <span className="flex h-3 w-3">
             <span
-              className={`relative inline-flex rounded-full h-3 w-3 bg-gray-500`}
+              className={`relative inline-flex rounded-full h-3 w-3 bg-gradient-to-br from-gray-200  to-gray-400`}
             ></span>
           </span>
         </div>
@@ -44,7 +44,7 @@ const PingDot = ({ state }) => {
               className={`animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75`}
             ></span>
             <span
-              className={`relative inline-flex rounded-full h-3 w-3 bg-red-500`}
+              className={`relative inline-flex rounded-full h-3 w-3 bg-gradient-to-br from-red-200  to-red-400`}
             ></span>
           </span>
         </div>
