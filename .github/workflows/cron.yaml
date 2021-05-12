@@ -2,6 +2,8 @@ name: 15-minute-cron
 on:
   schedule:
     - cron: "*/15 * * * *"
+  workflow_dispatch:
+
 jobs:
   cron:
     runs-on: ubuntu-latest
