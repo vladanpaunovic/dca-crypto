@@ -452,7 +452,7 @@ const NewBotModal = () => {
           }
           className="fixed z-10 inset-0 overflow-y-auto text-center"
         >
-          <Dialog.Overlay className="fixed inset-0 bg-black opacity-90 " />
+          <Dialog.Overlay className="fixed inset-0 bg-black opacity-60" />
           <span
             className="hidden sm:inline-block sm:align-middle sm:h-screen"
             aria-hidden="true"
