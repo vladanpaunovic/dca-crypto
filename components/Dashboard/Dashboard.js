@@ -492,7 +492,7 @@ const Dashboard = () => {
                   <ChartInfo />
                 </div>
 
-                <div className="shadow-lg border dark:border-gray-900 bg-gray-50 dark:bg-gray-900 rounded-lg">
+                <div className="shadow-xl border dark:border-gray-800 bg-gray-50 dark:bg-gray-900 rounded-lg">
                   <h2 className="text-xl font-medium mb-8 p-6">Your orders</h2>
                   <div>
                     <OrdersDataTable />
