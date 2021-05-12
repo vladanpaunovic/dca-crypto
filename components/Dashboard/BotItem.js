@@ -174,10 +174,10 @@ const BotItem = (bot) => {
             </span>
             <span className="ml-2">{previewStatus()}</span>
           </div>
-          <div className="text-sm text-gray-400">
+          <div className="text-xs text-gray-400">
             Buying {bot.origin_currency} with {bot.destination_currency}
           </div>
-          <div className="text-sm text-gray-400 ">
+          <div className="text-xs text-gray-400 ">
             {formatCurrency(
               bot.origin_currency_amount,
               bot.destination_currency
@@ -200,7 +200,7 @@ const BotItem = (bot) => {
           <div className="text-sm text-gray-900 dark:text-gray-100 ">
             {formatCurrency(allCryptoValue, bot.destination_currency)}
           </div>
-          <div className="text-sm text-gray-400">
+          <div className="text-xs text-gray-400">
             {getPercentageDifference()}
           </div>
         </div>
