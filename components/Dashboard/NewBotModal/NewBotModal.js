@@ -291,7 +291,7 @@ const NewBotForm = () => {
                 payload: e.target.value,
               })
             }
-            className="focus:border-gray-300 no_arrows inline-flex w-2/6 items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-sm dark:bg-gray-700 dark:border-gray-700 dark:text-gray-200"
+            className="focus:border-gray-300  inline-flex w-2/6 items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-sm dark:bg-gray-700 dark:border-gray-700 dark:text-gray-200"
           >
             <option value="minute">minutes</option>
             <option value="hour">hours</option>
