@@ -179,7 +179,7 @@ const ExchangesList = () => {
 const MyExchanges = () => {
   return (
     <DashboardLayout>
-      <div>
+      <div className="bg-gray-100 dark:bg-gray-800 h-screen">
         <DashboardTitle title="Your Exchanges" />
         <div className="p-8 flex">
           <div className="w-1/2 mr-4">

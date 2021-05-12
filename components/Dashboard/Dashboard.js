@@ -97,14 +97,16 @@ const RemoveButton = () => {
 const Stat = (props) => {
   return (
     <div className={props.className}>
-      <div className="shadow-lg border dark:border-gray-800 rounded-lg relative">
+      <div className="relative">
         <div className="flex items-start p-4">
           <div className="p-3 mr-6 shadow-2xl bg-indigo-500 dark:bg-yellow-500 rounded">
             {props.icon}
           </div>
           <div className="flex-1">
-            <p className="text-gray-500 font-semibold">{props.title}</p>
-            <div className="flex items-baseline  ">
+            <p className="text-gray-500 dark:text-gray-300 font-medium">
+              {props.title}
+            </p>
+            <div className="flex items-baseline">
               <h2 className="text-xl font-semibold">{props.value}</h2>
             </div>
             <div className="text-gray-500 mt-1">{props.description}</div>
@@ -414,10 +416,10 @@ const NextOrderProgress = (props) => {
 
   return (
     <div className="relative">
-      <div className="overflow-hidden h-2 text-xs flex rounded-b-lg bg-indigo-200 dark:bg-gray-700">
+      <div className="overflow-hidden rounded-full h-2 text-xs flex bg-indigo-200 dark:bg-gray-700">
         <div
           style={{ width: p }}
-          className="shadow-none transition flex flex-col text-center whitespace-nowrap text-white justify-center bg-indigo-500 dark:bg-yellow-500"
+          className="shadow-none rounded-full transition flex flex-col text-center whitespace-nowrap text-white justify-center bg-indigo-500 dark:bg-yellow-500"
         ></div>
       </div>
     </div>
@@ -431,9 +433,7 @@ const Dashboard = () => {
   const title = state.selectedBot ? (
     <>
       {state.selectedBot.available_exchange.identifier.toUpperCase()}:
-      <span className="text-indigo-500 dark:text-yellow-500">
-        {state.selectedBot.trading_pair}
-      </span>
+      {state.selectedBot.trading_pair}
     </>
   ) : (
     "Dashboard"
@@ -461,7 +461,7 @@ const Dashboard = () => {
 
   return (
     <DashboardLayout>
-      <div>
+      <div className="bg-gray-100 dark:bg-gray-800">
         <div className="lg:flex">
           <div className="w-12/12 lg:w-96 shadow-xl dark:border-gray-700 bg-white dark:bg-gray-900">
             <BotList />
@@ -470,7 +470,7 @@ const Dashboard = () => {
             {state.selectedBot ? (
               <>
                 <div className="flex justify-between items-center mb-8">
-                  <h1 className="text-black dark:text-gray-100 text-4xl font-bold flex items-center">
+                  <h1 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-indigo-400 dark:from-yellow-600 to-indigo-700 dark:to-yellow-400">
                     {title}
                   </h1>
                   <div className="flex">
@@ -480,7 +480,7 @@ const Dashboard = () => {
                     </span>
                   </div>
                 </div>
-                <div className="shadow-lg border dark:border-gray-800 rounded-lg p-6 mb-8">
+                <div className="shadow-xl border bg-white dark:bg-gray-900 dark:border-gray-800 rounded-lg p-6 mb-8">
                   <h2 className="mb-4 text-lg font-medium">
                     Asset performance over time
                   </h2>
@@ -492,7 +492,7 @@ const Dashboard = () => {
                   <ChartInfo />
                 </div>
 
-                <div className="shadow-lg border dark:border-gray-800 rounded-lg">
+                <div className="shadow-lg border dark:border-gray-900 bg-gray-50 dark:bg-gray-900 rounded-lg">
                   <h2 className="text-xl font-medium mb-8 p-6">Your orders</h2>
                   <div>
                     <OrdersDataTable />
