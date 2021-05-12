@@ -144,9 +144,9 @@ const BotItem = (bot) => {
   return (
     <tr
       key={bot.id}
-      className={`hover:bg-gray-200 dark:hover:bg-gray-800 ${
+      className={`hover:bg-gray-100 dark:hover:bg-gray-800 ${
         isSelected
-          ? "bg-gray-200 dark:bg-gray-800"
+          ? "bg-gray-100 dark:bg-gray-800"
           : "bg-white dark:bg-gray-900"
       }`}
     >
