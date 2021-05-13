@@ -1,4 +1,3 @@
-import { useIsFetching } from "react-query";
 import DashboardChart from "./DashboardChart/DashboardChart";
 import { useDashboardContext } from "../DashboardContext/DashboardContext";
 import { formatCurrency } from "@coingecko/cryptoformat";
@@ -30,6 +29,7 @@ import {
   useGetBalance,
   useRemoveTradingBot,
   useUpdateTradingBot,
+  useGetMyBots,
 } from "../../queries/queries";
 import DashboardMenu from "./Menu/DashboardMenu";
 
@@ -429,7 +429,7 @@ const NextOrderProgress = (props) => {
 
 const Dashboard = () => {
   const { state } = useDashboardContext();
-  const isFetching = useIsFetching();
+  const { isLoading } = useGetMyBots();
 
   const title = state.selectedBot ? (
     <>
@@ -440,7 +440,7 @@ const Dashboard = () => {
     "Dashboard"
   );
 
-  const emptyState = isFetching ? (
+  const emptyState = isLoading ? (
     <div className="flex w-full h-screen items-center justify-center">
       <Loading />
     </div>

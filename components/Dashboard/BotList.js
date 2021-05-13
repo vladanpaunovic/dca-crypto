@@ -1,37 +1,9 @@
-import { useSession } from "next-auth/client";
-import { useQuery } from "react-query";
-import cmsClient from "../../server/cmsClient";
-import { useDashboardContext } from "../DashboardContext/DashboardContext";
-import { ACTIONS } from "../DashboardContext/dashboardReducer";
+import { useGetMyBots } from "../../queries/queries";
 import BotItem from "./BotItem";
 import NewBotModal from "./NewBotModal/NewBotModal";
 
 const BotList = () => {
-  const [session] = useSession();
-  const { state, dispatch } = useDashboardContext();
-
-  const { data, isLoading } = useQuery(
-    "my-bots",
-    async () => {
-      const response = await cmsClient(session.accessToken).get(
-        "/trading-bots"
-      );
-
-      return response.data;
-    },
-    {
-      refetchInterval: 10000,
-      onSettled: (data) => {
-        if (state.selectedBot) {
-          const currentBot = data.find(
-            (bot) => bot.id === state.selectedBot.id
-          );
-
-          dispatch({ type: ACTIONS.SET_SELECTED_BOT, payload: currentBot });
-        }
-      },
-    }
-  );
+  const { data, isLoading } = useGetMyBots();
 
   if (isLoading) {
     return null;
