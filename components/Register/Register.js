@@ -37,10 +37,10 @@ const Register = () => {
   };
   return (
     <form
-      className="min-w-screen min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center px-5 py-5"
+      className="min-w-screen min-h-screen bg-gray-100 pattern-domino dark:bg-gray-900 flex items-center justify-center px-5 py-5"
       onSubmit={handleOnSubmit}
     >
-      <div className=" text-gray-500 rounded-3xl shadow-xl border dark:border-gray-700 w-full overflow-hidden max-w-4xl bg-white dark:bg-gray-900">
+      <div className=" text-gray-500 rounded-3xl shadow-xl w-full overflow-hidden max-w-4xl bg-white dark:bg-gray-900">
         <div className="md:flex w-full">
           <div className="hidden md:flex items-center justify-center w-1/2 bg-indigo-600 dark:bg-yellow-500 py-10 px-10 fill-current">
             <LoginIllustration />
