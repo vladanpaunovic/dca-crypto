@@ -29,9 +29,9 @@ const SignIn = ({ csrfToken, error, isEmailConfirmed }) => {
   };
 
   return (
-    <div className="flex">
-      <div className="w-full md:w-1/3 min-h-screen flex items-center justify-center bg-white dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-md w-full space-y-8">
+    <div className="flex pattern-domino bg-gray-50 dark:bg-gray-900">
+      <div className="w-full sm:w-1/2 xl:w-1/3 min-h-screen flex items-center justify-center">
+        <div className="max-w-md w-full space-y-8 bg-white dark:bg-gray-900 border dark:border-gray-800 rounded-lg py-12 px-4 sm:px-6 lg:px-8 shadow-2xl">
           <div>
             <Logo />
             {isEmailConfirmed && (
@@ -148,7 +148,7 @@ const SignIn = ({ csrfToken, error, isEmailConfirmed }) => {
           </form>
         </div>
       </div>
-      <div className="md:w-2/3 pattern-domino bg-gray-50 dark:bg-gray-900"></div>
+      <div className="sm:w-1/2 xl:w-2/3  min-h-screen "></div>
     </div>
   );
 };
