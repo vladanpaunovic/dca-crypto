@@ -52,7 +52,7 @@ const Register = () => {
                   <MailOpenIcon className="text-white dark:text-gray-900 w-10 h-10" />
                 </span>
                 <h3 className="text-2xl leading-6 font-semibold text-gray-900 dark:text-gray-100 mt-4">
-                  Varify your email
+                  Verify your email
                 </h3>
                 <p className="text-gray-400 dark:text-gray-100 mt-2">
                   Check your inbox to confirm your email
