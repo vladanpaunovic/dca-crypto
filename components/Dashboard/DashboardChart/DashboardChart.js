@@ -17,6 +17,7 @@ import dayjs from "dayjs";
 import { formatCurrency } from "@coingecko/cryptoformat";
 import { useMemo } from "react";
 import { useGetTickers } from "../../../queries/queries";
+import { useTheme } from "next-themes";
 
 dayjs.extend(localizedFormat);
 dayjs.extend(isSameOrBefore);
@@ -82,8 +83,10 @@ export const CHART_SYNCID = "dashboard-chart";
 
 const DashboardChart = () => {
   const { state } = useDashboardContext();
-
   const getTickers = useGetTickers();
+  const { theme } = useTheme();
+  const isLight = theme === "light";
+  const color = isLight ? "#4B5563" : "#F3F4F6";
 
   const memoizedValue = useMemo(() => {
     if (!getTickers.data) {
@@ -178,27 +181,27 @@ const DashboardChart = () => {
           />
           <Area
             connectNulls
-            stroke="#82ca9d"
+            stroke={color}
             type="monotone"
             dataKey="orders.totalInvestment"
             name={`Total investment`}
-            fill="url(#orderPrice)"
+            fillOpacity={0}
           />
           <Area
             connectNulls
-            stroke="#82ca9d"
+            stroke={color}
             type="monotone"
             dataKey="orders.totalBalance"
             name={`Balance ${state.selectedBot.destination_currency}`}
-            fill="url(#orderPrice)"
+            fillOpacity={0}
           />
           <Area
             connectNulls
-            stroke="#82ca9d"
+            stroke={color}
             type="monotone"
             dataKey="orders.totalHoldings"
             name={`Balance ${state.selectedBot.origin_currency}`}
-            fill="url(#orderPrice)"
+            fillOpacity={0}
           />
           {/* {memoizedValue.map((m) =>
             m.order ? (
