@@ -455,7 +455,7 @@ const NewBotModal = () => {
             &#8203;
           </span>
 
-          <div className="inline-block h-full md:h-auto align-middle bg-gray-900 rounded-lg text-left shadow-xl transform transition-all lg:my-8 w-full lg:max-w-sm">
+          <div className="inline-block h-full md:h-auto align-middle bg-white dark:bg-gray-900 rounded-none lg:rounded-lg text-left shadow-xl transform transition-all lg:my-8 w-full lg:max-w-sm">
             {state.newExchange ? addExchange : dialogContent}
             <button
               type="button"
