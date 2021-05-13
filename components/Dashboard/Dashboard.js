@@ -267,9 +267,9 @@ const ChartInfo = () => {
           </div>
         )}
       </div>
-      <div className="grid grid-cols-3 gap-8">
+      <div className="grid grid-cols-3 gap-0 lg:gap-8 divide-y lg:divide-none">
         <Stat
-          className="col-span-3 sm:col-span-1"
+          className="col-span-3 lg:col-span-1"
           title={`Current holdings`}
           icon={
             allCryptoValue < totalInvestment ? (
@@ -321,7 +321,7 @@ const ChartInfo = () => {
         />
 
         <Stat
-          className="col-span-3 sm:col-span-1"
+          className="col-span-3 lg:col-span-1"
           title="Investment"
           icon={
             <CurrencyDollarIcon className="w-6 h-6 text-white dark:text-gray-900" />
@@ -345,7 +345,7 @@ const ChartInfo = () => {
         />
 
         <Stat
-          className="col-span-3 sm:col-span-1"
+          className="col-span-3 lg:col-span-1"
           title="Balance on exchange"
           icon={
             <SwitchHorizontalIcon className="w-6 h-6 text-white dark:text-gray-900" />
@@ -366,7 +366,7 @@ const ChartInfo = () => {
         />
 
         <Stat
-          className="col-span-3 sm:col-span-1"
+          className="col-span-3 lg:col-span-1"
           title="Current price"
           icon={<CashIcon className="w-6 h-6 text-white dark:text-gray-900" />}
           value={formatCurrency(
@@ -377,7 +377,7 @@ const ChartInfo = () => {
         />
 
         <Stat
-          className="col-span-3 sm:col-span-1"
+          className="col-span-3 lg:col-span-1"
           title="Average cost"
           icon={
             <PresentationChartLineIcon className="w-6 h-6 text-white dark:text-gray-900" />
@@ -393,7 +393,7 @@ const ChartInfo = () => {
         />
 
         <Stat
-          className="col-span-3 sm:col-span-1"
+          className="col-span-3 lg:col-span-1"
           title="Next order"
           icon={<ClockIcon className="w-6 h-6 text-white dark:text-gray-900" />}
           value={diffUntilNextOrder()}
