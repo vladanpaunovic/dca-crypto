@@ -46,7 +46,7 @@ export default function Hero() {
               </button>
             </div>
             {!session ? (
-              <Link href="/auth/signin?callbackUrl=/dashboard">
+              <Link href="/auth/signin">
                 <a className="px-2 py-1 bg-gray-100 dark:bg-gray-800 dark:text-yellow-500 rounded font-medium">
                   Sign in
                 </a>

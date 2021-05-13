@@ -69,13 +69,8 @@ const auth = NextAuth({
       return session;
     },
 
-    async redirect(url, baseUrl) {
-      if (!url) {
-        return baseUrl;
-      }
-
-      return url;
-      // return url.startsWith(baseUrl) ? url : baseUrl;
+    redirect: async (url, baseUrl) => {
+      return Promise.resolve(url);
     },
   },
   pages: {

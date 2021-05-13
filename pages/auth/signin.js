@@ -2,8 +2,28 @@ import { ExclamationCircleIcon, LockClosedIcon } from "@heroicons/react/solid";
 import Logo from "../../components/Logo/Logo";
 import Link from "next/link";
 import { getCsrfToken } from "next-auth/client";
+import { signIn } from "next-auth/client";
+import { useState } from "react";
+import Loading from "../../components/Loading/Loading";
 
 const SignIn = ({ csrfToken, error }) => {
+  const [state, setState] = useState({
+    email: "",
+    password: "",
+    loading: false,
+  });
+
+  const handleOnSubmit = (e) => {
+    e.preventDefault();
+    setState({ ...state, loading: true });
+
+    return signIn("credentials", {
+      email: state.email,
+      password: state.password,
+      callbackUrl: "/dashboard",
+    });
+  };
+
   return (
     <div className="flex">
       <div className="w-full md:w-1/3 min-h-screen flex items-center justify-center bg-white dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
@@ -14,11 +34,7 @@ const SignIn = ({ csrfToken, error }) => {
               Sign in to your account
             </h2>
           </div>
-          <form
-            className="space-y-6"
-            method="post"
-            action="/api/auth/callback/credentials"
-          >
+          <form className="space-y-6" method="post" onSubmit={handleOnSubmit}>
             <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
             <div className="rounded-md shadow-sm -space-y-px">
               <div>
@@ -30,6 +46,10 @@ const SignIn = ({ csrfToken, error }) => {
                   name="email"
                   type="email"
                   autoComplete="email"
+                  value={state.email}
+                  onChange={(e) =>
+                    setState({ ...state, email: e.target.value })
+                  }
                   required
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border dark:bg-gray-800 border-gray-300 dark:border-gray-700 placeholder-gray-500 text-gray-900 dark:text-white rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                   placeholder="Email address"
@@ -43,6 +63,10 @@ const SignIn = ({ csrfToken, error }) => {
                   id="password"
                   name="password"
                   type="password"
+                  value={state.password}
+                  onChange={(e) =>
+                    setState({ ...state, password: e.target.value })
+                  }
                   autoComplete="current-password"
                   required
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border dark:bg-gray-800 border-gray-300 dark:border-gray-700 placeholder-gray-500 text-gray-900 dark:text-white rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
@@ -79,9 +103,14 @@ const SignIn = ({ csrfToken, error }) => {
             <div>
               <button
                 type="submit"
-                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white dark:text-gray-900 bg-indigo-600 hover:bg-indigo-700 dark:bg-yellow-500 dark:hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="group flex relative w-full items-center justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white dark:text-gray-900 bg-indigo-600 hover:bg-indigo-700 dark:bg-yellow-500 dark:hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
-                Sign in
+                Sign in{" "}
+                {state.loading && (
+                  <span className="ml-1">
+                    <Loading width={20} height={20} />
+                  </span>
+                )}
               </button>
             </div>
             {error && (

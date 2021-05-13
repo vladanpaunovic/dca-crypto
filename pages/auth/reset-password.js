@@ -98,7 +98,7 @@ const ResetPassword = ({ code }) => {
                 <CheckCircleIcon className="w-5 h-5 mr-2" />
                 <span>
                   The password has been reset.{" "}
-                  <Link href="/auth/signin?callbackUrl=/dashboard">
+                  <Link href="/auth/signin">
                     <a className="underline text-indigo-500 dark:text-yellow-500">
                       Sign in?
                     </a>
