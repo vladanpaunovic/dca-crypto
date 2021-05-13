@@ -63,6 +63,7 @@ const SignIn = ({ csrfToken, error, isEmailConfirmed }) => {
                   Email address
                 </label>
                 <input
+                  autoFocus
                   id="email-address"
                   name="email"
                   type="email"

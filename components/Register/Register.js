@@ -1,7 +1,6 @@
 import {
   UserIcon,
   InboxIcon,
-  LockClosedIcon,
   EyeIcon,
   EyeOffIcon,
 } from "@heroicons/react/outline";
@@ -10,6 +9,7 @@ import { useState } from "react";
 import LoginIllustration from "../../Illustrations/LoginIllustration";
 import cmsClient from "../../server/cmsClient";
 import Loading from "../Loading/Loading";
+import Link from "next/link";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -72,7 +72,7 @@ const Register = () => {
                     Register
                   </h1>
                   <p className="text-gray-500 dark:text-gray-100">
-                    Enter your information to register
+                    Start dollar cost avereging now
                   </p>
                 </div>
                 <div>
@@ -90,6 +90,7 @@ const Register = () => {
                         </div>
                         <input
                           value={name}
+                          autoFocus
                           onChange={(e) => setName(e.target.value)}
                           type="text"
                           className=" w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-800 dark:text-gray-100 "
@@ -167,6 +168,16 @@ const Register = () => {
                         {error}
                       </p>
                     )}
+
+                    <p className="text-center mt-4">
+                      Have an account?{" "}
+                      <Link href="/auth/signin">
+                        <a className="text-indigo-500 hover:underline">
+                          Sign in
+                        </a>
+                      </Link>
+                      .
+                    </p>
                   </div>
                 </div>
               </>
