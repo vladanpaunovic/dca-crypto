@@ -207,18 +207,17 @@ const NewBotForm = () => {
   const { state, dispatch } = useDashboardContext();
   const getBalance = useGetBalanceForNewBot();
 
-  const baseCurrencyBalanceRaw = getBalance.data?.free
-    ? getBalance.data?.free[state.newBot.tradingPair?.value?.quoteId]
-    : 0;
+  const baseCurrencyBalanceRaw =
+    getBalance.data?.free && state.newBot.tradingPair
+      ? getBalance.data.free[state.newBot.tradingPair.value.quoteId]
+      : 0;
 
-  console.log(getBalance.data);
-  const baseCurrencyBalance =
-    getBalance.data && getBalance.data.free
-      ? formatCurrency(
-          baseCurrencyBalanceRaw,
-          state.newBot.tradingPair.value.quote
-        )
-      : "loading...";
+  const baseCurrencyBalance = state.newBot.tradingPair?.value?.quote
+    ? formatCurrency(
+        baseCurrencyBalanceRaw,
+        state.newBot.tradingPair.value.quote
+      )
+    : 0;
 
   const minimumInvestment =
     state.newBot.tradingPair?.value && state.newBot.minimum_amount

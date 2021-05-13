@@ -223,7 +223,7 @@ export const useGetMarketsForSelectedExchange = () => {
         },
       });
     }
-  }, [getMarkets.isSuccess]);
+  }, [getMarkets.isSuccess, exchange.available_exchange.identifier]);
 
   return getMarkets;
 };
