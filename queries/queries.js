@@ -328,6 +328,10 @@ export const useGetMyBots = () => {
 
           dispatch({ type: ACTIONS.SET_SELECTED_BOT, payload: currentBot });
         }
+
+        if (!state.selectedBot && data.length) {
+          dispatch({ type: ACTIONS.SET_SELECTED_BOT, payload: data[0] });
+        }
       },
     }
   );

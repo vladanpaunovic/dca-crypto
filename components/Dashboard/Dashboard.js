@@ -32,6 +32,7 @@ import {
   useGetMyBots,
 } from "../../queries/queries";
 import DashboardMenu from "./Menu/DashboardMenu";
+import EmptyIllustration from "../../Illustrations/EmptyIllustration";
 
 const RemoveButton = () => {
   const { state } = useDashboardContext();
@@ -147,7 +148,7 @@ const ChartInfo = () => {
   );
 
   const priceNow = getTickers.data
-    ? getTickers.data[getTickers.data.length - 1].price
+    ? getTickers.data[getTickers.data.length - 1]?.price
     : 0;
 
   const averageCost =
@@ -369,7 +370,7 @@ const ChartInfo = () => {
           title="Current price"
           icon={<CashIcon className="w-6 h-6 text-white dark:text-gray-900" />}
           value={formatCurrency(
-            priceNow,
+            parseInt(priceNow),
             state.selectedBot.destination_currency
           )}
           description={state.selectedBot.available_exchange.label}
@@ -382,7 +383,7 @@ const ChartInfo = () => {
             <PresentationChartLineIcon className="w-6 h-6 text-white dark:text-gray-900" />
           }
           value={formatCurrency(
-            averageCost,
+            parseInt(averageCost),
             state.selectedBot.destination_currency
           )}
           description={`Difference ${formatCurrency(
@@ -429,7 +430,9 @@ const NextOrderProgress = (props) => {
 
 const Dashboard = () => {
   const { state } = useDashboardContext();
-  const { isLoading } = useGetMyBots();
+  const getMyBots = useGetMyBots();
+
+  const hasBots = getMyBots.data && getMyBots.data.length;
 
   const title = state.selectedBot ? (
     <>
@@ -440,21 +443,24 @@ const Dashboard = () => {
     "Dashboard"
   );
 
-  const emptyState = isLoading ? (
+  const emptyState = getMyBots.isLoading ? (
     <div className="flex w-full h-screen items-center justify-center">
       <Loading />
     </div>
   ) : (
     <div className="w-full h-screen flex items-center justify-center">
       <div>
-        <h3 className="mb-2 text-xl font-medium text-center">
-          Please select a bot to start with
-        </h3>
-        <p className="mb-16 text-center">
-          By selecting a bot you will reveal it's detailed view
-        </p>
-        <div className="flex justify-center">
-          <ChooseIllustration className="w-44 h-44" />
+        <h3 className="mb-2 text-2xl font-semibold text-center">Welcome!</h3>
+        <div className="mb-16 text-center">
+          <div className="flex justify-center flex-col items-center">
+            <span className="text-lg">
+              Are you ready to create your first bot?
+            </span>
+
+            <div className="flex items-center justify-center mt-20">
+              <EmptyIllustration className="w-1/2 h-1/2" />
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -504,7 +510,9 @@ const Dashboard = () => {
                 </div>
               </>
             ) : (
-              emptyState
+              <div>
+                <div>{!hasBots && emptyState}</div>
+              </div>
             )}
           </div>
         </div>

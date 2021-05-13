@@ -1,9 +1,9 @@
 import { useGetMyBots } from "../../queries/queries";
 import BotItem from "./BotItem";
 import NewBotModal from "./NewBotModal/NewBotModal";
-
 const BotList = () => {
   const { data, isLoading } = useGetMyBots();
+  const hasBots = data && data.length;
 
   if (isLoading) {
     return null;
@@ -43,13 +43,19 @@ const BotList = () => {
                 {data.map((bot, index) => (
                   <BotItem key={bot.id} index={index + 1} {...bot} />
                 ))}
+
                 <tr>
                   <td
                     colSpan={2}
                     className="px-3 py-4 bg-white dark:bg-gray-900"
                   >
+                    {!hasBots && (
+                      <div className="flex justify-center text-gray-500 text-sm mb-10">
+                        You don't have any bots yet
+                      </div>
+                    )}
                     <div className="flex justify-center">
-                      <NewBotModal />
+                      <NewBotModal primary={!hasBots} />
                     </div>
                   </td>
                 </tr>

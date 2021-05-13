@@ -241,8 +241,6 @@ const NewBotForm = () => {
           required
           value={state.newBot.investment}
           disabled={!state.newBot.tradingPair}
-          min={Math.round(state.newBot.minimum_amount)}
-          stap="any"
           onChange={(e) =>
             dispatch({
               type: ACTIONS.SET_BOT_INVESTMENT,
@@ -315,7 +313,7 @@ const NewBotForm = () => {
   );
 };
 
-const NewBotModal = ({ hidden }) => {
+const NewBotModal = ({ primary }) => {
   const { state, dispatch } = useDashboardContext();
   const [session] = useSession();
   const closeButtonRef = useRef(null);
@@ -338,7 +336,7 @@ const NewBotModal = ({ hidden }) => {
 
   const investment = state.newBot.tradingPair?.value
     ? formatCurrency(
-        state.newBot.investment,
+        parseFloat(state.newBot.investment),
         state.newBot.tradingPair.value.quote
       )
     : "loading...";
@@ -432,12 +430,14 @@ const NewBotModal = ({ hidden }) => {
         onClick={() => {
           dispatch({ type: ACTIONS.SET_IS_MODAL_OPEN, payload: true });
         }}
-        className={`flex font-medium items-center px-3 py-1 bg-gradient-to-r from-indigo-400 to-indigo-700 dark:from-yellow-400 dark:to-yellow-600 text-white dark:text-gray-900 rounded shadow-md hover:to-indigo-400 dark:hover:to-yellow-400 ${
-          hidden && "hidden"
+        className={`flex font-medium items-center  bg-gradient-to-r ${
+          primary
+            ? "p-3 from-indigo-400 to-indigo-700 dark:from-yellow-400 dark:to-yellow-600 text-white dark:text-gray-900 rounded shadow-md hover:to-indigo-400 dark:hover:to-yellow-400 "
+            : "px-3 py-1 text-gray-500 hover:text-gray-800 dark:hover:text-gray-300"
         }`}
       >
         <PlusCircleIcon className="w-5 h-5 mr-1" />
-        Create bot
+        Create a bot
       </button>
 
       <div className="relative">
