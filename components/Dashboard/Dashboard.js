@@ -31,6 +31,7 @@ import {
   useRemoveTradingBot,
   useUpdateTradingBot,
 } from "../../queries/queries";
+import DashboardMenu from "./Menu/DashboardMenu";
 
 const RemoveButton = () => {
   const { state } = useDashboardContext();
@@ -463,10 +464,13 @@ const Dashboard = () => {
     <DashboardLayout>
       <div className="bg-gray-100 dark:bg-gray-800">
         <div className="lg:flex">
-          <div className="w-12/12 lg:w-96 shadow-xl dark:border-gray-700 bg-white dark:bg-gray-900">
+          <div className="w-12/12 lg:w-16 bg-gray-900 dark:bg-gray-900 border-r border-gray-800">
+            <DashboardMenu />
+          </div>
+          <div className="w-12/12 lg:w-330 shadow-xl dark:border-gray-700 bg-white dark:bg-gray-900">
             <BotList />
           </div>
-          <div className="w-12/12 lg:w-full p-8">
+          <div className="w-12/12 p-8 flex-1">
             {state.selectedBot ? (
               <>
                 <div className="flex justify-between items-center mb-8">

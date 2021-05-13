@@ -7,12 +7,11 @@ import NewExchangeModal from "./NewExchangeModal/NewExchangeModal";
 import DashboardTitle from "./DashboardTitle";
 import { useSession } from "next-auth/client";
 import cmsClient from "../../server/cmsClient";
-import { useDashboardContext } from "../DashboardContext/DashboardContext";
 import { useMutation, useQuery } from "react-query";
 import { queryClient } from "../../pages/_app";
 import Loading from "../Loading/Loading";
-import DashboardLayout from "./DashboardLayout";
 import { Popover, Transition } from "@headlessui/react";
+import DashboardMenu from "./Menu/DashboardMenu";
 
 const WarningPopover = ({ exchange }) => {
   const [session] = useSession();
@@ -178,8 +177,11 @@ const ExchangesList = () => {
 
 const MyExchanges = () => {
   return (
-    <DashboardLayout>
-      <div className="bg-gray-100 dark:bg-gray-800 h-screen">
+    <div className="lg:flex">
+      <div className="w-12/12 lg:w-16 bg-gray-900 dark:bg-gray-900 border-r border-gray-800">
+        <DashboardMenu />
+      </div>
+      <div className="w-12/12 flex-1 bg-gray-100 dark:bg-gray-800 h-screen ">
         <DashboardTitle title="Your Exchanges" />
         <div className="p-8 flex">
           <div className="w-1/2 mr-4">
@@ -191,7 +193,7 @@ const MyExchanges = () => {
           <div className="w-1/2 ml-4"></div>
         </div>
       </div>
-    </DashboardLayout>
+    </div>
   );
 };
 

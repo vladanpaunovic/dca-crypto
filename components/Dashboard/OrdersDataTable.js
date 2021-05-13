@@ -18,7 +18,7 @@ const OrdersDataTable = () => {
   }
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col w-full">
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
           <div className="shadow overflow-hidden border-b border-gray-200 dark:border-gray-900 sm:rounded-lg">
@@ -27,37 +27,37 @@ const OrdersDataTable = () => {
                 <tr>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-100"
+                    className="pl-6 pr-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-100"
                   >
                     Date
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-100"
+                    className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-100"
                   >
                     Coin price
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-100"
+                    className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-100"
                   >
                     Investment
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-100"
+                    className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-100"
                   >
                     Crypto Balance ({state.selectedBot.origin_currency})
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-100"
+                    className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-100"
                   >
                     Balance ({state.selectedBot.destination_currency})
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-100"
+                    className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-100"
                   >
                     Profit/Loss %
                   </th>
@@ -75,34 +75,34 @@ const OrdersDataTable = () => {
                       key={entry.id}
                       className="hover:bg-gray-50 dark:hover:bg-gray-900 text-gray-500 dark:text-gray-100"
                     >
-                      <td className="px-6 py-4 whitespace-nowrap text-sm">
+                      <td className="pl-6 pr-2 py-4 whitespace-nowrap text-xs">
                         {dayjs(entry.dateTime).format("LLL")}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm">
+                      <td className="px-2 py-4 whitespace-nowrap text-xs">
                         {formatCurrency(
                           entry.price,
                           state.selectedBot.destination_currency
                         )}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm">
+                      <td className="px-2 py-4 whitespace-nowrap text-xs">
                         {formatCurrency(
                           entry.totalInvestment,
                           state.selectedBot.destination_currency
                         )}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm">
+                      <td className="px-2 py-4 whitespace-nowrap text-xs">
                         {formatCurrency(
                           entry.balanceInQuoteCurrency,
                           state.selectedBot.origin_currency
                         )}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm">
+                      <td className="px-2 py-4 whitespace-nowrap text-xs">
                         {formatCurrency(
                           entry.balanceInQuoteCurrency * entry.price,
                           state.selectedBot.destination_currency
                         )}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm">
+                      <td className="px-2 py-4 whitespace-nowrap text-xs">
                         {percentageDifference}
                         {/* {entry.percentageChange > 0 */}
                         {/* ? `+${entry.percentageChange}` */}
