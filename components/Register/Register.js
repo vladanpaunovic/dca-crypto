@@ -49,7 +49,7 @@ const Register = () => {
     >
       <div className=" text-gray-500 rounded-3xl shadow-xl w-full overflow-hidden max-w-4xl bg-white dark:bg-gray-900">
         <div className="md:flex w-full">
-          <div className="hidden md:flex items-center justify-center w-1/2 bg-indigo-600 dark:bg-yellow-500 py-10 px-10 fill-current">
+          <div className="hidden md:flex items-center justify-center w-1/2 bg-gradient-to-r from-indigo-500 to-indigo-600 dark:from-yellow-400 dark:to-yellow-500 py-10 px-10 fill-current">
             <LoginIllustration />
           </div>
           <div className="w-full md:w-1/2 py-10 px-5 md:px-10">
@@ -92,7 +92,7 @@ const Register = () => {
                           value={name}
                           onChange={(e) => setName(e.target.value)}
                           type="text"
-                          className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-800 dark:text-gray-100"
+                          className=" w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-800 dark:text-gray-100 "
                         />
                       </div>
                     </div>

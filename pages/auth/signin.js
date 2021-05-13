@@ -51,7 +51,11 @@ const SignIn = ({ csrfToken, error, isEmailConfirmed }) => {
               Sign in to your account
             </h2>
           </div>
-          <form className="space-y-6" method="post" onSubmit={handleOnSubmit}>
+          <form
+            className="space-y-6 form-reset"
+            method="post"
+            onSubmit={handleOnSubmit}
+          >
             <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
             <div className="rounded-md shadow-sm -space-y-px">
               <div>
@@ -68,7 +72,7 @@ const SignIn = ({ csrfToken, error, isEmailConfirmed }) => {
                     setState({ ...state, email: e.target.value })
                   }
                   required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border dark:bg-gray-800 border-gray-300 dark:border-gray-700 placeholder-gray-500 text-gray-900 dark:text-white rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                  className="rounded-none relative block w-full px-3 py-2 border dark:bg-gray-800 border-gray-300 dark:border-gray-700 placeholder-gray-500 text-gray-900 dark:text-white rounded-t-md sm:text-sm"
                   placeholder="Email address"
                 />
               </div>
@@ -86,7 +90,7 @@ const SignIn = ({ csrfToken, error, isEmailConfirmed }) => {
                   }
                   autoComplete="current-password"
                   required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border dark:bg-gray-800 border-gray-300 dark:border-gray-700 placeholder-gray-500 text-gray-900 dark:text-white rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                  className="rounded-none relative block w-full px-3 py-2 border dark:bg-gray-800 border-gray-300 dark:border-gray-700 placeholder-gray-500 text-gray-900 dark:text-white rounded-b-md sm:text-sm"
                   placeholder="Password"
                 />
               </div>
