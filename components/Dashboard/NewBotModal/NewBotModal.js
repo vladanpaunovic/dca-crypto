@@ -1,5 +1,5 @@
 import { useTheme } from "next-themes";
-import { PlusCircleIcon } from "@heroicons/react/outline";
+import { PlusCircleIcon } from "@heroicons/react/solid";
 import { Dialog } from "@headlessui/react";
 import { useDashboardContext } from "../../DashboardContext/DashboardContext";
 import {
@@ -438,10 +438,10 @@ const NewBotModal = () => {
         onClick={() =>
           dispatch({ type: ACTIONS.SET_IS_MODAL_OPEN, payload: true })
         }
-        className="focus:outline-none flex items-center border px-3 py-2 text-gray-500 dark:text-gray-300 dark:border-gray-700 hover:text-gray-900 dark:hover:text-gray-100 transition rounded"
+        className="flex font-medium items-center px-3 py-1 bg-gradient-to-r from-indigo-400 to-indigo-700 dark:from-yellow-400 dark:to-yellow-600 text-white dark:text-gray-900 rounded shadow-md hover:to-indigo-400 dark:hover:to-yellow-400"
       >
-        <PlusCircleIcon className="w-8 h-8 mr-2" />
-        Add new bot
+        <PlusCircleIcon className="w-5 h-5 mr-1" />
+        Create bot
       </button>
 
       <div className="relative">

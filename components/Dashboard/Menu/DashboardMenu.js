@@ -16,15 +16,18 @@ import { useState } from "react";
 const DashboardMenu = () => {
   const { theme, setTheme } = useTheme();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [logoutIcon, setLogoutIcon] = useState(
+    <LogoutIcon className="w-6 h-6 mr-1" />
+  );
 
   return (
     <nav className="relative lg:h-screen dark:border-gray-800">
       <div className="w-full h-full">
-        <div className="w-full pl-2 lg:pl-0 relative flex justify-between lg:justify-center items-center lg:w-auto h-16 bg-gray-900 lg:bg-indigo-500">
+        <div className="w-full pl-2 lg:pl-0 relative flex justify-between lg:justify-center items-center lg:w-auto h-16 bg-gray-900 lg:bg-indigo-500 lg:dark:bg-yellow-500">
           <Link href="/dashboard">
             <a
               title="dashboard"
-              className="flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75 p-1 rounded-full transform rotate-45"
+              className="flex items-center text-xs uppercase font-bold leading-snug text-white dark:text-gray-900 hover:opacity-75 p-1 rounded-full transform rotate-45"
             >
               <SwitchHorizontalIcon className="w-6 h-6" />
             </a>
@@ -51,7 +54,7 @@ const DashboardMenu = () => {
               <Link href="/dashboard">
                 <a
                   title="Dashboard"
-                  className="px-3 py-4 lg:py-2 flex items-center lg:justify-center text-xs uppercase font-bold leading-snug text-gray-400 dark:text-gray-400 hover:opacity-75"
+                  className="px-3 py-4 flex items-center lg:justify-center text-xs uppercase font-bold leading-snug text-gray-400 dark:text-gray-400 hover:opacity-75"
                 >
                   <TemplateIcon className="w-6 h-6 mr-1" />
                   <span className="lg:hidden">Dashboard</span>
@@ -62,7 +65,7 @@ const DashboardMenu = () => {
               <Link href="/my-exchanges">
                 <a
                   title="Exchanges"
-                  className="px-3 py-4 lg:py-2 flex items-center lg:justify-center text-xs uppercase font-bold leading-snug text-gray-400 dark:text-gray-400 hover:opacity-75"
+                  className="px-3 py-4 flex items-center lg:justify-center text-xs uppercase font-bold leading-snug text-gray-400 dark:text-gray-400 hover:opacity-75"
                   href="#pablo"
                 >
                   <SwitchHorizontalIcon className="w-6 h-6 mr-1" />
@@ -74,7 +77,7 @@ const DashboardMenu = () => {
               <Link href="/account">
                 <a
                   title="Exchanges"
-                  className="px-3 py-4 lg:py-2 flex items-center lg:justify-center text-xs uppercase font-bold leading-snug text-gray-400 dark:text-gray-400 hover:opacity-75"
+                  className="px-3 py-4 flex items-center lg:justify-center text-xs uppercase font-bold leading-snug text-gray-400 dark:text-gray-400 hover:opacity-75"
                   href="#pablo"
                 >
                   <UserIcon className="w-6 h-6 mr-1" />
@@ -82,13 +85,13 @@ const DashboardMenu = () => {
                 </a>
               </Link>
             </li>
-            <li className="nav-item hidden lg:flex justify-center py-2">
+            <li className="nav-item hidden lg:flex justify-center">
               <div className="bg-gray-600 w-2/3 rounded h-1"></div>
             </li>
             <li className="nav-item">
               <button
                 title="Switch theme"
-                className="transition px-3 w-full py-4 lg:py-2 flex items-center lg:justify-center text-xs uppercase font-bold leading-snug text-gray-400 dark:text-gray-400 hover:opacity-75"
+                className="focus:outline-none transition px-3 w-full py-4 flex items-center lg:justify-center text-xs uppercase font-bold leading-snug text-gray-400 dark:text-gray-400 hover:opacity-75"
                 onClick={() => setTheme(theme === "light" ? "dark" : "light")}
               >
                 {theme === "light" ? (
@@ -103,10 +106,10 @@ const DashboardMenu = () => {
               <button
                 title="Sign out"
                 onClick={() => signOut({ callbackUrl: "/" })}
-                className="text-xs px-3 w-full py-4 lg:py-2 flex items-center lg:justify-center uppercase font-bold leading-snug text-gray-400 dark:text-gray-400 hover:opacity-75 "
+                className="focus:outline-none text-xs px-3 w-full py-4 lg:py-2 flex items-center lg:justify-center uppercase font-bold leading-snug text-gray-400 dark:text-gray-400 hover:opacity-75 "
               >
-                <LogoutIcon className="w-6 h-6 mr-1" />
-                <span className="lg:hidden">Dashboard</span>
+                {logoutIcon}
+                <span className="lg:hidden">Sign out</span>
               </button>
             </li>
           </ul>

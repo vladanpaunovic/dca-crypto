@@ -477,7 +477,7 @@ const Dashboard = () => {
                   <h1 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-indigo-400 dark:from-yellow-600 to-indigo-700 dark:to-yellow-400">
                     {title}
                   </h1>
-                  <div className="flex">
+                  <div className="flex items-center">
                     <BotStatus {...state.selectedBot} />
                     <span className="ml-4">
                       <RemoveButton />

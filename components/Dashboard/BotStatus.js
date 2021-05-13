@@ -37,7 +37,7 @@ export const BotStatus = (bot) => {
               Error{" "}
               <span className="ml-1">
                 {updateTradingBot.isLoading ? (
-                  <Loading width={20} height={20} type="spin" />
+                  <Loading width={19} height={19} type="spin" />
                 ) : (
                   <ExclamationCircleIcon className="w-5 h-5" />
                 )}
@@ -81,10 +81,10 @@ export const BotStatus = (bot) => {
                     I resolved it, try again{" "}
                     {updateTradingBot.isLoading ? (
                       <span className="mx-1">
-                        <Loading width={20} height={20} />
+                        <Loading width={19} height={19} />
                       </span>
                     ) : (
-                      <RefreshIcon className="ml-2 w-5 h-5" />
+                      <RefreshIcon className="w-5 h-5" />
                     )}
                   </button>
                 </div>
@@ -116,9 +116,9 @@ export const BotStatus = (bot) => {
           Active{" "}
           <span className="ml-1">
             {updateTradingBot.isLoading ? (
-              <Loading width={20} height={20} type="spin" />
+              <Loading width={19} height={19} type="spin" />
             ) : (
-              <PauseIcon className="w-6 h-6" />
+              <PauseIcon className="w-5 h-5" />
             )}
           </span>
         </>
@@ -127,9 +127,9 @@ export const BotStatus = (bot) => {
           Disabled{" "}
           <span className="ml-1">
             {updateTradingBot.isLoading ? (
-              <Loading width={20} height={20} type="spin" />
+              <Loading width={19} height={19} type="spin" />
             ) : (
-              <PlayIcon className="w-6 h-6" />
+              <PlayIcon className="w-5 h-5" />
             )}
           </span>
         </>
