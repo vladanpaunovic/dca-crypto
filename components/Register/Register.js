@@ -4,6 +4,7 @@ import {
   LockClosedIcon,
   CheckIcon,
 } from "@heroicons/react/outline";
+import { MailOpenIcon } from "@heroicons/react/solid";
 import { useState } from "react";
 import LoginIllustration from "../../Illustrations/LoginIllustration";
 import cmsClient from "../../server/cmsClient";
@@ -46,13 +47,15 @@ const Register = () => {
           </div>
           <div className="w-full md:w-1/2 py-10 px-5 md:px-10">
             {isRegistered ? (
-              <div className="w-full h-full flex items-center justify-center flex-col">
-                <CheckIcon className="rounded-full bg-green-300 text-white dark:text-gray-900 w-12 h-12" />
-                <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 mt-6">
-                  Success!
+              <div className="w-full h-full flex items-center justify-center flex-col ">
+                <span className="rounded-full bg-green-300 p-3">
+                  <MailOpenIcon className="text-white dark:text-gray-900 w-10 h-10" />
+                </span>
+                <h3 className="text-2xl leading-6 font-semibold text-gray-900 dark:text-gray-100 mt-4">
+                  Varify your email
                 </h3>
-                <p className="text-gray-400 dark:text-gray-100">
-                  Please confirm your email
+                <p className="text-gray-400 dark:text-gray-100 mt-2">
+                  Check your inbox to confirm your email
                 </p>
               </div>
             ) : (

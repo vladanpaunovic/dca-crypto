@@ -1,4 +1,8 @@
-import { ExclamationCircleIcon, LockClosedIcon } from "@heroicons/react/solid";
+import {
+  CheckCircleIcon,
+  ExclamationCircleIcon,
+  LockClosedIcon,
+} from "@heroicons/react/solid";
 import Logo from "../../components/Logo/Logo";
 import Link from "next/link";
 import { getCsrfToken } from "next-auth/client";
@@ -6,7 +10,7 @@ import { signIn } from "next-auth/client";
 import { useState } from "react";
 import Loading from "../../components/Loading/Loading";
 
-const SignIn = ({ csrfToken, error }) => {
+const SignIn = ({ csrfToken, error, isEmailConfirmed }) => {
   const [state, setState] = useState({
     email: "",
     password: "",
@@ -30,6 +34,19 @@ const SignIn = ({ csrfToken, error }) => {
         <div className="max-w-md w-full space-y-8">
           <div>
             <Logo />
+            {isEmailConfirmed && (
+              <div className="bg-green-100 dark:bg-green-600 p-4 rounded-lg mt-10 flex items-center">
+                <CheckCircleIcon className="w-10 h-10 text-green-800 dark:text-green-100 mr-4" />
+                <div>
+                  <h2 className="text-2xl font-bold text-green-800 dark:text-white">
+                    Welcome to DCA-CC.com
+                  </h2>
+                  <p className="text-green-800 dark:text-green-100">
+                    Your email is successfully verified.
+                  </p>
+                </div>
+              </div>
+            )}
             <h2 className="mt-10 text-3xl font-extrabold text-gray-900 dark:text-gray-100">
               Sign in to your account
             </h2>
@@ -142,6 +159,7 @@ export async function getServerSideProps(context) {
     props: {
       csrfToken: await getCsrfToken(context),
       error: context.query.error || null,
+      isEmailConfirmed: context.query.confirmed || false,
     },
   };
 }
