@@ -16,6 +16,7 @@ import Select, { components } from "react-select";
 import { formatCurrency } from "@coingecko/cryptoformat";
 import { useSession } from "next-auth/client";
 import ExchangeForm from "./ExchangeForm";
+import { useRef } from "react";
 
 const IconOption = (props) => {
   if (props.data.value.isActive) {
@@ -314,9 +315,10 @@ const NewBotForm = () => {
   );
 };
 
-const NewBotModal = () => {
+const NewBotModal = ({ hidden }) => {
   const { state, dispatch } = useDashboardContext();
   const [session] = useSession();
+  const closeButtonRef = useRef(null);
 
   const getBalance = useGetBalanceForNewBot();
 
@@ -427,10 +429,12 @@ const NewBotModal = () => {
   return (
     <>
       <button
-        onClick={() =>
-          dispatch({ type: ACTIONS.SET_IS_MODAL_OPEN, payload: true })
-        }
-        className="flex font-medium items-center px-3 py-1 bg-gradient-to-r from-indigo-400 to-indigo-700 dark:from-yellow-400 dark:to-yellow-600 text-white dark:text-gray-900 rounded shadow-md hover:to-indigo-400 dark:hover:to-yellow-400"
+        onClick={() => {
+          dispatch({ type: ACTIONS.SET_IS_MODAL_OPEN, payload: true });
+        }}
+        className={`flex font-medium items-center px-3 py-1 bg-gradient-to-r from-indigo-400 to-indigo-700 dark:from-yellow-400 dark:to-yellow-600 text-white dark:text-gray-900 rounded shadow-md hover:to-indigo-400 dark:hover:to-yellow-400 ${
+          hidden && "hidden"
+        }`}
       >
         <PlusCircleIcon className="w-5 h-5 mr-1" />
         Create bot
@@ -443,6 +447,7 @@ const NewBotModal = () => {
             dispatch({ type: ACTIONS.SET_IS_MODAL_OPEN, payload: false })
           }
           className="fixed z-10 inset-0 overflow-y-auto text-center"
+          initialFocus={closeButtonRef}
         >
           <Dialog.Overlay className="fixed inset-0 bg-black opacity-60" />
           <span
@@ -456,6 +461,7 @@ const NewBotModal = () => {
             {state.newExchange ? addExchange : dialogContent}
             <button
               type="button"
+              ref={closeButtonRef}
               onClick={() =>
                 dispatch({ type: ACTIONS.SET_IS_MODAL_OPEN, payload: false })
               }
