@@ -1,4 +1,10 @@
-import { UserIcon, InboxIcon, LockClosedIcon } from "@heroicons/react/outline";
+import {
+  UserIcon,
+  InboxIcon,
+  LockClosedIcon,
+  EyeIcon,
+  EyeOffIcon,
+} from "@heroicons/react/outline";
 import { MailOpenIcon } from "@heroicons/react/solid";
 import { useState } from "react";
 import LoginIllustration from "../../Illustrations/LoginIllustration";
@@ -12,6 +18,7 @@ const Register = () => {
   const [isRegistered, setIsRegistered] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
@@ -69,8 +76,8 @@ const Register = () => {
                   </p>
                 </div>
                 <div>
-                  <div className="flex -mx-3">
-                    <div className="w-full px-3 mb-5">
+                  <div className="flex ">
+                    <div className="w-full px-3 mb-3">
                       <label
                         htmlFor=""
                         className="text-xs font-semibold px-1 text-gray-500 dark:text-gray-100"
@@ -85,13 +92,13 @@ const Register = () => {
                           value={name}
                           onChange={(e) => setName(e.target.value)}
                           type="text"
-                          className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
+                          className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-800 dark:text-gray-100"
                         />
                       </div>
                     </div>
                   </div>
-                  <div className="flex -mx-3">
-                    <div className="w-full px-3 mb-5">
+                  <div className="flex ">
+                    <div className="w-full px-3 mb-3">
                       <label
                         htmlFor=""
                         className="text-xs font-semibold px-1 text-gray-500 dark:text-gray-100"
@@ -106,12 +113,12 @@ const Register = () => {
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
                           type="email"
-                          className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
+                          className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-800 dark:text-gray-100"
                         />
                       </div>
                     </div>
                   </div>
-                  <div className="flex -mx-3">
+                  <div className="flex ">
                     <div className="w-full px-3 mb-12">
                       <label
                         htmlFor=""
@@ -120,20 +127,28 @@ const Register = () => {
                         Password
                       </label>
                       <div className="flex">
-                        <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
-                          <LockClosedIcon className="text-gray-400 w-5 h-5" />
-                        </div>
+                        <button
+                          type="button"
+                          onClick={() => setShowPassword(!showPassword)}
+                          className="w-10 z-10 pl-1 text-center flex items-center justify-center focus:outline-none transition-all"
+                        >
+                          {showPassword ? (
+                            <EyeOffIcon className="text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 w-5 h-5" />
+                          ) : (
+                            <EyeIcon className="text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 w-5 h-5" />
+                          )}
+                        </button>
                         <input
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
-                          type="password"
-                          className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
+                          type={showPassword ? "text" : "password"}
+                          className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-800 dark:text-gray-100"
                         />
                       </div>
                     </div>
                   </div>
-                  <div className="flex -mx-3 flex-col px-3">
-                    <div className="w-full mb-5 ">
+                  <div className="flex  flex-col px-3">
+                    <div className="w-full">
                       <button
                         type="submit"
                         disabled={isLoading}
