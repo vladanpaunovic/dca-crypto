@@ -1,25 +1,23 @@
-import {
-  UserIcon,
-  InboxIcon,
-  LockClosedIcon,
-  CheckIcon,
-} from "@heroicons/react/outline";
+import { UserIcon, InboxIcon, LockClosedIcon } from "@heroicons/react/outline";
 import { MailOpenIcon } from "@heroicons/react/solid";
 import { useState } from "react";
 import LoginIllustration from "../../Illustrations/LoginIllustration";
 import cmsClient from "../../server/cmsClient";
+import Loading from "../Loading/Loading";
 
 const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isRegistered, setIsRegistered] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     setError(null);
     setIsRegistered(false);
+    setIsLoading(true);
 
     try {
       const response = await cmsClient().post("/users", {
@@ -30,6 +28,7 @@ const Register = () => {
 
       if (response.data._id) {
         setIsRegistered(true);
+        setIsLoading(false);
       }
     } catch (e) {
       setError(e.response.data.message[0].messages[0].message);
@@ -39,6 +38,7 @@ const Register = () => {
     <form
       className="min-w-screen min-h-screen bg-gray-100 pattern-domino dark:bg-gray-900 flex items-center justify-center px-5 py-5"
       onSubmit={handleOnSubmit}
+      disabled={isLoading}
     >
       <div className=" text-gray-500 rounded-3xl shadow-xl w-full overflow-hidden max-w-4xl bg-white dark:bg-gray-900">
         <div className="md:flex w-full">
@@ -136,9 +136,15 @@ const Register = () => {
                     <div className="w-full mb-5 ">
                       <button
                         type="submit"
-                        className="block w-full hover:opacity-80 mx-auto bg-indigo-600 dark:bg-yellow-500 text-white dark:text-gray-900 rounded-lg px-3 py-3 font-semibold"
+                        disabled={isLoading}
+                        className="flex items-center justify-center w-full hover:opacity-80 mx-auto bg-indigo-600 dark:bg-yellow-500 text-white dark:text-gray-900 rounded-lg px-3 py-3 font-semibold"
                       >
-                        REGISTER NOW
+                        REGISTER NOW{" "}
+                        {isLoading && (
+                          <span className="ml-1">
+                            <Loading width={20} height={20} />
+                          </span>
+                        )}
                       </button>
                     </div>
                     {error && (
