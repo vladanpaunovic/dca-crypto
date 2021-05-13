@@ -24,7 +24,7 @@ const ExchangeForm = ({ exchange, onClose }) => {
     mutationFn: async (payload) =>
       await cmsClient(session.accessToken).post("/exchanges", payload),
     mutationKey: "add-exchange",
-    onSettled: async () => {
+    onSuccess: async () => {
       onClose();
       await queryClient.refetchQueries(["only-my-exchanges"]);
     },
