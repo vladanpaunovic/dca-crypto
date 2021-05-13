@@ -32,7 +32,7 @@ export const BotStatus = (bot) => {
           <>
             <Popover.Button
               title="Error accured. Click to reveal information."
-              className="focus:outline-none px-2 py-1 flex items-center justify-between text-xs leading-5 font-semibold rounded-full  bg-red-100 text-red-800 dark:bg-red-400"
+              className="border border-red-400 focus:outline-none px-2 py-1 flex items-center justify-between text-xs leading-5 font-semibold rounded-full  bg-red-100 text-red-800 dark:bg-red-400"
             >
               Error{" "}
               <span className="ml-1">
@@ -99,10 +99,10 @@ export const BotStatus = (bot) => {
   return (
     <button
       onClick={() => updateTradingBot.mutate({ isActive: !bot.isActive })}
-      className={`focus:outline-none px-2 py-1 flex items-center justify-between  leading-5 font-semibold rounded-full ${
+      className={`border focus:outline-none px-2 py-1 flex items-center justify-between  leading-5 font-semibold rounded-full ${
         bot.isActive
-          ? " bg-green-100 text-green-800 dark:bg-green-400"
-          : " bg-gray-100 text-gray-800 dark:bg-gray-400"
+          ? " bg-green-100 text-green-800 border-green-400 dark:bg-green-400"
+          : " bg-gray-200 text-gray-800 border-gray-400 dark:bg-gray-400"
       }`}
       title={bot.errorMessage}
       title={
