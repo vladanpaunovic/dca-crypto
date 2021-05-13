@@ -438,7 +438,7 @@ const NewBotModal = () => {
         onClick={() =>
           dispatch({ type: ACTIONS.SET_IS_MODAL_OPEN, payload: true })
         }
-        className="focus:outline-none flex items-center text-gray-500 dark:text-gray-600 dark:border-gray-700 hover:text-gray-900 dark:hover:text-gray-100 transition rounded"
+        className="focus:outline-none flex items-center border px-3 py-2 text-gray-500 dark:text-gray-300 dark:border-gray-700 hover:text-gray-900 dark:hover:text-gray-100 transition rounded"
       >
         <PlusCircleIcon className="w-8 h-8 mr-2" />
         Add new bot

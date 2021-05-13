@@ -47,7 +47,7 @@ const BotList = () => {
                 <tr>
                   <th
                     colSpan={2}
-                    className="w-full px-4 py-6 text-left text-lg font-medium  dark:text-gray-100 tracking-wider"
+                    className="w-full px-4 h-16 border-b dark:border-gray-700 text-left text-lg font-medium dark:text-gray-100 tracking-wider"
                   >
                     Your bots
                   </th>
