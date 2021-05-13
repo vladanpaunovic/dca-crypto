@@ -23,7 +23,7 @@ const DashboardMenu = () => {
   return (
     <nav className="relative lg:h-screen dark:border-gray-800">
       <div className="w-full h-full">
-        <div className="w-full pl-2 lg:pl-0 relative flex justify-between lg:justify-center items-center lg:w-auto h-16 bg-gray-900 lg:bg-indigo-500 lg:dark:bg-yellow-500">
+        <div className="w-full pl-2 lg:pl-0 relative flex justify-between lg:justify-center items-center lg:w-auto h-16 bg-gradient-to-r from-indigo-500 to-indigo-600 dark:from-yellow-400 dark:to-yellow-500 text-gray-900 hover:to-indigo-500 dark:hover:from-yellow-500">
           <Link href="/dashboard">
             <a
               title="dashboard"
