@@ -371,37 +371,35 @@ const NewBotModal = () => {
       className="h-full"
     >
       <div className="bg-white dark:bg-gray-900 px-4 pt-5 rounded-t-lg pb-4 sm:p-6 sm:pb-4 h-full">
-        <div>
-          <div className="mt-2">
-            <h3
-              className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100"
-              id="modal-title"
-            >
-              Add new bot
-            </h3>
-            <div className="mt-6">
-              <Exchanges />
-            </div>
-
-            {state.newBot.exchange ? (
-              <>
-                <div className="mt-4">
-                  <CryptoCurrencyList />
-                </div>
-                <div className="mt-4">
-                  <NewBotForm />
-                </div>
-                <p className="py-4 px-2 bg-gray-200 dark:bg-gray-800 rounded-lg text-xs mt-8 mb-4 text-center">
-                  Buying {state.newBot.tradingPair?.value.base} for {investment}{" "}
-                  every {state.newBot.investment_interval} {interval}.
-                </p>
-              </>
-            ) : (
-              <div className="flex items-center justify-center">
-                <MoneyTransferIllustration className="w-48 h-48" />
-              </div>
-            )}
+        <div className="mt-2 h-full">
+          <h3
+            className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100"
+            id="modal-title"
+          >
+            Add new bot
+          </h3>
+          <div className="mt-6">
+            <Exchanges />
           </div>
+
+          {state.newBot.exchange ? (
+            <>
+              <div className="mt-4">
+                <CryptoCurrencyList />
+              </div>
+              <div className="mt-4">
+                <NewBotForm />
+              </div>
+              <p className="py-4 px-2 bg-gray-200 dark:bg-gray-800 rounded-lg text-xs mt-8 mb-4 text-center">
+                Buying {state.newBot.tradingPair?.value.base} for {investment}{" "}
+                every {state.newBot.investment_interval} {interval}.
+              </p>
+            </>
+          ) : (
+            <div className="flex items-center h-full justify-center">
+              <MoneyTransferIllustration className="w-48 h-48" />
+            </div>
+          )}
         </div>
       </div>
       <div className="bg-gray-50 rounded-b-lg dark:bg-gray-800 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse  lg:static absolute bottom-0 left-0 right-0">
