@@ -1,5 +1,5 @@
 import { useTheme } from "next-themes";
-import { PlusCircleIcon } from "@heroicons/react/solid";
+import { PlusCircleIcon, XIcon } from "@heroicons/react/solid";
 import { Dialog } from "@headlessui/react";
 import { useDashboardContext } from "../../DashboardContext/DashboardContext";
 import {
@@ -365,8 +365,12 @@ const NewBotModal = () => {
   };
 
   const dialogContent = (
-    <form onSubmit={handleOnSubmit} disabled={isSubmitDisabled}>
-      <div className="bg-white dark:bg-gray-900 px-4 pt-5 rounded-t-lg pb-4 sm:p-6 sm:pb-4 ">
+    <form
+      onSubmit={handleOnSubmit}
+      disabled={isSubmitDisabled}
+      className="h-full"
+    >
+      <div className="bg-white dark:bg-gray-900 px-4 pt-5 rounded-t-lg pb-4 sm:p-6 sm:pb-4 h-full">
         <div>
           <div className="mt-2">
             <h3
@@ -400,7 +404,7 @@ const NewBotModal = () => {
           </div>
         </div>
       </div>
-      <div className="bg-gray-50 rounded-b-lg dark:bg-gray-800 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+      <div className="bg-gray-50 rounded-b-lg dark:bg-gray-800 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse  lg:static absolute bottom-0 left-0 right-0">
         <button
           type="submit"
           disabled={isSubmitDisabled || addTradingBot.isLoading}
@@ -413,21 +417,12 @@ const NewBotModal = () => {
             </span>
           )}
         </button>
-        <button
-          type="button"
-          onClick={() =>
-            dispatch({ type: ACTIONS.SET_IS_MODAL_OPEN, payload: false })
-          }
-          className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 dark:border-gray-800 dark:bg-gray-900 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 dark:text-yellow-500 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-        >
-          Close
-        </button>
       </div>
     </form>
   );
 
   const addExchange = (
-    <div>
+    <div className="h-full">
       <ExchangeForm exchange={state.newExchange} />
     </div>
   );
@@ -460,8 +455,17 @@ const NewBotModal = () => {
             &#8203;
           </span>
 
-          <div className="inline-block align-middle rounded-lg text-left shadow-xl transform transition-all sm:my-8 sm:max-w-sm sm:w-full">
+          <div className="inline-block h-full md:h-auto align-middle bg-gray-900 rounded-lg text-left shadow-xl transform transition-all lg:my-8 w-full lg:max-w-sm">
             {state.newExchange ? addExchange : dialogContent}
+            <button
+              type="button"
+              onClick={() =>
+                dispatch({ type: ACTIONS.SET_IS_MODAL_OPEN, payload: false })
+              }
+              className="absolute right-6 top-6 justify-center dark:bg-gray-900 shadow-sm p-2 bg-white text-gray-700 dark:text-yellow-500 hover:bg-gray-50"
+            >
+              <XIcon className="w-4 h-4" />
+            </button>
           </div>
         </Dialog>
       </div>

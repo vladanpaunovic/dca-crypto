@@ -109,9 +109,9 @@ const ExchangeForm = ({ exchange }) => {
 
   return (
     <>
-      <form onSubmit={handleOnsubmit}>
-        <div className="bg-white dark:bg-gray-900 px-4 pt-5 rounded-t-lg pb-4 sm:p-6 sm:pb-4 ">
-          <div>
+      <form onSubmit={handleOnsubmit} className="h-full">
+        <div className="h-full dark:bg-gray-900 px-4 pt-5 rounded-t-lg pb-4 sm:p-6 sm:pb-4 ">
+          <div lassName="mt-2">
             <div className="mt-2">
               <h3
                 className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100"
@@ -208,7 +208,7 @@ const ExchangeForm = ({ exchange }) => {
             </div>
           </div>
         </div>
-        <div className="bg-gray-50 rounded-b-lg dark:bg-gray-800 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+        <div className="bg-gray-50 rounded-b-lg dark:bg-gray-800 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse absolute bottom-0 left-0 right-0 lg:static">
           <button
             type="submit"
             disabled={addExchange.isLoading || validateCredentials.isLoading}
