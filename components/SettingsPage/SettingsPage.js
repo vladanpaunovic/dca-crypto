@@ -16,7 +16,10 @@ const Subscription = () => {
           onChargeFailure={(data) => console.log("FAILURE", data)}
           onPaymentDetected={(data) => console.log("PAYMENT_DETECTED", data)}
           onModalClosed={() => console.log("MODAL_CLOSED")}
-          customMetadata={JSON.stringify({ userId: session.user.id })}
+          customMetadata={JSON.stringify({
+            userId: session.user.id,
+            plan: "609e414486c8a9582df466fd",
+          })}
         />
       </span>
     </div>
