@@ -338,3 +338,26 @@ export const useGetMyBots = () => {
 
   return myBots;
 };
+
+export const useAvailablePlans = () => {
+  const availablePlans = useQuery("available-plans", async () => {
+    const response = await cmsClient().get("/plans");
+
+    return response.data;
+  });
+
+  return availablePlans;
+};
+
+export const useMySubscriptions = () => {
+  const [session] = useSession();
+  const mySubscriptions = useQuery("my-subscriptions", async () => {
+    const response = await cmsClient().get("/subscriptions", {
+      params: { users_permissions_user: session.user.id },
+    });
+
+    return response.data;
+  });
+
+  return mySubscriptions;
+};
