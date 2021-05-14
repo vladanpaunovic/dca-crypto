@@ -57,7 +57,7 @@ const SignIn = ({ csrfToken, error, isEmailConfirmed }) => {
             onSubmit={handleOnSubmit}
           >
             <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
-            <div className="rounded-md shadow-sm -space-y-px">
+            <div className="rounded-md shadow-sm">
               <div>
                 <label htmlFor="email-address" className="sr-only">
                   Email address
@@ -73,7 +73,7 @@ const SignIn = ({ csrfToken, error, isEmailConfirmed }) => {
                     setState({ ...state, email: e.target.value })
                   }
                   required
-                  className="rounded-none relative block w-full px-3 py-2 border dark:bg-gray-800 border-gray-300 dark:border-gray-700 placeholder-gray-500 text-gray-900 dark:text-white rounded-t-md sm:text-sm"
+                  className="focus:ring-1 rounded-none relative block w-full px-3 py-2 border dark:bg-gray-800 border-gray-300 dark:border-gray-700 placeholder-gray-500 text-gray-900 dark:text-white rounded-t-md sm:text-sm"
                   placeholder="Email address"
                 />
               </div>
@@ -91,7 +91,7 @@ const SignIn = ({ csrfToken, error, isEmailConfirmed }) => {
                   }
                   autoComplete="current-password"
                   required
-                  className="rounded-none relative block w-full px-3 py-2 border dark:bg-gray-800 border-gray-300 dark:border-gray-700 placeholder-gray-500 text-gray-900 dark:text-white rounded-b-md sm:text-sm"
+                  className="focus:ring-1 rounded-none relative block w-full px-3 py-2 border dark:bg-gray-800 border-gray-300 dark:border-gray-700 placeholder-gray-500 text-gray-900 dark:text-white rounded-b-md sm:text-sm"
                   placeholder="Password"
                 />
               </div>
