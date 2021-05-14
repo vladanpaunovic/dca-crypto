@@ -26,6 +26,7 @@
     "next-auth": "^3.19.2",
     "next-themes": "^0.0.14",
     "react": "17.0.2",
+    "react-coinbase-commerce": "^1.5.1",
     "react-dom": "17.0.2",
     "react-loading": "^2.0.3",
     "react-markdown": "^6.0.2",

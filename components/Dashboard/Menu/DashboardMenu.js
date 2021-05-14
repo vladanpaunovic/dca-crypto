@@ -7,7 +7,7 @@ import {
   SunIcon,
   XIcon,
   MenuIcon,
-  UserIcon,
+  CogIcon,
 } from "@heroicons/react/outline";
 import { useTheme } from "next-themes";
 import Link from "next/link";
@@ -74,14 +74,14 @@ const DashboardMenu = () => {
               </Link>
             </li>
             <li className="nav-item">
-              <Link href="/account">
+              <Link href="/settings">
                 <a
                   title="Exchanges"
                   className="px-3 py-4 flex items-center lg:justify-center text-xs uppercase font-bold leading-snug text-gray-400 dark:text-gray-400 hover:opacity-75"
                   href="#pablo"
                 >
-                  <UserIcon className="w-6 h-6 mr-1" />
-                  <span className="lg:hidden">My account</span>
+                  <CogIcon className="w-6 h-6 mr-1" />
+                  <span className="lg:hidden">Settings</span>
                 </a>
               </Link>
             </li>
