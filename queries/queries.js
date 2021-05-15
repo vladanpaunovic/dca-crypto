@@ -349,15 +349,30 @@ export const useAvailablePlans = () => {
   return availablePlans;
 };
 
-export const useMySubscriptions = () => {
+export const useMySubscription = () => {
   const [session] = useSession();
-  const mySubscriptions = useQuery("my-subscriptions", async () => {
-    const response = await cmsClient().get("/subscriptions", {
-      params: { users_permissions_user: session.user.id },
-    });
+  const mySubscription = useQuery("my-subscription", async () => {
+    const response = await cmsClient(session.accessToken).get("/subscriptions");
 
     return response.data;
   });
 
-  return mySubscriptions;
+  return mySubscription;
+};
+
+export const useMyTransaction = () => {
+  const [session] = useSession();
+  const myTransaction = useQuery(
+    "my-transactions",
+    async () => {
+      const response = await cmsClient(session.accessToken).get(
+        "/transactions"
+      );
+
+      return response.data;
+    },
+    { refetchInterval: 7000 }
+  );
+
+  return myTransaction;
 };

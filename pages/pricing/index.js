@@ -1,6 +1,6 @@
 import { signIn, useSession } from "next-auth/client";
-import MyExchanges from "../../components/Dashboard/MyExchanges";
 import { DashboardContextProvider } from "../../components/DashboardContext/DashboardContext";
+import PricingPage from "../../components/PricingPage/PricingPage";
 
 export default function Page() {
   const [session] = useSession();
@@ -15,7 +15,7 @@ export default function Page() {
       )}
       {session && (
         <DashboardContextProvider>
-          <MyExchanges />
+          <PricingPage />
         </DashboardContextProvider>
       )}
     </>

@@ -33,6 +33,7 @@ import {
 } from "../../queries/queries";
 import DashboardMenu from "./Menu/DashboardMenu";
 import EmptyIllustration from "../../Illustrations/EmptyIllustration";
+import Banner from "../Banner/Banner";
 
 const RemoveButton = () => {
   const { state } = useDashboardContext();
@@ -517,6 +518,7 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+      <Banner />
     </DashboardLayout>
   );
 };

@@ -10,9 +10,12 @@ import { queryClient } from "../../pages/_app";
 import cmsClient from "../../server/cmsClient";
 import Loading from "../Loading/Loading";
 import { Popover, Transition } from "@headlessui/react";
+import { useMySubscription } from "../../queries/queries";
 
 export const BotStatus = (bot) => {
   const [session] = useSession();
+  const mySubscription = useMySubscription();
+
   const updateTradingBot = useMutation({
     mutationFn: async (payload) =>
       await cmsClient(session.accessToken).put(
@@ -24,6 +27,8 @@ export const BotStatus = (bot) => {
       await queryClient.refetchQueries(["my-bots"]);
     },
   });
+
+  const isSubscriptionActive = mySubscription.data.isActive;
 
   if (bot.errorMessage) {
     return (
@@ -98,6 +103,7 @@ export const BotStatus = (bot) => {
 
   return (
     <button
+      disabled={!isSubscriptionActive}
       onClick={() => updateTradingBot.mutate({ isActive: !bot.isActive })}
       className={`border focus:outline-none px-2 py-1 flex items-center justify-between  leading-5 font-semibold rounded-full ${
         bot.isActive
@@ -124,7 +130,9 @@ export const BotStatus = (bot) => {
         </>
       ) : (
         <>
-          Disabled{" "}
+          {isSubscriptionActive
+            ? "Disabled"
+            : "Disabled due to subscription expiration"}
           <span className="ml-1">
             {updateTradingBot.isLoading ? (
               <Loading width={19} height={19} type="spin" />

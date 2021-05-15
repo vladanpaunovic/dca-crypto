@@ -44,16 +44,6 @@ const Menu = () => {
                 </a>
               </Link>
             </li>
-            <li className="nav-item">
-              <Link href="/my-exchanges">
-                <a
-                  className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-gray-600 dark:text-gray-400 hover:opacity-75"
-                  href="#pablo"
-                >
-                  <SwitchHorizontalIcon className="w-6 h-6 mr-1" /> Exchanges
-                </a>
-              </Link>
-            </li>
 
             <li className="nav-item">
               <button

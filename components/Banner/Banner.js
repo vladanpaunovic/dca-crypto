@@ -1,67 +1,90 @@
+import { useMySubscription } from "../../queries/queries";
+import dayjs from "dayjs";
+import duration from "dayjs/plugin/duration";
+import relativeTime from "dayjs/plugin/relativeTime";
+import Link from "next/link";
+import {
+  ExclamationIcon,
+  SpeakerphoneIcon,
+  XIcon,
+} from "@heroicons/react/outline";
+import { useEffect, useState } from "react";
+dayjs.extend(duration);
+dayjs.extend(relativeTime);
+
 const Banner = () => {
+  const mySubscription = useMySubscription();
+  const [isShown, setIsShown] = useState(false);
+  const DAYS_THRESHOLD_TO_SHOW_WORNING = 20;
+
+  useEffect(() => {
+    if (mySubscription.data) {
+      const daysUntilEnd = dayjs(mySubscription.data.endDate).diff(
+        new Date(),
+        "day"
+      );
+
+      if (daysUntilEnd <= DAYS_THRESHOLD_TO_SHOW_WORNING) {
+        setIsShown(true);
+      }
+    }
+  }, [mySubscription.data]);
+
+  if (!mySubscription.data) {
+    return null;
+  }
+
+  const daysUntilEnd = dayjs(mySubscription.data.endDate).diff(
+    new Date(),
+    "day"
+  );
+  const isEnded = daysUntilEnd < 0;
+
   return (
-    <div className="fixed bottom-4 left-0 right-0">
-      <div className="container bg-indigo-600 dark:bg-gray-800 border dark:border-gray-900 shadow-2xl rounded-xl max-w-7xl mx-auto py-3 px-3 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between flex-wrap">
-          <div className="w-0 flex-1 flex items-center">
-            <span className="flex p-2 rounded-lg bg-indigo-800 dark:bg-gray-700">
-              <svg
-                className="h-6 w-6 text-white"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                aria-hidden="true"
+    isShown && (
+      <div className="fixed bottom-4 left-0 right-0">
+        <div className="container bg-indigo-600 dark:bg-gray-800 border border-indigo-500 dark:border-gray-700 shadow-2xl rounded-xl max-w-4xl mx-auto py-3 px-3">
+          <div className="flex items-center justify-between flex-wrap">
+            <div className="w-0 flex-1 flex items-center">
+              {isEnded ? (
+                <span className="flex p-2 rounded-lg bg-red-500">
+                  <ExclamationIcon className="w-6 h-6 text-white dark:text-gray-100" />
+                </span>
+              ) : (
+                <span className="flex p-2 rounded-lg bg-indigo-900 dark:bg-yellow-500">
+                  <SpeakerphoneIcon className="w-6 h-6 text-white dark:text-gray-900" />
+                </span>
+              )}
+
+              <p className="ml-3 font-medium text-white truncate">
+                <span className="inline">
+                  {isEnded
+                    ? `Your ${mySubscription.data.plan.name} plan ended. All your DCA bots are paused. Please upgrade.`
+                    : `Your ${mySubscription.data.plan.name} plan ends in ${daysUntilEnd} days`}
+                </span>
+              </p>
+            </div>
+            <div className="order-3 mt-2 flex-shrink-0 w-full sm:order-2 sm:mt-0 sm:w-auto">
+              <Link href="/pricing">
+                <a className="flex dark:bg-yellow-500 dark:text-gray-900 items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-indigo-600 bg-white hover:bg-indigo-50">
+                  See pricing
+                </a>
+              </Link>
+            </div>
+            <div className="order-2 flex-shrink-0 sm:order-3 sm:ml-3">
+              <button
+                type="button"
+                onClick={() => setIsShown(false)}
+                className="-mr-1 flex p-2 rounded-md hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-white sm:-mr-2"
               >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"
-                />
-              </svg>
-            </span>
-            <p className="ml-3 font-medium text-white truncate">
-              <span className="md:hidden">We announced a new product!</span>
-              <span className="hidden md:inline">
-                You have a chance to help improve this tool!
-              </span>
-            </p>
-          </div>
-          <div className="order-3 mt-2 flex-shrink-0 w-full sm:order-2 sm:mt-0 sm:w-auto">
-            <a
-              href="#"
-              className="flex dark:bg-yellow-500 dark:text-gray-900 font-bold items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-indigo-600 bg-white hover:bg-indigo-50"
-            >
-              Donate
-            </a>
-          </div>
-          <div className="order-2 flex-shrink-0 sm:order-3 sm:ml-3">
-            <button
-              type="button"
-              className="-mr-1 flex p-2 rounded-md hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-white sm:-mr-2"
-            >
-              <span className="sr-only">Dismiss</span>
-              <svg
-                className="h-6 w-6 text-white"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
+                <span className="sr-only">Dismiss</span>
+                <XIcon className="h-6 w-6 text-white" />
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    )
   );
 };
 

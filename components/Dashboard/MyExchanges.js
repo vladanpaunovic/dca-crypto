@@ -79,7 +79,7 @@ const WarningPopover = ({ exchange }) => {
   );
 };
 
-const ExchangesList = () => {
+export const ExchangesList = () => {
   const [session] = useSession();
 
   const { data, isLoading: isLoadingExchanges } = useQuery(
@@ -91,7 +91,7 @@ const ExchangesList = () => {
     }
   );
 
-  const { mutate, isLoading } = useMutation({
+  const { isLoading } = useMutation({
     mutationFn: async (payload) =>
       await cmsClient(session.accessToken).delete(`/exchanges/${payload}`),
     mutationKey: "remove-exchange",
