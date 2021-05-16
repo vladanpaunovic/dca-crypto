@@ -28,7 +28,7 @@ const affiliatePartners = [
 const AffiliatePartner = (props) => {
   const { name, pitch, description, affiliateLink, icon, index } = props;
   return (
-    <div className="bg-white dark:bg-gray-900 px-4 py-5 flex">
+    <div className="bg-white dark:bg-gray-900 px-4 py-5 flex ">
       <div>
         <Image
           src={icon}

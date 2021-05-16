@@ -44,7 +44,7 @@ export async function getServerSideProps(context) {
   };
 }
 
-const Coin = (props) => {
+const Coin = () => {
   const { state } = useAppContext();
   const currentCoin = useCurrentCoin();
   const coinSymbol = currentCoin.symbol.toUpperCase();
@@ -106,7 +106,7 @@ const Coin = (props) => {
                   state.input.isLoading ? "opacity-10" : ""
                 }`}
               >
-                <div className="px-4 py-5 sm:px-6 dark:bg-gray-900">
+                <div className="px-4 py-5 sm:px-6">
                   <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white">
                     Balance of your asset valuation
                   </h3>
@@ -120,7 +120,7 @@ const Coin = (props) => {
               </div>
             </div>
             <div
-              className={`col-span-6 mt-8 md:col-span-6 shadow overflow-hidden sm:rounded border dark:border-gray-700 transition ${
+              className={`col-span-6 mt-8 md:col-span-6 shadow overflow-hidden sm:rounded border dark:border-gray-800 transition ${
                 state.input.isLoading ? "opacity-10" : ""
               }`}
             >
