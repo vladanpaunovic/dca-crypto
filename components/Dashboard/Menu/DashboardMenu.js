@@ -12,14 +12,15 @@ import {
 } from "@heroicons/react/outline";
 import { useTheme } from "next-themes";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 const DashboardMenu = () => {
   const { theme, setTheme } = useTheme();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [logoutIcon, setLogoutIcon] = useState(
-    <LogoutIcon className="w-6 h-6 mr-1" />
-  );
+  const router = useRouter();
+
+  const isOnSamePage = (href) => router.pathname === href;
 
   return (
     <nav className="relative lg:h-screen dark:border-gray-800">
@@ -55,7 +56,11 @@ const DashboardMenu = () => {
               <Link href="/dashboard">
                 <a
                   title="Dashboard"
-                  className="px-3 py-4 flex items-center lg:justify-center text-xs uppercase font-bold leading-snug text-gray-400 dark:text-gray-400 hover:opacity-75"
+                  className={`px-3 py-4 flex items-center lg:justify-center text-xs uppercase font-bold leading-snug hover:opacity-75 ${
+                    isOnSamePage("/dashboard")
+                      ? "text-white"
+                      : "text-gray-400 dark:text-gray-400"
+                  }`}
                 >
                   <TemplateIcon className="w-6 h-6 mr-1" />
                   <span className="lg:hidden">Dashboard</span>
@@ -66,7 +71,11 @@ const DashboardMenu = () => {
               <Link href="/dashboard/dca/bitcoin">
                 <a
                   title="DCA calculator"
-                  className="px-3 py-4 flex items-center lg:justify-center text-xs uppercase font-bold leading-snug text-gray-400 dark:text-gray-400 hover:opacity-75"
+                  className={`px-3 py-4 flex items-center lg:justify-center text-xs uppercase font-bold leading-snug dark:hover:opacity-75 ${
+                    isOnSamePage("/dashboard/dca/[coin]")
+                      ? "text-white"
+                      : "text-gray-400 dark:text-gray-400"
+                  }`}
                 >
                   <CalculatorIcon className="w-6 h-6 mr-1" />
                   <span className="lg:hidden">Dashboard</span>
@@ -77,7 +86,11 @@ const DashboardMenu = () => {
               <Link href="/settings">
                 <a
                   title="Settings"
-                  className="px-3 py-4 flex items-center lg:justify-center text-xs uppercase font-bold leading-snug text-gray-400 dark:text-gray-400 hover:opacity-75"
+                  className={`px-3 py-4 flex items-center lg:justify-center text-xs uppercase font-bold leading-snug  hover:opacity-75 ${
+                    isOnSamePage("/settings")
+                      ? "text-white"
+                      : "text-gray-400 dark:text-gray-400"
+                  }`}
                   href="#pablo"
                 >
                   <CogIcon className="w-6 h-6 mr-1" />
@@ -108,7 +121,7 @@ const DashboardMenu = () => {
                 onClick={() => signOut({ callbackUrl: "/" })}
                 className="focus:outline-none text-xs px-3 w-full py-4 lg:py-2 flex items-center lg:justify-center uppercase font-bold leading-snug text-gray-400 dark:text-gray-400 hover:opacity-75 "
               >
-                {logoutIcon}
+                <LogoutIcon className="w-6 h-6 mr-1" />
                 <span className="lg:hidden">Sign out</span>
               </button>
             </li>
