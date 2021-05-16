@@ -28,7 +28,8 @@ export const BotStatus = (bot) => {
     },
   });
 
-  const isSubscriptionActive = mySubscription.data.isActive;
+  const isSubscriptionActive =
+    mySubscription.data && mySubscription.data.isActive;
 
   if (bot.errorMessage) {
     return (
