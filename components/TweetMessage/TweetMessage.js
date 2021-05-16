@@ -6,6 +6,7 @@ import { formatPrice } from "../Currency/Currency";
 import { useCurrentCoin } from "../Context/mainReducer";
 import { WEBSITE_URL } from "../../config";
 import { useRouter } from "next/router";
+import queryString from "querystring";
 
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
@@ -19,10 +20,11 @@ export const TweetMessage = () => {
     state.chart.data[state.chart.data.length - 1]?.costAverage;
 
   const earnings = state.chart.insights.totalValue?.fiat || 0;
-
   const currency = state.settings.currency;
 
-  const locationHref = `${WEBSITE_URL}/${router.asPath}`;
+  const { coin, ...queryWithoutCoin } = router.query;
+  const readyQueryString = queryString.stringify(queryWithoutCoin);
+  const locationHref = `${WEBSITE_URL}/dca/${router.query.coin}/${readyQueryString}`;
 
   const priceChartMessage = `Investing ${formatPrice(
     state.input.investment || 0,

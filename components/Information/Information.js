@@ -112,7 +112,12 @@ const Information = () => {
     const evenClass =
       "bg-gray-50 dark:bg-gray-800 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6";
     return information.map((i, index) => (
-      <div key={i.label} className={index % 2 === 0 ? evenClass : oddClass}>
+      <div
+        key={i.label}
+        className={`${index % 2 === 0 ? evenClass : oddClass} ${
+          index === information.length - 1 && "rounded-b-lg"
+        }`}
+      >
         <dt className="text-sm font-medium text-gray-500 dark:text-white flex">
           {i.label}{" "}
           {i.description && <InformationPopover description={i.description} />}

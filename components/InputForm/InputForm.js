@@ -11,6 +11,7 @@ import {
 import { useEffect } from "react";
 import dayjs from "dayjs";
 import { availableCurrencies } from "../../config";
+import { useSession } from "next-auth/client";
 
 const InputFormWrapper = (props) => {
   const { dispatch } = useAppContext();
@@ -62,14 +63,15 @@ const InputFormWrapper = (props) => {
     }
   }, [router.isReady, props.coin]);
 
-  return <InputForm />;
+  return <InputForm {...props} />;
 };
 
-const InputForm = () => {
+const InputForm = (props) => {
   const appContext = useAppContext();
   const router = useRouter();
   const currentCoin = useCurrentCoin();
   const { state, dispatch } = appContext;
+  const [session] = useSession();
 
   // Due to the constrains of the CoinGecko API, we enable calculations only
   // agter the perod of 90 days
@@ -117,7 +119,7 @@ const InputForm = () => {
     const { coinId, ...rest } = payload;
 
     router.replace(
-      { pathname: "/dca/" + state.input.coinId, query: rest },
+      { pathname: props.pathname + state.input.coinId, query: rest },
       undefined,
       { shallow: true }
     );
@@ -143,7 +145,7 @@ const InputForm = () => {
 
   return (
     <form
-      className="grid grid-cols-2 gap-4 p-4 border dark:border-gray-700 sm:rounded shadow-sm"
+      className="grid grid-cols-2 gap-4 p-4"
       onSubmit={onSubmit}
       name="dca-crypto"
       id="dca-crypto"
@@ -177,7 +179,7 @@ const InputForm = () => {
           </div>
         </label>
       </div>
-      <div className="col-span-1">
+      <div className="col-span-2">
         <label className="block">
           <span className="font-medium text-gray-700 dark:text-gray-300">
             Investment
@@ -219,7 +221,7 @@ const InputForm = () => {
           </div>
         </label>
       </div>
-      <div className="col-span-1">
+      <div className="col-span-2">
         <label className="block">
           <span className="font-medium text-gray-700 dark:text-gray-300">
             Investment interval
@@ -244,7 +246,7 @@ const InputForm = () => {
         </label>
       </div>
 
-      <div className="col-span-1">
+      <div className="col-span-2">
         <label className="block">
           <span className="font-medium text-gray-700 dark:text-gray-300">
             From
@@ -263,7 +265,7 @@ const InputForm = () => {
           />
         </label>
       </div>
-      <div className="col-span-1">
+      <div className="col-span-2">
         <label className="block">
           <span className="font-medium text-gray-700 dark:text-gray-300">
             To

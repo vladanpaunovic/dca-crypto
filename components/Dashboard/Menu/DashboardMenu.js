@@ -8,6 +8,7 @@ import {
   XIcon,
   MenuIcon,
   CogIcon,
+  CalculatorIcon,
 } from "@heroicons/react/outline";
 import { useTheme } from "next-themes";
 import Link from "next/link";
@@ -57,6 +58,17 @@ const DashboardMenu = () => {
                   className="px-3 py-4 flex items-center lg:justify-center text-xs uppercase font-bold leading-snug text-gray-400 dark:text-gray-400 hover:opacity-75"
                 >
                   <TemplateIcon className="w-6 h-6 mr-1" />
+                  <span className="lg:hidden">Dashboard</span>
+                </a>
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link href="/dashboard/dca/bitcoin">
+                <a
+                  title="Dashboard"
+                  className="px-3 py-4 flex items-center lg:justify-center text-xs uppercase font-bold leading-snug text-gray-400 dark:text-gray-400 hover:opacity-75"
+                >
+                  <CalculatorIcon className="w-6 h-6 mr-1" />
                   <span className="lg:hidden">Dashboard</span>
                 </a>
               </Link>

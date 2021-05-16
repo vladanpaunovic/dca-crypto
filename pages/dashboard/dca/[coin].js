@@ -1,19 +1,19 @@
 import Head from "next/head";
-import Navigation from "../../components/Navigarion/Navigation";
-import InputFormWrapper from "../../components/InputForm/InputForm";
-import Chart from "../../components/Chart/Chart";
-import ChartBalance from "../../components/Chart/ChartBalance";
+import InputFormWrapper from "../../../components/InputForm/InputForm";
+import Chart from "../../../components/Chart/Chart";
+import ChartBalance from "../../../components/Chart/ChartBalance";
 import {
   AppContextProvider,
   useAppContext,
-} from "../../components/Context/Context";
-import DataTable from "../../components/DataTable/DataTable";
-import AffiliateLinks from "../../components/AffiliateLinks/AffiliateLinks";
-import Information from "../../components/Information/Information";
-import { getAllCoins } from "../../queries/queries";
-import { CACHE_INVALIDATION_INTERVAL, defaultCurrency } from "../../config";
-import { useCurrentCoin } from "../../components/Context/mainReducer";
-import { TweetMessage } from "../../components/TweetMessage/TweetMessage";
+} from "../../../components/Context/Context";
+import DataTable from "../../../components/DataTable/DataTable";
+import Information from "../../../components/Information/Information";
+import { getAllCoins } from "../../../queries/queries";
+import { CACHE_INVALIDATION_INTERVAL, defaultCurrency } from "../../../config";
+import { useCurrentCoin } from "../../../components/Context/mainReducer";
+import { TweetMessage } from "../../../components/TweetMessage/TweetMessage";
+import DashboardMenu from "../../../components/Dashboard/Menu/DashboardMenu";
+import { useSession } from "next-auth/client";
 
 export async function getServerSideProps(context) {
   const {
@@ -83,7 +83,7 @@ const Coin = (props) => {
           </div>
           <div className="col-span-6">
             <div className="shadow-xl border bg-white dark:bg-gray-900 dark:border-gray-800 rounded-lg p-6 mb-8">
-              <div className="px-4 py-5 sm:px-6 dark:bg-gray-900">
+              <div className="px-4 py-5 sm:px-6 dark:bg-gray-900 ">
                 <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white">
                   Price development of {coinSymbol}
                 </h3>
@@ -102,7 +102,7 @@ const Coin = (props) => {
                 <Information />
               </div>
               <div
-                className={`col-span-6 md:col-span-3 shadow-xl border bg-white dark:bg-gray-900 dark:border-gray-800 rounded-lg mb-8 transition  ${
+                className={`col-span-6 md:col-span-3 shadow-xl border bg-white dark:bg-gray-900 dark:border-gray-800 rounded-lg mb-8 transition ${
                   state.input.isLoading ? "opacity-10" : ""
                 }`}
               >
@@ -129,39 +129,43 @@ const Coin = (props) => {
           </div>
         </div>
       </main>
-
-      <footer className="w-100 flex border-t h-20 justify-center items-center dark:text-gray-100 dark:border-gray-700">
-        DCA CC - Dollar Cost Averaging Cryptocurrency
-      </footer>
     </div>
   );
 };
 
 const CoinWrapper = (props) => {
+  const [session] = useSession();
   return (
     <AppContextProvider availableTokens={props.availableTokens}>
-      <div className="border-b border-gray-50 dark:border-gray-700">
-        <Navigation />
-      </div>
-      <div className="lg:flex bg-gray-100 dark:bg-gray-800">
-        <div className="w-12/12 lg:w-330 shadow-xl dark:border-gray-700 bg-white dark:bg-gray-900">
-          <h2
-            colSpan={2}
-            className="w-full flex items-center px-4 h-16 border-b dark:border-gray-700 text-left text-lg font-medium dark:text-gray-100 tracking-wider"
-          >
-            DCA Calculator
-          </h2>
-          <div>
-            <InputFormWrapper {...props} pathname="/dca/" />
+      {!session && (
+        <>
+          Not signed in <br />
+          <button onClick={() => signIn()}>Sign in</button>
+        </>
+      )}
+      {session && (
+        <>
+          <div className="lg:flex bg-gray-100 dark:bg-gray-800">
+            <div className="w-12/12 lg:w-16 bg-gray-900 dark:bg-gray-900 border-r border-gray-800">
+              <DashboardMenu />
+            </div>
+            <div className="w-12/12 lg:w-330 shadow-xl dark:border-gray-700 bg-white dark:bg-gray-900">
+              <h2
+                colSpan={2}
+                className="w-full flex items-center px-4 h-16 border-b dark:border-gray-700 text-left text-lg font-medium dark:text-gray-100 tracking-wider"
+              >
+                DCA Calculator
+              </h2>
+              <div>
+                <InputFormWrapper {...props} pathname="/dashboard/dca/" />
+              </div>
+            </div>
+            <div className="w-12/12 mt-8 md:mt-0 md:p-8 flex-1">
+              <Coin {...props} />
+            </div>
           </div>
-          <div className="mt-8">
-            <AffiliateLinks />
-          </div>
-        </div>
-        <div className="w-12/12 mt-8 md:mt-0 md:p-8 flex-1">
-          <Coin {...props} />
-        </div>
-      </div>
+        </>
+      )}
     </AppContextProvider>
   );
 };
