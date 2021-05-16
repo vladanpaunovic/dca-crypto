@@ -7,7 +7,7 @@ const Navigation = () => {
   const { theme, setTheme } = useTheme();
 
   return (
-    <header className="text-indigo-700 body-font shadow w-full bg-white dark:bg-gray-900 px-4 py-6 sm:pl-4 sm:pr-8">
+    <header className="text-indigo-700 body-font shadow w-full bg-white dark:bg-gray-900 px-4 py-2 sm:px-4">
       <div className="mx-auto flex flex-wrap justify-between flex-row items-center ">
         <Logo />
 

@@ -47,7 +47,7 @@ const DashboardMenu = () => {
           </button>
         </div>
         <div
-          className={`lg:flex items-center justify-between flex-col lg:mt-4 ${
+          className={`lg:flex items-center justify-between flex-col ${
             menuOpen ? "" : "hidden"
           }`}
         >
