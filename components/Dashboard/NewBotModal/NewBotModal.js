@@ -209,7 +209,9 @@ const NewBotForm = () => {
   const getBalance = useGetBalanceForNewBot();
 
   const baseCurrencyBalanceRaw =
-    getBalance.data?.free && state.newBot.tradingPair
+    getBalance.data?.free &&
+    state.newBot.tradingPair &&
+    getBalance.data.free[state.newBot.tradingPair.value.quoteId]
       ? getBalance.data.free[state.newBot.tradingPair.value.quoteId]
       : 0;
 
