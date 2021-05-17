@@ -143,13 +143,6 @@ const SignIn = ({ csrfToken, error, isEmailConfirmed }) => {
                 {error}
               </p>
             )}
-            <p className="rounded p-2 bg-gray-100 dark:bg-gray-800 dark:text-gray-400 mt-4 flex items-center">
-              <span className="p-3 bg-indigo-500 dark:bg-yellow-500 rounded mr-2">
-                <LockClosedIcon className="w-5 h-5 text-gray-200 dark:text-gray-700" />
-              </span>
-              Registration is available only by invite from existing members of
-              the platform.
-            </p>
           </form>
         </div>
       </div>

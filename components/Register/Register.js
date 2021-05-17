@@ -28,19 +28,25 @@ const Register = () => {
   const recaptcha = useRef();
   const resendEmailConfirmation = useResendEmailConfirmation();
 
-  const verifyCallback = (token) => {
-    setRecaptchaToken(token);
-  };
-
   useEffect(() => {
     loadReCaptcha(GOOGLE_RECAPTCHA_CLIENT_KEY, verifyCallback);
   }, []);
 
+  const verifyCallback = (token) => {
+    setRecaptchaToken(token);
+  };
+
+  const updateToken = () => {
+    recaptcha.current.execute();
+  };
+
   const handleOnSubmit = async (e) => {
+    await recaptcha.current.execute();
     e.preventDefault();
     setError(null);
     setIsRegistered(false);
     setIsLoading(true);
+    updateToken();
 
     try {
       const response = await cmsClient().post("/auth/local/register", {
