@@ -71,7 +71,7 @@ function Home() {
         <div className="container mx-auto max-w-7xl bg-white dark:bg-gray-900 flex flex-col md:flex-row my-32">
           <div className="mb-16 w-3/3 md:w-1/3 pl-4 md:pl-0 md:pr-8">
             <h2 className="text-base text-indigo-500 dark:text-yellow-500 font-semibold tracking-wide uppercase">
-              Still not convinved?
+              Still not convinced?
             </h2>
             <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
               Calculate DCA for your favorite coin
