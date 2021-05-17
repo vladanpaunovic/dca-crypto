@@ -1,6 +1,5 @@
 import ExternalLinkIcon from "../Icons/ExternalLink";
 import SupportIcon from "../Icons/SupportIcon";
-import InfoIcon from "../Icons/InfoIcon";
 import Image from "next/image";
 
 const affiliatePartners = [

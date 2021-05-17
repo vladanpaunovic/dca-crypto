@@ -14,7 +14,7 @@ const AllCoinsTable = ({ showOnlyNTokens, showSearch }) => {
 
   return (
     <div className="flex flex-col">
-      <div className="my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
           <div className="shadow overflow-hidden lg:rounded-lg dark:border-gray-700 border-0 xl:border rounded-none">
             <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-900">

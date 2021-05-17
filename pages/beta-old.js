@@ -4,7 +4,6 @@ import { AppContextProvider } from "../components/Context/Context";
 import { formatPrice } from "../components/Currency/Currency";
 import ExplainerSection from "../components/ExplainerSection/ExplainerSection";
 import MainHero from "../components/Hero/MainHero";
-import { RegistrationCard } from "../components/PaymentCard/PaymentCard";
 import { CACHE_INVALIDATION_INTERVAL, defaultCurrency } from "../config";
 import { getAllCoins } from "../queries/queries";
 
@@ -59,10 +58,7 @@ function Home() {
         <section className="mt-10 container lg:px-6 max-w-7xl mx-auto max-w-80 ">
           <ExplainerSection />
         </section>
-        <section className="mt-16 bg-gradient-to-br from-indigo-400 to-indigo-600 dark:from-yellow-400  dark:to-yellow-600  flex items-center justify-center">
-          <RegistrationCard />
-        </section>
-        <section className="bg-indigo-500 dark:bg-yellow-500 flex items-center justify-center">
+        <section className="mt-16 bg-indigo-500 dark:bg-yellow-500 flex items-center justify-center">
           <div className="container lg:px-6 max-w-7xl mx-auto max-w-80 py-10 ">
             <div className="w-full text-center">
               <h3 className="text-3xl px-4 sm:text-4xl tracking-tight pb-6 font-bold text-gray-100 dark:text-gray-900">

@@ -19,7 +19,7 @@ const Features = () => {
               <CheckIcon className="h-6 w-6 mr-2 text-green-400" />
             </div>
             <p className="ml-3 text-sm leading-5 text-gray-700 dark:text-gray-200">
-              12 supported exchanges
+              5 supported exchanges
             </p>
           </li>
           <li className="flex items-start lg:col-span-1">
