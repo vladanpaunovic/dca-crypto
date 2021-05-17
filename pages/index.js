@@ -1,9 +1,15 @@
 import Head from "next/head";
+import Link from "next/link";
 import AllCoinsTable from "../components/AllCoinsTable/AllCoinsTable";
 import { AppContextProvider } from "../components/Context/Context";
 import { formatPrice } from "../components/Currency/Currency";
 import ExplainerSection from "../components/ExplainerSection/ExplainerSection";
 import MainHero from "../components/Hero/MainHero";
+import AvailableExchanges from "../components/LandingPage/AvailableExchanges";
+import FeatureDescription from "../components/LandingPage/FeatureDescription";
+import FeaturePreview from "../components/LandingPage/FeaturePreview";
+import WhatIsDCA from "../components/LandingPage/WhatIsDCA";
+import { RegistrationCard } from "../components/PaymentCard/PaymentCard";
 import { CACHE_INVALIDATION_INTERVAL, defaultCurrency } from "../config";
 import { getAllCoins } from "../queries/queries";
 
@@ -45,54 +51,36 @@ function Home() {
       </Head>
       <main className="w-full bg-white dark:bg-gray-900">
         <MainHero />
-        <div className="container lg:px-6 max-w-7xl mx-auto max-w-80 ">
-          <h2 className="text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white sm:text-5xl md:text-4xl block px-4 lg:px-0">
-            Select a coin to{" "}
-            <span className="inline text-indigo-600 dark:text-yellow-500 ">
-              calculate
-            </span>{" "}
-            dollar cost average
-          </h2>
-          <AllCoinsTable showOnlyNTokens={10} />
-        </div>
-        <section className="mt-10 container lg:px-6 max-w-7xl mx-auto max-w-80 ">
-          <ExplainerSection />
+        <section className="lg:px-6 mx-auto bg-white dark:bg-gray-900">
+          <WhatIsDCA />
         </section>
-        <section className="mt-16 bg-indigo-500 dark:bg-yellow-500 flex items-center justify-center">
-          <div className="container lg:px-6 max-w-7xl mx-auto max-w-80 py-10 ">
-            <div className="w-full text-center">
-              <h3 className="text-3xl px-4 sm:text-4xl tracking-tight pb-6 font-bold text-gray-100 dark:text-gray-900">
-                Annual return dollar cost averaging {formatPrice(50)} a week
-              </h3>
-            </div>
-            <div className="flex items-center justify-center flex-col md:flex-row">
-              <div className="flex w-1/3 flex-col text-center py-3">
-                <span className="w-full tracking-tight text-6xl font-extrabold text-gray-100 dark:text-gray-900">
-                  346%
-                </span>
-                <span className="w-full text-indigo-200 dark:text-yellow-800 font-medium text-lg">
-                  Bitcoin
-                </span>
-              </div>
-              <div className="flex w-1/3 flex-col text-center py-3">
-                <span className="w-full tracking-tight text-6xl font-extrabold text-gray-100 dark:text-gray-900">
-                  746%
-                </span>
-                <span className="w-full text-indigo-200 dark:text-yellow-800 font-medium text-lg">
-                  Ethereum
-                </span>
-              </div>
-              <div className="flex w-1/3 flex-col text-center py-3">
-                <span className="w-full tracking-tight text-6xl font-extrabold text-gray-100 dark:text-gray-900">
-                  2227%
-                </span>
-                <span className="w-full text-indigo-200 dark:text-yellow-800 font-medium text-lg">
-                  Binance Coin
-                </span>
-              </div>
-            </div>
+
+        <section className="">
+          <FeaturePreview />
+        </section>
+        <section className="my-36">
+          <AvailableExchanges />
+        </section>
+        <section className="mb-24">
+          <FeatureDescription />
+        </section>
+
+        <section className="mt-16 bg-gradient-to-br from-indigo-400 to-indigo-600 dark:from-yellow-400  dark:to-yellow-600  flex items-center justify-center">
+          <RegistrationCard />
+        </section>
+        <div className="container mx-auto max-w-7xl bg-white dark:bg-gray-900 flex flex-col md:flex-row my-32">
+          <div className="mb-16 w-3/3 md:w-1/3 pl-4 md:pl-0 md:pr-8">
+            <h2 className="text-base text-indigo-500 dark:text-yellow-500 font-semibold tracking-wide uppercase">
+              Still not convinved?
+            </h2>
+            <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
+              Calculate DCA for your favorite coin
+            </p>
           </div>
-        </section>
+          <div className="w-3/3 md:w-2/3 dark:text-white">
+            <AllCoinsTable showOnlyNTokens={10} />
+          </div>
+        </div>
       </main>
 
       <footer className="w-100 flex border-t h-20 justify-center items-center bg-white dark:bg-gray-900 dark:text-gray-100 dark:border-gray-900">
