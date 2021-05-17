@@ -195,7 +195,7 @@ function CryptoCurrencyList() {
               dispatch({ type: ACTIONS.SET_TRADING_PAIR, payload });
             }}
           />
-          <p className="text-xs mt-1 text-gray-600">
+          <p className="text-xs mt-1 dark:text-gray-400 text-gray-600">
             Current price for {fromCurrency} = {quotePrice}
           </p>
         </label>
@@ -254,7 +254,7 @@ const NewBotForm = () => {
           className={`mt-1 text-xs ${
             state.newBot.investment < state.newBot.minimum_amount
               ? "text-red-500"
-              : "text-gray-600 "
+              : "dark:text-gray-400 text-gray-600"
           }`}
         >
           Minimum investment is {minimumInvestment}
@@ -303,7 +303,7 @@ const NewBotForm = () => {
           className={`mt-1 text-xs ${
             baseCurrencyBalanceRaw < state.newBot.investment
               ? "text-red-500"
-              : "text-gray-600 "
+              : "text-green-500"
           }`}
         >
           Current balance on exchange is {baseCurrencyBalance}
