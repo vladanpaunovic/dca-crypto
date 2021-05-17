@@ -376,3 +376,19 @@ export const useMyTransaction = () => {
 
   return myTransaction;
 };
+
+export const useResendEmailConfirmation = () => {
+  const resendEmailConfirmation = useMutation(
+    "resend-email-confirmation",
+    async (payload) => {
+      const response = await cmsClient().post(
+        "/auth/send-email-confirmation",
+        payload
+      );
+
+      return response.data;
+    }
+  );
+
+  return resendEmailConfirmation;
+};

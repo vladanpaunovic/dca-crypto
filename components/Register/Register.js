@@ -3,6 +3,7 @@ import {
   InboxIcon,
   EyeIcon,
   EyeOffIcon,
+  RefreshIcon,
 } from "@heroicons/react/outline";
 import { MailOpenIcon } from "@heroicons/react/solid";
 import { useEffect, useRef, useState } from "react";
@@ -12,6 +13,7 @@ import Loading from "../Loading/Loading";
 import Link from "next/link";
 import { ReCaptcha, loadReCaptcha } from "react-recaptcha-v3";
 import { GOOGLE_RECAPTCHA_CLIENT_KEY } from "../../config";
+import { useResendEmailConfirmation } from "../../queries/queries";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -24,6 +26,7 @@ const Register = () => {
   const [recaptchaToken, setRecaptchaToken] = useState(null);
 
   const recaptcha = useRef();
+  const resendEmailConfirmation = useResendEmailConfirmation();
 
   const verifyCallback = (token) => {
     setRecaptchaToken(token);
@@ -47,8 +50,6 @@ const Register = () => {
         token: recaptchaToken,
       });
 
-      console.log(response.data);
-
       setIsLoading(false);
       if (response.data.user) {
         setIsRegistered(true);
@@ -56,12 +57,19 @@ const Register = () => {
     } catch (e) {
       setError(e.response.data.message[0].messages[0].message);
     }
+
+    setIsLoading(false);
   };
+
+  const handleOnResendEmail = () => {
+    resendEmailConfirmation.mutate({ email });
+  };
+
   return (
     <form
       className="min-w-screen min-h-screen bg-gray-100 pattern-domino dark:bg-gray-900 flex items-center justify-center px-5 py-5"
       onSubmit={handleOnSubmit}
-      disabled={isLoading}
+      disabled={isLoading || isRegistered}
     >
       <div className=" text-gray-500 rounded-3xl shadow-xl w-full overflow-hidden max-w-4xl bg-white dark:bg-gray-900">
         <div className="md:flex w-full">
@@ -80,6 +88,25 @@ const Register = () => {
                 <p className="text-gray-400 dark:text-gray-100 mt-2">
                   Check your inbox to confirm your email
                 </p>
+                <div className="flex items-center mt-8">
+                  <p className="text-gray-400 dark:text-gray-400">
+                    Didn't receive email?
+                  </p>
+                  <button
+                    onClick={handleOnResendEmail}
+                    type="button"
+                    className="ml-1 transition hover:opacity-50 text-indigo-500 dark:text-yellow-500 flex items-center"
+                  >
+                    Resend{" "}
+                    {resendEmailConfirmation.isLoading ? (
+                      <span className="ml-1">
+                        <Loading width={20} height={20} />
+                      </span>
+                    ) : (
+                      <RefreshIcon className="ml-1 w-5 h-5" />
+                    )}
+                  </button>
+                </div>
               </div>
             ) : (
               <>
@@ -136,7 +163,7 @@ const Register = () => {
                     </div>
                   </div>
                   <div className="flex ">
-                    <div className="w-full px-3 mb-12">
+                    <div className="w-full px-3 mb-3">
                       <label
                         htmlFor=""
                         className="text-xs font-semibold px-1 text-gray-500 dark:text-gray-100"
@@ -144,23 +171,26 @@ const Register = () => {
                         Password
                       </label>
                       <div className="flex">
-                        <button
-                          type="button"
-                          onClick={() => setShowPassword(!showPassword)}
-                          className="w-10 z-10 pl-1 text-center flex items-center justify-center focus:outline-none transition-all"
-                        >
+                        <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
                           {showPassword ? (
                             <EyeOffIcon className="text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 w-5 h-5" />
                           ) : (
                             <EyeIcon className="text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 w-5 h-5" />
                           )}
-                        </button>
+                        </div>
                         <input
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
                           type={showPassword ? "text" : "password"}
-                          className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-800 dark:text-gray-100"
+                          className="w-full -ml-10 pl-10 pr-14 -mr-14 py-2 rounded-lg outline-none focus:border-indigo-500 dark:border-gray-800 border-gray-200 border-2 dark:bg-gray-700 dark:text-gray-100"
                         />
+                        <button
+                          type="button"
+                          onClick={() => setShowPassword(!showPassword)}
+                          className="w-14 bg-gray-700 text-sm font-medium text-gray-80 dark:text-gray-300 rounded-r-lg px-2 z-10 text-center flex items-center justify-center focus:outline-none transition-all border-2 border-gray-200 dark:border-gray-800"
+                        >
+                          Show
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -187,7 +217,7 @@ const Register = () => {
                       verifyCallback={verifyCallback}
                     />
                     {error && (
-                      <p className="text-gray-50 bg-red-500 p-4 rounded-md">
+                      <p className="mt-3 text-gray-50 bg-red-500 p-4 rounded-md">
                         {error}
                       </p>
                     )}
@@ -195,7 +225,7 @@ const Register = () => {
                     <p className="text-center mt-4">
                       Have an account?{" "}
                       <Link href="/auth/signin">
-                        <a className="text-indigo-500 hover:underline">
+                        <a className="text-indigo-500 dark:text-yellow-500 hover:underline">
                           Sign in
                         </a>
                       </Link>
