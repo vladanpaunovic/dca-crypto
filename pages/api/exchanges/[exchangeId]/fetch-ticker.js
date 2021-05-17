@@ -16,7 +16,9 @@ const handler = async (req, res) => {
   });
 
   // Set sandbox environment in testing
-  exchangeClient.setSandboxMode(process.env.IS_SANDBOX);
+  if (process.env.IS_SANDBOX) {
+    exchangeClient.setSandboxMode(true);
+  }
 
   const tick = await exchangeClient.fetchTicker(req.query.symbol);
 

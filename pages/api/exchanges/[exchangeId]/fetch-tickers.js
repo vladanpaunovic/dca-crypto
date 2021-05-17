@@ -17,7 +17,9 @@ const handler = async (req, res) => {
   });
 
   // Set sandbox environment in testing
-  exchangeClient.setSandboxMode(process.env.IS_SANDBOX);
+  if (process.env.IS_SANDBOX) {
+    exchangeClient.setSandboxMode(true);
+  }
 
   const tenIntervalsAgo = dayjs(req.query.since).subtract(30, "day");
 
