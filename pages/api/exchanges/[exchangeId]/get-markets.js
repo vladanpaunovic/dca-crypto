@@ -16,7 +16,7 @@ const handler = async (req, res) => {
   });
 
   // Set sandbox environment in testing
-  if (process.env.IS_SANDBOX) {
+  if (process.env.IS_SANDBOX === "true") {
     exchangeClient.setSandboxMode(true);
   }
 
