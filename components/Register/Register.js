@@ -5,11 +5,13 @@ import {
   EyeOffIcon,
 } from "@heroicons/react/outline";
 import { MailOpenIcon } from "@heroicons/react/solid";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import LoginIllustration from "../../Illustrations/LoginIllustration";
 import cmsClient from "../../server/cmsClient";
 import Loading from "../Loading/Loading";
 import Link from "next/link";
+import { ReCaptcha, loadReCaptcha } from "react-recaptcha-v3";
+import { GOOGLE_RECAPTCHA_CLIENT_KEY } from "../../config";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -19,6 +21,17 @@ const Register = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
+  const [recaptchaToken, setRecaptchaToken] = useState(null);
+
+  const recaptcha = useRef();
+
+  const verifyCallback = (token) => {
+    setRecaptchaToken(token);
+  };
+
+  useEffect(() => {
+    loadReCaptcha(GOOGLE_RECAPTCHA_CLIENT_KEY, verifyCallback);
+  }, []);
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
@@ -27,15 +40,18 @@ const Register = () => {
     setIsLoading(true);
 
     try {
-      const response = await cmsClient().post("/users", {
+      const response = await cmsClient().post("/auth/local/register", {
         username: name,
         password,
         email,
+        token: recaptchaToken,
       });
 
-      if (response.data._id) {
+      console.log(response.data);
+
+      setIsLoading(false);
+      if (response.data.user) {
         setIsRegistered(true);
-        setIsLoading(false);
       }
     } catch (e) {
       setError(e.response.data.message[0].messages[0].message);
@@ -163,6 +179,13 @@ const Register = () => {
                         )}
                       </button>
                     </div>
+
+                    <ReCaptcha
+                      ref={recaptcha}
+                      sitekey={GOOGLE_RECAPTCHA_CLIENT_KEY}
+                      action="register"
+                      verifyCallback={verifyCallback}
+                    />
                     {error && (
                       <p className="text-gray-50 bg-red-500 p-4 rounded-md">
                         {error}

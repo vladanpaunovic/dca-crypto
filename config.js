@@ -12,3 +12,6 @@ export const defaultCurrency = availableCurrencies[0].value;
 
 export const CACHE_INVALIDATION_INTERVAL = 3600; // 1 hour
 export const WEBSITE_URL = process.env.VERCEL_URL;
+
+export const GOOGLE_RECAPTCHA_CLIENT_KEY =
+  "6Le559gaAAAAANgUD7zf-hE9gJrnEqauFqay_tdi";

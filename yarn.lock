@@ -3178,6 +3178,11 @@ react-query@^3.13.10:
     broadcast-channel "^3.4.1"
     match-sorter "^6.0.2"
 
+react-recaptcha-v3@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/react-recaptcha-v3/-/react-recaptcha-v3-2.0.1.tgz#b8dd391e9e36785f250d5e01aad235dd2fea2285"
+  integrity sha512-ZQ+auotgu+E/6YAbPqk53sf9xgcp8TFvVVfL4bVR7PXj98nQmdaONugdLJEA7g1iTZ4yQqC4mZbcVUGZmwb25Q==
+
 react-refresh@0.8.3:
   version "0.8.3"
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.8.3.tgz#721d4657672d400c5e3c75d063c4a85fb2d5d68f"
