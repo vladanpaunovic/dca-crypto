@@ -65,7 +65,7 @@ const annualGains = [
   {
     coin: "Bitcoin",
     url:
-      "/dca/bitcoin?investmentInterval=7&investment=50&dateFrom=2020-01-01&dateTo=2021-01-01&currency=usd",
+      "/dca/bitcoin?investmentInterval=7&investment=50&dateFrom=2020-05-10&dateTo=2021-05-10&currency=usd",
     percentageChange: 270,
     qty: 0.166821,
     symbol: "BTC",
@@ -73,7 +73,7 @@ const annualGains = [
   {
     coin: "Ethereum",
     url:
-      "/dca/ethereum?investmentInterval=7&investment=50&dateFrom=2020-01-01&dateTo=2021-01-01&currency=usd",
+      "/dca/ethereum?investmentInterval=7&investment=50&dateFrom=2020-05-10&dateTo=2021-05-10&currency=usd",
     percentageChange: 748,
     qty: 5.744257,
     symbol: "ETH",
@@ -81,7 +81,7 @@ const annualGains = [
   {
     coin: "Binance Coin",
     url:
-      "/dca/binancecoin?investmentInterval=7&investment=50&dateFrom=2020-01-01&dateTo=2021-01-01&currency=usd",
+      "/dca/binancecoin?investmentInterval=7&investment=50&dateFrom=2020-05-10&dateTo=2021-05-10&currency=usd",
     percentageChange: 1985,
     qty: 85.69,
     symbol: "BNB",
@@ -89,7 +89,7 @@ const annualGains = [
   {
     coin: "Cardano",
     url:
-      "/dca/cardano?investmentInterval=7&investment=50&dateFrom=2020-01-01&dateTo=2021-01-01&currency=usd",
+      "/dca/cardano?investmentInterval=7&investment=50&dateFrom=2020-05-10&dateTo=2021-05-10&currency=usd",
     percentageChange: 1033,
     qty: 18589.83,
     symbol: "ADA",
@@ -97,7 +97,7 @@ const annualGains = [
   {
     coin: "XRP",
     url:
-      "/dca/ripple?investmentInterval=7&investment=50&dateFrom=2020-01-01&dateTo=2021-01-01&currency=usd",
+      "/dca/ripple?investmentInterval=7&investment=50&dateFrom=2020-05-10&dateTo=2021-05-10&currency=usd",
     percentageChange: 413,
     qty: 8694.54,
     symbol: "XRP",
@@ -105,7 +105,7 @@ const annualGains = [
   {
     coin: "Dogecoin",
     url:
-      "/dca/dogecoin?investmentInterval=7&investment=50&dateFrom=2020-01-01&dateTo=2021-01-01&currency=usd",
+      "/dca/dogecoin?investmentInterval=7&investment=50&dateFrom=2020-05-10&dateTo=2021-05-10&currency=usd",
     percentageChange: 14624,
     qty: 615811.33,
     symbol: "DOGE",
