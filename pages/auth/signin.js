@@ -29,9 +29,10 @@ const SignIn = ({ csrfToken, error, isEmailConfirmed }) => {
   };
 
   return (
-    <div className="flex pattern-domino bg-gray-50 dark:bg-gray-900">
-      <div className="w-full sm:w-1/2 xl:w-1/3 min-h-screen flex items-center justify-center">
-        <div className="max-w-md w-full space-y-8 bg-white dark:bg-gray-900 border dark:border-gray-800 rounded-lg py-12 px-4 sm:px-6 lg:px-8 shadow-2xl">
+    <div className="flex bg-gray-50 dark:bg-gray-800">
+      <div className="lg:w-1/2 xl:w-1/3  min-h-screen "></div>
+      <div className="w-full lg:w-1/2 xl:w-1/3 min-h-screen flex items-center justify-center">
+        <div className="max-w-lg w-full space-y-8 bg-white dark:bg-gray-900 border dark:border-gray-800 md:rounded-lg py-12 px-4 sm:px-6 lg:px-8 shadow-2xl h-full md:h-auto">
           <div>
             <Logo />
             {isEmailConfirmed && (
@@ -98,20 +99,7 @@ const SignIn = ({ csrfToken, error, isEmailConfirmed }) => {
             </div>
 
             <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                {/* <input
-                  id="remember_me"
-                  name="remember_me"
-                  type="checkbox"
-                  className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-                />
-                <label
-                  htmlFor="remember_me"
-                  className="ml-2 block text-sm text-gray-900"
-                >
-                  Remember me
-                </label> */}
-              </div>
+              <div className="flex items-center"></div>
 
               <div className="text-sm">
                 <Link href="/auth/forgot-password">
@@ -146,7 +134,8 @@ const SignIn = ({ csrfToken, error, isEmailConfirmed }) => {
           </form>
         </div>
       </div>
-      <div className="sm:w-1/2 xl:w-2/3  min-h-screen "></div>
+
+      <div className="lg:w-1/2 xl:w-1/3  min-h-screen "></div>
     </div>
   );
 };
