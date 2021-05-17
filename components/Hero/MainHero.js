@@ -30,7 +30,7 @@ export default function Hero() {
                   <div className="flex items-center justify-end mr-4">
                     <div className="mr-2">
                       <button
-                        className="ml-2 dark:text-white text-gray hover:text-gray-900 rounded-full p-1 mr-2 focus:outline-none"
+                        className="ml-2 rounded-full p-1 mr-2 focus:outline-none text-gray-900"
                         onClick={() =>
                           setTheme(theme === "light" ? "dark" : "light")
                         }
@@ -43,11 +43,18 @@ export default function Hero() {
                       </button>
                     </div>
                     {!session ? (
-                      <Link href="/auth/signin">
-                        <a className="px-2 py-1 bg-gray-100 dark:bg-gray-800 dark:text-yellow-500 rounded font-medium">
-                          Sign in
-                        </a>
-                      </Link>
+                      <>
+                        <Link href="/auth/signin">
+                          <a className="px-2 py-1 font-medium text-gray-900">
+                            Sign in
+                          </a>
+                        </Link>
+                        <Link href="/register">
+                          <a className="hidden sm:block px-3 py-2 ml-4 bg-gray-100 dark:bg-gray-800 text-indigo-700 dark:text-yellow-500 rounded font-medium shadow-lg transition hover:shadow-xl">
+                            Start DCA for free
+                          </a>
+                        </Link>
+                      </>
                     ) : (
                       <Link href="/dashboard">
                         <a className="px-2 py-1 bg-gray-100 dark:bg-gray-800 dark:text-yellow-500 rounded font-medium">

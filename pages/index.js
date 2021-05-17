@@ -51,7 +51,7 @@ function Home() {
       </Head>
       <main className="w-full bg-white dark:bg-gray-900">
         <MainHero />
-        <section className="lg:px-6 mx-auto bg-white dark:bg-gray-900">
+        <section className="mx-auto bg-white dark:bg-gray-900">
           <WhatIsDCA />
         </section>
 
@@ -65,7 +65,7 @@ function Home() {
           <FeatureDescription />
         </section>
 
-        <section className="mt-16 bg-gradient-to-br from-indigo-400 to-indigo-600 dark:from-yellow-400  dark:to-yellow-600  flex items-center justify-center">
+        <section className="mt-16 bg-gradient-to-br from-indigo-400 to-indigo-600 dark:from-yellow-400  dark:to-yellow-600 min-h-screen flex items-center justify-center">
           <RegistrationCard />
         </section>
         <div className="container mx-auto max-w-7xl bg-white dark:bg-gray-900 flex flex-col md:flex-row my-32">

@@ -158,7 +158,7 @@ const Chart = () => {
 
 const WhatIsDCA = () => {
   return (
-    <div className="py-32">
+    <div className="py-8 md:py-32">
       <div className="container mx-auto max-w-7xl px-6 p-6 flex flex-col md:flex-row">
         <div className="w-4/4 md:w-2/4 gap-8 dark:text-white  md:pr-8">
           <Chart />
@@ -191,7 +191,7 @@ const WhatIsDCA = () => {
           </p>
         </div>
       </div>
-      <div className="flex justify-center py-52">
+      <div className="flex justify-center bg-gray-100 dark:bg-gray-800 py-16 md:py-24 mt-12 md:mt-36">
         <div className="text-center">
           <p className="text-3xl sm:text-4xl tracking-tight font-bold text-gray-900 dark:text-gray-100 max-w-4xl mb-2">
             People saving{" "}
@@ -206,7 +206,6 @@ const WhatIsDCA = () => {
             <span className="text-indigo-500 dark:text-yellow-500">
               {formatPrice(60076)}
             </span>
-            .
           </p>
           <Link href="/dca/bitcoin?investmentInterval=7&investment=50&dateFrom=2018-01-01&dateTo=2021-04-01&currency=usd">
             <a
@@ -218,9 +217,8 @@ const WhatIsDCA = () => {
           </Link>
         </div>
       </div>
-
-      <div className="">
-        <div className="container mx-auto max-w-7xl px-6 p-6 bg-white dark:bg-gray-900 flex flex-col md:flex-row">
+      <div className="bg-gray-100 dark:bg-gray-800 pb-24">
+        <div className="container mx-auto max-w-7xl px-6 p-6 flex flex-col md:flex-row">
           <div className="mb-16 w-3/3 md:w-1/3 pl-4 md:pl-0 md:pr-8">
             <h2 className="text-base text-indigo-500 dark:text-yellow-500 font-semibold tracking-wide uppercase">
               Real examples
@@ -234,22 +232,22 @@ const WhatIsDCA = () => {
               <Link key={coin.symbol} href={coin.url}>
                 <a
                   target="_blank"
-                  className="bg-white shadow rounded-lg dark:bg-gray-900 border overflow-hidden w-full relative  dark:border-gray-800 group"
+                  className="shadow rounded-lg col-span-2 md:col-span-1 overflow-hidden w-full relative border dark:border-gray-900 group"
                 >
                   <img
                     src={`https://img.clankapp.com/symbol/${coin.symbol.toLowerCase()}.svg`}
                     alt={`${coin.coin} logo`}
-                    className="h-24 w-24 rounded-full absolute -top-6 -right-6 md:-right-4"
+                    className="h-24 w-24 rounded-full shadow-2xl absolute -top-6 -right-6 md:-right-4"
                   />
                   <div className="px-4 py-5 ">
                     <dl>
-                      <dt className="text-xl leading-5 font-medium text-gray-500 dark:text-gray-300 truncate">
+                      <dt className="text-xl leading-5 font-medium text-gray-900 dark:text-gray-300 truncate">
                         {coin.coin}
                       </dt>
                       <dd className="mt-1 text-3xl leading-9 font-semibold text-green-400">
                         +{coin.percentageChange}%
                       </dd>
-                      <dd className="text-gray-500 font-semibold dark:text-gray-300">
+                      <dd className="text-gray-700 font-semibold dark:text-gray-300">
                         <span>{formatCurrency(coin.qty, coin.symbol)}</span>
                       </dd>
                       <dd className="text-gray-500 flex items-center justify-end font-semibold dark:text-gray-300 text-right opacity-0 group-hover:opacity-100 transition-all">
