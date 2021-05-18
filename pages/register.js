@@ -2,7 +2,7 @@ import Head from "next/head";
 import { AppContextProvider } from "../components/Context/Context";
 import Register from "../components/Register/Register";
 
-export default function HomeWrapper(props) {
+export default function RegisterPage(props) {
   return (
     <AppContextProvider availableTokens={props.availableTokens}>
       <Head>
@@ -13,7 +13,16 @@ export default function HomeWrapper(props) {
           content="Dollar cost average calculator for top 100 cryptocurrencies. Visualise and examine the impact of your investments in crypto."
         />
       </Head>
-      <Register />
+      <Register referralCode={props.referralCode} />
     </AppContextProvider>
   );
+}
+
+// This is the recommended way for Next.js 9.3 or newer
+export async function getServerSideProps(context) {
+  return {
+    props: {
+      referralCode: context.query.ref || null,
+    },
+  };
 }
