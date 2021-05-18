@@ -178,7 +178,7 @@ const Register = () => {
                       </label>
                       <div className="flex">
                         <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
-                          {showPassword ? (
+                          {!showPassword ? (
                             <EyeOffIcon className="text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 w-5 h-5" />
                           ) : (
                             <EyeIcon className="text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 w-5 h-5" />
@@ -193,7 +193,7 @@ const Register = () => {
                         <button
                           type="button"
                           onClick={() => setShowPassword(!showPassword)}
-                          className="w-14 bg-gray-700 text-sm font-medium text-gray-80 dark:text-gray-300 rounded-r-lg px-2 z-10 text-center flex items-center justify-center focus:outline-none transition-all border-2 border-gray-200 dark:border-gray-800"
+                          className="w-14 dark:bg-gray-700 text-sm font-medium text-gray-80 dark:text-gray-300 rounded-r-lg px-2 z-10 text-center flex items-center justify-center focus:outline-none transition-all border-2 border-gray-200 dark:border-gray-800"
                         >
                           Show
                         </button>
