@@ -13,7 +13,38 @@ import Loading from "../Loading/Loading";
 import Link from "next/link";
 import { ReCaptcha, loadReCaptcha } from "react-recaptcha-v3";
 import { GOOGLE_RECAPTCHA_CLIENT_KEY } from "../../config";
-import { useResendEmailConfirmation } from "../../queries/queries";
+import {
+  useResendEmailConfirmation,
+  useValidateReferralCode,
+} from "../../queries/queries";
+
+const Referral = ({ referralCode }) => {
+  const validateReferralCode = useValidateReferralCode(referralCode);
+
+  let output;
+  if (validateReferralCode.isLoading) {
+    output = <Loading width={20} height={20} withWrapper />;
+  }
+
+  if (validateReferralCode.error) {
+    output = <p>{validateReferralCode.error.response.data.message}</p>;
+  }
+
+  if (validateReferralCode.data) {
+    output = (
+      <>
+        <p>$25 from {validateReferralCode.data.username}</p>
+        <p>Create an account and claim your credit</p>
+      </>
+    );
+  }
+
+  return (
+    <div className="bg-indigo-500 dark:bg-yellow-500 p-4 rounded mb-8 text-white dark:text-gray-900">
+      {output}
+    </div>
+  );
+};
 
 const Register = ({ referralCode }) => {
   const [name, setName] = useState("");
@@ -118,6 +149,7 @@ const Register = ({ referralCode }) => {
             ) : (
               <>
                 <div className="text-center mb-10">
+                  {referralCode && <Referral referralCode={referralCode} />}
                   <h1 className="font-bold text-3xl text-gray-900 dark:text-gray-100">
                     Register
                   </h1>

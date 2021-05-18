@@ -39,7 +39,7 @@ const SignIn = ({ csrfToken, error, isEmailConfirmed }) => {
               <div className="bg-green-100 dark:bg-green-600 p-4 rounded-lg mt-10 flex items-center">
                 <CheckCircleIcon className="w-10 h-10 text-green-800 dark:text-green-100 mr-4" />
                 <div>
-                  <h2 className="text-2xl font-bold text-green-800 dark:text-white">
+                  <h2 className="text-xl font-bold text-green-800 dark:text-white">
                     Welcome to DCA-CC.com
                   </h2>
                   <p className="text-green-800 dark:text-green-100">
