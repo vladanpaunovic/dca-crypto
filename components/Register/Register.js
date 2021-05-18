@@ -4,6 +4,7 @@ import {
   EyeIcon,
   EyeOffIcon,
   RefreshIcon,
+  LinkIcon,
 } from "@heroicons/react/outline";
 import { MailOpenIcon } from "@heroicons/react/solid";
 import { useEffect, useRef, useState } from "react";
@@ -33,16 +34,35 @@ const Referral = ({ referralCode }) => {
   if (validateReferralCode.data) {
     output = (
       <>
-        <p>$25 from {validateReferralCode.data.username}</p>
-        <p>Create an account and claim your credit</p>
+        <div className="flex items-center justify-center mb-4">
+          <span className="bg-green-400 dark:bg-green-500 rounded-full p-3 shadow-2xl">
+            <LinkIcon className="w-12 h-12" />
+          </span>
+        </div>
+        <p className="font-medium text-lg mb-2">
+          Referral code{" "}
+          <span className="font-mono rounded px-2 py-1 bg-indigo-400 dark:bg-yellow-600">
+            {referralCode}
+          </span>{" "}
+          applied
+        </p>
+        <p className="text-xs text-indigo-200 dark:text-yellow-800">
+          We will let {validateReferralCode.data.username} know you created an
+          account
+        </p>
+        <p className="mt-16 text-xs text-indigo-200 dark:text-yellow-800">
+          As a friend of our user, we are rewarding you
+        </p>
+        <p className="font-medium text-3xl tracking-wider">3 months for free</p>
+        <p className="text-xs text-indigo-200 dark:text-yellow-800">
+          We hope you enjoy our service
+        </p>
       </>
     );
   }
 
   return (
-    <div className="bg-indigo-500 dark:bg-yellow-500 p-4 rounded mb-8 text-white dark:text-gray-900">
-      {output}
-    </div>
+    <div className="text-center text-white dark:text-gray-900">{output}</div>
   );
 };
 
@@ -112,7 +132,11 @@ const Register = ({ referralCode }) => {
       <div className=" text-gray-500 rounded-3xl shadow-xl w-full overflow-hidden max-w-4xl bg-white dark:bg-gray-900">
         <div className="md:flex w-full">
           <div className="hidden md:flex items-center justify-center w-1/2 bg-gradient-to-r from-indigo-500 to-indigo-600 dark:from-yellow-400 dark:to-yellow-500 py-10 px-10 fill-current">
-            <LoginIllustration />
+            {referralCode ? (
+              <Referral referralCode={referralCode} />
+            ) : (
+              <LoginIllustration />
+            )}
           </div>
           <div className="w-full md:w-1/2 py-10 px-5 md:px-10">
             {isRegistered ? (
@@ -149,7 +173,6 @@ const Register = ({ referralCode }) => {
             ) : (
               <>
                 <div className="text-center mb-10">
-                  {referralCode && <Referral referralCode={referralCode} />}
                   <h1 className="font-bold text-3xl text-gray-900 dark:text-gray-100">
                     Register
                   </h1>
