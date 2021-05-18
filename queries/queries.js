@@ -392,3 +392,15 @@ export const useResendEmailConfirmation = () => {
 
   return resendEmailConfirmation;
 };
+
+export const useValidateReferralCode = (referralCode) => {
+  const validateReferralCode = useQuery("validate-referral-code", async () => {
+    const response = await cmsClient().get("/validate-referral", {
+      params: { referralCode },
+    });
+
+    return response.data;
+  });
+
+  return validateReferralCode;
+};
