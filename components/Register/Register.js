@@ -15,7 +15,7 @@ import { ReCaptcha, loadReCaptcha } from "react-recaptcha-v3";
 import { GOOGLE_RECAPTCHA_CLIENT_KEY } from "../../config";
 import { useResendEmailConfirmation } from "../../queries/queries";
 
-const Register = () => {
+const Register = ({ referralCode }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -54,6 +54,7 @@ const Register = () => {
         password,
         email,
         token: recaptchaToken,
+        ...(referralCode ? { referralCode } : {}),
       });
 
       setIsLoading(false);
@@ -103,7 +104,7 @@ const Register = () => {
                     type="button"
                     className="ml-1 transition hover:opacity-50 text-indigo-500 dark:text-yellow-500 flex items-center"
                   >
-                    Resend{" "}
+                    Send again{" "}
                     {resendEmailConfirmation.isLoading ? (
                       <span className="ml-1">
                         <Loading width={20} height={20} />
