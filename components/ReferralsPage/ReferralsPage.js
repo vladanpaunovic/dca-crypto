@@ -6,6 +6,9 @@ import { WEBSITE_URL } from "../../config";
 import {
   CreditCardIcon,
   CurrencyDollarIcon,
+  HeartIcon,
+  PresentationChartBarIcon,
+  PresentationChartLineIcon,
   ShareIcon,
 } from "@heroicons/react/outline";
 import dayjs from "dayjs";
@@ -32,8 +35,8 @@ const ReferralLink = (props) => {
       <span className="mr-2 font-medium">
         Share your link or share on social media:
       </span>
-      <div className="mt-2 mr-2 flex flex-col lg:flex-row justify-between">
-        <div className="flex flex-col lg:flex-row">
+      <div className="mt-2 mr-2 flex flex-col justify-between">
+        <div className="flex flex-col lg:flex-row w-full mb-8">
           <div className="text-base select-all focus:outline-none border border-gray-900 dark:border-gray-300 border-dashed p-2 w-full text-center font-medium text-gray-600 dark:text-gray-200 rounded-md dark:bg-gray-700">
             {referralLink}
           </div>
@@ -44,7 +47,7 @@ const ReferralLink = (props) => {
             {buttonText}
           </button>
         </div>
-        <div className="flex justify-between">
+        <div className="flex">
           <a
             target="_blank"
             rel="canonical"
@@ -56,7 +59,7 @@ const ReferralLink = (props) => {
             )}&hashtags=DCA,CRYPTO,BTC,ETH`}
             className="flex items-center justify-between transition rounded bg-blue-400 hover:bg-blue-500 dark:bg-gray-900 dark:hover:bg-gray-800 py-1 px-2 text-white dark:text-yellow-500 font-medium border shadow border-transparent"
           >
-            Twitter
+            Share on Twitter
             <span>
               <ShareIcon className="ml-1 h-4 w-4" />
             </span>
@@ -72,7 +75,7 @@ const ReferralLink = (props) => {
             )}`}
             className="ml-2 flex items-center justify-between transition rounded bg-blue-400 hover:bg-blue-500 dark:bg-gray-900 dark:hover:bg-gray-800 py-1 px-2 text-white dark:text-yellow-500 font-medium border shadow border-transparent"
           >
-            Telegram
+            Share on Telegram
             <span>
               <ShareIcon className="ml-1 h-4 w-4" />
             </span>
@@ -85,7 +88,7 @@ const ReferralLink = (props) => {
 
 const Friends = (props) => {
   return (
-    <div className="w-full mt-8">
+    <div className="w-full">
       <h2 className="font-medium">People signed using your referral link:</h2>
       <div className="overflow-x-auto">
         <div className="inline-block min-w-full overflow-hidden">
@@ -213,6 +216,8 @@ const AddressForm = (props) => {
     updateUser.mutate({ payoutBTCAddress: btcAddress });
   };
 
+  const ctaText = btcAddress.length ? "Update" : "Save";
+
   return (
     <div className="rounded-2xl shadow-2xl bg-white dark:bg-gray-900 p-8 mt-8">
       <label
@@ -244,7 +249,7 @@ const AddressForm = (props) => {
           {updateUser.isLoading ? (
             <Loading withWrapper width={20} height={20} />
           ) : (
-            "Save"
+            ctaText
           )}
         </button>
       </form>
@@ -260,13 +265,24 @@ const ReferralsPage = () => {
       <div className="w-12/12 lg:w-16 bg-gray-900 dark:bg-gray-900 border-r border-gray-800">
         <DashboardMenu />
       </div>
-      <div className="w-12/12 flex-1 bg-gray-100 dark:bg-gray-800 h-screen ">
-        <DashboardTitle title="Referrals" />
-        <div className="p-8 flex">
+      <div className="w-12/12 flex-1 bg-gray-100 dark:bg-gray-800 h-screen z-0">
+        <div className="primary-gradient text-white dark:text-gray-900 text-center pb-16 relative">
+          <h2 className=" pt-16 text-5xl font-bold">Share your love for DCA</h2>
+          <p className="pt-6 text-xl">Share referal link with friends. </p>
+          <p className="pb-16 text-xl">
+            When your friend starts their paid subscription, you get $25 USD,
+            paid in BTC
+          </p>
+        </div>
+        <div className="relative p-8 flex -mt-24 z-10">
           <div className="grid lg:grid-cols-2 gap-8 w-full">
-            <div className="p-8 bg-white dark:bg-gray-900 rounded-2xl shadow-xl">
-              {myReferrals.data && <ReferralLink {...myReferrals.data} />}
-              {myReferrals.data && <Friends {...myReferrals.data} />}
+            <div>
+              <div className="p-8 bg-white dark:bg-gray-900 rounded-2xl shadow-xl">
+                {myReferrals.data && <ReferralLink {...myReferrals.data} />}
+              </div>
+              <div className="p-8 bg-white dark:bg-gray-900 rounded-2xl shadow-xl mt-8">
+                {myReferrals.data && <Friends {...myReferrals.data} />}
+              </div>
             </div>
             <div>
               {myReferrals.data && <Earnings {...myReferrals.data} />}
