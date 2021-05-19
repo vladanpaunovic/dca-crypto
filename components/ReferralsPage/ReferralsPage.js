@@ -213,7 +213,7 @@ const Earnings = (props) => {
 };
 
 const AddressForm = (props) => {
-  const [btcAddress, setBtcAddress] = useState(props.payoutBTCAddress);
+  const [btcAddress, setBtcAddress] = useState(props.payoutBTCAddress || "");
   const updateUser = useUpdateUser();
 
   const handleOnSubmit = (e) => {
