@@ -140,6 +140,21 @@ const Friends = (props) => {
                   </td>
                 </tr>
               ))}
+              {!props.referrals.length && (
+                <tr>
+                  <td
+                    colSpan={3}
+                    className="pr-5 py-5 bg-white dark:bg-gray-900 text-sm"
+                  >
+                    <div className="flex items-center">
+                      <p className="text-gray-900 dark:text-gray-200 whitespace-no-wrap">
+                        You don't have any referrals at the moment. Share your
+                        referral link to earn $25 per user.
+                      </p>
+                    </div>
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
