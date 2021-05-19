@@ -276,9 +276,9 @@ const ReferralsPage = () => {
   if (mySubscription.data && mySubscription.data.plan.isFree) {
     content = (
       <>
-        <div className="w-full">
+        <div className="grid lg:grid-cols-2 gap-8 w-full">
           <div>
-            <div className="p-8 bg-white dark:bg-gray-900 rounded-2xl shadow-xl text-center">
+            <div className="p-16 bg-white dark:bg-gray-700 rounded-2xl shadow-xl text-center font-semibold">
               <p className="pb-4">
                 Referral links are available only for users on paid plans.
               </p>
@@ -290,6 +290,13 @@ const ReferralsPage = () => {
                 to upgrade.
               </p>
             </div>
+            <div className="p-8 bg-white dark:bg-gray-900 rounded-2xl shadow-xl mt-8">
+              {myReferrals.data && <Friends {...myReferrals.data} />}
+            </div>
+          </div>
+          <div>
+            {myReferrals.data && <Earnings {...myReferrals.data} />}
+            {myReferrals.data && <AddressForm {...myReferrals.data} />}
           </div>
         </div>
       </>
