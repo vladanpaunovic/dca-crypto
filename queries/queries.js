@@ -395,9 +395,20 @@ export const useResendEmailConfirmation = () => {
 
 export const useValidateReferralCode = (referralCode) => {
   const validateReferralCode = useQuery("validate-referral-code", async () => {
-    const response = await cmsClient().get("/validate-referral", {
+    const response = await cmsClient().get("/referrals/validate", {
       params: { referralCode },
     });
+
+    return response.data;
+  });
+
+  return validateReferralCode;
+};
+
+export const useMyReferrals = () => {
+  const [session] = useSession();
+  const validateReferralCode = useQuery("my-referrals", async () => {
+    const response = await cmsClient(session.accessToken).get("/referrals/me");
 
     return response.data;
   });
