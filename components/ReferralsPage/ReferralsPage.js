@@ -1,5 +1,9 @@
 import useCopyToClipboard from "../../hooks/useCopyToClipboard";
-import { useMyReferrals, useUpdateUser } from "../../queries/queries";
+import {
+  useMyReferrals,
+  useMySubscription,
+  useUpdateUser,
+} from "../../queries/queries";
 import DashboardTitle from "../Dashboard/DashboardTitle";
 import DashboardMenu from "../Dashboard/Menu/DashboardMenu";
 import { WEBSITE_URL } from "../../config";
@@ -15,6 +19,8 @@ import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import { useState } from "react";
 import Loading from "../Loading/Loading";
+import { useSession } from "next-auth/client";
+import Link from "next/link";
 dayjs.extend(localizedFormat);
 
 const ReferralLink = (props) => {
@@ -259,6 +265,55 @@ const AddressForm = (props) => {
 
 const ReferralsPage = () => {
   const myReferrals = useMyReferrals();
+  const mySubscription = useMySubscription();
+
+  let content;
+
+  if (!mySubscription.data || mySubscription.isLoading) {
+    return <Loading withWrapper width={30} height={30} />;
+  }
+
+  if (mySubscription.data && mySubscription.data.plan.isFree) {
+    content = (
+      <>
+        <div className="w-full">
+          <div>
+            <div className="p-8 bg-white dark:bg-gray-900 rounded-2xl shadow-xl text-center">
+              <p className="pb-4">
+                Referral links are available only for users on paid plans.
+              </p>
+              <p>
+                You are currently on a {mySubscription.data.plan.name} plan. See{" "}
+                <Link href="/pricing">
+                  <a className="underline">our pricing</a>
+                </Link>{" "}
+                to upgrade.
+              </p>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  } else {
+    content = (
+      <>
+        <div className="grid lg:grid-cols-2 gap-8 w-full">
+          <div>
+            <div className="p-8 bg-white dark:bg-gray-900 rounded-2xl shadow-xl">
+              {myReferrals.data && <ReferralLink {...myReferrals.data} />}
+            </div>
+            <div className="p-8 bg-white dark:bg-gray-900 rounded-2xl shadow-xl mt-8">
+              {myReferrals.data && <Friends {...myReferrals.data} />}
+            </div>
+          </div>
+          <div>
+            {myReferrals.data && <Earnings {...myReferrals.data} />}
+            {myReferrals.data && <AddressForm {...myReferrals.data} />}
+          </div>
+        </div>
+      </>
+    );
+  }
 
   return (
     <div className="lg:flex">
@@ -268,28 +323,16 @@ const ReferralsPage = () => {
       <div className="w-12/12 flex-1 bg-gray-100 dark:bg-gray-800 h-screen z-0">
         <div className="primary-gradient text-white dark:text-gray-900 text-center pb-16 relative">
           <h2 className=" pt-16 text-5xl font-bold">Share your love for DCA</h2>
-          <p className="pt-6 text-xl">Share referal link with friends. </p>
+          <p className="pt-6 text-xl font-semibold">
+            Share referal link with friends
+          </p>
           <p className="pb-16 text-xl">
-            When your friend starts their paid subscription, you get $25 USD,
-            paid in BTC
+            When your friend starts their paid subscription, you get{" "}
+            <span className="font-semibold">$25 USD</span>, paid in{" "}
+            <span className="font-semibold">BTC</span>
           </p>
         </div>
-        <div className="relative p-8 flex -mt-24 z-10">
-          <div className="grid lg:grid-cols-2 gap-8 w-full">
-            <div>
-              <div className="p-8 bg-white dark:bg-gray-900 rounded-2xl shadow-xl">
-                {myReferrals.data && <ReferralLink {...myReferrals.data} />}
-              </div>
-              <div className="p-8 bg-white dark:bg-gray-900 rounded-2xl shadow-xl mt-8">
-                {myReferrals.data && <Friends {...myReferrals.data} />}
-              </div>
-            </div>
-            <div>
-              {myReferrals.data && <Earnings {...myReferrals.data} />}
-              {myReferrals.data && <AddressForm {...myReferrals.data} />}
-            </div>
-          </div>
-        </div>
+        <div className="relative p-8 flex -mt-24 z-10">{content}</div>
       </div>
     </div>
   );
