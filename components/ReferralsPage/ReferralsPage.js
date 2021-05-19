@@ -32,19 +32,19 @@ const ReferralLink = (props) => {
       <span className="mr-2 font-medium">
         Share your link or share on social media:
       </span>
-      <div className="mt-2 flex justify-between">
-        <div className="flex">
-          <div className="text-base select-all focus:outline-none border border-gray-900 dark:border-gray-300 border-dashed p-2 w-96 text-center font-medium text-gray-600 dark:text-gray-200 rounded-md dark:bg-gray-700">
+      <div className="mt-2 mr-2 flex flex-col lg:flex-row justify-between">
+        <div className="flex flex-col lg:flex-row">
+          <div className="text-base select-all focus:outline-none border border-gray-900 dark:border-gray-300 border-dashed p-2 w-full text-center font-medium text-gray-600 dark:text-gray-200 rounded-md dark:bg-gray-700">
             {referralLink}
           </div>
           <button
             onClick={copyReferralLink}
-            className="ml-4 rounded-lg font-medium border-2 border-indigo-500 dark:border-yellow-500 text-indigo-500 dark:text-yellow-500 px-3"
+            className="mb-4 lg:mb-0 lg:ml-4 py-2 lg:px-3 rounded-lg font-medium border-2 border-indigo-500 dark:border-yellow-500 text-indigo-500 dark:text-yellow-500"
           >
             {buttonText}
           </button>
         </div>
-        <div className="flex">
+        <div className="flex justify-between">
           <a
             target="_blank"
             rel="canonical"
@@ -129,7 +129,7 @@ const Friends = (props) => {
                   </td>
                   <td className="px-5 py-5 bg-white dark:bg-gray-900 text-sm">
                     <span
-                      className={`rounded-full px-2 py-1 font-semibold leading-tight ${
+                      className={`inline-flex items-center justify-center rounded-full px-2 py-1 font-semibold leading-tight ${
                         ref.subscription.plan.isFree
                           ? "bg-gray-400 dark:bg-gray-600 text-gray-100"
                           : "bg-green-400 text-green-900"
@@ -165,7 +165,7 @@ const Friends = (props) => {
 
 const Earnings = (props) => {
   return (
-    <div className="grid grid-cols-2 gap-8">
+    <div className="grid lg:grid-cols-2 gap-8">
       <div className="shadow-lg rounded-2xl p-4 bg-white dark:bg-gray-900">
         <div className="flex items-center">
           <span className="rounded-full relative p-0 bg-indigo-200 dark:bg-yellow-900">
@@ -216,8 +216,8 @@ const AddressForm = (props) => {
   return (
     <div className="rounded-2xl shadow-2xl bg-white dark:bg-gray-900 p-8 mt-8">
       <label
-        for="btc-address"
-        class="text-gray-700 dark:text-gray-100 font-medium"
+        htmlFor="btc-address"
+        className="text-gray-700 dark:text-gray-100 font-medium"
       >
         Payout address
         <p className="font-normal text-gray-500 text-sm mt-2">
