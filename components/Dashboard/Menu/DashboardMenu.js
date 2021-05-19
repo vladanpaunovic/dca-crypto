@@ -9,6 +9,7 @@ import {
   MenuIcon,
   CogIcon,
   CalculatorIcon,
+  LinkIcon,
 } from "@heroicons/react/outline";
 import { useTheme } from "next-themes";
 import Link from "next/link";
@@ -83,6 +84,21 @@ const DashboardMenu = () => {
               </Link>
             </li>
             <li className="nav-item">
+              <Link href="/referrals">
+                <a
+                  title="Referrals"
+                  className={`px-3 py-4 flex items-center lg:justify-center text-xs uppercase font-bold leading-snug  hover:opacity-75 ${
+                    isOnSamePage("/referrals")
+                      ? "text-white"
+                      : "text-gray-400 dark:text-gray-400"
+                  }`}
+                >
+                  <LinkIcon className="w-6 h-6 mr-1" />
+                  <span className="lg:hidden">Referrals</span>
+                </a>
+              </Link>
+            </li>
+            <li className="nav-item">
               <Link href="/settings">
                 <a
                   title="Settings"
@@ -91,7 +107,6 @@ const DashboardMenu = () => {
                       ? "text-white"
                       : "text-gray-400 dark:text-gray-400"
                   }`}
-                  href="#pablo"
                 >
                   <CogIcon className="w-6 h-6 mr-1" />
                   <span className="lg:hidden">Settings</span>
