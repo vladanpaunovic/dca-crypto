@@ -415,3 +415,17 @@ export const useMyReferrals = () => {
 
   return validateReferralCode;
 };
+
+export const useUpdateUser = () => {
+  const [session] = useSession();
+
+  return useMutation({
+    mutationFn: async (payload) => {
+      return await cmsClient(session.accessToken).put(
+        `/users/${session.user.id}`,
+        payload
+      );
+    },
+    mutationKey: "update-user",
+  });
+};
