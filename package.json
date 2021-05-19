@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "build:sitemaps": "node scripts/generate-sitemap.js"
   },
   "dependencies": {
     "@coingecko/cryptoformat": "^0.4.2",
