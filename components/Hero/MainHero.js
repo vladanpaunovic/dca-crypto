@@ -1,5 +1,10 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { MoonIcon, SunIcon } from "@heroicons/react/outline";
+import {
+  MoonIcon,
+  SunIcon,
+  SwitchHorizontalIcon,
+  TemplateIcon,
+} from "@heroicons/react/outline";
 import Logo from "../Logo/Logo";
 import Link from "next/link";
 import { useTheme } from "next-themes";
@@ -58,7 +63,10 @@ export default function Hero() {
                     ) : (
                       <Link href="/dashboard">
                         <a className="px-2 py-1 bg-gray-100 dark:bg-gray-800 dark:text-yellow-500 rounded font-medium">
-                          Dashboard
+                          <span className="md:hidden">
+                            <TemplateIcon className="w-6 h-6" />
+                          </span>
+                          <span className="hidden md:block">Dashboard</span>
                         </a>
                       </Link>
                     )}
