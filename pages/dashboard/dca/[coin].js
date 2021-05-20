@@ -14,6 +14,7 @@ import { useCurrentCoin } from "../../../components/Context/mainReducer";
 import { TweetMessage } from "../../../components/TweetMessage/TweetMessage";
 import DashboardMenu from "../../../components/Dashboard/Menu/DashboardMenu";
 import { useSession } from "next-auth/client";
+import Loading from "../../../components/Loading/Loading";
 
 export async function getServerSideProps(context) {
   const {
@@ -134,7 +135,16 @@ const Coin = (props) => {
 };
 
 const CoinWrapper = (props) => {
-  const [session] = useSession();
+  const [session, isLoading] = useSession();
+
+  if (isLoading) {
+    return (
+      <div className="h-screen">
+        <Loading withWrapper width={30} height={30} />
+      </div>
+    );
+  }
+
   return (
     <AppContextProvider availableTokens={props.availableTokens}>
       {!session && (
