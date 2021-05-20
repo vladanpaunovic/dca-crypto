@@ -268,43 +268,66 @@ const ReferralsPage = () => {
     return <Loading withWrapper width={30} height={30} />;
   }
 
-  if (mySubscription.data && mySubscription.data.plan.isFree) {
+  console.log(mySubscription.data);
+  if (mySubscription.data) {
+    const { isFree } = mySubscription.data.plan;
+    //   content = (
+    //     <>
+    //       <div className="grid lg:grid-cols-2 gap-8 w-full">
+    //         <div>
+    //           <div className="p-16 bg-white dark:bg-gray-700 rounded-2xl shadow-xl text-center font-semibold">
+    //             <p className="pb-4">
+    //               Referral links are available only for users on paid plans.
+    //             </p>
+    //             <p>
+    //               You are currently on a {mySubscription.data.plan.name} plan. See{" "}
+    //               <Link href="/pricing">
+    //                 <a className="underline">our pricing</a>
+    //               </Link>{" "}
+    //               to upgrade.
+    //             </p>
+    //           </div>
+    //           <div className="p-8 bg-white dark:bg-gray-900 rounded-2xl shadow-xl mt-8  filter blur-sm">
+    //             {myReferrals.data && <Friends {...myReferrals.data} />}
+    //           </div>
+    //         </div>
+    //         <div className=" filter blur-sm">
+    //           {myReferrals.data && <Earnings {...myReferrals.data} />}
+    //           {myReferrals.data && <AddressForm {...myReferrals.data} />}
+    //         </div>
+    //       </div>
+    //     </>
+    //   );
+    // } else {
     content = (
-      <>
-        <div className="grid lg:grid-cols-2 gap-8 w-full">
-          <div>
-            <div className="p-16 bg-white dark:bg-gray-700 rounded-2xl shadow-xl text-center font-semibold">
-              <p className="pb-4">
-                Referral links are available only for users on paid plans.
-              </p>
-              <p>
-                You are currently on a {mySubscription.data.plan.name} plan. See{" "}
-                <Link href="/pricing">
-                  <a className="underline">our pricing</a>
-                </Link>{" "}
-                to upgrade.
-              </p>
-            </div>
-            <div className="p-8 bg-white dark:bg-gray-900 rounded-2xl shadow-xl mt-8">
-              {myReferrals.data && <Friends {...myReferrals.data} />}
-            </div>
+      <div className="w-full">
+        {isFree && (
+          <div className="p-16 bg-white dark:bg-gray-700 rounded-2xl shadow-xl text-center font-semibold w-full mb-8">
+            <p className="pb-4">
+              Referral links are available only for users on paid plans.
+            </p>
+            <p>
+              You are currently on a {mySubscription.data.plan.name} plan. See{" "}
+              <Link href="/pricing">
+                <a className="underline">our pricing</a>
+              </Link>{" "}
+              to upgrade.
+            </p>
           </div>
+        )}
+
+        <div
+          className={`grid lg:grid-cols-2 gap-8 w-full ${
+            isFree && "filter blur"
+          }`}
+        >
           <div>
-            {myReferrals.data && <Earnings {...myReferrals.data} />}
-            {myReferrals.data && <AddressForm {...myReferrals.data} />}
-          </div>
-        </div>
-      </>
-    );
-  } else {
-    content = (
-      <>
-        <div className="grid lg:grid-cols-2 gap-8 w-full">
-          <div>
+            {myReferrals.data && !isFree && (
+              <div className="p-8 bg-white dark:bg-gray-900 rounded-2xl shadow-xl mb-8">
+                <ReferralLink {...myReferrals.data} />
+              </div>
+            )}
             <div className="p-8 bg-white dark:bg-gray-900 rounded-2xl shadow-xl">
-              {myReferrals.data && <ReferralLink {...myReferrals.data} />}
-            </div>
-            <div className="p-8 bg-white dark:bg-gray-900 rounded-2xl shadow-xl mt-8">
               {myReferrals.data && <Friends {...myReferrals.data} />}
             </div>
           </div>
@@ -313,7 +336,7 @@ const ReferralsPage = () => {
             {myReferrals.data && <AddressForm {...myReferrals.data} />}
           </div>
         </div>
-      </>
+      </div>
     );
   }
 
@@ -322,7 +345,7 @@ const ReferralsPage = () => {
       <div className="w-12/12 lg:w-16 bg-gray-900 dark:bg-gray-900 border-r border-gray-800">
         <DashboardMenu />
       </div>
-      <div className="w-12/12 flex-1 bg-gray-100 dark:bg-gray-800 h-screen z-0">
+      <div className="w-12/12 flex-1 bg-gray-100 h-full min-h-screen dark:bg-gray-800 z-0">
         <div className="primary-gradient text-white dark:text-gray-900 text-center pb-16 relative">
           <h2 className=" pt-16 text-5xl font-bold">Share your love for DCA</h2>
           <p className="pt-6 text-xl font-semibold">
