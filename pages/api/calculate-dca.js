@@ -58,8 +58,6 @@ const handler = async (req, res) => {
         ? entry.coinPrice
         : (sumAllInvestments / (index + 1)).toFixed(2);
 
-    console.log(sumAllInvestments / (index + 1));
-
     const totalCrypto = payload.investment / entry.coinPrice;
 
     const balanceCrypto = reduced
