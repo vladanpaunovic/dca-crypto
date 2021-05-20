@@ -4,22 +4,17 @@ import {
   useMySubscription,
   useUpdateUser,
 } from "../../queries/queries";
-import DashboardTitle from "../Dashboard/DashboardTitle";
 import DashboardMenu from "../Dashboard/Menu/DashboardMenu";
 import { WEBSITE_URL } from "../../config";
 import {
   CreditCardIcon,
   CurrencyDollarIcon,
-  HeartIcon,
-  PresentationChartBarIcon,
-  PresentationChartLineIcon,
   ShareIcon,
 } from "@heroicons/react/outline";
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import { useState } from "react";
 import Loading from "../Loading/Loading";
-import { useSession } from "next-auth/client";
 import Link from "next/link";
 dayjs.extend(localizedFormat);
 
@@ -43,12 +38,12 @@ const ReferralLink = (props) => {
       </span>
       <div className="mt-2 mr-2 flex flex-col justify-between">
         <div className="flex flex-col lg:flex-row w-full mb-8">
-          <div className="text-base select-all focus:outline-none border border-gray-900 dark:border-gray-300 border-dashed p-2 w-full text-center font-medium text-gray-600 dark:text-gray-200 rounded-md dark:bg-gray-700">
+          <div className="text-base select-all focus:outline-none border border-gray-900 dark:border-gray-300 border-dashed p-2 w-full text-center font-medium text-gray-600 dark:text-gray-200 rounded-tl-lg rounded-tr-lg lg:rounded-lg dark:bg-gray-700">
             {referralLink}
           </div>
           <button
             onClick={copyReferralLink}
-            className="mb-4 lg:mb-0 lg:ml-4 py-2 lg:px-3 rounded-lg font-medium border-2 border-indigo-500 dark:border-yellow-500 text-indigo-500 dark:text-yellow-500"
+            className="mb-4 rounded-bl-lg rounded-br-lg lg:w-32 lg:mb-0 lg:ml-4 py-2 lg:px-3 lg:rounded-lg font-medium border-2 border-indigo-500 dark:border-yellow-500 text-indigo-500 dark:text-yellow-500"
           >
             {buttonText}
           </button>
