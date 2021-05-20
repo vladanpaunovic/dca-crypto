@@ -35,7 +35,7 @@ export default function Hero() {
                   <div className="flex items-center justify-end mr-4">
                     <div className="mr-2">
                       <button
-                        className="ml-2 rounded-full p-1 mr-2 focus:outline-none text-gray-900"
+                        className="ml-2 rounded-full p-1 mr-2 focus:outline-none text-gray-100 dark:text-gray-900"
                         onClick={() =>
                           setTheme(theme === "light" ? "dark" : "light")
                         }
@@ -62,11 +62,13 @@ export default function Hero() {
                       </>
                     ) : (
                       <Link href="/dashboard">
-                        <a className="px-2 py-1 bg-gray-100 dark:bg-gray-800 dark:text-yellow-500 rounded font-medium">
-                          <span className="md:hidden">
+                        <a className="px-2 py-1 rounded font-medium flex text-gray-100 dark:text-gray-900">
+                          <span className="">
                             <TemplateIcon className="w-6 h-6" />
                           </span>
-                          <span className="hidden md:block">Dashboard</span>
+                          <span className="hidden md:block ml-1">
+                            Dashboard
+                          </span>
                         </a>
                       </Link>
                     )}
