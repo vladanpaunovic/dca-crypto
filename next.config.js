@@ -1,4 +1,5 @@
 require("dotenv").config();
+const generateSitemap = require("./scripts/generate-sitemap.js");
 const { PHASE_PRODUCTION_BUILD } = require("next/constants");
 
 // This file sets a custom webpack configuration to use your Next.js app
@@ -6,13 +7,11 @@ const { PHASE_PRODUCTION_BUILD } = require("next/constants");
 // https://nextjs.org/docs/api-reference/next.config.js/introduction
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/
 const { withSentryConfig } = require("@sentry/nextjs");
-const generateSitemap = require("./scripts/generate-sitemap.js");
+
+generateSitemap();
 
 const moduleExports = (phase, { defaultConfig }) => {
   // Your existing module.exports
-  if (phase === PHASE_PRODUCTION_BUILD) {
-    generateSitemap();
-  }
 
   return { ...defaultConfig, productionBrowserSourceMaps: true };
 };
