@@ -49,12 +49,16 @@ const handler = async (req, res) => {
 
   const chartData = reduced.map((entry, index) => {
     const sumAllInvestments = reduced
-      .slice(0, index)
+      .slice(0, index + 1)
       .map((e) => parseFloat(e.coinPrice))
       .reduce((prev, next) => prev + next, 0);
 
     const costAverage =
-      index === 0 ? entry.coinPrice : (sumAllInvestments / index).toFixed(2);
+      index === 0
+        ? entry.coinPrice
+        : (sumAllInvestments / (index + 1)).toFixed(2);
+
+    console.log(sumAllInvestments / (index + 1));
 
     const totalCrypto = payload.investment / entry.coinPrice;
 
