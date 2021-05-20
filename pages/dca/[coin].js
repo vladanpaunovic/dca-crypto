@@ -120,7 +120,7 @@ const Coin = () => {
               </div>
             </div>
             <div
-              className={`col-span-6 mt-8 md:col-span-6 shadow overflow-hidden sm:rounded border dark:border-gray-800 transition ${
+              className={`col-span-6 md:col-span-6 shadow overflow-hidden sm:rounded dark:border-gray-800 transition ${
                 state.input.isLoading ? "opacity-10" : ""
               }`}
             >

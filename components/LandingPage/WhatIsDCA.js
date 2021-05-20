@@ -9,6 +9,19 @@ import {
 } from "recharts";
 import { formatPrice } from "../Currency/Currency";
 import { ExternalLinkIcon } from "@heroicons/react/outline";
+import { useTheme } from "next-themes";
+
+const useChartStrokeColor = () => {
+  const { theme } = useTheme();
+
+  const isLight = theme === "light";
+
+  return {
+    price: isLight ? "#F59E0B" : "#9CA3AF",
+    primary: isLight ? "#34D399" : "#34D399",
+    secundary: isLight ? "#BE185D" : "#BE185D",
+  };
+};
 
 const chartData = [
   {
@@ -112,7 +125,31 @@ const annualGains = [
   },
 ];
 
-const Chart = () => {
+const CustomTooltip = ({ active, payload, title }) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="p-4 transition-shadow border rounded shadow-sm bg-white dark:bg-gray-800 dark:border-gray-800">
+        <p className="text-sm text-gray-500 dark:text-gray-200 font-semibold mb-2">
+          {title}
+        </p>
+        {payload.map((e, index) => (
+          <p
+            key={`${e.payload.assetPrice}-${index}`}
+            style={{ color: e.color }}
+            className="text-sm"
+          >
+            {e.name}: <span>{formatCurrency(e.value, "USD")}</span>
+          </p>
+        ))}
+      </div>
+    );
+  }
+
+  return null;
+};
+
+const ChartDCA = () => {
+  const { price, primary } = useChartStrokeColor();
   return (
     <div style={{ width: "100%", height: "100%" }}>
       <ResponsiveContainer>
@@ -120,36 +157,137 @@ const Chart = () => {
           data={chartData}
           margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
         >
-          <defs>
-            <linearGradient id="colorBalanceCrypto" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#F59E0B" stopOpacity={0.8} />
-              <stop offset="95%" stopColor="#F59E0B" stopOpacity={0} />
-            </linearGradient>
-            <linearGradient id="colorBalanceFIAT" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
-              <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
-            </linearGradient>
-          </defs>
           <Area
             type="monotone"
             dataKey="price"
-            stroke="#F59E0B"
+            stroke={price}
             fillOpacity={0}
             strokeWidth={2}
-            name="Asset price"
+            dot={{ width: 4 }}
+            name="Actual sset price"
           />
           <Area
             type="monotone"
             dataKey="averagePrice"
-            stroke="#82ca9d"
+            stroke={primary}
             fillOpacity={0}
             strokeWidth={2}
             fill="url(#colorBalanceCrypto)"
-            name="Average price using DCA"
+            name="Average price (DCA)"
           />
-          <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
 
-          <Tooltip />
+          <Tooltip
+            content={<CustomTooltip title="Actual price Vs. Average price" />}
+          />
+        </AreaChart>
+      </ResponsiveContainer>
+    </div>
+  );
+};
+
+const dcaTiming = [
+  {
+    assetPrice: 7195.15,
+    earlyBuyAverage: 7195.15,
+  },
+  {
+    assetPrice: 9509.81,
+    earlyBuyAverage: 8352.48,
+  },
+  {
+    assetPrice: 8552.99,
+    earlyBuyAverage: 8419.32,
+  },
+  {
+    assetPrice: 6403.14,
+    earlyBuyAverage: 7915.27,
+  },
+  {
+    assetPrice: 8744.43,
+    earlyBuyAverage: 8081.1,
+  },
+  {
+    assetPrice: 9427.12,
+    earlyBuyAverage: 8305.44,
+  },
+  {
+    assetPrice: 9149.72,
+    earlyBuyAverage: 8424.65,
+    lateBuyAverage: 9149.72,
+  },
+  {
+    assetPrice: 10904.92,
+    earlyBuyAverage: 8734.68,
+    lateBuyAverage: 10133.01,
+  },
+  {
+    assetPrice: 11300.4,
+    earlyBuyAverage: 9019.76,
+    lateBuyAverage: 10582.5,
+  },
+  {
+    assetPrice: 10743.19,
+    earlyBuyAverage: 9192.11,
+    lateBuyAverage: 10604.88,
+  },
+  {
+    assetPrice: 13060.79,
+    earlyBuyAverage: 9543.8,
+    lateBuyAverage: 11140.51,
+  },
+  {
+    assetPrice: 18753.29,
+    earlyBuyAverage: 10311.26,
+    lateBuyAverage: 12140.47,
+  },
+  {
+    assetPrice: 24671.11,
+    earlyBuyAverage: 11415.86,
+    lateBuyAverage: 14180.86,
+  },
+];
+
+const ChartTiming = () => {
+  const { price, primary, secundary } = useChartStrokeColor();
+
+  return (
+    <div style={{ width: "100%", height: "100%" }}>
+      <ResponsiveContainer>
+        <AreaChart
+          data={dcaTiming}
+          margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
+        >
+          <Area
+            type="monotone"
+            dataKey="assetPrice"
+            stroke={price}
+            fillOpacity={0}
+            strokeWidth={2}
+            dot={{ width: 4 }}
+            name="Asset price"
+          />
+          <Area
+            type="monotone"
+            dataKey="earlyBuyAverage"
+            stroke={primary}
+            fillOpacity={0}
+            strokeWidth={2}
+            fill="url(#colorBalanceCrypto)"
+            name="Early buy average price"
+          />
+          <Area
+            type="monotone"
+            dataKey="lateBuyAverage"
+            stroke={secundary}
+            fillOpacity={0}
+            strokeWidth={2}
+            fill="url(#colorBalanceCrypto)"
+            name="Late buy average price"
+          />
+
+          <Tooltip
+            content={<CustomTooltip title="Early Vs. Late investing" />}
+          />
         </AreaChart>
       </ResponsiveContainer>
     </div>
@@ -160,10 +298,10 @@ const WhatIsDCA = () => {
   return (
     <div className="py-8 md:py-32">
       <div className="container mx-auto max-w-7xl px-6 p-6 flex flex-col md:flex-row">
-        <div className="w-4/4 md:w-2/4 gap-8 dark:text-white  md:pr-8">
-          <Chart />
+        <div className="w-4/4 md:w-2/4">
+          <ChartDCA />
         </div>
-        <div className="w-4/4 md:w-2/4 pl-4 md:pl-0">
+        <div className="w-4/4 md:w-2/4 pl-4 md:pl-0 md:ml-8">
           <h2 className="text-base text-indigo-500 dark:text-yellow-500 font-semibold tracking-wide uppercase">
             Dollar cost averaging
           </h2>
@@ -189,11 +327,58 @@ const WhatIsDCA = () => {
             </a>
             ).
           </p>
+          <p className="mt-3 text-sm text-gray-400">
+            Source: investing in Bitcoin from{" "}
+            <Link href="/dca/bitcoin?investmentInterval=7&investment=50&dateFrom=2021-01-01&dateTo=2021-05-20&currency=usd">
+              <a target="_blank" className="underline">
+                January to May
+              </a>
+            </Link>{" "}
+            in 2021.
+          </p>
+        </div>
+      </div>
+      <div className="container mx-auto max-w-7xl px-6 p-6 flex flex-col md:flex-row mt-24">
+        <div className="w-4/4 md:w-2/4 pl-4 md:pl-0">
+          <h2 className="text-base text-indigo-500 dark:text-yellow-500 font-semibold tracking-wide uppercase">
+            Timing
+          </h2>
+          <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight  sm:text-4xl">
+            When should I start?
+          </p>
+          <p className="mt-3 text-base text-gray-500 dark:text-gray-200 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
+            This is made to be simple and calm, remember? The rule of thumb here
+            is - don't wait for any dips, just start. So, the simple answer is -
+            now.
+          </p>
+          <p className="mt-3 text-base text-gray-500 dark:text-gray-200 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
+            Even if price dumps in a meanwhile, historical data shows us that it
+            will eventually rise (usually by a lot) which gives you a
+            competetive adventage and lower average price.
+          </p>
+          <p className="mt-3 text-sm text-gray-400">
+            Source: investing in Bitcoin{" "}
+            <Link href="/dca/bitcoin?investmentInterval=30&investment=50&dateFrom=2020-01-01&dateTo=2021-01-01&currency=usd">
+              <a target="_blank" className="underline">
+                whole 2020
+              </a>
+            </Link>{" "}
+            Vs. only the{" "}
+            <Link href="/dca/bitcoin?investmentInterval=30&investment=50&dateFrom=2020-07-01&dateTo=2021-01-01&currency=usd">
+              <a target="_blank" className="underline">
+                second half
+              </a>
+            </Link>{" "}
+            of 2020
+          </p>
+        </div>
+        <div className="w-4/4 md:w-2/4 gap-8 dark:text-white  md:pr-8">
+          <ChartTiming />
         </div>
       </div>
       <div className="flex justify-center bg-gray-100 dark:bg-gray-800 py-16 md:py-24 mt-12 md:mt-36">
         <div className="text-center">
-          <p className="text-3xl sm:text-4xl tracking-tight font-bold text-gray-900 dark:text-gray-100 max-w-4xl mb-2">
+          <p className="text-3xl px-4 sm:text-4xl tracking-tight font-bold text-gray-900 dark:text-gray-100 max-w-4xl mb-2">
             People saving{" "}
             <span className="text-indigo-500 dark:text-yellow-500">
               {formatPrice(50)}

@@ -1,10 +1,8 @@
 import { useAppContext } from "../Context/Context";
-import { useCurrentCoin } from "../Context/mainReducer";
 import Currency from "../Currency/Currency";
 
 const DataTable = () => {
   const { state } = useAppContext();
-  const currentCoin = useCurrentCoin();
   return (
     <div className="flex flex-col">
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
