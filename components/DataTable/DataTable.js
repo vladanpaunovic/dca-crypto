@@ -29,14 +29,15 @@ const DataTable = () => {
                     scope="col"
                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-100"
                   >
-                    Investment
+                    Average price
                   </th>
                   <th
                     scope="col"
                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-100"
                   >
-                    Crypto Balance ({currentCoin.symbol})
+                    Investment
                   </th>
+
                   <th
                     scope="col"
                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-100"
@@ -53,6 +54,7 @@ const DataTable = () => {
               </thead>
               <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-900">
                 {state.chart.data.map((entry) => {
+                  console.log(entry);
                   return (
                     <tr
                       key={entry.date}
@@ -65,10 +67,10 @@ const DataTable = () => {
                         <Currency value={entry.coinPrice} />
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm">
-                        <Currency value={entry.totalFIAT} />
+                        <Currency value={entry.costAverage} />
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm">
-                        {entry.balanceCrypto} {currentCoin.symbol.toUpperCase()}
+                        <Currency value={entry.totalFIAT} />
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm">
                         <Currency value={entry.balanceFIAT} />
