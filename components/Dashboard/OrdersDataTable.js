@@ -14,7 +14,11 @@ const OrdersDataTable = () => {
   }
 
   if (!state.selectedBot.orders.length) {
-    return "There are no orders yet.";
+    return (
+      <span className="p-6 block text-gray-700 dark:text-gray-400">
+        There are no orders yet.
+      </span>
+    );
   }
 
   return (

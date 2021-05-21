@@ -34,6 +34,7 @@ import {
 import DashboardMenu from "./Menu/DashboardMenu";
 import EmptyIllustration from "../../Illustrations/EmptyIllustration";
 import Banner from "../Banner/Banner";
+import EditPopover from "./EditPopover";
 
 const RemoveButton = () => {
   const { state } = useDashboardContext();
@@ -488,6 +489,9 @@ const Dashboard = () => {
                     <BotStatus {...state.selectedBot} />
                     <span className="ml-4">
                       <RemoveButton />
+                    </span>
+                    <span className="ml-4">
+                      <EditPopover />
                     </span>
                   </div>
                 </div>

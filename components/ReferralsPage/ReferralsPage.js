@@ -271,34 +271,7 @@ const ReferralsPage = () => {
   console.log(mySubscription.data);
   if (mySubscription.data) {
     const { isFree } = mySubscription.data.plan;
-    //   content = (
-    //     <>
-    //       <div className="grid lg:grid-cols-2 gap-8 w-full">
-    //         <div>
-    //           <div className="p-16 bg-white dark:bg-gray-700 rounded-2xl shadow-xl text-center font-semibold">
-    //             <p className="pb-4">
-    //               Referral links are available only for users on paid plans.
-    //             </p>
-    //             <p>
-    //               You are currently on a {mySubscription.data.plan.name} plan. See{" "}
-    //               <Link href="/pricing">
-    //                 <a className="underline">our pricing</a>
-    //               </Link>{" "}
-    //               to upgrade.
-    //             </p>
-    //           </div>
-    //           <div className="p-8 bg-white dark:bg-gray-900 rounded-2xl shadow-xl mt-8  filter blur-sm">
-    //             {myReferrals.data && <Friends {...myReferrals.data} />}
-    //           </div>
-    //         </div>
-    //         <div className=" filter blur-sm">
-    //           {myReferrals.data && <Earnings {...myReferrals.data} />}
-    //           {myReferrals.data && <AddressForm {...myReferrals.data} />}
-    //         </div>
-    //       </div>
-    //     </>
-    //   );
-    // } else {
+
     content = (
       <div className="w-full">
         {isFree && (
@@ -318,7 +291,7 @@ const ReferralsPage = () => {
 
         <div
           className={`grid lg:grid-cols-2 gap-8 w-full ${
-            isFree && "filter blur"
+            isFree && "filter blur pointer-events-none"
           }`}
         >
           <div>

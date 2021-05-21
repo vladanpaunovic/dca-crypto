@@ -177,6 +177,7 @@ export const useRemoveTradingBot = () => {
 
 export const useUpdateTradingBot = () => {
   const [session] = useSession();
+  const { state } = useDashboardContext();
   return useMutation({
     mutationFn: async (payload) => {
       return await cmsClient(session.accessToken).put(
