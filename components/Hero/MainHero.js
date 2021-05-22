@@ -1,15 +1,8 @@
 /* This example requires Tailwind CSS v2.0+ */
-import {
-  MoonIcon,
-  SunIcon,
-  SwitchHorizontalIcon,
-  TemplateIcon,
-} from "@heroicons/react/outline";
+import { MoonIcon, SunIcon, TemplateIcon } from "@heroicons/react/outline";
 import Logo from "../Logo/Logo";
 import Link from "next/link";
 import { useTheme } from "next-themes";
-import { useAppContext } from "../Context/Context";
-import { formatPrice } from "../Currency/Currency";
 import { useSession } from "next-auth/client";
 
 export default function Hero() {

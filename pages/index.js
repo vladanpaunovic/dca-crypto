@@ -1,11 +1,9 @@
 import Head from "next/head";
-import Link from "next/link";
 import AllCoinsTable from "../components/AllCoinsTable/AllCoinsTable";
 import { AppContextProvider } from "../components/Context/Context";
-import { formatPrice } from "../components/Currency/Currency";
-import ExplainerSection from "../components/ExplainerSection/ExplainerSection";
 import MainHero from "../components/Hero/MainHero";
 import AvailableExchanges from "../components/LandingPage/AvailableExchanges";
+import CreateBot from "../components/LandingPage/CreateBot";
 import FeatureDescription from "../components/LandingPage/FeatureDescription";
 import FeaturePreview from "../components/LandingPage/FeaturePreview";
 import WhatIsDCA from "../components/LandingPage/WhatIsDCA";
@@ -63,6 +61,9 @@ function Home() {
         </section>
         <section className="mb-24">
           <FeatureDescription />
+        </section>
+        <section className="mb-24">
+          <CreateBot />
         </section>
 
         <section className="mt-16 bg-gradient-to-br from-indigo-400 to-indigo-600 dark:from-yellow-400  dark:to-yellow-600 min-h-screen flex items-center justify-center">
