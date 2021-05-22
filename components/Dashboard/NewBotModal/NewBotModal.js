@@ -232,24 +232,30 @@ const NewBotForm = () => {
 
   return (
     <>
-      <label className="block mb-3">
+      <label className="block mb-3 mt-8">
         <span className="font-medium text-gray-700 dark:text-gray-300">
           Investment
         </span>
-        <input
-          className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200"
-          type="number"
-          name="investment"
-          required
-          value={state.newBot.investment}
-          disabled={!state.newBot.tradingPair}
-          onChange={(e) =>
-            dispatch({
-              type: ACTIONS.SET_BOT_INVESTMENT,
-              payload: e.target.value,
-            })
-          }
-        />
+        <div className="flex rounded-md">
+          <input
+            className="block w-full shadow-sm sm:text-sm border-gray-300 rounded-l-md dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200"
+            type="number"
+            name="investment"
+            required
+            value={state.newBot.investment}
+            disabled={!state.newBot.tradingPair}
+            onChange={(e) =>
+              dispatch({
+                type: ACTIONS.SET_BOT_INVESTMENT,
+                payload: e.target.value,
+              })
+            }
+          />
+
+          <span className="focus:border-gray-300 inline-flex items-center justify-end px-3 rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-sm dark:bg-gray-700 dark:border-gray-700 dark:text-gray-200">
+            {state.newBot.tradingPair?.value?.quote}
+          </span>
+        </div>
         <p
           className={`mt-1 text-xs ${
             state.newBot.investment < state.newBot.minimum_amount
@@ -291,7 +297,7 @@ const NewBotForm = () => {
                 payload: e.target.value,
               })
             }
-            className="focus:border-gray-300  inline-flex w-2/6 items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-sm dark:bg-gray-700 dark:border-gray-700 dark:text-gray-200"
+            className="focus:border-gray-300  inline-flex items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-sm dark:bg-gray-700 dark:border-gray-700 dark:text-gray-200"
           >
             <option value="minute">minutes</option>
             <option value="hour">hours</option>

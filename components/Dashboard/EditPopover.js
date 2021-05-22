@@ -1,6 +1,6 @@
 import { Popover, Transition } from "@headlessui/react";
 import { PencilAltIcon } from "@heroicons/react/outline";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useUpdateTradingBot } from "../../queries/queries";
 import { useDashboardContext } from "../DashboardContext/DashboardContext";
 import Loading from "../Loading/Loading";
@@ -14,6 +14,15 @@ const EditPopover = () => {
     isActive: true,
     errorMessage: "",
   });
+
+  useEffect(() => {
+    setUpdatedBot({
+      ...updatedBot,
+      origin_currency_amount: state.selectedBot.origin_currency_amount,
+      investing_interval: state.selectedBot.investing_interval,
+      interval_type: state.selectedBot.interval_type,
+    });
+  }, [state.selectedBot]);
 
   const updateTradingBot = useUpdateTradingBot();
 
