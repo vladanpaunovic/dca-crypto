@@ -52,6 +52,15 @@ SELECT.no_arrows::-ms-expand {
   box-shadow: none;
 }
 
+.react-select__option--is-focused:not(.react-select__option--is-selected) {
+  background-color: #e5e7eb;
+}
+
+.dark
+  .react-select__option--is-focused:not(.react-select__option--is-selected) {
+  background-color: #111827;
+}
+
 /* Change Autocomplete styles in Chrome*/
 .dark input:-webkit-autofill,
 .dark input:-webkit-autofill:hover,
