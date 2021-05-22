@@ -268,7 +268,6 @@ const ReferralsPage = () => {
     return <Loading withWrapper width={30} height={30} />;
   }
 
-  console.log(mySubscription.data);
   if (mySubscription.data) {
     const { isFree } = mySubscription.data.plan;
 

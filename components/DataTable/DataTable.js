@@ -52,7 +52,6 @@ const DataTable = () => {
               </thead>
               <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-900">
                 {state.chart.data.map((entry) => {
-                  console.log(entry);
                   return (
                     <tr
                       key={entry.date}
