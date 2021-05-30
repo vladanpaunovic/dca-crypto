@@ -1,4 +1,4 @@
-import { signIn, useSession } from "next-auth/client";
+import { getSession, signIn, useSession } from "next-auth/client";
 import Dashboard from "../../components/Dashboard/Dashboard";
 import { DashboardContextProvider } from "../../components/DashboardContext/DashboardContext";
 import Loading from "../../components/Loading/Loading";
@@ -31,4 +31,13 @@ export default function Page() {
       )}
     </>
   );
+}
+
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+  if (!session) {
+    context.res.statusCode = 302;
+    context.res.setHeader("Location", `/auth/signin?callbackUrl=/dashboard`);
+  }
+  return { props: {} };
 }

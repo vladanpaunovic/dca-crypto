@@ -10,7 +10,7 @@ import { signIn } from "next-auth/client";
 import { useState } from "react";
 import Loading from "../../components/Loading/Loading";
 
-const SignIn = ({ csrfToken, error, isEmailConfirmed }) => {
+const SignIn = ({ csrfToken, error, isEmailConfirmed, callbackUrl }) => {
   const [state, setState] = useState({
     email: "",
     password: "",
@@ -24,7 +24,7 @@ const SignIn = ({ csrfToken, error, isEmailConfirmed }) => {
     return signIn("credentials", {
       email: state.email,
       password: state.password,
-      callbackUrl: "/dashboard",
+      callbackUrl,
     });
   };
 
@@ -147,6 +147,7 @@ export async function getServerSideProps(context) {
       csrfToken: await getCsrfToken(context),
       error: context.query.error || null,
       isEmailConfirmed: context.query.confirmed || false,
+      callbackUrl: context.query.callbackUrl || "/dashboard",
     },
   };
 }

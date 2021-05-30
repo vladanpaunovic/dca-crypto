@@ -13,8 +13,9 @@ import { CACHE_INVALIDATION_INTERVAL, defaultCurrency } from "../../../config";
 import { useCurrentCoin } from "../../../components/Context/mainReducer";
 import { TweetMessage } from "../../../components/TweetMessage/TweetMessage";
 import DashboardMenu from "../../../components/Dashboard/Menu/DashboardMenu";
-import { useSession } from "next-auth/client";
+import { getSession, useSession } from "next-auth/client";
 import Loading from "../../../components/Loading/Loading";
+import queryString from "query-string";
 
 export async function getServerSideProps(context) {
   const {
@@ -33,19 +34,30 @@ export async function getServerSideProps(context) {
     `s-maxage=${CACHE_INVALIDATION_INTERVAL}, stale-while-revalidate`
   );
 
+  const pageProps = {
+    availableTokens,
+    coinId: coin,
+    investment: investment || null,
+    investmentInterval: investmentInterval || null,
+    dateFrom: dateFrom || null,
+    dateTo: dateTo || null,
+  };
+
+  const session = await getSession(context);
+  if (!session) {
+    context.res.statusCode = 302;
+    context.res.setHeader(
+      "Location",
+      `/dca/${pageProps.coinId}?${queryString.stringify(pageProps)}`
+    );
+  }
+
   return {
-    props: {
-      availableTokens,
-      coinId: coin,
-      investment: investment || null,
-      investmentInterval: investmentInterval || null,
-      dateFrom: dateFrom || null,
-      dateTo: dateTo || null,
-    },
+    props: pageProps,
   };
 }
 
-const Coin = (props) => {
+const Coin = () => {
   const { state } = useAppContext();
   const currentCoin = useCurrentCoin();
   const coinSymbol = currentCoin.symbol.toUpperCase();
