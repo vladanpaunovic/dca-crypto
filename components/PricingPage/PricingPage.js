@@ -42,7 +42,7 @@ const CurrentTransaction = ({ transaction }) => {
 
   const paymentDate = dayjs(transaction.updatedAt).format("LLL");
 
-  const humnizedPaymentDate = dayjs(paymentDate).fromNow();
+  const humanizedPaymentDate = dayjs(paymentDate).fromNow();
 
   const status = () => {
     switch (transaction.paymentStatus) {
@@ -62,7 +62,7 @@ const CurrentTransaction = ({ transaction }) => {
       case "charge:confirmed":
         return {
           icon: <CheckIcon className="w-10 h-10" />,
-          label: `Successfully paid ${humnizedPaymentDate}`,
+          label: `Successfully paid ${humanizedPaymentDate}`,
           className: "text-green-500 dark:text-green-500",
         };
       case "charge:failed":
