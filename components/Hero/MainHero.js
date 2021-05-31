@@ -20,11 +20,7 @@ export default function Hero() {
                   className="relative max-w-7xl w-full flex items-center justify-between sm:h-10"
                   aria-label="Global"
                 >
-                  <div className="flex items-center flex-grow flex-shrink-0 lg:flex-grow-0">
-                    <div className="flex items-center  md:w-auto">
-                      <Logo />
-                    </div>
-                  </div>
+                  <div className="flex items-center flex-grow flex-shrink-0 lg:flex-grow-0"></div>
                   <div className="flex items-center justify-end mr-4">
                     <div className="mr-2">
                       <button

@@ -67,11 +67,11 @@ function Home() {
           <CreateBot />
         </section>
 
-        <section className="mt-16 bg-gradient-to-br from-indigo-400 to-indigo-600 dark:from-yellow-400  dark:to-yellow-600 min-h-screen flex items-center justify-center">
+        <section className="mt-16 p-8 bg-gradient-to-br from-indigo-400 to-indigo-600 dark:from-yellow-400  dark:to-yellow-600 min-h-screen flex items-center justify-center">
           <RegistrationCard />
         </section>
         <div className="container mx-auto max-w-7xl bg-white dark:bg-gray-900 flex flex-col md:flex-row my-32">
-          <div className="mb-16 w-3/3 md:w-1/3 pl-4 md:pl-0 md:pr-8">
+          <div className="mb-16 w-3/3 md:w-1/3 p-4 p-8">
             <h2 className="text-base text-indigo-500 dark:text-yellow-500 font-semibold tracking-wide uppercase">
               Still not convinced?
             </h2>
