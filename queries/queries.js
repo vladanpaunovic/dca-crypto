@@ -430,3 +430,14 @@ export const useUpdateUser = () => {
     mutationKey: "update-user",
   });
 };
+
+export const useContactUsMutation = () => {
+  return useMutation({
+    mutationFn: async (payload) => {
+      const response = await cmsClient().post("/email/contact-us", payload);
+
+      return response.data;
+    },
+    mutationKey: "contact-us",
+  });
+};

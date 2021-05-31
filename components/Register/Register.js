@@ -199,6 +199,7 @@ const Register = ({ referralCode }) => {
                           onChange={(e) => setName(e.target.value)}
                           type="text"
                           className=" w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-800 dark:text-gray-100 "
+                          autoComplete="username"
                         />
                       </div>
                     </div>
@@ -220,6 +221,7 @@ const Register = ({ referralCode }) => {
                           onChange={(e) => setEmail(e.target.value)}
                           type="email"
                           className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-800 dark:text-gray-100"
+                          autoComplete="email"
                         />
                       </div>
                     </div>
@@ -245,6 +247,7 @@ const Register = ({ referralCode }) => {
                           onChange={(e) => setPassword(e.target.value)}
                           type={showPassword ? "text" : "password"}
                           className="w-full -ml-10 pl-10 pr-14 -mr-14 py-2 rounded-lg outline-none focus:border-indigo-500 dark:border-gray-800 border-gray-200 border-2 dark:bg-gray-700 dark:text-gray-100"
+                          autoComplete="new-password"
                         />
                         <button
                           type="button"
