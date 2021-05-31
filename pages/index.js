@@ -1,6 +1,7 @@
 import Head from "next/head";
 import AllCoinsTable from "../components/AllCoinsTable/AllCoinsTable";
 import { AppContextProvider } from "../components/Context/Context";
+import Footer from "../components/Footer/Footer";
 import MainHero from "../components/Hero/MainHero";
 import AvailableExchanges from "../components/LandingPage/AvailableExchanges";
 import CreateBot from "../components/LandingPage/CreateBot";
@@ -84,9 +85,7 @@ function Home() {
         </div>
       </main>
 
-      <footer className="w-100 flex border-t h-20 justify-center items-center bg-white dark:bg-gray-900 dark:text-gray-100 dark:border-gray-900">
-        DCA CC - Dollar Cost Averaging Cryptocurrency
-      </footer>
+      <Footer />
     </div>
   );
 }
