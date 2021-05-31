@@ -41,7 +41,7 @@ const ContactUs = () => {
 
   return (
     <div className="md:flex">
-      <div className="w-full md:w-5/12 bg-gray-100 p-8">
+      <div className="w-full md:w-5/12 bg-gray-100 dark:bg-gray-800 p-8">
         <h1 className="leading-5 text-3xl font-extrabold">Get in touch</h1>
         <p className="mt-4 text-gray-400 font-medium">
           If you have questions or you need some sort of support - we are here
@@ -53,7 +53,7 @@ const ContactUs = () => {
           our best to provide good answers on questions regarding our platform.
         </p>
       </div>
-      <div className="w-full md:w-7/12 bg-white p-8">
+      <div className="w-full md:w-7/12 bg-white dark:bg-gray-900 p-8">
         <form className="min-w-screen" onSubmit={handleOnSubmit}>
           <div className="">
             <label className="block mb-3">
