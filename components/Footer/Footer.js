@@ -16,17 +16,17 @@ const Footer = () => {
                 title="Company"
                 className="inline-flex items-center"
               >
-                <SwitchHorizontalIcon className="w-8 transform rotate-45" />
-                <span className="ml-2 text-xl font-bold tracking-wide text-gray-800 uppercase">
+                <SwitchHorizontalIcon className="w-8 transform rotate-45 text-indigo-500 dark:text-yellow-500" />
+                <span className="ml-2 text-xl font-bold tracking-wide text-indigo-500 dark:text-yellow-500 uppercase">
                   DCA-CC
                 </span>
               </a>
             </Link>
             <div className="mt-4 lg:max-w-sm">
-              <p className="text-sm text-gray-800">
+              <p className="text-sm text-gray-800 dark:text-gray-400">
                 Dollar Cost Averaging Cryptocurrency.
               </p>
-              <p className="mt-4 text-sm text-gray-800">
+              <p className="mt-4 text-sm text-gray-800 dark:text-gray-400">
                 One place help you remove emotions from your investing by giving
                 you tools for stressless investing.
               </p>
@@ -34,34 +34,34 @@ const Footer = () => {
           </div>
           <div className="grid grid-cols-1 gap-5 row-gap-8 lg:col-span-3 md:grid-cols-3">
             <div>
-              <p className="font-semibold tracking-wide text-gray-800">
+              <p className="font-semibold tracking-wide text-gray-800 dark:text-gray-300">
                 Popular
               </p>
               <ul className="mt-2 space-y-2">
                 <li>
                   <Link href="/all-tokens">
-                    <a className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400">
+                    <a className="text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:text-deep-purple-accent-400">
                       All tokens list calculator
                     </a>
                   </Link>
                 </li>
                 <li>
                   <Link href="/dca/bitcoin">
-                    <a className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400">
+                    <a className="text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:text-deep-purple-accent-400">
                       Bitcoin DCA calculator
                     </a>
                   </Link>
                 </li>
                 <li>
                   <Link href="/dca/ethereum">
-                    <a className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400">
+                    <a className="text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:text-deep-purple-accent-400">
                       Ethereum DCA calculator
                     </a>
                   </Link>
                 </li>
                 <li>
                   <Link href="/dca/cardano">
-                    <a className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400">
+                    <a className="text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:text-deep-purple-accent-400">
                       Cardano DCA calculator
                     </a>
                   </Link>
@@ -70,13 +70,13 @@ const Footer = () => {
             </div>
 
             <div>
-              <p className="font-semibold tracking-wide text-gray-800">
+              <p className="font-semibold tracking-wide text-gray-800 dark:text-gray-300">
                 DCA-CC
               </p>
               <ul className="mt-2 space-y-2">
                 <li>
                   <Link href="/contact-us">
-                    <a className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400">
+                    <a className="text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:text-deep-purple-accent-400">
                       Contact us
                     </a>
                   </Link>
@@ -85,7 +85,7 @@ const Footer = () => {
                   <Link href="https://twitter.com/dca_cc">
                     <a
                       target="_blank"
-                      className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400"
+                      className="text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:text-deep-purple-accent-400"
                     >
                       DCA-CC on Twitter
                     </a>
@@ -113,7 +113,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="flex flex-col justify-between pt-5 pb-10 border-t sm:flex-row">
+        <div className="flex flex-col justify-between pt-5 pb-10 border-t dark:border-gray-700 sm:flex-row">
           <p className="text-sm text-gray-600">
             © Copyright {dayjs().format("YYYY")} DCA CC. All rights reserved.
           </p>
