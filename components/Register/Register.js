@@ -68,6 +68,7 @@ const Referral = ({ referralCode }) => {
 
 const Register = ({ referralCode }) => {
   const [name, setName] = useState("");
+  const [hasAcceptedPolicy, setHasAcceptedPolicy] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isRegistered, setIsRegistered] = useState(false);
@@ -92,6 +93,10 @@ const Register = ({ referralCode }) => {
   };
 
   const handleOnSubmit = async (e) => {
+    if (!hasAcceptedPolicy) {
+      return;
+    }
+
     await recaptcha.current.execute();
     e.preventDefault();
     setError(null);
@@ -251,6 +256,7 @@ const Register = ({ referralCode }) => {
                         />
                         <button
                           type="button"
+                          tabIndex={-1}
                           onClick={() => setShowPassword(!showPassword)}
                           className="w-14 dark:bg-gray-700 text-sm font-medium text-gray-80 dark:text-gray-300 rounded-r-lg px-2 z-10 text-center flex items-center justify-center focus:outline-none transition-all border-2 border-gray-200 dark:border-gray-800"
                         >
@@ -259,12 +265,35 @@ const Register = ({ referralCode }) => {
                       </div>
                     </div>
                   </div>
+                  <div className="flex  flex-col px-3 mb-6">
+                    <label className="flex items-center">
+                      <input
+                        type="checkbox"
+                        className="form-checkbox"
+                        checked={hasAcceptedPolicy}
+                        onChange={(e) =>
+                          setHasAcceptedPolicy(!hasAcceptedPolicy)
+                        }
+                      />
+                      <span className="ml-2">
+                        I agree to the{" "}
+                        <Link href="/legal/privacy-policy">
+                          <a
+                            target="_blank"
+                            className="underline text-indigo-500 dark:text-yellow-500"
+                          >
+                            privacy policy
+                          </a>
+                        </Link>
+                      </span>
+                    </label>
+                  </div>
                   <div className="flex  flex-col px-3">
                     <div className="w-full">
                       <button
                         type="submit"
-                        disabled={isLoading}
-                        className="flex items-center justify-center w-full hover:opacity-80 mx-auto bg-indigo-600 dark:bg-yellow-500 text-white dark:text-gray-900 rounded-lg px-3 py-3 font-semibold"
+                        disabled={isLoading || !hasAcceptedPolicy}
+                        className="disabled:opacity-40 transition flex items-center justify-center w-full hover:opacity-80 mx-auto bg-indigo-600 dark:bg-yellow-500 text-white dark:text-gray-900 rounded-lg px-3 py-3 font-semibold"
                       >
                         REGISTER NOW{" "}
                         {isLoading && (
