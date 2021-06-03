@@ -1,4 +1,4 @@
-import { ArrowRightIcon, SwitchHorizontalIcon } from "@heroicons/react/outline";
+import { SwitchHorizontalIcon } from "@heroicons/react/outline";
 import Link from "next/link";
 import dayjs from "dayjs";
 import { useSession } from "next-auth/client";

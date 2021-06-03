@@ -38,7 +38,7 @@ const Banner = () => {
     new Date(),
     "day"
   );
-  const isEnded = daysUntilEnd < 0;
+  const isEnded = daysUntilEnd <= 0;
 
   return (
     isShown && (

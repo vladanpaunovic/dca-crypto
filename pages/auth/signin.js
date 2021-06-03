@@ -142,9 +142,10 @@ const SignIn = ({ csrfToken, error, isEmailConfirmed, callbackUrl }) => {
 
 // This is the recommended way for Next.js 9.3 or newer
 export async function getServerSideProps(context) {
+  const csrfToken = await getCsrfToken(context);
   return {
     props: {
-      csrfToken: await getCsrfToken(context),
+      csrfToken: csrfToken || null,
       error: context.query.error || null,
       isEmailConfirmed: context.query.confirmed || false,
       callbackUrl: context.query.callbackUrl || "/dashboard",
