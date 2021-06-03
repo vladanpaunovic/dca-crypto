@@ -75,9 +75,23 @@ const Footer = () => {
               </p>
               <ul className="mt-2 space-y-2">
                 <li>
-                  <Link href="/contact-us">
+                  <Link href="/legal/terms-conditions">
                     <a className="text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:text-deep-purple-accent-400">
-                      Contact us
+                      Terms & Conditions
+                    </a>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/legal/privacy-policy">
+                    <a className="text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:text-deep-purple-accent-400">
+                      Privacy policy
+                    </a>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/legal/cookie-policy">
+                    <a className="text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:text-deep-purple-accent-400">
+                      Cookie policy
                     </a>
                   </Link>
                 </li>
@@ -88,6 +102,13 @@ const Footer = () => {
                       className="text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:text-deep-purple-accent-400"
                     >
                       DCA-CC on Twitter
+                    </a>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/contact-us">
+                    <a className="text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:text-deep-purple-accent-400">
+                      Contact us
                     </a>
                   </Link>
                 </li>
