@@ -11,7 +11,7 @@ export default function RegisterPage(props) {
         <link rel="icon" href="/favicon.ico" />
         <meta
           name="description"
-          content="Dollar cost average calculator for top 100 cryptocurrencies. Visualise and examine the impact of your investments in crypto."
+          content={`Register and start dollar cost averaging your favorite cryptocurrencies in less then 4 minutes.`}
         />
       </Head>
       <Register referralCode={props.referralCode} />

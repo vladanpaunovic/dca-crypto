@@ -30,9 +30,15 @@ export default function Hero() {
                         }
                       >
                         {theme === "light" ? (
-                          <MoonIcon className="w-5 h-5" />
+                          <>
+                            <span className="sr-only">Toggle dark mode</span>
+                            <MoonIcon className="w-5 h-5" />
+                          </>
                         ) : (
-                          <SunIcon className="w-5 h-5" />
+                          <>
+                            <span className="sr-only">Toggle light mode</span>
+                            <SunIcon className="w-5 h-5" />
+                          </>
                         )}
                       </button>
                     </div>
