@@ -3,11 +3,35 @@ import Link from "next/link";
 import dayjs from "dayjs";
 import { useSession } from "next-auth/client";
 
-const Footer = () => {
+const Footer = ({ availableTokens }) => {
   const [session] = useSession();
+  console.log(availableTokens);
+
+  const allTokens = availableTokens.map((coin) => (
+    <li>
+      <Link href={`/dca/${coin.id}`}>
+        <a className="text-gray-600 dark:text-gray-400 transition-colors duration-300 underline">
+          DCA {coin.name}
+          <span className="sr-only">Dollar cost average {coin.name}</span>
+        </a>
+      </Link>
+    </li>
+  ));
+
   return (
     <footer className="">
       <div className="px-8 pt-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8">
+        <div className="mb-16">
+          <div>
+            <h2 className="font-semibold tracking-wide text-gray-800 dark:text-gray-300 mb-4">
+              Dollar cost average calculator
+            </h2>
+            <ul className="text-sm grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2">
+              {allTokens}
+            </ul>
+          </div>
+        </div>
+
         <div className="grid gap-16 row-gap-10 mb-8 lg:grid-cols-4">
           <div className="md:max-w-md lg:col-span-1">
             <Link href="/">

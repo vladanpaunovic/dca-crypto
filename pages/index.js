@@ -37,7 +37,7 @@ export default function HomeWrapper(props) {
   );
 }
 
-function Home() {
+function Home(props) {
   return (
     <div className="w-full">
       <Head>
@@ -85,7 +85,7 @@ function Home() {
         </div>
       </main>
 
-      <Footer />
+      <Footer availableTokens={props.availableTokens} />
     </div>
   );
 }
