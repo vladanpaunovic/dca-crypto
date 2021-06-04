@@ -80,6 +80,7 @@ const CreateBot = () => {
           <div className="rounded-xl border dark:border-gray-700 h-auto w-auto shadow-2xl">
             <Image
               src={imageUrl}
+              alt="dca-cc create bot preview"
               className="rounded-xl"
               width="384"
               height="620"

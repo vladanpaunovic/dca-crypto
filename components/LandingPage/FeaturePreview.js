@@ -25,6 +25,7 @@ const FeaturePreview = () => {
         <Image
           src={imageUrl}
           className="w-full h-full"
+          alt="dca-cc dashboard preview"
           width="800"
           height="500"
           layout="responsive"

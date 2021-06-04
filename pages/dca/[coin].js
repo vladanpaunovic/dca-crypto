@@ -77,6 +77,7 @@ const Coin = () => {
                 <img
                   className="w-8 h-8 ml-2 hidden sm:block"
                   src={currentCoin.image}
+                  alt={`${currentCoin.name} logo`}
                 />
               )}
             </div>

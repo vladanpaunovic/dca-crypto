@@ -97,6 +97,7 @@ const AllCoinsTable = ({ showOnlyNTokens, showSearch }) => {
                               <img
                                 className="w-7 mr-2"
                                 src={entry.image}
+                                alt={`${entry.name} logo`}
                                 width={28}
                                 height={28}
                               />
