@@ -5,7 +5,7 @@ import {
 } from "@heroicons/react/solid";
 import Logo from "../../components/Logo/Logo";
 import Link from "next/link";
-import { getCsrfToken } from "next-auth/client";
+import { getCsrfToken, getSession } from "next-auth/client";
 import { signIn } from "next-auth/client";
 import { useState } from "react";
 import Loading from "../../components/Loading/Loading";
@@ -142,7 +142,14 @@ const SignIn = ({ csrfToken, error, isEmailConfirmed, callbackUrl }) => {
 
 // This is the recommended way for Next.js 9.3 or newer
 export async function getServerSideProps(context) {
+  const session = await getSession(context);
+  if (session) {
+    context.res.statusCode = 302;
+    context.res.setHeader("Location", `/dashboard`);
+  }
+
   const csrfToken = await getCsrfToken(context);
+
   return {
     props: {
       csrfToken: csrfToken || null,
