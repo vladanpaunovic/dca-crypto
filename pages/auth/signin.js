@@ -54,9 +54,9 @@ const SignIn = ({ csrfToken, error, isEmailConfirmed, callbackUrl }) => {
                   </div>
                 </div>
               )}
-              <h2 className="mt-10 text-3xl font-extrabold text-gray-900 dark:text-gray-100">
+              <h1 className="mt-10 text-3xl font-extrabold text-gray-900 dark:text-gray-100">
                 Sign in to your account
-              </h2>
+              </h1>
             </div>
             <form
               className="space-y-6 form-reset"
