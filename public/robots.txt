@@ -1,6 +1,5 @@
 User-agent: *
 Disallow: /dashboard
 Disallow: /register
-Disallow: /api
 
 Sitemap: https://dca-cc.com/sitemap.xml
