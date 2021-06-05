@@ -1,6 +1,7 @@
 import Head from "next/head";
 import AllCoinsTable from "../components/AllCoinsTable/AllCoinsTable";
 import { AppContextProvider } from "../components/Context/Context";
+import Footer from "../components/Footer/Footer";
 import AllTokensHero from "../components/Hero/AllTokensHero";
 import { CACHE_INVALIDATION_INTERVAL, defaultCurrency } from "../config";
 import { getAllCoins } from "../queries/queries";
@@ -25,12 +26,12 @@ export async function getServerSideProps(context) {
 export default function HomeWrapper(props) {
   return (
     <AppContextProvider availableTokens={props.availableTokens}>
-      <Home {...props} />
+      <AllTokens {...props} />
     </AppContextProvider>
   );
 }
 
-function Home() {
+function AllTokens(props) {
   return (
     <div className="w-full">
       <Head>
@@ -48,9 +49,7 @@ function Home() {
         </div>
       </main>
 
-      <footer className="w-100 flex border-t h-20 justify-center items-center bg-white dark:bg-gray-900 dark:text-gray-100 dark:border-gray-900">
-        DCA CC - Dollar Cost Averaging Cryptocurrency
-      </footer>
+      <Footer availableTokens={props.availableTokens} />
     </div>
   );
 }

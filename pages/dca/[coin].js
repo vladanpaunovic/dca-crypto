@@ -14,6 +14,7 @@ import { getAllCoins } from "../../queries/queries";
 import { CACHE_INVALIDATION_INTERVAL, defaultCurrency } from "../../config";
 import { useCurrentCoin } from "../../components/Context/mainReducer";
 import { TweetMessage } from "../../components/TweetMessage/TweetMessage";
+import Footer from "../../components/Footer/Footer";
 
 export async function getServerSideProps(context) {
   const {
@@ -44,7 +45,7 @@ export async function getServerSideProps(context) {
   };
 }
 
-const Coin = () => {
+const Coin = (props) => {
   const { state } = useAppContext();
   const currentCoin = useCurrentCoin();
   const coinSymbol = currentCoin.symbol.toUpperCase();
@@ -130,10 +131,6 @@ const Coin = () => {
           </div>
         </div>
       </main>
-
-      <footer className="w-100 flex border-t h-20 justify-center items-center dark:text-gray-100 dark:border-gray-700">
-        DCA CC - Dollar Cost Averaging Cryptocurrency
-      </footer>
     </div>
   );
 };
@@ -145,7 +142,7 @@ const CoinWrapper = (props) => {
         <Navigation />
       </div>
       <div className="lg:flex bg-gray-100 dark:bg-gray-800">
-        <div className="w-12/12 lg:w-330 shadow-xl dark:border-gray-700 bg-white dark:bg-gray-900">
+        <div className="w-12/12 lg:w-330 border-r dark:border-gray-700 bg-white dark:bg-gray-900">
           <h2
             colSpan={2}
             className="w-full flex items-center px-4 h-16 border-b dark:border-gray-700 text-left text-lg font-medium dark:text-gray-100 tracking-wider"
@@ -162,6 +159,9 @@ const CoinWrapper = (props) => {
         <div className="w-12/12 mt-8 md:mt-0 md:p-8 flex-1">
           <Coin {...props} />
         </div>
+      </div>
+      <div className="border-t dark:border-gray-700">
+        <Footer availableTokens={props.availableTokens} />
       </div>
     </AppContextProvider>
   );

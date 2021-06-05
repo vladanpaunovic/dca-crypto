@@ -10,7 +10,7 @@ const Footer = ({ availableTokens }) => {
   const allTokens = availableTokens.map((coin) => (
     <li>
       <Link href={`/dca/${coin.id}`}>
-        <a className="text-gray-600 dark:text-gray-400 transition-colors duration-300 underline">
+        <a className="text-gray-600 dark:text-gray-400 transition-colors duration-300 overflow-ellipsis truncate hover:underline">
           DCA {coin.name}
           <span className="sr-only">Dollar cost average {coin.name}</span>
         </a>
@@ -19,12 +19,12 @@ const Footer = ({ availableTokens }) => {
   ));
 
   return (
-    <footer className="">
-      <div className="px-8 pt-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8">
+    <footer className="m-8">
+      <div className="mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl ">
         <div className="mb-16">
           <div>
             <h2 className="font-semibold tracking-wide text-gray-800 dark:text-gray-300 mb-4">
-              Dollar cost average calculator
+              Try dollar cost average calculator for many coins
             </h2>
             <ul className="text-sm grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2">
               {allTokens}
