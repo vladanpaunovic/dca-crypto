@@ -3,7 +3,6 @@ import {
   AppContextProvider,
   useAppContext,
 } from "../../components/Context/Context";
-import Information from "../../components/Information/Information";
 import { getAllCoins } from "../../queries/queries";
 import { CACHE_INVALIDATION_INTERVAL, defaultCurrency } from "../../config";
 import { TweetMessage } from "../../components/TweetMessage/TweetMessage";
@@ -11,7 +10,7 @@ import axios from "axios";
 import React from "react";
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
-dayjs.extend(localizedFormat);
+import duration from "dayjs/plugin/duration";
 import {
   Area,
   AreaChart,
@@ -25,7 +24,8 @@ import {
 import { kFormatter } from "../../components/Chart/helpers";
 import useChartLegend from "../../components/Chart/useChartLegend";
 import { formatCurrency } from "@coingecko/cryptoformat";
-import { useTheme } from "next-themes";
+dayjs.extend(localizedFormat);
+dayjs.extend(duration);
 
 const mapFormatting = (entry, currentCoin, currency) => {
   switch (entry.dataKey) {
@@ -40,15 +40,15 @@ const mapFormatting = (entry, currentCoin, currency) => {
     case "totalFIAT":
     case "balanceFIAT":
       return (
-        <>
+        <span className="text-gray-400">
           {entry.name}: {formatCurrency(parseFloat(entry.value), currency)}
-        </>
+        </span>
       );
     case "balanceCrypto":
       return (
-        <>
+        <span className="text-gray-400">
           {entry.name}: {formatCurrency(entry.value, currentCoin.symbol)}
-        </>
+        </span>
       );
     default:
       return (
@@ -65,7 +65,9 @@ const CustomTooltip = (props) => {
     const dateLabel = dayjs(label).format("LLL");
     return (
       <div className="p-4 transition-shadow border rounded shadow-sm bg-white dark:bg-gray-800 dark:border-gray-800">
-        <p className="text-sm text-gray-500 dark:text-gray-200">{dateLabel}</p>
+        <p className="text-sm text-gray-500 dark:text-gray-200 mb-2">
+          {dateLabel}
+        </p>
         {payload.map((e, index) => (
           <p
             key={`${e.value}-${index}`}
@@ -150,9 +152,7 @@ const Chart = (props) => {
     "coinPrice",
     "costAverage"
   );
-  const { theme } = useTheme();
-  const isLight = theme === "light";
-  const color = isLight ? "#4B5563" : "#F3F4F6";
+  const color = "transparent";
 
   const allValues = props.dcaData.chartData.map((v) => parseFloat(v.coinPrice));
   const minValue = Math.min(...allValues) / 1.1;
@@ -231,6 +231,111 @@ const Chart = (props) => {
   );
 };
 
+const Information = (props) => {
+  const currentCoin = props.currentCoin;
+
+  const coinSymbol = currentCoin.symbol.toUpperCase();
+  const duration = dayjs(props.dateTo).diff(props.dateFrom, "day");
+
+  const lumpSumTotal =
+    (props.dcaData.insights.totalInvestment /
+      props.dcaData.chartData[0].coinPrice) *
+    props.currentCoin.current_price;
+
+  const information = [
+    {
+      label: "Duration",
+      value: `${dayjs
+        .duration(duration, "days")
+        .humanize()} (${duration} days)`,
+    },
+    {
+      label: "Total investment",
+      value: formatCurrency(
+        props.dcaData.insights.totalInvestment,
+        props.currency
+      ),
+    },
+    {
+      label: "Value in FIAT",
+      value: (
+        <>
+          <p>
+            {formatCurrency(
+              props.dcaData.insights.totalValue?.fiat,
+              props.currency
+            )}{" "}
+            <span
+              className={`inline-block px-2 text-sm text-white dark:text-gray-900 ${
+                props.dcaData.insights.percentageChange > 0
+                  ? "bg-green-400"
+                  : "bg-red-400"
+              } rounded`}
+            >
+              {props.dcaData.insights.percentageChange > 0 ? "+" : ""}
+              {props.dcaData.insights.percentageChange}%
+            </span>{" "}
+            using DCA
+          </p>
+          <p className="text-xs text-gray-500 mt-1">
+            {formatCurrency(lumpSumTotal, props.currency)} with lump sum
+            investing
+          </p>
+        </>
+      ),
+    },
+    {
+      label: `Value in crypto`,
+      value: (
+        <>
+          {formatCurrency(
+            props.dcaData.insights.totalValue?.crypto || 0,
+            coinSymbol
+          )}
+        </>
+      ),
+    },
+  ];
+
+  const allInformation = () => {
+    const oddClass =
+      "bg-white dark:bg-gray-900 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6";
+    const evenClass =
+      "bg-gray-50 dark:bg-gray-800 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6";
+    return information.map((i, index) => (
+      <div
+        key={i.label}
+        className={`${index % 2 === 0 ? evenClass : oddClass} ${
+          index === information.length - 1 && "rounded-b-lg"
+        }`}
+      >
+        <dt className="text-sm font-medium text-gray-500 dark:text-white flex">
+          {i.label}{" "}
+        </dt>
+        <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 dark:text-white">
+          {i.value}
+        </dd>
+      </div>
+    ));
+  };
+
+  return (
+    <>
+      <div className="px-4 py-5 sm:px-6">
+        <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white">
+          Information
+        </h3>
+        <p className="mt-1 max-w-2xl text-sm text-gray-500 dark:text-white">
+          Summarised data regarding your investment.
+        </p>
+      </div>
+      <div className="border-t border-gray-200 dark:border-gray-900">
+        <dl>{allInformation()} </dl>
+      </div>
+    </>
+  );
+};
+
 const Coin = (props) => {
   const coinSymbol = props.currentCoin.symbol.toUpperCase();
 
@@ -248,9 +353,28 @@ const Coin = (props) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <div className="">
-          <div className="h-96 w-full">
-            <Chart {...props} />
+        <div className="mt-2">
+          <div className="flex items-center  mb-4">
+            <h2 className="text-2xl px-4 sm:px-0 text-gray-900 dark:text-gray-100">
+              Dollar-cost averaging (DCA) calculator for{" "}
+              <span className="text-indigo-700 dark:text-yellow-500 capitalize">
+                {props.currentCoin.name} ({coinSymbol})
+              </span>{" "}
+              backtesting
+            </h2>
+            <img
+              className="w-8 h-8 ml-2 hidden sm:block"
+              src={props.currentCoin.image}
+              alt={`${props.currentCoin.name} logo`}
+            />
+          </div>
+          <div className="md:flex">
+            <div className="h-96 md:w-8/12">
+              <Chart {...props} />
+            </div>
+            <div className="md:w-4/12">
+              <Information {...props} />
+            </div>
           </div>
           <div className="p-4">
             <p className="text-xs text-gray-400 text-center">
