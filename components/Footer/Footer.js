@@ -5,10 +5,9 @@ import { useSession } from "next-auth/client";
 
 const Footer = ({ availableTokens }) => {
   const [session] = useSession();
-  console.log(availableTokens);
 
   const allTokens = availableTokens.map((coin) => (
-    <li>
+    <li key={coin.id}>
       <Link href={`/dca/${coin.id}`}>
         <a className="text-gray-600 dark:text-gray-400 transition-colors duration-300 overflow-ellipsis truncate hover:underline">
           DCA {coin.name}

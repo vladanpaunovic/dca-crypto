@@ -203,18 +203,7 @@ const DashboardChart = () => {
             name={`Balance ${state.selectedBot.origin_currency}`}
             fillOpacity={0}
           />
-          {/* {memoizedValue.map((m) =>
-            m.order ? (
-              <ReferenceDot
-                key={m.order.id}
-                x={m.date}
-                y={m.price}
-                stroke="#82ca9d"
-                r={4}
-                fill="#82ca9d"
-              />
-            ) : null
-          )} */}
+
           <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
           <XAxis dataKey="date" />
           <YAxis

@@ -7,6 +7,7 @@ import { useCurrentCoin } from "../Context/mainReducer";
 import Currency from "../Currency/Currency";
 import { InformationCircleIcon } from "@heroicons/react/outline";
 import { Popover } from "@headlessui/react";
+import { formatCurrency } from "@coingecko/cryptoformat";
 
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
@@ -38,6 +39,9 @@ const InformationPopover = ({ description }) => {
 const Information = () => {
   const { state } = useAppContext();
   const currentCoin = useCurrentCoin();
+  const lumpSumTotal =
+    (state.chart.insights.totalInvestment / state.chart.data[0]?.coinPrice) *
+    currentCoin.current_price;
 
   const coinSymbol = currentCoin.symbol.toUpperCase();
   const information = [
@@ -55,17 +59,23 @@ const Information = () => {
       label: "Value in FIAT",
       value: (
         <>
-          <Currency value={state.chart.insights.totalValue?.fiat || 0} />{" "}
-          <span
-            className={`inline-block px-2 text-sm text-white dark:text-gray-900 ${
-              state.chart.insights.percentageChange > 0
-                ? "bg-green-400"
-                : "bg-red-400"
-            } rounded`}
-          >
-            {state.chart.insights.percentageChange > 0 ? "+" : ""}
-            {state.chart.insights.percentageChange}%
-          </span>
+          <p>
+            <Currency value={state.chart.insights.totalValue?.fiat || 0} />{" "}
+            <span
+              className={`inline-block px-2 text-sm text-white dark:text-gray-900 ${
+                state.chart.insights.percentageChange > 0
+                  ? "bg-green-400"
+                  : "bg-red-400"
+              } rounded`}
+            >
+              {state.chart.insights.percentageChange > 0 ? "+" : ""}
+              {state.chart.insights.percentageChange}%
+            </span>
+          </p>
+          <p className="text-xs text-gray-500 mt-1">
+            {formatCurrency(lumpSumTotal, state.settings.currency)} with lump
+            sum investing
+          </p>
         </>
       ),
     },
