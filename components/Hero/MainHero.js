@@ -1,6 +1,5 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { MoonIcon, SunIcon, TemplateIcon } from "@heroicons/react/outline";
-import Logo from "../Logo/Logo";
 import Link from "next/link";
 import { useTheme } from "next-themes";
 import { useSession } from "next-auth/client";

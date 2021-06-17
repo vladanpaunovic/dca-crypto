@@ -3,7 +3,6 @@ import { QueryClientProvider, QueryClient } from "react-query";
 import { ThemeProvider } from "next-themes";
 import { Provider } from "next-auth/client";
 import { ReactQueryDevtools } from "react-query/devtools";
-import * as Sentry from "@sentry/react";
 import { Hydrate } from "react-query/hydration";
 import CookieBanner from "../components/CookieBanner/CookieBanner";
 
@@ -25,4 +24,4 @@ function App({ Component, pageProps }) {
   );
 }
 
-export default Sentry.withProfiler(App);
+export default App;
