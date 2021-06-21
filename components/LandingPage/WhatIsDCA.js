@@ -320,7 +320,7 @@ const WhatIsDCA = () => {
             <a
               href="https://www.investopedia.com/terms/d/dollarcostaveraging.asp"
               target="_blank"
-              rel="nofollow"
+              rel="noreferrer"
               className="underline"
             >
               investopedia
