@@ -14,7 +14,7 @@ const SharingButtons = () => {
 
   const { coin, ...queryWithoutCoin } = router.query;
   const readyQueryString = queryString.stringify(queryWithoutCoin);
-  const locationHref = `${WEBSITE_URL}/dca/${router.query.coin}/${readyQueryString}`;
+  const locationHref = `${WEBSITE_URL}/dca/${router.query.coin}?${readyQueryString}`;
 
   const subject = `DCA Crypto - Dollar cost average ${currentCoin.name} (${coinSymbol}) calculator`;
   const priceChartMessage = useTweetMessage();
@@ -36,7 +36,7 @@ const SharingButtons = () => {
     },
     {
       label: "Facebook",
-      href: `https://facebook.com/sharer/sharer.php?u=${WEBSITE_URL}/dca/bitcoin`,
+      href: `https://facebook.com/sharer/sharer.php?u=https://www.dca-cc.com/dca/bitcoin?investmentInterval=7&investment=50&dateFrom=2020-05-10&dateTo=2021-05-10&currency=usd`,
       color: "#3b5998",
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6">
@@ -59,7 +59,7 @@ const SharingButtons = () => {
     {
       label: "Linkedin",
       color: "#0077b5",
-      href: `https://www.linkedin.com/shareArticle?mini=true&amp&url=${locationHref}&title=${subject}&summary=${priceChartMessage}`,
+      href: `https://www.linkedin.com/sharing/share-offsite/?url=${locationHref}`,
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6">
           <path d="M6.5 21.5h-5v-13h5v13zM4 6.5C2.5 6.5 1.5 5.3 1.5 4s1-2.4 2.5-2.4c1.6 0 2.5 1 2.6 2.5 0 1.4-1 2.5-2.6 2.5zm11.5 6c-1 0-2 1-2 2v7h-5v-13h5V10s1.6-1.5 4-1.5c3 0 5 2.2 5 6.3v6.7h-5v-7c0-1-1-2-2-2z" />
