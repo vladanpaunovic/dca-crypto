@@ -122,39 +122,35 @@ const ShareChart = () => {
   const locationHref = `${WEBSITE_URL}/widget?${readyQueryString}`;
 
   const embedScript = `<iframe src="${locationHref}" title="DCA Crypto - Dollar cost average ${currentCoin.name} (${coinSymbol})
-  calculator"></iframe>`;
+  calculator" width="800" height="600"></iframe>`;
 
   return (
     <Popover className="relative">
-      {({ open }) => (
-        <>
-          <Popover.Button
-            title="Error accured. Click to reveal information."
-            className="flex items-center justify-between transition rounded bg-white hover:bg-indigo-50 dark:bg-gray-900 dark:hover:bg-gray-800 py-1 px-2 text-indigo-700 dark:text-yellow-500 font-medium border shadow border-transparent"
-          >
-            Share{" "}
-            <span className="ml-1">
-              <ShareIcon className="w-5 h-5" />
-            </span>
-          </Popover.Button>
+      <Popover.Button
+        title="Error accured. Click to reveal information."
+        className="flex items-center justify-between transition rounded bg-white hover:bg-indigo-50 dark:bg-gray-900 dark:hover:bg-gray-800 py-1 px-2 text-indigo-700 dark:text-yellow-500 font-medium border shadow border-transparent"
+      >
+        Share{" "}
+        <span className="ml-1">
+          <ShareIcon className="w-5 h-5" />
+        </span>
+      </Popover.Button>
 
-          <Popover.Panel className="fixed md:absolute z-10 w-screen transform -translate-x-2/2 bottom-0 md:bottom-auto right-0 md:right-1/2 md:max-w-sm">
-            <div className="p-4 bg-white dark:bg-gray-900 rounded border dark:border-gray-700 shadow md:max-w-sm">
-              <h4 className="text-normal font-medium mb-2">Share this chart</h4>
-              <p className="mb-2">
-                <SharingButtons />
-              </p>
+      <Popover.Panel className="fixed md:absolute z-10 w-screen transform -translate-x-2/2 bottom-0 md:bottom-auto right-0 md:right-1/2 md:max-w-sm">
+        <div className="p-4 bg-white dark:bg-gray-900 rounded border dark:border-gray-700 shadow md:max-w-sm">
+          <h4 className="text-normal font-medium mb-2">Share this chart</h4>
+          <p className="mb-2">
+            <SharingButtons />
+          </p>
 
-              <p className="mb-2 mt-4 text-gray-600 dark:text-gray-300 flex items-center">
-                Embedded code <CodeIcon className="w-5 h-5 ml-1" />
-              </p>
-              <p className="bg-gray-200 dark:bg-gray-800 dark:text-gray-100 p-2 text-normal text-xs mb-4 rounded select-all	">
-                {embedScript}
-              </p>
-            </div>
-          </Popover.Panel>
-        </>
-      )}
+          <p className="mb-2 mt-4 text-gray-600 dark:text-gray-300 flex items-center">
+            Embedded code <CodeIcon className="w-5 h-5 ml-1" />
+          </p>
+          <p className="bg-gray-200 dark:bg-gray-800 dark:text-gray-100 p-2 text-normal text-xs mb-4 rounded select-all	">
+            {embedScript}
+          </p>
+        </div>
+      </Popover.Panel>
     </Popover>
   );
 };
