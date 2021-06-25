@@ -143,10 +143,7 @@ const CoinWrapper = (props) => {
       </div>
       <div className="lg:flex bg-gray-100 dark:bg-gray-800">
         <div className="w-12/12 lg:w-330 border-r dark:border-gray-700 bg-white dark:bg-gray-900">
-          <h2
-            colSpan={2}
-            className="w-full flex items-center px-4 h-16 border-b dark:border-gray-700 text-left text-lg font-medium dark:text-gray-100 tracking-wider"
-          >
+          <h2 className="w-full flex items-center px-4 h-16 border-b dark:border-gray-700 text-left text-lg font-medium dark:text-gray-100 tracking-wider">
             DCA Calculator
           </h2>
           <div>
