@@ -6,6 +6,7 @@ import { WEBSITE_URL } from "../../config";
 import { useCurrentCoin } from "../Context/mainReducer";
 import queryString from "query-string";
 import { useTweetMessage } from "../TweetMessage/TweetMessage";
+import { googleAnalyticsEvent } from "../helpers/GoogleAnalytics";
 
 const SharingButtons = () => {
   const router = useRouter();
@@ -100,6 +101,12 @@ const SharingButtons = () => {
           rel="noopener"
           aria-label={social.label}
           style={{ backgroundColor: social.color }}
+          onClick={() => {
+            googleAnalyticsEvent({
+              action: "share",
+              params: { label: social.label },
+            });
+          }}
         >
           <div className="flex items-center p-1">
             <div aria-hidden="true" className="inline fill-current mr-1">
