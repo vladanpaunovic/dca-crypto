@@ -1,6 +1,7 @@
 import ExternalLinkIcon from "../Icons/ExternalLink";
 import SupportIcon from "../Icons/SupportIcon";
 import Image from "next/image";
+import { googleAnalyticsEvent } from "../helpers/GoogleAnalytics";
 
 const affiliatePartners = [
   {
@@ -43,6 +44,12 @@ const AffiliatePartner = (props) => {
           target="_blank"
           rel="nofollow"
           className="flex items-center dark:text-gray-100 hover:underline"
+          onClick={() => {
+            googleAnalyticsEvent({
+              action: "support_site",
+              params: { affiliate: name },
+            });
+          }}
         >
           {name}{" "}
           <span className="ml-1 text-gray-500">
@@ -65,7 +72,7 @@ const AffiliateLinks = () => {
         <h5 className="flex text-lg leading-6 font-medium text-gray-900 dark:text-white">
           <SupportIcon /> Support this site
         </h5>
-        <p className="mt-1 max-w-2xl text-sm text-gray-500 dark:text-white">
+        <p className="mt-1 max-w-2xl text-xs text-gray-500 dark:text-white">
           Likes below are affiliate links, meaning, at no additional cost to
           you, I will earn a commision if you click trough and make a purchase
         </p>
