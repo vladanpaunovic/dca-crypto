@@ -76,7 +76,7 @@ const Information = () => {
       label: `Value in crypto`,
       value: (
         <>
-          {state.chart.insights.totalValue?.crypto || 0}{" "}
+          {(state.chart.insights.totalValue?.crypto || 0).toFixed(6)}{" "}
           {currentCoin.symbol.toUpperCase()}
         </>
       ),

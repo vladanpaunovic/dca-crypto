@@ -8,7 +8,8 @@ const mapFormatting = (entry) => {
     case "balanceCrypto":
       return (
         <>
-          {entry.name}: {entry.value} {currentCoin.symbol.toUpperCase()}
+          {entry.name}: {entry.value.toFixed(6)}{" "}
+          {currentCoin.symbol.toUpperCase()}
         </>
       );
     case "percentageChange": {
