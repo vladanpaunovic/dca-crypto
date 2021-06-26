@@ -39,9 +39,6 @@ const InformationPopover = ({ description }) => {
 const Information = () => {
   const { state } = useAppContext();
   const currentCoin = useCurrentCoin();
-  const lumpSumTotal =
-    (state.chart.insights.totalInvestment / state.chart.data[0]?.coinPrice) *
-    currentCoin.current_price;
 
   const coinSymbol = currentCoin.symbol.toUpperCase();
   const information = [
@@ -72,10 +69,6 @@ const Information = () => {
               {state.chart.insights.percentageChange}%
             </span>
           </p>
-          <p className="text-xs text-gray-500 mt-1">
-            {formatCurrency(lumpSumTotal, state.settings.currency)} with lump
-            sum investing
-          </p>
         </>
       ),
     },
@@ -83,8 +76,10 @@ const Information = () => {
       label: `Value in crypto`,
       value: (
         <>
-          {state.chart.insights.totalValue?.crypto || 0}{" "}
-          <span className="font-bold">{coinSymbol}</span>
+          {formatCurrency(
+            state.chart.insights.totalValue?.crypto || 0,
+            coinSymbol
+          )}
         </>
       ),
     },

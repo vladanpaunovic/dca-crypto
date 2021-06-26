@@ -1,11 +1,14 @@
+import { formatCurrency } from "@coingecko/cryptoformat";
+import { useCurrentCoin } from "../Context/mainReducer";
 import Currency from "../Currency/Currency";
 
 const mapFormatting = (entry) => {
+  const currentCoin = useCurrentCoin();
   switch (entry.dataKey) {
     case "balanceCrypto":
       return (
         <>
-          {entry.name}: {entry.value}
+          {entry.name}: {formatCurrency(entry.value, currentCoin.symbol)}
         </>
       );
     case "percentageChange": {
