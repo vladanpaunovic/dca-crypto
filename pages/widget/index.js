@@ -1,21 +1,16 @@
 import Head from "next/head";
-import {
-  AppContextProvider,
-  useAppContext,
-} from "../../components/Context/Context";
 import { getAllCoins } from "../../queries/queries";
 import { CACHE_INVALIDATION_INTERVAL, defaultCurrency } from "../../config";
-import { TweetMessage } from "../../components/TweetMessage/TweetMessage";
 import axios from "axios";
 import React from "react";
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import duration from "dayjs/plugin/duration";
+import relativeTime from "dayjs/plugin/relativeTime";
 import {
   Area,
   AreaChart,
   CartesianGrid,
-  Legend,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -26,6 +21,7 @@ import useChartLegend from "../../components/Chart/useChartLegend";
 import { formatCurrency } from "@coingecko/cryptoformat";
 dayjs.extend(localizedFormat);
 dayjs.extend(duration);
+dayjs.extend(relativeTime);
 
 const mapFormatting = (entry, currentCoin, currency) => {
   switch (entry.dataKey) {
@@ -92,6 +88,7 @@ export async function getServerSideProps(context) {
     dateFrom,
     dateTo,
     currency,
+    type,
   } = context.query;
 
   const availableTokens = await getAllCoins(currency || defaultCurrency);
@@ -103,12 +100,13 @@ export async function getServerSideProps(context) {
     dateFrom,
     dateTo,
     currency: currency || defaultCurrency,
+    type: type || "dca",
   };
 
   let dcaData;
   try {
     const response = await axios.post(
-      `${process.env.NEXTAUTH_URL}/api/calculate-dca`,
+      `${process.env.NEXTAUTH_URL}/api/calculate-${type}`,
       payload
     );
     dcaData = response.data;
@@ -129,8 +127,9 @@ export async function getServerSideProps(context) {
       investment: investment || null,
       investmentInterval: investmentInterval || null,
       dateFrom: dateFrom || null,
-      dateTo: dateTo || null,
+      dateTo: dateTo || dayjs().format("YYYY-MM-DD"),
       currency,
+      type,
     },
   };
 }
@@ -237,11 +236,6 @@ const Information = (props) => {
   const coinSymbol = currentCoin.symbol.toUpperCase();
   const duration = dayjs(props.dateTo).diff(props.dateFrom, "day");
 
-  const lumpSumTotal =
-    (props.dcaData.insights.totalInvestment /
-      props.dcaData.chartData[0].coinPrice) *
-    props.currentCoin.current_price;
-
   const information = [
     {
       label: "Duration",
@@ -274,12 +268,7 @@ const Information = (props) => {
             >
               {props.dcaData.insights.percentageChange > 0 ? "+" : ""}
               {props.dcaData.insights.percentageChange}%
-            </span>{" "}
-            using DCA
-          </p>
-          <p className="text-xs text-gray-500 mt-1">
-            {formatCurrency(lumpSumTotal, props.currency)} with lump sum
-            investing
+            </span>
           </p>
         </>
       ),
@@ -338,25 +327,29 @@ const Information = (props) => {
 
 const Coin = (props) => {
   const coinSymbol = props.currentCoin.symbol.toUpperCase();
+  const isDca = props.type === "dca";
+  const title = isDca
+    ? `DCA Crypto - Dollar cost average ${props.currentCoin.name} (
+    ${coinSymbol}) calculator`
+    : `DCA Crypto - Lump sum investing ${props.currentCoin.name} (
+      ${coinSymbol}) calculator`;
 
+  const description = isDca
+    ? `Dollar cost average calculator for ${props.currentCoin.name} (${coinSymbol}). Visualise and examine the impact of your investments in ${props.currentCoin.name} or any other popular crypto.`
+    : `Lump sum investing calculator for ${props.currentCoin.name} (${coinSymbol}). Visualise and examine the impact of your investments in ${props.currentCoin.name} or any other popular crypto.`;
   return (
     <div className="w-full">
       <Head>
-        <title>
-          DCA Crypto - Dollar cost average {props.currentCoin.name} (
-          {coinSymbol}) calculator
-        </title>
-        <meta
-          name="description"
-          content={`Dollar cost average calculator for ${props.currentCoin.name} (${coinSymbol}). Visualise and examine the impact of your investments in ${props.currentCoin.name} or any other popular crypto.`}
-        />
+        <title>{title}</title>
+        <meta name="description" content={description} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
         <div className="mt-2">
           <div className="flex items-center  mb-4">
             <h2 className="text-2xl px-4 sm:px-0 text-gray-900 dark:text-gray-100">
-              Dollar-cost averaging (DCA) calculator for{" "}
+              {isDca ? "Dollar-cost averaging (DCA)" : "Lump sum investing"}{" "}
+              calculator for{" "}
               <span className="text-indigo-700 dark:text-yellow-500 capitalize">
                 {props.currentCoin.name} ({coinSymbol})
               </span>{" "}

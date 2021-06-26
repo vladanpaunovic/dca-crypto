@@ -125,10 +125,15 @@ const SharingButtons = () => {
 
 const ShareChart = () => {
   const router = useRouter();
+  const isDca = router.pathname.includes("dca");
+  const pathname = isDca ? "dca" : "lump-sum";
   const currentCoin = useCurrentCoin();
   const coinSymbol = currentCoin.symbol.toUpperCase();
 
-  const readyQueryString = queryString.stringify(router.query);
+  const readyQueryString = queryString.stringify({
+    ...router.query,
+    type: pathname,
+  });
   const locationHref = `${WEBSITE_URL}/widget?${readyQueryString}`;
 
   const embedScript = `<iframe src="${locationHref}" title="DCA Crypto - Dollar cost average ${currentCoin.name} (${coinSymbol})
