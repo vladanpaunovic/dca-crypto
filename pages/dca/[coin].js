@@ -15,6 +15,9 @@ import { CACHE_INVALIDATION_INTERVAL, defaultCurrency } from "../../config";
 import { useCurrentCoin } from "../../components/Context/mainReducer";
 import { TweetMessage } from "../../components/TweetMessage/TweetMessage";
 import Footer from "../../components/Footer/Footer";
+import React from "react";
+import Logo from "../../components/Logo/Logo";
+import ThemeSwitch from "../../components/ThemeSwitch/ThemeSwitch";
 
 export async function getServerSideProps(context) {
   const {
@@ -138,14 +141,11 @@ const Coin = (props) => {
 const CoinWrapper = (props) => {
   return (
     <AppContextProvider availableTokens={props.availableTokens}>
-      <div className="border-b border-gray-50 dark:border-gray-700">
-        <Navigation />
-      </div>
       <div className="lg:flex bg-gray-100 dark:bg-gray-800">
         <div className="w-12/12 lg:w-330 border-r dark:border-gray-700 bg-white dark:bg-gray-900">
-          <h2 className="w-full flex items-center px-4 h-16 border-b dark:border-gray-700 text-left text-lg font-medium dark:text-gray-100 tracking-wider">
-            DCA Calculator
-          </h2>
+          <div className="w-full flex items-center justify-between px-4 h-16 border-b dark:border-gray-700">
+            <Logo /> <ThemeSwitch />
+          </div>
           <div>
             <InputFormWrapper {...props} pathname="/dca/" />
           </div>
