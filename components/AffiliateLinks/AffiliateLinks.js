@@ -2,6 +2,7 @@ import ExternalLinkIcon from "../Icons/ExternalLink";
 import SupportIcon from "../Icons/SupportIcon";
 import Image from "next/image";
 import { googleAnalyticsEvent } from "../helpers/GoogleAnalytics";
+import { HeartIcon } from "@heroicons/react/outline";
 
 const affiliatePartners = [
   {
@@ -85,6 +86,35 @@ const AffiliateLinks = () => {
             index={index}
           />
         ))}
+        <div className="bg-white dark:bg-gray-900 px-4 py-5 flex ">
+          <div>
+            <HeartIcon className="w-6 h-6 text-red-500" />
+          </div>
+          <div className="ml-2">
+            <a
+              href="https://commerce.coinbase.com/checkout/d090d647-be30-4621-a494-3b7ee3d6827d"
+              target="_blank"
+              rel="nofollow"
+              className="flex items-center dark:text-gray-100 hover:underline"
+              onClick={() => {
+                googleAnalyticsEvent({
+                  action: "support_site",
+                  params: { affiliate: "donation", type: "crypto" },
+                });
+              }}
+            >
+              Donate
+              <span className="ml-1 text-gray-500">
+                <ExternalLinkIcon />
+              </span>
+            </a>
+
+            <p className="mt-1 max-w-2xl text-sm text-gray-500 dark:text-white">
+              Make one time donation (in crypto) and help me support and grow
+              this project.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );
