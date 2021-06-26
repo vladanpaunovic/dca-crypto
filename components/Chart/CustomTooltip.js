@@ -8,7 +8,7 @@ const mapFormatting = (entry) => {
     case "balanceCrypto":
       return (
         <>
-          {entry.name}: {formatCurrency(entry.value, currentCoin.symbol)}
+          {entry.name}: {entry.value}
         </>
       );
     case "percentageChange": {
