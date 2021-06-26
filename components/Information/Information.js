@@ -7,7 +7,6 @@ import { useCurrentCoin } from "../Context/mainReducer";
 import Currency from "../Currency/Currency";
 import { InformationCircleIcon } from "@heroicons/react/outline";
 import { Popover } from "@headlessui/react";
-import { formatCurrency } from "@coingecko/cryptoformat";
 
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
@@ -79,32 +78,6 @@ const Information = () => {
           {(state.chart.insights.totalValue?.crypto || 0).toFixed(6)}{" "}
           {currentCoin.symbol.toUpperCase()}
         </>
-      ),
-    },
-    {
-      label: `IIV`,
-      value: (
-        <>
-          <Currency value={state.chart.insights.opportunityCost} />
-        </>
-      ),
-      description: (
-        <div className="flex flex-col">
-          <p className="max-w-2xl text-sm font-normal text-gray-500 dark:text-white w-full">
-            IIV <span className="italic">(initial investment value)</span> is
-            FIAT worth of cryptocurrency bought with your first investment on
-            the first day of selected date range and it's worth in FIAT on the
-            last day of selected range.
-          </p>
-
-          <h5 className="font-medium text-md mt-4">Example:</h5>
-          <p className="max-w-2xl text-sm font-normal text-gray-500 dark:text-white w-full">
-            {coinSymbol} bought for <Currency value={state.input.investment} />{" "}
-            on {new Date(state.input.dateFrom).toLocaleDateString()} would be
-            worth <Currency value={state.chart.insights.opportunityCost} /> on{" "}
-            {new Date(state.input.dateTo).toLocaleDateString()}
-          </p>
-        </div>
       ),
     },
   ];
