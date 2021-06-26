@@ -1,17 +1,24 @@
 import { SwitchHorizontalIcon } from "@heroicons/react/outline";
 import Link from "next/link";
 import dayjs from "dayjs";
-import { useSession } from "next-auth/client";
 
 const Footer = ({ availableTokens }) => {
-  const [session] = useSession();
-
   const allTokens = availableTokens.map((coin) => (
-    <li key={coin.id}>
+    <li
+      key={coin.id}
+      className="text-gray-600 dark:text-gray-400 transition-colors duration-300 overflow-ellipsis truncate lg:text-xs"
+    >
       <Link href={`/dca/${coin.id}`}>
-        <a className="text-gray-600 dark:text-gray-400 transition-colors duration-300 overflow-ellipsis truncate hover:underline lg:text-xs">
+        <a className="hover:underline mr-1">
           DCA {coin.name}
           <span className="sr-only">Dollar cost average {coin.name}</span>
+        </a>
+      </Link>
+      |
+      <Link href={`/lump-sum/${coin.id}`}>
+        <a className="ml-1  hover:underline">
+          Lump-sum {coin.name}
+          <span className="sr-only">Lump sum investing {coin.name}</span>
         </a>
       </Link>
     </li>
@@ -25,7 +32,7 @@ const Footer = ({ availableTokens }) => {
             <h2 className="font-semibold tracking-wide text-gray-800 dark:text-gray-300 mb-4">
               Try dollar cost average calculator for many coins
             </h2>
-            <ul className="text-sm grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2">
+            <ul className="text-sm grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-2">
               {allTokens}
             </ul>
           </div>
@@ -58,7 +65,7 @@ const Footer = ({ availableTokens }) => {
           <div className="grid grid-cols-1 gap-5 row-gap-8 lg:col-span-3 md:grid-cols-3">
             <div>
               <p className="font-semibold tracking-wide text-gray-800 dark:text-gray-300">
-                Popular
+                Most Popular
               </p>
               <ul className="mt-2 space-y-2">
                 <li>
@@ -76,6 +83,13 @@ const Footer = ({ availableTokens }) => {
                   </Link>
                 </li>
                 <li>
+                  <Link href="/lump-sum/bitcoin">
+                    <a className="text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:text-deep-purple-accent-400">
+                      Bitcoin Lump sum calculator
+                    </a>
+                  </Link>
+                </li>
+                <li>
                   <Link href="/dca/ethereum">
                     <a className="text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:text-deep-purple-accent-400">
                       Ethereum DCA calculator
@@ -83,9 +97,23 @@ const Footer = ({ availableTokens }) => {
                   </Link>
                 </li>
                 <li>
+                  <Link href="/lump-sum/ethereum">
+                    <a className="text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:text-deep-purple-accent-400">
+                      Ethereum Lump sum calculator
+                    </a>
+                  </Link>
+                </li>
+                <li>
                   <Link href="/dca/cardano">
                     <a className="text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:text-deep-purple-accent-400">
                       Cardano DCA calculator
+                    </a>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/lump-sum/cardano">
+                    <a className="text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:text-deep-purple-accent-400">
+                      Cardano Lump sum calculator
                     </a>
                   </Link>
                 </li>

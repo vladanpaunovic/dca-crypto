@@ -141,7 +141,7 @@ export default function LandingHero({ availableTokens }) {
                 can understand the impact of your DCA and lump sum investments.
               </p>
               <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
-                <div className="rounded-md shadow">
+                <div>
                   <Link href={`/dca/${availableTokens[0].id}`}>
                     <a className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white dark:text-gray-900 bg-indigo-500 dark:bg-yellow-500 hover:bg-indigo-700 dark:hover:bg-yellow-300 md:py-4 md:text-lg md:px-10">
                       DCA {availableTokens[0].name}
@@ -149,9 +149,9 @@ export default function LandingHero({ availableTokens }) {
                   </Link>
                 </div>
                 <div className="mt-3 sm:mt-0 sm:ml-3">
-                  <Link href="/all-tokens">
-                    <a className="w-full flex items-center justify-center px-8 py-3 border-transparent dark:border-yellow-500 border-2 text-base font-medium rounded-md text-indigo-700 dark:text-yellow-500 dark:bg-transparent bg-indigo-100 hover:bg-indigo-200 md:py-4 md:text-lg md:px-10">
-                      All tokens
+                  <Link href={`/lump-sum/${availableTokens[0].id}`}>
+                    <a className="w-full flex items-center justify-center px-8 py-3 border-2 border-indigo-500 dark:border-yellow-500 text-base font-medium rounded-md text-indigo-700 dark:text-yellow-500 md:py-4 md:text-lg md:px-10">
+                      Lump Sum {availableTokens[0].name}
                     </a>
                   </Link>
                 </div>
@@ -163,7 +163,6 @@ export default function LandingHero({ availableTokens }) {
       <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
         <img
           className="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full"
-          //   src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2850&q=80"
           src="https://images.unsplash.com/photo-1621504450181-5d356f61d307?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
           alt=""
         />

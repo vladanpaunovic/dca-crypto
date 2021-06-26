@@ -28,11 +28,22 @@ const generateSitemaps = async () => {
         <changefreq>daily</changefreq>
     </url>`;
 
-  const postListSitemap = postList
+  const dcaListSitemap = postList
     .map((id) => {
       return `
           <url>
             <loc>${`${WEBSITE_DOMAIN}/dca/${id}`}</loc>
+            <lastmod>${getDate}</lastmod>
+            <changefreq>daily</changefreq>
+          </url>`;
+    })
+    .join("");
+
+  const lumpSumListSitemap = postList
+    .map((id) => {
+      return `
+          <url>
+            <loc>${`${WEBSITE_DOMAIN}/lump-sum/${id}`}</loc>
             <lastmod>${getDate}</lastmod>
             <changefreq>daily</changefreq>
           </url>`;
@@ -47,7 +58,8 @@ const generateSitemaps = async () => {
       xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
     >
         ${firstEntry}
-      ${postListSitemap}
+      ${dcaListSitemap}
+      ${lumpSumListSitemap}
     </urlset>
   `;
 

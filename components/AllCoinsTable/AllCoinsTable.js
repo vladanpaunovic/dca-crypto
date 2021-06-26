@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { ChevronRightIcon, SearchIcon } from "@heroicons/react/outline";
 
-const AllCoinsTable = ({ showOnlyNTokens, showSearch }) => {
+const AllCoinsTable = ({ showOnlyNTokens, showSearch, type }) => {
   const { state } = useAppContext();
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -92,7 +92,7 @@ const AllCoinsTable = ({ showOnlyNTokens, showSearch }) => {
                           #{entry.market_cap_rank}
                         </td>
                         <td className="px-6 whitespace-nowrap text-sm">
-                          <Link href={`/dca/${entry.id}`}>
+                          <Link href={`/${type}/${entry.id}`}>
                             <a className="flex items-center py-4">
                               <img
                                 className="w-7 mr-2"
@@ -102,7 +102,8 @@ const AllCoinsTable = ({ showOnlyNTokens, showSearch }) => {
                                 height={28}
                               />
                               <span className="font-medium">
-                                DCA {entry.name}
+                                <span className="uppercase">{type}</span>{" "}
+                                {entry.name}
                               </span>{" "}
                               <span className="ml-1 text-gray-400">
                                 {entry.symbol.toUpperCase()}
@@ -126,7 +127,7 @@ const AllCoinsTable = ({ showOnlyNTokens, showSearch }) => {
                       scope="col"
                       className="px-6 py-3 w-10 text-center text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-100"
                     >
-                      <Link href="/all-tokens">
+                      <Link href={`/all-tokens?type=${type}`}>
                         <a className="flex items-center justify-start sm:justify-center hover:underline py-2">
                           More tokens{" "}
                           <span className="ml-1">

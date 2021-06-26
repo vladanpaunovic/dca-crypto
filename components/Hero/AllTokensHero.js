@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useTheme } from "next-themes";
 import { useAppContext } from "../Context/Context";
 
-export default function Hero() {
+export default function Hero(props) {
   const { theme, setTheme } = useTheme();
   const { state } = useAppContext();
 
@@ -62,7 +62,7 @@ export default function Hero() {
                   Select a coin to calculate
                 </span>{" "}
                 <span className="block text-indigo-600 dark:text-yellow-500 xl:inline">
-                  DCA
+                  {props.type === "dca" ? "DCA" : "Lump Sum investing"}
                 </span>
               </h1>
               {/* <p className="mt-3 text-base text-gray-500 dark:text-gray-200 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
