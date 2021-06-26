@@ -88,7 +88,7 @@ const AffiliateLinks = () => {
         ))}
         <div className="bg-white dark:bg-gray-900 px-4 py-5 flex ">
           <div>
-            <HeartIcon className="w-6 h-6 text-red-500" />
+            <HeartIcon className="w-5 h-5 text-red-500" />
           </div>
           <div className="ml-2">
             <a
