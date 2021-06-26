@@ -10,12 +10,14 @@ import { googleAnalyticsEvent } from "../helpers/GoogleAnalytics";
 
 const SharingButtons = () => {
   const router = useRouter();
+  const isDca = router.pathname.includes("dca");
+  const pathname = isDca ? "dca" : "lump-sum";
   const currentCoin = useCurrentCoin();
   const coinSymbol = currentCoin.symbol.toUpperCase();
 
   const { coin, ...queryWithoutCoin } = router.query;
   const readyQueryString = queryString.stringify(queryWithoutCoin);
-  const locationHref = `${WEBSITE_URL}/dca/${router.query.coin}?${readyQueryString}`;
+  const locationHref = `${WEBSITE_URL}/${pathname}/${router.query.coin}?${readyQueryString}`;
 
   const subject = `DCA Crypto - Dollar cost average ${currentCoin.name} (${coinSymbol}) calculator`;
   const priceChartMessage = useTweetMessage();
@@ -96,6 +98,7 @@ const SharingButtons = () => {
       {socialNetworks.map((social) => (
         <a
           className="text-white dark:text-gray-900 rounded"
+          key={social.label}
           href={social.href}
           target="_blank"
           rel="noopener"
@@ -146,9 +149,9 @@ const ShareChart = () => {
       <Popover.Panel className="fixed md:absolute z-10 w-screen transform -translate-x-2/2 bottom-0 md:bottom-auto right-0 md:right-1/2 md:max-w-sm">
         <div className="p-4 bg-white dark:bg-gray-900 rounded border dark:border-gray-700 shadow md:max-w-sm">
           <h4 className="text-normal font-medium mb-2">Share this chart</h4>
-          <p className="mb-2">
+          <div className="mb-2">
             <SharingButtons />
-          </p>
+          </div>
 
           <p className="mb-2 mt-4 text-gray-600 dark:text-gray-300 flex items-center">
             Embedded code <CodeIcon className="w-5 h-5 ml-1" />

@@ -7,12 +7,16 @@ import { formatPrice } from "../Currency/Currency";
 import { useCurrentCoin } from "../Context/mainReducer";
 import React from "react";
 import ShareChart from "../ShareChart/ShareChart";
+import { useRouter } from "next/router";
 
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
 dayjs.extend(localizedFormat);
 
 export const useTweetMessage = () => {
+  const router = useRouter();
+  const isDca = router.pathname.includes("dca");
+
   const { state } = useAppContext();
   const currentCoin = useCurrentCoin();
   const coinSymbol = currentCoin.symbol.toUpperCase();
@@ -22,7 +26,7 @@ export const useTweetMessage = () => {
   const earnings = state.chart.insights.totalValue?.fiat || 0;
   const currency = state.settings.currency;
 
-  const priceChartMessage = `Investing ${formatPrice(
+  const priceChartMessageDca = `Investing ${formatPrice(
     state.input.investment || 0,
     currency
   )} in ${coinSymbol} from ${dayjs(state.input.dateFrom).format(
@@ -43,7 +47,24 @@ export const useTweetMessage = () => {
       : state.chart.insights.percentageChange
   }`;
 
-  return priceChartMessage;
+  const priceChartMessageLumpSum = `Investing ${formatPrice(
+    state.input.investment || 0,
+    currency
+  )} in ${coinSymbol} on ${dayjs(state.input.dateFrom).format(
+    "MMM YYYY"
+  )} would result in ${formatPrice(
+    earnings,
+    currency
+  )} today!\rBought for ${formatPrice(
+    costAverage,
+    currency
+  )} per 1${coinSymbol}.\r${
+    state.chart.insights.percentageChange > 0
+      ? `+${state.chart.insights.percentageChange}%!`
+      : state.chart.insights.percentageChange
+  }`;
+
+  return isDca ? priceChartMessageDca : priceChartMessageLumpSum;
 };
 
 export const TweetMessage = () => {
