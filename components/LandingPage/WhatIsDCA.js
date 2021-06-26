@@ -296,7 +296,7 @@ const ChartTiming = () => {
 
 const WhatIsDCA = () => {
   return (
-    <div className="py-8 md:py-32">
+    <div className="">
       <div className="container mx-auto max-w-7xl px-6 p-6 flex flex-col md:flex-row">
         <div className="w-4/4 md:w-2/4">
           <ChartDCA />

@@ -9,7 +9,7 @@ const Footer = ({ availableTokens }) => {
   const allTokens = availableTokens.map((coin) => (
     <li key={coin.id}>
       <Link href={`/dca/${coin.id}`}>
-        <a className="text-gray-600 dark:text-gray-400 transition-colors duration-300 overflow-ellipsis truncate hover:underline">
+        <a className="text-gray-600 dark:text-gray-400 transition-colors duration-300 overflow-ellipsis truncate hover:underline lg:text-xs">
           DCA {coin.name}
           <span className="sr-only">Dollar cost average {coin.name}</span>
         </a>
@@ -50,7 +50,7 @@ const Footer = ({ availableTokens }) => {
                 Dollar Cost Averaging Cryptocurrency.
               </p>
               <p className="mt-4 text-sm text-gray-800 dark:text-gray-400">
-                One place help you remove emotions from your investing by giving
+                DCA-CC helps you remove emotions from your investing by giving
                 you tools for stressless investing.
               </p>
             </div>
@@ -138,7 +138,7 @@ const Footer = ({ availableTokens }) => {
               </ul>
             </div>
             <div>
-              <div className="rounded-md shadow">
+              {/* <div className="rounded-md shadow">
                 {session ? (
                   <Link href="/dashboard">
                     <a className="w-full py-4 px-4 bg-indigo-500 dark:bg-yellow-500 focus:ring-offset-indigo-200 text-white dark:text-gray-900 flex justify-center transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg ">
@@ -152,7 +152,7 @@ const Footer = ({ availableTokens }) => {
                     </a>
                   </Link>
                 )}
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
