@@ -6,17 +6,17 @@ const Footer = ({ availableTokens }) => {
   const allTokens = availableTokens.map((coin) => (
     <li
       key={coin.id}
-      className="text-gray-600 dark:text-gray-400 transition-colors duration-300 overflow-ellipsis truncate lg:text-xs"
+      className="text-gray-600 dark:text-gray-400 transition-colors duration-300 lg:text-xs"
     >
       <Link href={`/dca/${coin.id}`}>
-        <a className="hover:underline mr-1">
+        <a className="hover:underline mr-1 overflow-ellipsis truncate">
           DCA {coin.name}
           <span className="sr-only">Dollar cost average {coin.name}</span>
         </a>
       </Link>
       |
       <Link href={`/lump-sum/${coin.id}`}>
-        <a className="ml-1  hover:underline">
+        <a className="ml-1 hover:underline overflow-ellipsis truncate">
           Lump-sum {coin.name}
           <span className="sr-only">Lump sum investing {coin.name}</span>
         </a>
