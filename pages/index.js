@@ -65,13 +65,6 @@ function Home(props) {
         </section>
 
         <div className="container mx-auto max-w-7xl bg-white dark:bg-gray-900 flex flex-col md:flex-row mt-16 mb-8 md:p-8">
-          <div className="w-3/3 md:w-2/3 pr-4 dark:text-white">
-            <AllCoinsTable
-              showOnlyNTokens={10}
-              showSearch={false}
-              type="lump-sum"
-            />
-          </div>
           <div className="mb-16 w-3/3 md:w-1/3 px-6 md:px-0">
             <h2 className="text-base text-indigo-500 dark:text-yellow-500 font-semibold tracking-wide uppercase">
               Lump Sum Calculator
@@ -79,6 +72,13 @@ function Home(props) {
             <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
               Calculate Lump Sum investments for your favorite coins
             </p>
+          </div>
+          <div className="w-3/3 md:w-2/3 pr-4 dark:text-white">
+            <AllCoinsTable
+              showOnlyNTokens={10}
+              showSearch={false}
+              type="lump-sum"
+            />
           </div>
         </div>
       </main>

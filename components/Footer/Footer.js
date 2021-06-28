@@ -3,7 +3,7 @@ import Link from "next/link";
 import dayjs from "dayjs";
 
 const Footer = ({ availableTokens }) => {
-  const allTokens = availableTokens.map((coin) => (
+  const dcaAllTokens = availableTokens.map((coin) => (
     <li
       key={coin.id}
       className="text-gray-600 dark:text-gray-400 transition-colors duration-300 lg:text-xs"
@@ -14,7 +14,14 @@ const Footer = ({ availableTokens }) => {
           <span className="sr-only">Dollar cost average {coin.name}</span>
         </a>
       </Link>
-      |
+    </li>
+  ));
+
+  const lumpSumAllTokens = availableTokens.map((coin) => (
+    <li
+      key={coin.id}
+      className="text-gray-600 dark:text-gray-400 transition-colors duration-300 lg:text-xs"
+    >
       <Link href={`/lump-sum/${coin.id}`}>
         <a className="ml-1 hover:underline overflow-ellipsis truncate">
           Lump-sum {coin.name}
@@ -28,12 +35,21 @@ const Footer = ({ availableTokens }) => {
     <footer className="m-8">
       <div className="mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl ">
         <div className="mb-16">
-          <div>
+          <div className="mb-8">
             <h2 className="font-semibold tracking-wide text-gray-800 dark:text-gray-300 mb-4">
               Try dollar cost average calculator for many coins
             </h2>
             <ul className="text-sm grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-2">
-              {allTokens}
+              {dcaAllTokens}
+            </ul>
+          </div>
+
+          <div>
+            <h2 className="font-semibold tracking-wide text-gray-800 dark:text-gray-300 mb-4">
+              Try lump sum investing calculator for top 100 cryptocurrencies
+            </h2>
+            <ul className="text-sm grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-2">
+              {lumpSumAllTokens}
             </ul>
           </div>
         </div>
