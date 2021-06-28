@@ -1,8 +1,8 @@
 // log specific events happening.
 export const googleAnalyticsEvent = ({ action, params }) => {
-  if (!window || !window.gtag) {
+  if (!window || !window.dataLayer) {
     return;
   }
 
-  window.gtag("event", action, params);
+  window.dataLayer.push({ event: action, ...params });
 };
