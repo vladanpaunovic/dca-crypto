@@ -107,7 +107,7 @@ const SharingButtons = () => {
           onClick={() => {
             googleAnalyticsEvent({
               action: "share",
-              params: { method: social.label, act: "click" },
+              params: { method: social.label, type: pathname },
             });
           }}
         >
