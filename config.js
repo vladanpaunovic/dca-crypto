@@ -11,7 +11,7 @@ export const availableCurrencies = [
 export const defaultCurrency = availableCurrencies[0].value;
 
 export const CACHE_INVALIDATION_INTERVAL = 3600; // 1 hour
-export const WEBSITE_URL = process.env.NEXTAUTH_URL || "https://www.dca-cc.com";
+export const WEBSITE_URL = process.env.NEXT_PUBLIC_VERCEL_URL;
 
 export const GOOGLE_RECAPTCHA_CLIENT_KEY =
   "6Le559gaAAAAANgUD7zf-hE9gJrnEqauFqay_tdi";
