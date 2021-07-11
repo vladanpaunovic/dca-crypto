@@ -6,7 +6,8 @@
     "dev": "next dev -p 4000",
     "build": "next build",
     "start": "next start",
-    "build:sitemaps": "node scripts/generate-sitemap.js"
+    "build:sitemaps": "node scripts/generate-sitemap.js",
+    "find:unused": "next-unused"
   },
   "dependencies": {
     "@coingecko/cryptoformat": "^0.4.2",
@@ -39,8 +40,24 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.2.5",
+    "next-unused": "^0.0.6",
     "postcss": "^8.2.10",
     "prettier": "^2.2.1",
     "tailwindcss": "^2.1.1"
+  },
+  "next-unused": {
+    "alias": {},
+    "include": [
+      "pages",
+      "components",
+      "hooks",
+      "illustrations",
+      "queries",
+      "scripts",
+      "server",
+      "public"
+    ],
+    "exclude": [],
+    "entrypoints": []
   }
 }
