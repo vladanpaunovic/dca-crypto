@@ -11,7 +11,6 @@ import {
 import { useEffect } from "react";
 import dayjs from "dayjs";
 import { availableCurrencies } from "../../config";
-import { useSession } from "next-auth/client";
 
 const InputFormWrapper = (props) => {
   const { dispatch } = useAppContext();
@@ -57,7 +56,6 @@ const InputForm = (props) => {
   const router = useRouter();
   const currentCoin = useCurrentCoin();
   const { state, dispatch } = appContext;
-  const [session] = useSession();
 
   // Due to the constrains of the CoinGecko API, we enable calculations only
   // agter the perod of 90 days

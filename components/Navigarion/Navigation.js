@@ -1,11 +1,9 @@
 import Logo from "../Logo/Logo";
 import { useTheme } from "next-themes";
 import { MoonIcon, SunIcon, TemplateIcon } from "@heroicons/react/outline";
-import { useSession } from "next-auth/client";
 import Link from "next/link";
 
 const Navigation = () => {
-  const [session] = useSession();
   const { theme, setTheme } = useTheme();
 
   return (
@@ -24,29 +22,17 @@ const Navigation = () => {
               <SunIcon className="w-5 h-5" />
             )}
           </button>
-          {!session ? (
-            <>
-              <Link href="/auth/signin">
-                <a className="px-2 py-1 font-medium text-gray-900 dark:text-gray-200">
-                  Sign in
-                </a>
-              </Link>
-              <Link href="/register">
-                <a className="hidden sm:block px-3 py-2 ml-4 bg-gray-100 dark:bg-yellow-500 text-indigo-700 dark:text-gray-900 rounded font-medium shadow-lg transition hover:shadow-xl">
-                  Start DCA for free
-                </a>
-              </Link>
-            </>
-          ) : (
-            <Link href="/dashboard">
-              <a className="px-2 py-1 rounded font-medium flex text-indigo-700 dark:text-yellow-500">
-                <span className="">
-                  <TemplateIcon className="w-6 h-6" />
-                </span>
-                <span className="hidden md:block ml-1">Dashboard</span>
-              </a>
-            </Link>
-          )}
+
+          <Link href="/auth/signin">
+            <a className="px-2 py-1 font-medium text-gray-900 dark:text-gray-200">
+              Sign in
+            </a>
+          </Link>
+          <Link href="/register">
+            <a className="hidden sm:block px-3 py-2 ml-4 bg-gray-100 dark:bg-yellow-500 text-indigo-700 dark:text-gray-900 rounded font-medium shadow-lg transition hover:shadow-xl">
+              Start DCA for free
+            </a>
+          </Link>
         </div>
       </div>
     </header>
