@@ -11,7 +11,6 @@ generateSitemap();
 
 const moduleExports = {
   // Your existing module.exports
-  productionBrowserSourceMaps: true,
 };
 
 const SentryWebpackPluginOptions = {
