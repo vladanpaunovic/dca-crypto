@@ -8,9 +8,7 @@ async function handler(req, res) {
 
   if (header.dsn) {
     const [, , host, projectId] = header.dsn.split("/");
-
     const sentryApi = `https://${host}/api/${projectId}/envelope/`;
-
     const response = await axios.post(sentryApi, envelope);
 
     return res.status(200).json(response.data);
