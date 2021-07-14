@@ -1,10 +1,9 @@
 import { withSentry } from "@sentry/nextjs";
 import axios from "axios";
-import { split } from "lodash";
 
 async function handler(req, res) {
   const envelope = req.body;
-  const pieces = split(envelope, "\n");
+  const pieces = envelope.split("\n");
   const header = JSON.parse(pieces[0]);
 
   if (header.dsn) {
