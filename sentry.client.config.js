@@ -23,4 +23,5 @@ Sentry.init({
     }
     return event;
   },
+  tunnel: "/api/tunnel",
 });
