@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useMutation } from "react-query";
-import cmsClient from "../server/cmsClient";
+import apiClient from "../server/apiClient";
 
 const API_URL = "https://api.coingecko.com/api/v3/";
 
@@ -23,7 +23,7 @@ export const getAllCoins = async (currency) => {
 export const useContactUsMutation = () => {
   return useMutation({
     mutationFn: async (payload) => {
-      const response = await cmsClient().post("/email/contact-us", payload);
+      const response = await apiClient.post("/contact", payload);
 
       return response.data;
     },

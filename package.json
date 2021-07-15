@@ -26,6 +26,7 @@
     "mongoose": "^5.12.6",
     "next": "11.0.1",
     "next-themes": "^0.0.14",
+    "nodemailer": "^6.6.3",
     "query-string": "^7.0.0",
     "react": "17.0.2",
     "react-coinbase-commerce": "^1.5.1",
