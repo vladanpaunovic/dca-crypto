@@ -1,9 +1,15 @@
 import fs from "fs";
 import { join } from "path";
+import getConfig from "next/config";
 import matter from "gray-matter";
 
 export const getParsedFileContentBySlug = (slug, postsPath) => {
-  const postFilePath = join(postsPath, `${slug}.md`);
+  const { serverRuntimeConfig } = getConfig();
+  const postFilePath = join(
+    serverRuntimeConfig.PROJECT_ROOT,
+    postsPath,
+    `${slug}.md`
+  );
   const fileContents = fs.readFileSync(postFilePath);
 
   const { data, content } = matter(fileContents);

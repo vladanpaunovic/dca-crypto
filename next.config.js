@@ -11,6 +11,9 @@ generateSitemap();
 
 const moduleExports = {
   // Your existing module.exports
+  serverRuntimeConfig: {
+    PROJECT_ROOT: __dirname,
+  },
 };
 
 const SentryWebpackPluginOptions = {
