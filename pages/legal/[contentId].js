@@ -1,43 +1,43 @@
-import Content from "../../components/Content/Content";
-import { dehydrate } from "react-query/hydration";
-import { QueryClient, useQuery } from "react-query";
-import cmsClient from "../../server/cmsClient";
 import Head from "next/head";
 import NextError from "next/error";
 import Footer from "../../components/Footer/Footer";
 import Navigation from "../../components/Navigarion/Navigation";
-
-const fetchContent = async (contentId) => {
-  const response = await cmsClient().get(`/contents/${contentId}`);
-
-  return response.data;
-};
+import { getParsedFileContentBySlug } from "../../server/markdown";
+import React from "react";
+import ReactMarkdown from "react-markdown";
+import dayjs from "dayjs";
+import { getAllCoins } from "../../queries/queries";
+import { defaultCurrency } from "../../config";
 
 const availablePages = ["cookie-policy", "privacy-policy", "terms-conditions"];
 
 export async function getServerSideProps(context) {
-  const queryClient = new QueryClient();
+  const availableTokens = await getAllCoins(
+    context.query.currency || defaultCurrency
+  );
 
-  await queryClient.prefetchQuery({
-    queryFn: async () => await fetchContent(context.query.contentId),
-    queryKey: `get-content-${context.query.contentId}`,
-  });
+  const contentId = context.query.contentId || null;
+  const md = getParsedFileContentBySlug(
+    contentId,
+    `${process.cwd()}/pages/legal`
+  );
 
   return {
     props: {
-      dehydratedState: dehydrate(queryClient),
-      contentId: context.query.contentId || null,
+      contentId,
+      metaData: md.frontMatter,
+      content: md.content,
+      availableTokens,
     },
   };
 }
 
-export default function Page({ contentId }) {
-  const { data } = useQuery({
-    queryFn: async () => await fetchContent(contentId),
-    queryKey: `get-content-${contentId}`,
-    enabled: availablePages.includes(contentId),
-  });
-
+export default function Page({
+  contentId,
+  metaData,
+  content,
+  availableTokens,
+}) {
   if (!availablePages.includes(contentId)) {
     return <NextError statusCode={404} />;
   }
@@ -45,29 +45,30 @@ export default function Page({ contentId }) {
   return (
     <>
       <Head>
-        <title>DCA Crypto - {data.title}</title>
+        <title>DCA Crypto - {metaData.title}</title>
         <meta
           name="description"
-          content={`Dollar cost average calculator for top 100 cryptocurrencies - ${data.title}.`}
+          content={`Dollar cost average calculator for top 100 cryptocurrencies - ${metaData.title}.`}
         />
       </Head>
       <Navigation />
-      <div className="p-8">
+      <article className="p-8">
         <h1 className="text-center text-gray-800 dark:text-gray-100 leading-10 font-extrabold text-4xl mb-10">
-          {data.title}
+          {metaData.title}
         </h1>
         <div className="flex justify-center">
-          <div className="max-w-3xl">
-            <Content content={data} />
+          <div className="max-w-3xl prose dark:prose-dark">
+            <p>Updated at {dayjs(metaData.date).format("YYYY-MM-DD")}</p>
+            <ReactMarkdown>{content}</ReactMarkdown>
           </div>
         </div>
-      </div>
+      </article>
       <div className="flex justify-center">
         <div className="max-w-7xl px-8 w-full">
           <hr />
         </div>
       </div>
-      <Footer />
+      <Footer availableTokens={availableTokens} />
     </>
   );
 }
