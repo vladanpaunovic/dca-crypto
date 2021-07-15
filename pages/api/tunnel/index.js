@@ -4,6 +4,11 @@ import axios from "axios";
 async function handler(req, res) {
   const envelope = req.body;
   const pieces = envelope.split("\n");
+
+  if (!pieces[0]) {
+    return res.status(200).json({ status: "broken_envelope" });
+  }
+
   const header = JSON.parse(pieces[0]);
 
   if (header.dsn) {
