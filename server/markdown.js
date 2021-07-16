@@ -6,7 +6,7 @@ import matter from "gray-matter";
 export const getParsedFileContentBySlug = (slug, postsPath) => {
   const { serverRuntimeConfig } = getConfig();
   const postFilePath = join(
-    serverRuntimeConfig.PROJECT_ROOT,
+    process.cwd(),
     postsPath,
     `${slug}.md`
   );
