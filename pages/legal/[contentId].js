@@ -17,7 +17,7 @@ export async function getServerSideProps(context) {
   );
 
   const contentId = context.query.contentId || null;
-  const md = getParsedFileContentBySlug(contentId, "/pages/legal");
+  const md = getParsedFileContentBySlug(contentId, "/content/legal");
 
   return {
     props: {
