@@ -3,6 +3,7 @@ import { ReCaptcha, loadReCaptcha } from "react-recaptcha-v3";
 import { GOOGLE_RECAPTCHA_CLIENT_KEY } from "../../config";
 import { useContactUsMutation } from "../../queries/queries";
 import { MailIcon, MailOpenIcon } from "@heroicons/react/outline";
+
 const ContactUs = () => {
   const [recaptchaToken, setRecaptchaToken] = useState(null);
   const [isSent, setIsSent] = useState(false);
@@ -40,7 +41,7 @@ const ContactUs = () => {
   };
 
   return (
-    <div className="md:flex">
+    <div className="md:flex border dark:border-gray-800">
       <div className="w-full md:w-5/12 bg-gray-100 dark:bg-gray-800 p-8">
         <h1 className="leading-5 text-3xl font-extrabold">Get in touch</h1>
         <p className="mt-4 text-gray-400 font-medium">
