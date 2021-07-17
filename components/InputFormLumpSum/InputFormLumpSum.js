@@ -10,6 +10,7 @@ import {
 } from "../Context/mainReducer";
 import { useEffect, useState } from "react";
 import { availableCurrencies } from "../../config";
+import Loading from "react-loading";
 
 const InputFormWrapper = (props) => {
   const { dispatch } = useAppContext();
@@ -138,16 +139,20 @@ const InputForm = (props) => {
         }}
         type="button"
       >
-        <span className="flex h-10 w-10">
-          <span
-            className={` ${
-              isClicked ? "animate-none" : "animate-ping"
-            } absolute inline-flex h-10 w-10 rounded-full bg-indigo-400 opacity-75`}
-          />
-          <span className="relative inline-flex rounded-full h-10 w-10 bg-indigo-500">
-            <CalculatorIcon className="h-10 w-10" aria-hidden="true" />
+        {mutation.isLoading ? (
+          <Loading type="spin" width={40} height={40} />
+        ) : (
+          <span className="flex h-10 w-10">
+            <span
+              className={` ${
+                isClicked ? "animate-none" : "animate-ping"
+              } absolute inline-flex h-10 z-0 w-10 rounded-full bg-indigo-500 dark:bg-yellow-500 opacity-40`}
+            />
+            <span className="relative z-10 inline-flex rounded-full h-10 w-10 bg-indigo-500 dark:bg-yellow-500">
+              <CalculatorIcon className="h-10 w-10" aria-hidden="true" />
+            </span>
           </span>
-        </span>
+        )}
       </button>
       <form
         className={`flex flex-col md:grid grid-cols-2 gap-4 overflow-y-auto p-4 ${
