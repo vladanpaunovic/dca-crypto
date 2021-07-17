@@ -2,14 +2,13 @@ import { useMutation } from "react-query";
 import axios from "axios";
 import { useAppContext } from "../Context/Context";
 import { useRouter } from "next/router";
+import { XIcon, CalculatorIcon } from "@heroicons/react/outline";
 import {
   ACTIONS,
-  availableInvestmentIntervals,
   calculateDateRangeDifference,
   useCurrentCoin,
 } from "../Context/mainReducer";
-import { useEffect } from "react";
-import dayjs from "dayjs";
+import { useEffect, useState } from "react";
 import { availableCurrencies } from "../../config";
 
 const InputFormWrapper = (props) => {
@@ -56,6 +55,8 @@ const InputForm = (props) => {
   const router = useRouter();
   const currentCoin = useCurrentCoin();
   const { state, dispatch } = appContext;
+  const [isOpen, setIsOpen] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
 
   // Due to the constrains of the CoinGecko API, we enable calculations only
   // agter the perod of 90 days
@@ -106,6 +107,8 @@ const InputForm = (props) => {
       { shallow: true }
     );
     mutation.mutate(payload);
+
+    setIsOpen(false);
   };
   const onSubmit = (event) => {
     event.preventDefault();
@@ -126,124 +129,154 @@ const InputForm = (props) => {
   }
 
   return (
-    <form
-      className="grid grid-cols-2 gap-4 p-4"
-      onSubmit={onSubmit}
-      name="dca-crypto"
-      id="dca-crypto"
-    >
-      <div className="col-span-2">
-        <label className="block">
-          <span className="font-medium text-gray-700 dark:text-gray-300">
-            Coin
-          </span>
-          <div className="mt-1 flex rounded-md shadow-sm">
-            <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 text-gray-500 text-sm dark:bg-gray-700 dark:border-gray-700 dark:text-gray-200">
-              <img src={currentCoin.image} className="w-5 h-5" />
-            </span>
-            <select
-              onChange={(e) => {
-                dispatch({
-                  type: ACTIONS.UPDATE_COIN_ID,
-                  payload: e.target.value,
-                });
-              }}
-              name="coinId"
-              value={currentCoin.id || ""}
-              className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200"
-            >
-              {state.settings.availableTokens.map((coin, index) => (
-                <option key={coin.id} value={coin.id}>
-                  #{index + 1} {coin.name}
-                </option>
-              ))}
-            </select>
-          </div>
-        </label>
-      </div>
-      <div className="col-span-2">
-        <label className="block">
-          <span className="font-medium text-gray-700 dark:text-gray-300">
-            Investment
-          </span>
-          <div className="mt-1 flex rounded-md shadow-sm">
-            <select
-              onChange={(e) =>
-                dispatch({
-                  type: ACTIONS.UPDATE_CURRENCY,
-                  payload: e.target.value,
-                })
-              }
-              className="no_arrows inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm dark:bg-gray-700 dark:border-gray-700 dark:text-gray-200"
-              value={state.settings.currency}
-            >
-              {availableCurrencies.map((c) => (
-                <option key={c.value} value={c.value}>
-                  {c.name}
-                </option>
-              ))}
-            </select>
-            <input
-              type="number"
-              placeholder={100}
-              min="1"
-              max="1000000000"
-              step="any"
-              value={state.input.investment}
-              onChange={(e) =>
-                dispatch({
-                  type: ACTIONS.UPDATE_INVESTMENT,
-                  payload: e.target.value,
-                })
-              }
-              name="investment"
-              className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200"
-              placeholder="100"
-            />
-          </div>
-        </label>
-      </div>
-
-      <div className="col-span-2">
-        <label className="block">
-          <span className="font-medium text-gray-700 dark:text-gray-300">
-            From
-          </span>
-          <input
-            className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200"
-            type="date"
-            value={state.input.dateFrom}
-            onChange={(e) =>
-              dispatch({
-                type: ACTIONS.UPDATE_DATE_FROM,
-                payload: e.target.value,
-              })
-            }
-            name="dateFrom"
+    <>
+      <button
+        className={`fixed right-8 bottom-8 z-10 md:hidden p-2 bg-indigo-500 dark:bg-yellow-500 rounded-full shadow-xl text-white dark:text-gray-900 `}
+        onClick={() => {
+          setIsOpen(!isOpen);
+          setIsClicked(true);
+        }}
+        type="button"
+      >
+        <span className="flex h-10 w-10">
+          <span
+            className={` ${
+              isClicked ? "animate-none" : "animate-ping"
+            } absolute inline-flex h-10 w-10 rounded-full bg-indigo-400 opacity-75`}
           />
-        </label>
-      </div>
+          <span className="relative inline-flex rounded-full h-10 w-10 bg-indigo-500">
+            <CalculatorIcon className="h-10 w-10" aria-hidden="true" />
+          </span>
+        </span>
+      </button>
+      <form
+        className={`flex flex-col md:grid grid-cols-2 gap-4 overflow-y-auto p-4 ${
+          isOpen
+            ? "fixed md:static z-10 inset-0 bg-white dark:bg-gray-900"
+            : "hidden md:grid"
+        }`}
+        onSubmit={onSubmit}
+        name="dca-crypto"
+        id="dca-crypto"
+      >
+        <div className="md:hidden col-span-2 flex justify-end">
+          <button type="button" onClick={() => setIsOpen(false)}>
+            <XIcon className="h-6 w-6" aria-hidden="true" />
+          </button>
+        </div>
+        <div className="col-span-2">
+          <label className="block">
+            <span className="font-medium text-gray-700 dark:text-gray-300">
+              Coin
+            </span>
+            <div className="mt-1 flex rounded-md shadow-sm">
+              <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 text-gray-500 text-sm dark:bg-gray-700 dark:border-gray-700 dark:text-gray-200">
+                <img src={currentCoin.image} className="w-5 h-5" />
+              </span>
+              <select
+                onChange={(e) => {
+                  dispatch({
+                    type: ACTIONS.UPDATE_COIN_ID,
+                    payload: e.target.value,
+                  });
+                }}
+                name="coinId"
+                value={currentCoin.id || ""}
+                className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200"
+              >
+                {state.settings.availableTokens.map((coin, index) => (
+                  <option key={coin.id} value={coin.id}>
+                    #{index + 1} {coin.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </label>
+        </div>
+        <div className="col-span-2">
+          <label className="block">
+            <span className="font-medium text-gray-700 dark:text-gray-300">
+              Investment
+            </span>
+            <div className="mt-1 flex rounded-md shadow-sm">
+              <select
+                onChange={(e) =>
+                  dispatch({
+                    type: ACTIONS.UPDATE_CURRENCY,
+                    payload: e.target.value,
+                  })
+                }
+                className="no_arrows inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm dark:bg-gray-700 dark:border-gray-700 dark:text-gray-200"
+                value={state.settings.currency}
+              >
+                {availableCurrencies.map((c) => (
+                  <option key={c.value} value={c.value}>
+                    {c.name}
+                  </option>
+                ))}
+              </select>
+              <input
+                type="number"
+                placeholder={100}
+                min="1"
+                max="1000000000"
+                step="any"
+                value={state.input.investment}
+                onChange={(e) =>
+                  dispatch({
+                    type: ACTIONS.UPDATE_INVESTMENT,
+                    payload: e.target.value,
+                  })
+                }
+                name="investment"
+                className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200"
+                placeholder="100"
+              />
+            </div>
+          </label>
+        </div>
 
-      <div className="col-span-2">
-        <button
-          type="submit"
-          className="px-4 py-2 disabled:opacity-50 rounded bg-indigo-700 hover:bg-indigo-800 text-base text-white dark:bg-yellow-500 dark:hover:bg-yellow-600 dark:text-gray-800 font-bold shadow"
-          disabled={isSubmitDisabled || mutation.isLoading}
-        >
-          {mutation.isLoading ? "Loading..." : "Calculate"}
-        </button>
-        {isSubmitDisabled ? (
-          <>
-            <p className="text-sm p-2 text-red-500">
-              Choose a time range with more then 90 days.
-            </p>
-            <p className="text-sm p-2 text-red-500">
-              Your current range is {calculateDateRangeDifference()} days
-            </p>
-          </>
-        ) : null}
-      </div>
-    </form>
+        <div className="col-span-2">
+          <label className="block">
+            <span className="font-medium text-gray-700 dark:text-gray-300">
+              From
+            </span>
+            <input
+              className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200"
+              type="date"
+              value={state.input.dateFrom}
+              onChange={(e) =>
+                dispatch({
+                  type: ACTIONS.UPDATE_DATE_FROM,
+                  payload: e.target.value,
+                })
+              }
+              name="dateFrom"
+            />
+          </label>
+        </div>
+
+        <div className="col-span-2">
+          <button
+            type="submit"
+            className="px-4 py-2 disabled:opacity-50 rounded bg-indigo-700 hover:bg-indigo-800 text-base text-white dark:bg-yellow-500 dark:hover:bg-yellow-600 dark:text-gray-800 font-bold shadow"
+            disabled={isSubmitDisabled || mutation.isLoading}
+          >
+            {mutation.isLoading ? "Loading..." : "Calculate"}
+          </button>
+          {isSubmitDisabled ? (
+            <>
+              <p className="text-sm p-2 text-red-500">
+                Choose a time range with more then 90 days.
+              </p>
+              <p className="text-sm p-2 text-red-500">
+                Your current range is {calculateDateRangeDifference()} days
+              </p>
+            </>
+          ) : null}
+        </div>
+      </form>
+    </>
   );
 };
 
