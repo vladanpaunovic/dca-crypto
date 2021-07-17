@@ -1,5 +1,7 @@
 require("dotenv").config();
+const Mode = require("frontmatter-markdown-loader/mode")
 const generateSitemap = require("./scripts/generate-sitemap.js");
+
 
 // This file sets a custom webpack configuration to use your Next.js app
 // with Sentry.
@@ -10,10 +12,17 @@ const { withSentryConfig } = require("@sentry/nextjs");
 generateSitemap();
 
 const moduleExports = {
-  // Your existing module.exports
-  serverRuntimeConfig: {
-    PROJECT_ROOT: __dirname,
-  },
+  webpack: (cfg) => {
+    cfg.module.rules.push(
+      {
+        test: /\.md$/,
+        loader: 'frontmatter-markdown-loader',
+        options: {
+          mode: [Mode.BODY]
+        }
+      })
+    return cfg
+  }
 };
 
 const SentryWebpackPluginOptions = {

@@ -2,7 +2,7 @@ import Head from "next/head";
 import NextError from "next/error";
 import Footer from "../../components/Footer/Footer";
 import Navigation from "../../components/Navigarion/Navigation";
-import { getParsedFileContentBySlug } from "../../server/markdown";
+
 import React from "react";
 import ReactMarkdown from "react-markdown";
 import dayjs from "dayjs";
@@ -17,23 +17,22 @@ export async function getServerSideProps(context) {
   );
 
   const contentId = context.query.contentId || null;
-  const md = getParsedFileContentBySlug(contentId, "/content/legal");
+
+  const content = require(`../../content/legal/${contentId}.md`)
 
   return {
     props: {
       contentId,
-      metaData: md.frontMatter,
-      content: md.content,
       availableTokens,
+      content
     },
   };
 }
 
 export default function Page({
   contentId,
-  metaData,
-  content,
   availableTokens,
+  content
 }) {
   if (!availablePages.includes(contentId)) {
     return <NextError statusCode={404} />;
@@ -42,21 +41,21 @@ export default function Page({
   return (
     <>
       <Head>
-        <title>DCA Crypto - {metaData.title}</title>
+        <title>DCA Crypto - {content.attributes.title}</title>
         <meta
           name="description"
-          content={`Dollar cost average calculator for top 100 cryptocurrencies - ${metaData.title}.`}
+          content={`Dollar cost average calculator for top 100 cryptocurrencies - ${content.attributes.title}.`}
         />
       </Head>
       <Navigation />
       <article className="p-8">
         <h1 className="text-center text-gray-800 dark:text-gray-100 leading-10 font-extrabold text-4xl mb-10">
-          {metaData.title}
+          {content.attributes.title}
         </h1>
         <div className="flex justify-center">
           <div className="max-w-3xl prose dark:prose-dark">
-            <p>Updated at {dayjs(metaData.date).format("YYYY-MM-DD")}</p>
-            <ReactMarkdown>{content}</ReactMarkdown>
+            <p>Updated at {dayjs(content.attributes.date).format("YYYY-MM-DD")}</p>
+            <ReactMarkdown>{content.body}</ReactMarkdown>
           </div>
         </div>
       </article>
