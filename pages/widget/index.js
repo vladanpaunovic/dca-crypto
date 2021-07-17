@@ -342,7 +342,8 @@ const Coin = (props) => {
       <Head>
         <title>{title}</title>
         <meta name="description" content={description} />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.svg" />
+        <link rel="mask-icon" href="/mask-icon.svg" color="#000000" />
       </Head>
       <main>
         <div className="mt-2">

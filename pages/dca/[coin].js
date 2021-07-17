@@ -20,13 +20,8 @@ import Logo from "../../components/Logo/Logo";
 import ThemeSwitch from "../../components/ThemeSwitch/ThemeSwitch";
 
 export async function getServerSideProps(context) {
-  const {
-    coin,
-    investment,
-    investmentInterval,
-    dateFrom,
-    dateTo,
-  } = context.query;
+  const { coin, investment, investmentInterval, dateFrom, dateTo } =
+    context.query;
   const availableTokens = await getAllCoins(
     context.query.currency || defaultCurrency
   );
@@ -64,7 +59,8 @@ const Coin = (props) => {
           name="description"
           content={`Dollar cost average calculator for ${currentCoin.name} (${coinSymbol}). Visualise and examine the impact of your investments in ${currentCoin.name} or any other popular crypto.`}
         />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.svg" />
+        <link rel="mask-icon" href="/mask-icon.svg" color="#000000" />
       </Head>
       <main>
         <div className="grid grid-cols-6 w-full gap-8">

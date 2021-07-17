@@ -38,7 +38,8 @@ function Home(props) {
     <div className="w-full">
       <Head>
         <title>DCA Crypto - Dollar cost average cryptocurrency</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.svg" />
+        <link rel="mask-icon" href="/mask-icon.svg" color="#000000" />
         <meta
           name="description"
           content={`Dollar cost average calculator for top 100 cryptocurrencies. Visualise and examine the impact of your investments in crypto.`}

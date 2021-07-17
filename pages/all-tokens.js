@@ -45,7 +45,8 @@ function AllTokens(props) {
           DCA Crypto - {isDca ? "Dollar cost average" : "Lump sum investing"}{" "}
           cryptocurrency
         </title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.svg" />
+        <link rel="mask-icon" href="/mask-icon.svg" color="#000000" />
         <meta
           name="description"
           content={`List of all cryptocurrencies available for calculating ${

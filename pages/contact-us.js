@@ -29,7 +29,8 @@ export default function ContactUsPage(props) {
     <AppContextProvider availableTokens={props.availableTokens}>
       <Head>
         <title>DCA Crypto - Contact us</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.svg" />
+        <link rel="mask-icon" href="/mask-icon.svg" color="#000000" />
         <meta
           name="description"
           content="Dollar cost average calculator for top 100 cryptocurrencies. Visualize and examine the impact of your investments in crypto."
