@@ -10,7 +10,11 @@ import {
 } from "../Context/mainReducer";
 import { useEffect } from "react";
 import dayjs from "dayjs";
+import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import { availableCurrencies } from "../../config";
+dayjs.extend(isSameOrBefore);
+
+const before90Days = dayjs().subtract(90, "days").format("YYYY-MM-DD");
 
 const InputFormWrapper = (props) => {
   const { dispatch } = useAppContext();
@@ -40,10 +44,18 @@ const InputFormWrapper = (props) => {
       }
 
       if (router.query.dateFrom) {
-        dispatch({
-          type: ACTIONS.UPDATE_DATE_FROM,
-          payload: router.query.dateFrom,
-        });
+        const dateFrom = router.query.dateFrom;
+        if (dayjs(dateFrom).isSameOrBefore(before90Days)) {
+          dispatch({
+            type: ACTIONS.UPDATE_DATE_FROM,
+            payload: router.query.dateFrom,
+          });
+        } else {
+          dispatch({
+            type: ACTIONS.UPDATE_DATE_FROM,
+            payload: before90Days,
+          });
+        }
       }
 
       if (router.query.dateTo) {
@@ -233,7 +245,7 @@ const InputForm = (props) => {
             }
             name="investmentInterval"
             value={state.input.investmentInterval || ""}
-            className="block mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200"
+            className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200"
           >
             {availableInvestmentIntervals.map((interval) => (
               <option key={interval.value} value={interval.value}>
@@ -253,6 +265,7 @@ const InputForm = (props) => {
             className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200"
             type="date"
             value={state.input.dateFrom}
+            max={before90Days}
             onChange={(e) =>
               dispatch({
                 type: ACTIONS.UPDATE_DATE_FROM,
