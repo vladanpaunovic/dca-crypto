@@ -1,9 +1,30 @@
 import Head from "next/head";
 import ContactUs from "../components/ContactUs/ContactUs";
 import { AppContextProvider } from "../components/Context/Context";
+import Footer from "../components/Footer/Footer";
 import Navigation from "../components/Navigarion/Navigation";
+import { CACHE_INVALIDATION_INTERVAL, defaultCurrency } from "../config";
+import { getAllCoins } from "../queries/queries";
+
+export async function getServerSideProps(context) {
+  const availableTokens = await getAllCoins(
+    context.query.currency || defaultCurrency
+  );
+
+  context.res.setHeader(
+    "Cache-Control",
+    `s-maxage=${CACHE_INVALIDATION_INTERVAL}, stale-while-revalidate`
+  );
+
+  return {
+    props: {
+      availableTokens,
+    },
+  };
+}
 
 export default function ContactUsPage(props) {
+  console.log(props);
   return (
     <AppContextProvider availableTokens={props.availableTokens}>
       <Head>
@@ -22,6 +43,7 @@ export default function ContactUsPage(props) {
           <ContactUs />
         </div>
       </div>
+      <Footer availableTokens={props.availableTokens} />
     </AppContextProvider>
   );
 }

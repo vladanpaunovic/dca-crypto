@@ -3,29 +3,30 @@ import Link from "next/link";
 import dayjs from "dayjs";
 
 const Footer = ({ availableTokens }) => {
-  const dcaAllTokens = availableTokens.map((coin) => (
-    <li
-      key={coin.id}
-      className="text-gray-600 dark:text-gray-400 transition-colors duration-300 lg:text-xs"
-    >
+  const tokens = availableTokens.slice(0, 10);
+  const dcaAllTokens = tokens.map((coin) => (
+    <li key={coin.id}>
       <Link href={`/dca/${coin.id}`}>
-        <a className="hover:underline mr-1 overflow-ellipsis truncate">
-          DCA {coin.name}
-          <span className="sr-only">Dollar cost average {coin.name}</span>
+        <a className="text-gray-600 dark:text-gray-400 hover:underline">
+          <span className="text-gray-300 dark:text-gray-700">DCA</span>{" "}
+          {coin.name}
+          <span className="sr-only">
+            Dollar cost average {coin.name} calculator
+          </span>
         </a>
       </Link>
     </li>
   ));
 
-  const lumpSumAllTokens = availableTokens.map((coin) => (
-    <li
-      key={coin.id}
-      className="text-gray-600 dark:text-gray-400 transition-colors duration-300 lg:text-xs"
-    >
+  const lumpSumAllTokens = tokens.map((coin) => (
+    <li key={coin.id}>
       <Link href={`/lump-sum/${coin.id}`}>
-        <a className="ml-1 hover:underline overflow-ellipsis truncate">
-          Lump-sum {coin.name}
-          <span className="sr-only">Lump sum investing {coin.name}</span>
+        <a className="text-gray-600 dark:text-gray-400 hover:underline">
+          <span className="text-gray-300 dark:text-gray-700">Lump sum</span>{" "}
+          {coin.name}
+          <span className="sr-only">
+            Lump sum investing {coin.name} calculator
+          </span>
         </a>
       </Link>
     </li>
@@ -34,26 +35,6 @@ const Footer = ({ availableTokens }) => {
   return (
     <footer className="m-8">
       <div className="mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl ">
-        <div className="mb-16">
-          <div className="mb-8">
-            <h2 className="font-semibold tracking-wide text-gray-800 dark:text-gray-300 mb-4">
-              Try dollar cost average calculator for many coins
-            </h2>
-            <ul className="text-sm grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-2">
-              {dcaAllTokens}
-            </ul>
-          </div>
-
-          <div>
-            <h2 className="font-semibold tracking-wide text-gray-800 dark:text-gray-300 mb-4">
-              Try lump sum investing calculator for top 100 cryptocurrencies
-            </h2>
-            <ul className="text-sm grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-2">
-              {lumpSumAllTokens}
-            </ul>
-          </div>
-        </div>
-
         <div className="grid gap-16 row-gap-10 mb-8 lg:grid-cols-4">
           <div className="md:max-w-md lg:col-span-1">
             <Link href="/">
@@ -81,59 +62,16 @@ const Footer = ({ availableTokens }) => {
           <div className="grid grid-cols-1 gap-5 row-gap-8 lg:col-span-3 md:grid-cols-3">
             <div>
               <p className="font-semibold tracking-wide text-gray-800 dark:text-gray-300">
-                Most Popular
+                DCA Calculator
               </p>
-              <ul className="mt-2 space-y-2">
-                <li>
-                  <Link href="/all-tokens">
-                    <a className="text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:text-deep-purple-accent-400">
-                      All tokens list calculator
-                    </a>
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/dca/bitcoin">
-                    <a className="text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:text-deep-purple-accent-400">
-                      Bitcoin DCA calculator
-                    </a>
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/lump-sum/bitcoin">
-                    <a className="text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:text-deep-purple-accent-400">
-                      Bitcoin Lump sum calculator
-                    </a>
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/dca/ethereum">
-                    <a className="text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:text-deep-purple-accent-400">
-                      Ethereum DCA calculator
-                    </a>
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/lump-sum/ethereum">
-                    <a className="text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:text-deep-purple-accent-400">
-                      Ethereum Lump sum calculator
-                    </a>
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/dca/cardano">
-                    <a className="text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:text-deep-purple-accent-400">
-                      Cardano DCA calculator
-                    </a>
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/lump-sum/cardano">
-                    <a className="text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:text-deep-purple-accent-400">
-                      Cardano Lump sum calculator
-                    </a>
-                  </Link>
-                </li>
-              </ul>
+              <ul className="mt-2 space-y-2">{dcaAllTokens}</ul>
+            </div>
+
+            <div>
+              <p className="font-semibold tracking-wide text-gray-800 dark:text-gray-300">
+                Lump sum calculator
+              </p>
+              <ul className="mt-2 space-y-2">{lumpSumAllTokens}</ul>
             </div>
 
             <div>
@@ -142,22 +80,29 @@ const Footer = ({ availableTokens }) => {
               </p>
               <ul className="mt-2 space-y-2">
                 <li>
+                  <Link href="/all-tokens">
+                    <a className="text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:underline">
+                      All tokens list calculator
+                    </a>
+                  </Link>
+                </li>
+                <li>
                   <Link href="/legal/terms-conditions">
-                    <a className="text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:text-deep-purple-accent-400">
+                    <a className="text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:underline">
                       Terms & Conditions
                     </a>
                   </Link>
                 </li>
                 <li>
                   <Link href="/legal/privacy-policy">
-                    <a className="text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:text-deep-purple-accent-400">
+                    <a className="text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:underline">
                       Privacy policy
                     </a>
                   </Link>
                 </li>
                 <li>
                   <Link href="/legal/cookie-policy">
-                    <a className="text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:text-deep-purple-accent-400">
+                    <a className="text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:underline">
                       Cookie policy
                     </a>
                   </Link>
@@ -166,7 +111,7 @@ const Footer = ({ availableTokens }) => {
                   <Link href="https://twitter.com/dca_cc">
                     <a
                       target="_blank"
-                      className="text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:text-deep-purple-accent-400"
+                      className="text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:underline"
                     >
                       DCA-CC on Twitter
                     </a>
@@ -174,7 +119,7 @@ const Footer = ({ availableTokens }) => {
                 </li>
                 <li>
                   <Link href="/contact-us">
-                    <a className="text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:text-deep-purple-accent-400">
+                    <a className="text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:underline">
                       Contact us
                     </a>
                   </Link>
