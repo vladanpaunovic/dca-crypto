@@ -1,0 +1,27 @@
+name: 💡 Feature Request
+description: Tell us about a problem our software could solve but doesn't.
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement
+      description: What problem could DCA-CC solve? Try to explain it from a user perspective.
+      placeholder: |-
+        I want to see new calculation, but I can't.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Solution Proposal
+      description: Explain us how users could benefit from your proposal.
+      placeholder: |-
+        Add a new calculation.
+    validations:
+      required: false
+  - type: markdown
+    attributes:
+      value: |-
+        ## Thanks 🙏
+    validations:
+      required: false

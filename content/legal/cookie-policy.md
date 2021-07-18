@@ -101,4 +101,3 @@ By using our platform, registering an account, or making a purchase, you hereby 
 Don't hesitate to contact us if you have any questions regarding our Cookie Policy.
 
 - Via Email: dcacryptocurrency@gmail.com
-- Via this Link: https://www.dca-cc.com/contact-us

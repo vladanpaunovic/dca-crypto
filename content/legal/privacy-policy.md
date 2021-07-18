@@ -213,4 +213,3 @@ For more information about these rights, please contact us.
 Don't hesitate to contact us if you have any questions.
 
 - Via Email: dcacryptocurrency@gmail.com
-- Via this Link: https://www.dca-cc.com/contact-us

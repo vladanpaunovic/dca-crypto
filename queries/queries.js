@@ -19,14 +19,3 @@ export const getAllCoins = async (currency) => {
 
   return response.data;
 };
-
-export const useContactUsMutation = () => {
-  return useMutation({
-    mutationFn: async (payload) => {
-      const response = await apiClient.post("/contact", payload);
-
-      return response.data;
-    },
-    mutationKey: "contact-us",
-  });
-};
