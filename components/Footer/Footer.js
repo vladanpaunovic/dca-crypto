@@ -118,9 +118,22 @@ const Footer = ({ availableTokens }) => {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/contact-us">
-                    <a className="text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:underline">
-                      Contact us
+                  <Link href="https://github.com/vladanpaunovic/dca-crypto/issues/new?template=feature.yml">
+                    <a
+                      className="text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:underline"
+                      target="_blank"
+                    >
+                      Submit a feature request
+                    </a>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="https://github.com/vladanpaunovic/dca-crypto/issues/new?template=bug.yml">
+                    <a
+                      className="text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:underline"
+                      target="_blank"
+                    >
+                      Report bug
                     </a>
                   </Link>
                 </li>
