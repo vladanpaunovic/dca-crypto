@@ -27,9 +27,9 @@ const affiliatePartners = [
 ];
 
 const AffiliatePartner = (props) => {
-  const { name, pitch, description, affiliateLink, icon, index } = props;
+  const { name, pitch, affiliateLink, icon, index } = props;
   return (
-    <div className="bg-white dark:bg-gray-900 px-4 py-5 flex ">
+    <div className="bg-white dark:bg-gray-900 px-4 py-5 flex md:col-span-3">
       <div>
         <Image
           src={icon}
@@ -58,7 +58,7 @@ const AffiliatePartner = (props) => {
           </span>
         </a>
 
-        <p className="mt-1 max-w-2xl text-sm text-gray-500 dark:text-white">
+        <p className="hidden md:block mt-1 max-w-2xl text-sm text-gray-500 dark:text-white">
           {pitch}
         </p>
       </div>
@@ -68,51 +68,53 @@ const AffiliatePartner = (props) => {
 
 const AffiliateLinks = () => {
   return (
-    <div className="col-span-6 md:col-span-3 overflow-hidden dark:border-gray-700">
-      <div className="p-4 dark:bg-gray-900">
-        <h5 className="flex text-lg leading-6 font-medium text-gray-900 dark:text-white">
-          <SupportIcon /> Support this site
-        </h5>
-        <p className="mt-1 max-w-2xl text-xs text-gray-500 dark:text-white">
-          Likes below are affiliate links, meaning, at no additional cost to
-          you, I will earn a commision if you click trough and make a purchase
-        </p>
-      </div>
-      <div className="border-t border-gray-200 dark:border-gray-800 divide-y dark:divide-gray-800">
-        {affiliatePartners.map((partner, index) => (
-          <AffiliatePartner
-            key={partner.affiliateLink}
-            {...partner}
-            index={index}
-          />
-        ))}
-        <div className="bg-white dark:bg-gray-900 px-4 py-5 flex ">
-          <div>
-            <HeartIcon className="w-5 h-5 text-red-500" />
-          </div>
-          <div className="ml-2">
-            <a
-              href="https://commerce.coinbase.com/checkout/d090d647-be30-4621-a494-3b7ee3d6827d"
-              target="_blank"
-              rel="nofollow"
-              className="flex items-center dark:text-gray-100 hover:underline"
-              onClick={() => {
-                googleAnalyticsEvent({
-                  action: "support_site",
-                  params: { affiliate: "donation", type: "crypto" },
-                });
-              }}
-            >
-              Donate
-              <span className="ml-1 text-gray-500">
-                <ExternalLinkIcon />
-              </span>
-            </a>
+    <div className="p-4 md:p-0 bg-gray-100 md:bg-white dark:bg-gray-800 dark:md:bg-gray-900">
+      <div className="col-span-6 md:col-span-3 overflow-hidden border md:border-none rounded-lg dark:border-gray-700 shadow-lg">
+        <div className="p-4 dark:bg-gray-900">
+          <h5 className="flex text-lg leading-6 font-medium text-gray-900 dark:text-white">
+            <SupportIcon /> Support this site
+          </h5>
+          <p className="hidden md:block mt-1 max-w-2xl text-xs text-gray-500 dark:text-white">
+            Likes below are affiliate links, meaning, at no additional cost to
+            you, I will earn a commision if you click trough and make a purchase
+          </p>
+        </div>
+        <div className="grid grid-cols-3 border-t border-gray-200 dark:border-gray-800 md:divide-y md:dark:divide-gray-800">
+          {affiliatePartners.map((partner, index) => (
+            <AffiliatePartner
+              key={partner.affiliateLink}
+              {...partner}
+              index={index}
+            />
+          ))}
+          <div className="bg-white dark:bg-gray-900 px-4 py-5 flex md:col-span-3">
+            <div>
+              <HeartIcon className="w-5 h-5 text-red-500" />
+            </div>
+            <div className="ml-2">
+              <a
+                href="https://commerce.coinbase.com/checkout/d090d647-be30-4621-a494-3b7ee3d6827d"
+                target="_blank"
+                rel="nofollow"
+                className="flex items-center dark:text-gray-100 hover:underline"
+                onClick={() => {
+                  googleAnalyticsEvent({
+                    action: "support_site",
+                    params: { affiliate: "donation", type: "crypto" },
+                  });
+                }}
+              >
+                Donate
+                <span className="ml-1 text-gray-500">
+                  <ExternalLinkIcon />
+                </span>
+              </a>
 
-            <p className="mt-1 max-w-2xl text-sm text-gray-500 dark:text-white">
-              Make one time donation (in crypto) and help me support and grow
-              this project.
-            </p>
+              <p className="hidden md:block mt-1 max-w-2xl text-sm text-gray-500 dark:text-white">
+                Make one time donation (in crypto) and help me support and grow
+                this project.
+              </p>
+            </div>
           </div>
         </div>
       </div>
