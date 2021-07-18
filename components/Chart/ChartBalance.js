@@ -12,11 +12,14 @@ import CustomTooltip from "./CustomTooltip";
 import { CHART_SYNCID } from "./Chart";
 import { kFormatter } from "./helpers";
 import { useCurrentCoin } from "../Context/mainReducer";
+import { useMediaQuery } from "react-responsive";
 
 const ChartBalance = () => {
   const { state } = useAppContext();
   const { chart } = state;
   const currentCoin = useCurrentCoin();
+
+  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
 
   const allValues = chart.data.map((v) => parseFloat(v.balanceFIAT));
   const minValue = Math.min(...allValues);
@@ -28,7 +31,7 @@ const ChartBalance = () => {
         <ResponsiveContainer>
           <AreaChart
             data={chart.data}
-            margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
+            margin={{ top: 5, right: 0, bottom: 5, left: 0 }}
             syncId={CHART_SYNCID}
           >
             <defs>
@@ -84,6 +87,7 @@ const ChartBalance = () => {
               tickFormatter={(tick) => kFormatter(tick.toFixed(2))}
               type="number"
               domain={[minValue, maxValue]}
+              hide={isTabletOrMobile}
             />
             <Tooltip content={<CustomTooltip />} />
           </AreaChart>

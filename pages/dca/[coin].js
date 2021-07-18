@@ -83,14 +83,14 @@ const Coin = (props) => {
             </div>
           </div>
           <div className="col-span-6">
-            <div className="shadow-xl border bg-white dark:bg-gray-900 dark:border-gray-800 md:rounded-lg p-6 mb-8">
-              <div className="px-4 py-5 sm:px-6 dark:bg-gray-900">
+            <div className="shadow-xl border bg-white dark:bg-gray-900 dark:border-gray-800 md:rounded-lg md:p-6 mb-8">
+              <div className="py-5 px-4 dark:bg-gray-900">
                 <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white">
                   Price development of {coinSymbol}
                 </h3>
                 <TweetMessage />
               </div>
-              <div className="h-96 p-4 dark:bg-gray-900 flex items-center">
+              <div className="h-96 md:p-4 dark:bg-gray-900 flex items-center">
                 <Chart />
               </div>
             </div>
@@ -115,7 +115,7 @@ const Coin = (props) => {
                     Estimate the development of your earnings over time
                   </p>
                 </div>
-                <div className="h-72 p-4 dark:bg-gray-900 flex items-center">
+                <div className="h-72 md:p-4 dark:bg-gray-900 flex items-center">
                   <ChartBalance />
                 </div>
               </div>

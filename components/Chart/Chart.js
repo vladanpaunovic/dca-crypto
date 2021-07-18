@@ -9,6 +9,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import { useMediaQuery } from "react-responsive";
 import CustomTooltip from "./CustomTooltip";
 import useChartLegend from "./useChartLegend";
 import { kFormatter } from "./helpers";
@@ -23,6 +24,8 @@ const Chart = () => {
     "costAverage"
   );
 
+  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
+
   const { chart } = state;
 
   const allValues = chart.data.map((v) => parseFloat(v.coinPrice));
@@ -35,7 +38,7 @@ const Chart = () => {
         <ResponsiveContainer>
           <AreaChart
             data={chart.data}
-            margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
+            margin={{ top: 5, right: 0, bottom: 5, left: 0 }}
             syncId={CHART_SYNCID}
           >
             <defs>
@@ -75,6 +78,7 @@ const Chart = () => {
               tickFormatter={(tick) => kFormatter(tick.toFixed(2))}
               dataKey="coinPrice"
               domain={[minValue, maxValue]}
+              hide={isTabletOrMobile}
             />
             <Tooltip content={<CustomTooltip />} />
             <Legend
