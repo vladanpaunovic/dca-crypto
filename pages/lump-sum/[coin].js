@@ -82,7 +82,7 @@ const Coin = (props) => {
             </div>
           </div>
           <div className="col-span-6">
-            <div className="shadow-xl border bg-white dark:bg-gray-900 dark:border-gray-800 rounded-lg p-6 mb-8">
+            <div className="shadow-xl border bg-white dark:bg-gray-900 dark:border-gray-800 md:rounded-lg p-6 mb-8">
               <div className="px-4 py-5 sm:px-6 dark:bg-gray-900">
                 <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white">
                   Price development of {coinSymbol}
@@ -95,14 +95,14 @@ const Coin = (props) => {
             </div>
             <div className="grid gap-8 mt-8 grid-cols-6">
               <div
-                className={`col-span-6 md:col-span-3 shadow-xl border bg-white dark:bg-gray-900 dark:border-gray-800 rounded-lg mb-8 transition ${
+                className={`col-span-6 md:col-span-3 shadow-xl border bg-white dark:bg-gray-900 dark:border-gray-800 md:rounded-lg mb-8 transition ${
                   state.input.isLoading ? "opacity-10" : ""
                 }`}
               >
                 <Information />
               </div>
               <div
-                className={`col-span-6 md:col-span-3 shadow-xl border bg-white dark:bg-gray-900 dark:border-gray-800 rounded-lg mb-8 transition  ${
+                className={`col-span-6 md:col-span-3 shadow-xl border bg-white dark:bg-gray-900 dark:border-gray-800 md:rounded-lg mb-8 transition  ${
                   state.input.isLoading ? "opacity-10" : ""
                 }`}
               >
@@ -137,18 +137,18 @@ const CoinWrapper = (props) => {
   return (
     <AppContextProvider availableTokens={props.availableTokens}>
       <div className="lg:flex bg-gray-100 dark:bg-gray-800">
-        <div className="w-12/12 lg:w-330 border-r dark:border-gray-700 bg-white dark:bg-gray-900">
+        <div className="w-12/12 lg:w-330 md:border-r dark:border-gray-700 bg-white dark:bg-gray-900">
           <div className="w-full flex items-center justify-between px-4 h-16 border-b dark:border-gray-700">
             <Logo /> <ThemeSwitch />
           </div>
           <div>
             <InputFormLumpSum {...props} pathname="/lump-sum/" />
           </div>
-          <div className="mt-8">
+          <div className="mt-0 md:mt-8">
             <AffiliateLinks />
           </div>
         </div>
-        <div className="w-12/12 mt-8 md:mt-0 md:p-8 flex-1">
+        <div className="w-12/12 mt-4 md:mt-0 md:p-8 flex-1">
           <Coin {...props} />
         </div>
       </div>
