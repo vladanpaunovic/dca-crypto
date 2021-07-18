@@ -51,7 +51,8 @@ const Footer = ({ availableTokens }) => {
             </Link>
             <div className="mt-4 lg:max-w-sm">
               <p className="text-sm text-gray-800 dark:text-gray-400">
-                Dollar Cost Averaging Cryptocurrency.
+                Open-source calculator for Dollar Cost Averaging and lump sum
+                investing in cryptocurrency.
               </p>
               <p className="mt-4 text-sm text-gray-800 dark:text-gray-400">
                 DCA-CC helps you remove emotions from your investing by giving
