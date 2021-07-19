@@ -19,10 +19,12 @@ const affiliatePartners = [
     affiliateLink: "https://crypto.com/app/6mn8gxz6tn",
   },
   {
-    name: "Ledger",
-    icon: <Image src="/images/ledger_icon.jpeg" alt="Ledger" layout="fill" />,
+    name: "Deltabadger",
+    icon: (
+      <Image src="/images/deltabadger_icon.jpeg" alt="Ledger" layout="fill" />
+    ),
     pitch:
-      "Buy a Crypto Starter Pack and start your crypto jurney on the right foot",
+      "Automate dollar-cost averaging with popular exchanges. Five-minute setup.",
     affiliateLink:
       "https://shop.ledger.com/products/crypto-starter-pack?r=e3ffe5f7ac6f",
   },
