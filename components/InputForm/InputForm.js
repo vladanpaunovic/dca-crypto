@@ -46,7 +46,7 @@ const InputFormWrapper = (props) => {
       }
 
       if (router.query.dateFrom) {
-        const dateFrom = router.query.dateFrom;
+        const { dateFrom } = router.query;
         if (dayjs(dateFrom).isSameOrBefore(before90Days)) {
           dispatch({
             type: ACTIONS.UPDATE_DATE_FROM,
@@ -61,10 +61,19 @@ const InputFormWrapper = (props) => {
       }
 
       if (router.query.dateTo) {
-        dispatch({
-          type: ACTIONS.UPDATE_DATE_TO,
-          payload: router.query.dateTo,
-        });
+        const { dateFrom, dateTo } = router.query;
+        const after90Days = dayjs(dateFrom).add(90, "day");
+        if (dayjs(dateTo).isSameOrBefore(after90Days)) {
+          dispatch({
+            type: ACTIONS.UPDATE_DATE_TO,
+            payload: after90Days.format("YYYY-MM-DD"),
+          });
+        } else {
+          dispatch({
+            type: ACTIONS.UPDATE_DATE_TO,
+            payload: router.query.dateTo,
+          });
+        }
       }
 
       if (router.query.currency) {
@@ -349,7 +358,12 @@ const InputForm = (props) => {
                 Choose a time range with more then 90 days.
               </p>
               <p className="text-sm p-2 text-red-500">
-                Your current range is {calculateDateRangeDifference()} days
+                Your current range is{" "}
+                {calculateDateRangeDifference(
+                  state.input.dateFrom,
+                  state.input.dateTo
+                )}{" "}
+                days
               </p>
             </>
           ) : null}
