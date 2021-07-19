@@ -11,7 +11,10 @@ const Footer = ({ availableTokens }) => {
         <a
           className="text-gray-600 dark:text-gray-400 hover:underline"
           onClick={() => {
-            ga.event({ action: "footer_link", params: { calculator: "dca" } });
+            ga.event({
+              action: "footer_link",
+              params: { calculator: "dca", token: coin.name },
+            });
           }}
         >
           <span className="text-gray-300 dark:text-gray-700">DCA</span>{" "}
@@ -32,7 +35,7 @@ const Footer = ({ availableTokens }) => {
           onClick={() => {
             ga.event({
               action: "footer_link",
-              params: { calculator: "lump_sum" },
+              params: { calculator: "lump_sum", token: coin.name },
             });
           }}
         >
