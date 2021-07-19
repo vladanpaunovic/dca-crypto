@@ -17,6 +17,7 @@ const affiliatePartners = [
     pitch:
       "Use my referral link 6mn8gxz6tn to sign up for Crypto.com and we both get $25 USD",
     affiliateLink: "https://crypto.com/app/6mn8gxz6tn",
+    value: "$25 USD",
   },
   {
     name: "Deltabadger",
@@ -27,6 +28,7 @@ const affiliatePartners = [
       "Automate dollar-cost averaging with popular exchanges. Five-minute setup.",
     affiliateLink:
       "https://shop.ledger.com/products/crypto-starter-pack?r=e3ffe5f7ac6f",
+    value: "10% discount",
   },
 ];
 
@@ -40,7 +42,7 @@ const donationMeta = {
 };
 
 const AffiliatePartner = (props) => {
-  const { name, pitch, affiliateLink, icon } = props;
+  const { name, pitch, affiliateLink, icon, value } = props;
   return (
     <div className="bg-white dark:bg-gray-900 p-2 md:px-4 md:py-5 flex md:col-span-3">
       <div className="w-10 h-10">
@@ -60,6 +62,11 @@ const AffiliatePartner = (props) => {
           }}
         >
           {name}{" "}
+          {value && (
+            <span className="ml-1 rounded-full bg-green-100 dark:bg-green-700 text-green-300 font-medium text-xs px-2 py-1">
+              {value}
+            </span>
+          )}
           <span className="ml-1 text-gray-500">
             <ExternalLinkIcon />
           </span>
