@@ -107,7 +107,11 @@ const SharingButtons = () => {
           onClick={() => {
             ga.event({
               action: "share",
-              params: { method: social.label, calculator: pathname },
+              params: {
+                method: social.label,
+                calculator: pathname,
+                token: currentCoin.name,
+              },
             });
           }}
         >
@@ -153,7 +157,7 @@ const ShareChart = () => {
                 if (!open) {
                   ga.event({
                     action: "share_attempt",
-                    params: { calculator: pathname },
+                    params: { calculator: pathname, token: currentCoin.name },
                   });
                 }
               }}
