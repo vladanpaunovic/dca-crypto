@@ -1,5 +1,4 @@
 import Head from "next/head";
-import Navigation from "../../components/Navigarion/Navigation";
 import InputFormWrapper from "../../components/InputForm/InputForm";
 import Chart from "../../components/Chart/Chart";
 import ChartBalance from "../../components/Chart/ChartBalance";
@@ -66,7 +65,7 @@ const Coin = (props) => {
         <div className="grid grid-cols-6 w-full gap-8">
           <div className="col-span-6">
             <div className="flex items-center">
-              <h1 className="text-2xl px-4 sm:px-0 text-gray-900 dark:text-gray-100">
+              <h1 className="h1-title">
                 Dollar-cost averaging (DCA) calculator for{" "}
                 <span className="text-indigo-700 dark:text-yellow-500 capitalize">
                   {currentCoin.name} ({coinSymbol})
@@ -120,6 +119,9 @@ const Coin = (props) => {
                 </div>
               </div>
             </div>
+            <div className="mb-8 block md:hidden">
+              <AffiliateLinks />
+            </div>
             <div
               className={`col-span-6 md:col-span-6 shadow overflow-hidden sm:rounded dark:border-gray-800 transition ${
                 state.input.isLoading ? "opacity-10" : ""
@@ -145,7 +147,7 @@ const CoinWrapper = (props) => {
           <div>
             <InputFormWrapper {...props} pathname="/dca/" />
           </div>
-          <div className="mt-0 md:mt-8">
+          <div className="mt-0 md:mt-8 hidden md:block">
             <AffiliateLinks />
           </div>
         </div>

@@ -10,6 +10,10 @@
   .primary-gradient {
     @apply bg-gradient-to-br from-indigo-400 dark:from-yellow-400 to-indigo-600 dark:to-yellow-600;
   }
+
+  .h1-title {
+    @apply text-4xl font-extrabold px-4 sm:px-0 text-gray-900 dark:text-gray-100;
+  }
 }
 
 html,
