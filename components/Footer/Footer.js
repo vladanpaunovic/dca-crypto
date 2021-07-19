@@ -11,7 +11,7 @@ const Footer = ({ availableTokens }) => {
         <a
           className="text-gray-600 dark:text-gray-400 hover:underline"
           onClick={() => {
-            ga.event({ action: "footer_link", type: "dca" });
+            ga.event({ action: "footer_link", params: { calculator: "dca" } });
           }}
         >
           <span className="text-gray-300 dark:text-gray-700">DCA</span>{" "}
@@ -30,7 +30,10 @@ const Footer = ({ availableTokens }) => {
         <a
           className="text-gray-600 dark:text-gray-400 hover:underline"
           onClick={() => {
-            ga.event({ action: "footer_link", type: "lump_sum" });
+            ga.event({
+              action: "footer_link",
+              params: { calculator: "lump_sum" },
+            });
           }}
         >
           <span className="text-gray-300 dark:text-gray-700">Lump sum</span>{" "}

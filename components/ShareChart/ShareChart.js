@@ -107,7 +107,7 @@ const SharingButtons = () => {
           onClick={() => {
             ga.event({
               action: "share",
-              params: { method: social.label, type: pathname },
+              params: { method: social.label, calculator: pathname },
             });
           }}
         >
@@ -141,32 +141,47 @@ const ShareChart = () => {
 
   return (
     <Popover className="relative">
-      <Popover.Button
-        onClick={() => ga.event({ action: "share_attempt", type: "pathname" })}
-        title="Share this board with your friends."
-        className="flex items-center justify-between transition rounded bg-white hover:bg-indigo-50 dark:bg-gray-900 dark:hover:bg-gray-800 py-1 px-2 text-indigo-700 dark:text-yellow-500 font-medium border shadow border-transparent"
-      >
-        Share{" "}
-        <span className="ml-1">
-          <ShareIcon className="w-5 h-5" />
-        </span>
-      </Popover.Button>
+      {({ open }) => (
+        <>
+          <Popover.Button
+            title="Share this board with your friends."
+            className=""
+          >
+            <div
+              className="py-1 px-2 flex items-center justify-between transition rounded bg-white hover:bg-indigo-50 dark:bg-gray-900 dark:hover:bg-gray-800 text-indigo-700 dark:text-yellow-500 font-medium border shadow border-transparent"
+              onClick={() => {
+                if (!open) {
+                  ga.event({
+                    action: "share_attempt",
+                    params: { calculator: pathname },
+                  });
+                }
+              }}
+            >
+              Share{" "}
+              <span className="ml-1">
+                <ShareIcon className="w-5 h-5" />
+              </span>
+            </div>
+          </Popover.Button>
 
-      <Popover.Panel className="fixed md:absolute z-10 w-screen transform -translate-x-2/2 bottom-0 md:bottom-auto right-0 md:right-1/2 md:max-w-sm">
-        <div className="p-4 bg-white dark:bg-gray-900 rounded border dark:border-gray-700 shadow md:max-w-sm">
-          <h4 className="text-normal font-medium mb-2">Share this chart</h4>
-          <div className="mb-2">
-            <SharingButtons />
-          </div>
+          <Popover.Panel className="fixed md:absolute z-10 w-screen transform -translate-x-2/2 bottom-0 md:bottom-auto right-0 md:right-1/2 md:max-w-sm">
+            <div className="p-4 bg-white dark:bg-gray-900 rounded border dark:border-gray-700 shadow md:max-w-sm">
+              <h4 className="text-normal font-medium mb-2">Share this chart</h4>
+              <div className="mb-2">
+                <SharingButtons />
+              </div>
 
-          <p className="mb-2 mt-4 text-gray-600 dark:text-gray-300 flex items-center">
-            Embedded code <CodeIcon className="w-5 h-5 ml-1" />
-          </p>
-          <p className="bg-gray-200 dark:bg-gray-800 dark:text-gray-100 p-2 text-normal text-xs mb-4 rounded select-all	">
-            {embedScript}
-          </p>
-        </div>
-      </Popover.Panel>
+              <p className="mb-2 mt-4 text-gray-600 dark:text-gray-300 flex items-center">
+                Embedded code <CodeIcon className="w-5 h-5 ml-1" />
+              </p>
+              <p className="bg-gray-200 dark:bg-gray-800 dark:text-gray-100 p-2 text-normal text-xs mb-4 rounded select-all	">
+                {embedScript}
+              </p>
+            </div>
+          </Popover.Panel>
+        </>
+      )}
     </Popover>
   );
 };
