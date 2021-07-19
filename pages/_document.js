@@ -12,9 +12,9 @@ class MyDocument extends Document {
       <Html lang="en">
         <Head>
           <script
-            data-ad-client="ca-pub-3320049819477827"
             async
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5486077043768059"
+            crossorigin="anonymous"
           />
           <script
             async
