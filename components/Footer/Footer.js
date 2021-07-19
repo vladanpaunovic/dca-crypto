@@ -1,13 +1,19 @@
 import { SwitchHorizontalIcon } from "@heroicons/react/outline";
 import Link from "next/link";
 import dayjs from "dayjs";
+import * as ga from "../helpers/GoogleAnalytics";
 
 const Footer = ({ availableTokens }) => {
   const tokens = availableTokens.slice(0, 10);
   const dcaAllTokens = tokens.map((coin) => (
     <li key={coin.id}>
       <Link href={`/dca/${coin.id}`}>
-        <a className="text-gray-600 dark:text-gray-400 hover:underline">
+        <a
+          className="text-gray-600 dark:text-gray-400 hover:underline"
+          onClick={() => {
+            ga.event({ action: "footer_link", type: "dca" });
+          }}
+        >
           <span className="text-gray-300 dark:text-gray-700">DCA</span>{" "}
           {coin.name}
           <span className="sr-only">
@@ -21,7 +27,12 @@ const Footer = ({ availableTokens }) => {
   const lumpSumAllTokens = tokens.map((coin) => (
     <li key={coin.id}>
       <Link href={`/lump-sum/${coin.id}`}>
-        <a className="text-gray-600 dark:text-gray-400 hover:underline">
+        <a
+          className="text-gray-600 dark:text-gray-400 hover:underline"
+          onClick={() => {
+            ga.event({ action: "footer_link", type: "lump_sum" });
+          }}
+        >
           <span className="text-gray-300 dark:text-gray-700">Lump sum</span>{" "}
           {coin.name}
           <span className="sr-only">

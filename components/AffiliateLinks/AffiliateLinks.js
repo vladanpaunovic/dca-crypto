@@ -1,7 +1,7 @@
 import ExternalLinkIcon from "../Icons/ExternalLink";
 import SupportIcon from "../Icons/SupportIcon";
 import Image from "next/image";
-import { googleAnalyticsEvent } from "../helpers/GoogleAnalytics";
+import * as ga from "../helpers/GoogleAnalytics";
 import { HeartIcon } from "@heroicons/react/outline";
 
 const affiliatePartners = [
@@ -54,7 +54,7 @@ const AffiliatePartner = (props) => {
           rel="nofollow"
           className="flex items-center dark:text-gray-100 hover:underline"
           onClick={() => {
-            googleAnalyticsEvent({
+            ga.event({
               action: "support_site",
               params: { affiliate: name },
             });
@@ -62,7 +62,7 @@ const AffiliatePartner = (props) => {
         >
           {name}{" "}
           {value && (
-            <span className="ml-1 rounded-full bg-green-100 dark:bg-green-700 text-green-300 font-medium text-xs px-2 py-1">
+            <span className="ml-1 rounded-full bg-green-100 dark:bg-green-700 text-green-800 dark:text-green-100 font-medium text-xs px-2 py-1">
               {value}
             </span>
           )}
