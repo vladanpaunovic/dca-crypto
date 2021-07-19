@@ -6,7 +6,7 @@ import { WEBSITE_URL } from "../../config";
 import { useCurrentCoin } from "../Context/mainReducer";
 import queryString from "query-string";
 import { useTweetMessage } from "../TweetMessage/TweetMessage";
-import { googleAnalyticsEvent } from "../helpers/GoogleAnalytics";
+import * as ga from "../helpers/GoogleAnalytics";
 
 const SharingButtons = () => {
   const router = useRouter();
@@ -105,7 +105,7 @@ const SharingButtons = () => {
           aria-label={social.label}
           style={{ backgroundColor: social.color }}
           onClick={() => {
-            googleAnalyticsEvent({
+            ga.event({
               action: "share",
               params: { method: social.label, type: pathname },
             });
@@ -142,7 +142,8 @@ const ShareChart = () => {
   return (
     <Popover className="relative">
       <Popover.Button
-        title="Error accured. Click to reveal information."
+        onClick={() => ga.event({ action: "share_attempt", type: "pathname" })}
+        title="Share this board with your friends."
         className="flex items-center justify-between transition rounded bg-white hover:bg-indigo-50 dark:bg-gray-900 dark:hover:bg-gray-800 py-1 px-2 text-indigo-700 dark:text-yellow-500 font-medium border shadow border-transparent"
       >
         Share{" "}
