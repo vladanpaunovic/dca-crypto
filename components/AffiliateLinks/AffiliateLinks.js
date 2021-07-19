@@ -26,8 +26,7 @@ const affiliatePartners = [
     ),
     pitch:
       "Automate dollar-cost averaging with popular exchanges. Five-minute setup.",
-    affiliateLink:
-      "https://shop.ledger.com/products/crypto-starter-pack?r=e3ffe5f7ac6f",
+    affiliateLink: "https://app.deltabadger.com/en/ref/DCACC",
     value: "10% discount",
   },
 ];
