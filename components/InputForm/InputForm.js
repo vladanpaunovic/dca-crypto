@@ -14,6 +14,7 @@ import dayjs from "dayjs";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import { availableCurrencies } from "../../config";
 import Loading from "react-loading";
+import * as ga from "../helpers/GoogleAnalytics";
 dayjs.extend(isSameOrBefore);
 
 const before90Days = dayjs().subtract(90, "days").format("YYYY-MM-DD");
@@ -175,6 +176,11 @@ const InputForm = (props) => {
         onClick={() => {
           setIsOpen(!isOpen);
           setIsClicked(true);
+
+          ga.event({
+            action: "mobile_change_params",
+            params: { calculator: "dca", token: currentCoin.name },
+          });
         }}
         type="button"
       >

@@ -11,6 +11,7 @@ import {
 import { useEffect, useState } from "react";
 import { availableCurrencies } from "../../config";
 import Loading from "react-loading";
+import * as ga from "../helpers/GoogleAnalytics";
 
 const InputFormWrapper = (props) => {
   const { dispatch } = useAppContext();
@@ -136,6 +137,11 @@ const InputForm = (props) => {
         onClick={() => {
           setIsOpen(!isOpen);
           setIsClicked(true);
+
+          ga.event({
+            action: "mobile_change_params",
+            params: { calculator: "lump-sum", token: currentCoin.name },
+          });
         }}
         type="button"
       >
