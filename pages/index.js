@@ -7,6 +7,7 @@ import LandingHero from "../components/LandingHero/LandingHero";
 import WhatIsDCA from "../components/LandingPage/WhatIsDCA";
 import { CACHE_INVALIDATION_INTERVAL, defaultCurrency } from "../config";
 import { getAllCoins } from "../queries/queries";
+import { NextSeo } from "next-seo";
 
 export async function getServerSideProps(context) {
   const availableTokens = await getAllCoins(
@@ -36,15 +37,10 @@ export default function HomeWrapper(props) {
 function Home(props) {
   return (
     <div className="w-full">
-      <Head>
-        <title>DCA Crypto - Dollar cost average cryptocurrency</title>
-        <link rel="icon" href="/favicon.svg" />
-        <link rel="mask-icon" href="/mask-icon.svg" color="#000000" />
-        <meta
-          name="description"
-          content={`Dollar cost average calculator for top 100 cryptocurrencies. Visualise and examine the impact of your investments in crypto.`}
-        />
-      </Head>
+      <NextSeo
+        title="Dollar cost average cryptocurrency"
+        description="Dollar cost average calculator for top 100 cryptocurrencies. Visualise and examine the impact of your investments in crypto."
+      />
       <main className="w-full bg-white dark:bg-gray-900">
         <LandingHero availableTokens={props.availableTokens} />
         <div className="container mx-auto max-w-7xl bg-white dark:bg-gray-900 flex flex-col md:flex-row mt-16 mb-8 md:p-8">
