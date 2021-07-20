@@ -1,7 +1,7 @@
 require("dotenv").config();
-const Mode = require("frontmatter-markdown-loader/mode")
+const Mode = require("frontmatter-markdown-loader/mode");
 const generateSitemap = require("./scripts/generate-sitemap.js");
-
+const { PHASE_PRODUCTION_BUILD } = require("next/constants");
 
 // This file sets a custom webpack configuration to use your Next.js app
 // with Sentry.
@@ -11,19 +11,22 @@ const { withSentryConfig } = require("@sentry/nextjs");
 
 generateSitemap();
 
-const moduleExports = {
+const moduleExports = (phase) => ({
   webpack: (cfg) => {
-    cfg.module.rules.push(
-      {
-        test: /\.md$/,
-        loader: 'frontmatter-markdown-loader',
-        options: {
-          mode: [Mode.BODY]
-        }
-      })
-    return cfg
-  }
-};
+    cfg.module.rules.push({
+      test: /\.md$/,
+      loader: "frontmatter-markdown-loader",
+      options: {
+        mode: [Mode.BODY],
+      },
+    });
+    return cfg;
+  },
+
+  env: {
+    IS_PROD: phase === PHASE_PRODUCTION_BUILD,
+  },
+});
 
 const SentryWebpackPluginOptions = {
   // Additional config options for the Sentry Webpack plugin. Keep in mind that
