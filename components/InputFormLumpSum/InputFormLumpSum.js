@@ -12,45 +12,7 @@ import { useEffect, useState } from "react";
 import { availableCurrencies } from "../../config";
 import Loading from "react-loading";
 import * as ga from "../helpers/GoogleAnalytics";
-
-const InputFormWrapper = (props) => {
-  const { dispatch } = useAppContext();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (props.coinId) {
-      dispatch({
-        type: ACTIONS.UPDATE_COIN_ID,
-        payload: props.coinId,
-      });
-    }
-
-    if (router.isReady) {
-      if (router.query.investment) {
-        dispatch({
-          type: ACTIONS.UPDATE_INVESTMENT,
-          payload: router.query.investment,
-        });
-      }
-
-      if (router.query.dateFrom) {
-        dispatch({
-          type: ACTIONS.UPDATE_DATE_FROM,
-          payload: router.query.dateFrom,
-        });
-      }
-
-      if (router.query.currency) {
-        dispatch({
-          type: ACTIONS.UPDATE_CURRENCY,
-          payload: router.query.currency,
-        });
-      }
-    }
-  }, [router.isReady, props.coin]);
-
-  return <InputForm {...props} />;
-};
+import useEffectOnlyOnUpdate from "../Hooks/useEffectOnlyOnUpdate";
 
 const InputForm = (props) => {
   const appContext = useAppContext();
@@ -118,7 +80,7 @@ const InputForm = (props) => {
     submitForm();
   };
 
-  useEffect(() => {
+  useEffectOnlyOnUpdate(() => {
     submitForm();
   }, [
     state.input.coinId,
@@ -291,4 +253,4 @@ const InputForm = (props) => {
   );
 };
 
-export default InputFormWrapper;
+export default InputForm;

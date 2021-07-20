@@ -5,13 +5,12 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import { Hydrate } from "react-query/hydration";
 import CookieBanner from "../components/CookieBanner/CookieBanner";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import * as ga from "../components/helpers/GoogleAnalytics";
-
-export const queryClient = new QueryClient();
 
 function App({ Component, pageProps }) {
   const router = useRouter();
+  const [queryClient] = useState(() => new QueryClient());
 
   useEffect(() => {
     const handleRouteChange = (url) => {

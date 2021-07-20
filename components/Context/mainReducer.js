@@ -2,6 +2,10 @@ import { useReducer } from "react";
 import dayjs from "dayjs";
 import { useAppContext } from "./Context";
 import { useRouter } from "next/router";
+import {
+  generateDefaultInput,
+  calculateDateRangeDifference,
+} from "../../common/generateDefaultInput";
 
 export const ACTIONS = {
   // Input actions
@@ -20,16 +24,6 @@ export const ACTIONS = {
   UPDATE_CURRENCY: "UPDATE_CURRENCY",
   UPDATE_LIST_OF_TOKENS: "UPDATE_LIST_OF_TOKENS",
   UPDATE_CURRENCY: "UPDATE_CURRENCY",
-};
-
-export const calculateDateRangeDifference = (dateFrom, dateTo) => {
-  const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
-  const firstDate = new Date(dateFrom);
-  const secondDate = new Date(dateTo);
-
-  const diffDays = Math.round(Math.abs((firstDate - secondDate) / oneDay));
-
-  return diffDays;
 };
 
 export const useCurrentCoin = (coinId = null) => {
@@ -142,34 +136,15 @@ const reducer = (state, action) => {
   }
 };
 
-const firstDayOfTheYear = new Date(new Date().getFullYear(), 0, 1);
+export const useMainReducer = ({ availableTokens, chartData }) => {
+  const router = useRouter();
+  const DEFAULT_INPUT = generateDefaultInput(router.query);
 
-export const availableInvestmentIntervals = [
-  { label: "Daily", value: "1" },
-  { label: "Weekly", value: "7" },
-  { label: "Bi-weekly", value: "14" },
-  { label: "Monthly", value: "30" },
-];
-
-const dateFrom = dayjs(firstDayOfTheYear).format("YYYY-MM-DD");
-const dateTo = dayjs().format("YYYY-MM-DD");
-
-const DEFAULT_INPUT = {
-  coinId: null,
-  investment: 100,
-  investmentInterval: availableInvestmentIntervals[1].value,
-  dateFrom,
-  dateTo,
-  duration: calculateDateRangeDifference(dateFrom, dateTo),
-  isLoading: false,
-};
-
-export const useMainReducer = (availableTokens) => {
   const initialState = {
     input: DEFAULT_INPUT,
     chart: {
-      data: [],
-      insights: {},
+      data: chartData ? chartData.chartData : [],
+      insights: chartData ? chartData.insights : {},
     },
     settings: {
       currency: "usd",

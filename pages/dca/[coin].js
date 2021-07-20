@@ -9,21 +9,27 @@ import {
 import DataTable from "../../components/DataTable/DataTable";
 import AffiliateLinks from "../../components/AffiliateLinks/AffiliateLinks";
 import Information from "../../components/Information/Information";
-import { getAllCoins } from "../../queries/queries";
+import { getAllCoins, getDCAChartData } from "../../queries/queries";
 import { CACHE_INVALIDATION_INTERVAL, defaultCurrency } from "../../config";
 import { useCurrentCoin } from "../../components/Context/mainReducer";
 import { TweetMessage } from "../../components/TweetMessage/TweetMessage";
 import Footer from "../../components/Footer/Footer";
-import React from "react";
 import Logo from "../../components/Logo/Logo";
 import ThemeSwitch from "../../components/ThemeSwitch/ThemeSwitch";
+import { generateDefaultInput } from "../../common/generateDefaultInput";
 
 export async function getServerSideProps(context) {
   const { coin, investment, investmentInterval, dateFrom, dateTo } =
     context.query;
-  const availableTokens = await getAllCoins(
-    context.query.currency || defaultCurrency
-  );
+
+  const currency = context.query.currency || defaultCurrency;
+
+  const payload = generateDefaultInput(context.query);
+
+  const [availableTokens, chartData] = await Promise.all([
+    getAllCoins(currency),
+    getDCAChartData(payload),
+  ]);
 
   context.res.setHeader(
     "Cache-Control",
@@ -33,11 +39,8 @@ export async function getServerSideProps(context) {
   return {
     props: {
       availableTokens,
-      coinId: coin,
-      investment: investment || null,
-      investmentInterval: investmentInterval || null,
-      dateFrom: dateFrom || null,
-      dateTo: dateTo || null,
+      chartData,
+      ...payload,
     },
   };
 }
@@ -138,7 +141,10 @@ const Coin = (props) => {
 
 const CoinWrapper = (props) => {
   return (
-    <AppContextProvider availableTokens={props.availableTokens}>
+    <AppContextProvider
+      availableTokens={props.availableTokens}
+      chartData={props.chartData}
+    >
       <div className="lg:flex bg-gray-100 dark:bg-gray-800">
         <div className="w-12/12 lg:w-330 md:border-r dark:border-gray-700 bg-white dark:bg-gray-900">
           <div className="w-full flex items-center justify-between px-4 h-16 border-b dark:border-gray-700">
