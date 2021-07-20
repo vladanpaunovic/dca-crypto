@@ -14,7 +14,7 @@ export const CACHE_INVALIDATION_INTERVAL = 3600; // 1 hour
 
 export const WEBSITE_URL =
   process.env.NEXT_PUBLIC_VERCEL_ENV === "production"
-    ? "https://www.dca-cc.com"
+    ? "www.dca-cc.com"
     : process.env.NEXT_PUBLIC_VERCEL_URL;
 
 export const GOOGLE_RECAPTCHA_CLIENT_KEY =
