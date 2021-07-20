@@ -1,4 +1,3 @@
-import Head from "next/head";
 import InputFormLumpSum from "../../components/InputFormLumpSum/InputFormLumpSum";
 import Chart from "../../components/Chart/Chart";
 import ChartBalance from "../../components/Chart/ChartBalance";
@@ -10,7 +9,11 @@ import DataTable from "../../components/DataTable/DataTable";
 import AffiliateLinks from "../../components/AffiliateLinks/AffiliateLinks";
 import Information from "../../components/Information/Information";
 import { getAllCoins, getLumpSumChartData } from "../../queries/queries";
-import { CACHE_INVALIDATION_INTERVAL, defaultCurrency } from "../../config";
+import {
+  CACHE_INVALIDATION_INTERVAL,
+  defaultCurrency,
+  WEBSITE_URL,
+} from "../../config";
 import { useCurrentCoin } from "../../components/Context/mainReducer";
 import { TweetMessage } from "../../components/TweetMessage/TweetMessage";
 import Footer from "../../components/Footer/Footer";
@@ -18,6 +21,7 @@ import React from "react";
 import Logo from "../../components/Logo/Logo";
 import ThemeSwitch from "../../components/ThemeSwitch/ThemeSwitch";
 import { generateDefaultInput } from "../../common/generateDefaultInput";
+import { NextSeo } from "next-seo";
 
 export async function getServerSideProps(context) {
   const currency = context.query.currency || defaultCurrency;
@@ -50,17 +54,21 @@ const Coin = (props) => {
 
   return (
     <div className="w-full">
-      <Head>
-        <title>
-          DCA Crypto - Lump sum {currentCoin.name} ({coinSymbol}) calculator
-        </title>
-        <meta
-          name="description"
-          content={`Lump sum investing calculator for ${currentCoin.name} (${coinSymbol}). Visualise and examine the impact of your investments in ${currentCoin.name} or any other popular crypto.`}
-        />
-        <link rel="icon" href="/favicon.svg" />
-        <link rel="mask-icon" href="/mask-icon.svg" color="#000000" />
-      </Head>
+      <NextSeo
+        title={`Lump sum ${currentCoin.name} (${coinSymbol}) calculator`}
+        description={`Lump sum investing calculator for ${currentCoin.name} (${coinSymbol}). Visualise and examine the impact of your investments in ${currentCoin.name} or any other popular crypto.`}
+        canonical={`https://${WEBSITE_URL}/lump-sum/${currentCoin.id}`}
+        openGraph={{
+          images: [
+            {
+              url: `https://${WEBSITE_URL}/images/meta-open-graph-lump-sum.jpg`,
+              width: 1200,
+              height: 697,
+              alt: "Lump sum calculator",
+            },
+          ],
+        }}
+      />
       <main>
         <div className="grid grid-cols-6 w-full gap-8">
           <div className="col-span-6">

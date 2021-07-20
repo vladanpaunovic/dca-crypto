@@ -7,6 +7,7 @@ import Footer from "../components/Footer/Footer";
 import AllTokensHero from "../components/Hero/AllTokensHero";
 import { CACHE_INVALIDATION_INTERVAL, defaultCurrency } from "../config";
 import { getAllCoins } from "../queries/queries";
+import { NextSeo } from "next-seo";
 
 export async function getServerSideProps(context) {
   const availableTokens = await getAllCoins(
@@ -40,20 +41,14 @@ function AllTokens(props) {
   const isDca = calcType === "dca";
   return (
     <div className="w-full">
-      <Head>
-        <title>
-          DCA Crypto - {isDca ? "Dollar cost average" : "Lump sum investing"}{" "}
-          cryptocurrency
-        </title>
-        <link rel="icon" href="/favicon.svg" />
-        <link rel="mask-icon" href="/mask-icon.svg" color="#000000" />
-        <meta
-          name="description"
-          content={`List of all cryptocurrencies available for calculating ${
-            isDca ? "dollar cost average" : "lump sum investing"
-          } . Visualise and examine the impact of your investments in top 100 cryptocurrencies.`}
-        />
-      </Head>
+      <NextSeo
+        title={`${
+          isDca ? "Dollar cost average" : "Lump sum investing"
+        } cryptocurrency`}
+        description={`List of all cryptocurrencies available for calculating ${
+          isDca ? "dollar cost average" : "lump sum investing"
+        } . Visualise and examine the impact of your investments in top 100 cryptocurrencies.`}
+      />
       <main className="w-full bg-white dark:bg-gray-900">
         <AllTokensHero type={calcType} />
         <div className="container lg:px-6 max-w-7xl mx-auto max-w-80 bg-white dark:bg-gray-900">

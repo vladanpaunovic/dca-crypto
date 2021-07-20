@@ -25,6 +25,7 @@
     "gray-matter": "^4.0.3",
     "mongoose": "^5.12.6",
     "next": "11.0.1",
+    "next-seo": "^4.26.0",
     "next-themes": "^0.0.14",
     "query-string": "^7.0.0",
     "react": "17.0.2",

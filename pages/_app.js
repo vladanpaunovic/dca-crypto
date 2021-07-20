@@ -6,7 +6,9 @@ import { Hydrate } from "react-query/hydration";
 import CookieBanner from "../components/CookieBanner/CookieBanner";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { DefaultSeo } from "next-seo";
 import * as ga from "../components/helpers/GoogleAnalytics";
+import { defaultSEO } from "../next-seo.config";
 
 function App({ Component, pageProps }) {
   const router = useRouter();
@@ -32,6 +34,7 @@ function App({ Component, pageProps }) {
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
           <CookieBanner />
+          <DefaultSeo {...defaultSEO} />
           <Component {...pageProps} />
           <ReactQueryDevtools />
         </Hydrate>

@@ -10,13 +10,18 @@ import DataTable from "../../components/DataTable/DataTable";
 import AffiliateLinks from "../../components/AffiliateLinks/AffiliateLinks";
 import Information from "../../components/Information/Information";
 import { getAllCoins, getDCAChartData } from "../../queries/queries";
-import { CACHE_INVALIDATION_INTERVAL, defaultCurrency } from "../../config";
+import {
+  CACHE_INVALIDATION_INTERVAL,
+  defaultCurrency,
+  WEBSITE_URL,
+} from "../../config";
 import { useCurrentCoin } from "../../components/Context/mainReducer";
 import { TweetMessage } from "../../components/TweetMessage/TweetMessage";
 import Footer from "../../components/Footer/Footer";
 import Logo from "../../components/Logo/Logo";
 import ThemeSwitch from "../../components/ThemeSwitch/ThemeSwitch";
 import { generateDefaultInput } from "../../common/generateDefaultInput";
+import { NextSeo } from "next-seo";
 
 export async function getServerSideProps(context) {
   const currency = context.query.currency || defaultCurrency;
@@ -49,18 +54,11 @@ const Coin = (props) => {
 
   return (
     <div className="w-full">
-      <Head>
-        <title>
-          DCA Crypto - Dollar cost average {currentCoin.name} ({coinSymbol})
-          calculator
-        </title>
-        <meta
-          name="description"
-          content={`Dollar cost average calculator for ${currentCoin.name} (${coinSymbol}). Visualise and examine the impact of your investments in ${currentCoin.name} or any other popular crypto.`}
-        />
-        <link rel="icon" href="/favicon.svg" />
-        <link rel="mask-icon" href="/mask-icon.svg" color="#000000" />
-      </Head>
+      <NextSeo
+        title={`Dollar cost average ${currentCoin.name} (${coinSymbol}) calculator`}
+        description={`Dollar cost average calculator for ${currentCoin.name} (${coinSymbol}). Visualise and examine the impact of your investments in ${currentCoin.name} or any other popular crypto.`}
+        canonical={`https://${WEBSITE_URL}/dca/${currentCoin.id}`}
+      />
       <main>
         <div className="grid grid-cols-6 w-full gap-8">
           <div className="col-span-6">
