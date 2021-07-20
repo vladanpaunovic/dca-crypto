@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useMutation } from "react-query";
 import apiClient from "../server/apiClient";
 
 const API_URL = "https://api.coingecko.com/api/v3/";
@@ -16,6 +15,18 @@ export const getAllCoins = async (currency) => {
       sparkline: false,
     },
   });
+
+  return response.data;
+};
+
+export const getDCAChartData = async (payload) => {
+  const response = await apiClient.post("calculate-dca", payload);
+
+  return response.data;
+};
+
+export const getLumpSumChartData = async (payload) => {
+  const response = await apiClient.post("calculate-lump-sum", payload);
 
   return response.data;
 };

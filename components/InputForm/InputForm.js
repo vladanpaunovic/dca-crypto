@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 import { XIcon, CalculatorIcon } from "@heroicons/react/outline";
 import {
   ACTIONS,
-  availableInvestmentIntervals,
   calculateDateRangeDifference,
   useCurrentCoin,
 } from "../Context/mainReducer";
@@ -15,83 +14,18 @@ import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import { availableCurrencies } from "../../config";
 import Loading from "react-loading";
 import * as ga from "../helpers/GoogleAnalytics";
+import useEffectOnlyOnUpdate from "../Hooks/useEffectOnlyOnUpdate";
+import { availableInvestmentIntervals } from "../../common/generateDefaultInput";
+import useGenerateUrl from "../Hooks/useGenerateUrl";
+
 dayjs.extend(isSameOrBefore);
 
 const before90Days = dayjs().subtract(90, "days").format("YYYY-MM-DD");
 
-const InputFormWrapper = (props) => {
-  const { dispatch } = useAppContext();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (props.coinId) {
-      dispatch({
-        type: ACTIONS.UPDATE_COIN_ID,
-        payload: props.coinId,
-      });
-    }
-
-    if (router.isReady) {
-      if (router.query.investment) {
-        dispatch({
-          type: ACTIONS.UPDATE_INVESTMENT,
-          payload: router.query.investment,
-        });
-      }
-
-      if (router.query.investmentInterval) {
-        dispatch({
-          type: ACTIONS.UPDATE_INVESTMENT_INTERVAL,
-          payload: router.query.investmentInterval,
-        });
-      }
-
-      if (router.query.dateFrom) {
-        const { dateFrom } = router.query;
-        if (dayjs(dateFrom).isSameOrBefore(before90Days)) {
-          dispatch({
-            type: ACTIONS.UPDATE_DATE_FROM,
-            payload: router.query.dateFrom,
-          });
-        } else {
-          dispatch({
-            type: ACTIONS.UPDATE_DATE_FROM,
-            payload: before90Days,
-          });
-        }
-      }
-
-      if (router.query.dateTo) {
-        const { dateFrom, dateTo } = router.query;
-        const after90Days = dayjs(dateFrom).add(90, "day");
-        if (dayjs(dateTo).isSameOrBefore(after90Days)) {
-          dispatch({
-            type: ACTIONS.UPDATE_DATE_TO,
-            payload: after90Days.format("YYYY-MM-DD"),
-          });
-        } else {
-          dispatch({
-            type: ACTIONS.UPDATE_DATE_TO,
-            payload: router.query.dateTo,
-          });
-        }
-      }
-
-      if (router.query.currency) {
-        dispatch({
-          type: ACTIONS.UPDATE_CURRENCY,
-          payload: router.query.currency,
-        });
-      }
-    }
-  }, [router.isReady, props.coin]);
-
-  return <InputForm {...props} />;
-};
-
 const InputForm = (props) => {
   const appContext = useAppContext();
   const router = useRouter();
+  const generateUrl = useGenerateUrl("dca");
   const currentCoin = useCurrentCoin();
   const { state, dispatch } = appContext;
   const [isOpen, setIsOpen] = useState(false);
@@ -142,11 +76,8 @@ const InputForm = (props) => {
 
     const { coinId, ...rest } = payload;
 
-    router.replace(
-      { pathname: props.pathname + state.input.coinId, query: rest },
-      undefined,
-      { shallow: true }
-    );
+    generateUrl();
+
     mutation.mutate(payload);
 
     setIsOpen(false);
@@ -157,13 +88,17 @@ const InputForm = (props) => {
     submitForm();
   };
 
-  useEffect(() => {
+  useEffectOnlyOnUpdate(() => {
     submitForm();
   }, [
     state.input.coinId,
     state.input.investmentInterval,
     state.settings.currency,
   ]);
+
+  useEffect(() => {
+    generateUrl();
+  }, []);
 
   if (!state.settings.availableTokens) {
     return null;
@@ -379,4 +314,4 @@ const InputForm = (props) => {
   );
 };
 
-export default InputFormWrapper;
+export default InputForm;

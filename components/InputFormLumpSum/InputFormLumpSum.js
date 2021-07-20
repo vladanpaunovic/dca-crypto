@@ -12,53 +12,18 @@ import { useEffect, useState } from "react";
 import { availableCurrencies } from "../../config";
 import Loading from "react-loading";
 import * as ga from "../helpers/GoogleAnalytics";
-
-const InputFormWrapper = (props) => {
-  const { dispatch } = useAppContext();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (props.coinId) {
-      dispatch({
-        type: ACTIONS.UPDATE_COIN_ID,
-        payload: props.coinId,
-      });
-    }
-
-    if (router.isReady) {
-      if (router.query.investment) {
-        dispatch({
-          type: ACTIONS.UPDATE_INVESTMENT,
-          payload: router.query.investment,
-        });
-      }
-
-      if (router.query.dateFrom) {
-        dispatch({
-          type: ACTIONS.UPDATE_DATE_FROM,
-          payload: router.query.dateFrom,
-        });
-      }
-
-      if (router.query.currency) {
-        dispatch({
-          type: ACTIONS.UPDATE_CURRENCY,
-          payload: router.query.currency,
-        });
-      }
-    }
-  }, [router.isReady, props.coin]);
-
-  return <InputForm {...props} />;
-};
+import useEffectOnlyOnUpdate from "../Hooks/useEffectOnlyOnUpdate";
+import useGenerateUrl from "../Hooks/useGenerateUrl";
 
 const InputForm = (props) => {
   const appContext = useAppContext();
+  const { state, dispatch } = appContext;
   const router = useRouter();
   const currentCoin = useCurrentCoin();
-  const { state, dispatch } = appContext;
   const [isOpen, setIsOpen] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
+
+  const generateUrl = useGenerateUrl("lump-sum");
 
   // Due to the constrains of the CoinGecko API, we enable calculations only
   // agter the perod of 90 days
@@ -101,30 +66,30 @@ const InputForm = (props) => {
       return null;
     }
 
-    const { coinId, ...rest } = payload;
+    generateUrl();
 
-    router.replace(
-      { pathname: props.pathname + state.input.coinId, query: rest },
-      undefined,
-      { shallow: true }
-    );
     mutation.mutate(payload);
 
     setIsOpen(false);
   };
+
   const onSubmit = (event) => {
     event.preventDefault();
 
     submitForm();
   };
 
-  useEffect(() => {
+  useEffectOnlyOnUpdate(() => {
     submitForm();
   }, [
     state.input.coinId,
     state.input.investmentInterval,
     state.settings.currency,
   ]);
+
+  useEffect(() => {
+    generateUrl();
+  }, []);
 
   if (!state.settings.availableTokens) {
     return null;
@@ -291,4 +256,4 @@ const InputForm = (props) => {
   );
 };
 
-export default InputFormWrapper;
+export default InputForm;

@@ -3,8 +3,8 @@ import { useMainReducer } from "./mainReducer";
 
 const AppContext = createContext();
 
-export function AppContextProvider({ children, availableTokens }) {
-  const [state, dispatch] = useMainReducer(availableTokens);
+export function AppContextProvider({ children, availableTokens, chartData }) {
+  const [state, dispatch] = useMainReducer({ availableTokens, chartData });
 
   const initialState = {
     state,
