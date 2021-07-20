@@ -19,9 +19,6 @@ import ThemeSwitch from "../../components/ThemeSwitch/ThemeSwitch";
 import { generateDefaultInput } from "../../common/generateDefaultInput";
 
 export async function getServerSideProps(context) {
-  const { coin, investment, investmentInterval, dateFrom, dateTo } =
-    context.query;
-
   const currency = context.query.currency || defaultCurrency;
 
   const payload = generateDefaultInput(context.query);

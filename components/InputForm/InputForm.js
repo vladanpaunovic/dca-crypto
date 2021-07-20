@@ -16,6 +16,7 @@ import Loading from "react-loading";
 import * as ga from "../helpers/GoogleAnalytics";
 import useEffectOnlyOnUpdate from "../Hooks/useEffectOnlyOnUpdate";
 import { availableInvestmentIntervals } from "../../common/generateDefaultInput";
+import useGenerateUrl from "../Hooks/useGenerateUrl";
 
 dayjs.extend(isSameOrBefore);
 
@@ -24,6 +25,7 @@ const before90Days = dayjs().subtract(90, "days").format("YYYY-MM-DD");
 const InputForm = (props) => {
   const appContext = useAppContext();
   const router = useRouter();
+  const generateUrl = useGenerateUrl("dca");
   const currentCoin = useCurrentCoin();
   const { state, dispatch } = appContext;
   const [isOpen, setIsOpen] = useState(false);
@@ -74,11 +76,8 @@ const InputForm = (props) => {
 
     const { coinId, ...rest } = payload;
 
-    router.replace(
-      { pathname: props.pathname + state.input.coinId, query: rest },
-      undefined,
-      { shallow: true }
-    );
+    generateUrl();
+
     mutation.mutate(payload);
 
     setIsOpen(false);
@@ -96,6 +95,10 @@ const InputForm = (props) => {
     state.input.investmentInterval,
     state.settings.currency,
   ]);
+
+  useEffect(() => {
+    generateUrl();
+  }, []);
 
   if (!state.settings.availableTokens) {
     return null;
