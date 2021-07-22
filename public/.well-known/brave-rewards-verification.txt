@@ -1,0 +1,4 @@
+This is a Brave Rewards publisher verification file.
+
+Domain: dca-cc.com
+Token: 048ce0ff72202de4eb4f308c12cef3e616af5737e05abdca852416ff8eb1e6a3
