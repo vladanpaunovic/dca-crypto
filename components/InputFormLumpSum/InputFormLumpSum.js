@@ -1,13 +1,8 @@
 import { useMutation } from "react-query";
 import axios from "axios";
 import { useAppContext } from "../Context/Context";
-import { useRouter } from "next/router";
 import { XIcon, CalculatorIcon } from "@heroicons/react/outline";
-import {
-  ACTIONS,
-  calculateDateRangeDifference,
-  useCurrentCoin,
-} from "../Context/mainReducer";
+import { ACTIONS, useCurrentCoin } from "../Context/mainReducer";
 import { useEffect, useState } from "react";
 import { availableCurrencies } from "../../config";
 import Loading from "react-loading";
@@ -18,7 +13,6 @@ import useGenerateUrl from "../Hooks/useGenerateUrl";
 const InputForm = (props) => {
   const appContext = useAppContext();
   const { state, dispatch } = appContext;
-  const router = useRouter();
   const currentCoin = useCurrentCoin();
   const [isOpen, setIsOpen] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
@@ -197,6 +191,7 @@ const InputForm = (props) => {
                 min="1"
                 max="1000000000"
                 step="any"
+                required
                 value={state.input.investment}
                 onChange={(e) =>
                   dispatch({
@@ -244,9 +239,6 @@ const InputForm = (props) => {
             <>
               <p className="text-sm p-2 text-red-500">
                 Choose a time range with more then 90 days.
-              </p>
-              <p className="text-sm p-2 text-red-500">
-                Your current range is {calculateDateRangeDifference()} days
               </p>
             </>
           ) : null}

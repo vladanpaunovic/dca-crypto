@@ -23,6 +23,7 @@ import ThemeSwitch from "../../components/ThemeSwitch/ThemeSwitch";
 import { generateDefaultInput } from "../../common/generateDefaultInput";
 import { NextSeo } from "next-seo";
 import BreadcrumbLumpSum from "../../components/Breadcrumb/BreadcrumbLumpSum";
+import WhatIsLumpSum from "../../components/LandingPage/WhatIsLumpSum";
 
 export async function getServerSideProps(context) {
   const currency = context.query.currency || defaultCurrency;
@@ -142,6 +143,9 @@ const Coin = (props) => {
             >
               <DataTable />
             </div>
+            <section className="mx-auto mt-8">
+              <WhatIsLumpSum />
+            </section>
           </div>
         </div>
       </main>
