@@ -22,6 +22,7 @@ import Logo from "../../components/Logo/Logo";
 import ThemeSwitch from "../../components/ThemeSwitch/ThemeSwitch";
 import { generateDefaultInput } from "../../common/generateDefaultInput";
 import { NextSeo } from "next-seo";
+import BreadcrumbLumpSum from "../../components/Breadcrumb/BreadcrumbLumpSum";
 
 export async function getServerSideProps(context) {
   const currency = context.query.currency || defaultCurrency;
@@ -90,6 +91,10 @@ const Coin = (props) => {
             </div>
           </div>
           <div className="col-span-6">
+            <BreadcrumbLumpSum
+              name={currentCoin.name}
+              coinId={currentCoin.id}
+            />
             <div className="shadow-xl border bg-white dark:bg-gray-900 dark:border-gray-800 md:rounded-lg md:p-6 mb-8">
               <div className="py-5 px-4 dark:bg-gray-900">
                 <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white">

@@ -77,48 +77,42 @@ const chartData = [
 const annualGains = [
   {
     coin: "Bitcoin",
-    url:
-      "/dca/bitcoin?investmentInterval=7&investment=50&dateFrom=2020-05-10&dateTo=2021-05-10&currency=usd",
+    url: "/dca/bitcoin?investmentInterval=7&investment=50&dateFrom=2020-05-10&dateTo=2021-05-10&currency=usd",
     percentageChange: 270,
     qty: 0.166821,
     symbol: "BTC",
   },
   {
     coin: "Ethereum",
-    url:
-      "/dca/ethereum?investmentInterval=7&investment=50&dateFrom=2020-05-10&dateTo=2021-05-10&currency=usd",
+    url: "/dca/ethereum?investmentInterval=7&investment=50&dateFrom=2020-05-10&dateTo=2021-05-10&currency=usd",
     percentageChange: 748,
     qty: 5.744257,
     symbol: "ETH",
   },
   {
     coin: "Binance Coin",
-    url:
-      "/dca/binancecoin?investmentInterval=7&investment=50&dateFrom=2020-05-10&dateTo=2021-05-10&currency=usd",
+    url: "/dca/binancecoin?investmentInterval=7&investment=50&dateFrom=2020-05-10&dateTo=2021-05-10&currency=usd",
     percentageChange: 1985,
     qty: 85.69,
     symbol: "BNB",
   },
   {
     coin: "Cardano",
-    url:
-      "/dca/cardano?investmentInterval=7&investment=50&dateFrom=2020-05-10&dateTo=2021-05-10&currency=usd",
+    url: "/dca/cardano?investmentInterval=7&investment=50&dateFrom=2020-05-10&dateTo=2021-05-10&currency=usd",
     percentageChange: 1033,
     qty: 18589.83,
     symbol: "ADA",
   },
   {
     coin: "XRP",
-    url:
-      "/dca/ripple?investmentInterval=7&investment=50&dateFrom=2020-05-10&dateTo=2021-05-10&currency=usd",
+    url: "/dca/ripple?investmentInterval=7&investment=50&dateFrom=2020-05-10&dateTo=2021-05-10&currency=usd",
     percentageChange: 413,
     qty: 8694.54,
     symbol: "XRP",
   },
   {
     coin: "Dogecoin",
-    url:
-      "/dca/dogecoin?investmentInterval=7&investment=50&dateFrom=2020-05-10&dateTo=2021-05-10&currency=usd",
+    url: "/dca/dogecoin?investmentInterval=7&investment=50&dateFrom=2020-05-10&dateTo=2021-05-10&currency=usd",
     percentageChange: 14624,
     qty: 615811.33,
     symbol: "DOGE",
@@ -297,7 +291,7 @@ const ChartTiming = () => {
 const WhatIsDCA = () => {
   return (
     <div className="">
-      <div className="container mx-auto max-w-7xl px-6 p-6 flex flex-col md:flex-row">
+      <div className="container mx-auto max-w-7xl px-6 p-6 flex flex-col md:flex-row ">
         <div className="w-4/4 md:w-2/4">
           <ChartDCA />
         </div>
@@ -338,7 +332,7 @@ const WhatIsDCA = () => {
           </p>
         </div>
       </div>
-      <div className="container mx-auto max-w-7xl px-6 p-6 flex flex-col md:flex-row mt-24">
+      <div className="container mx-auto max-w-7xl px-6 p-6 flex flex-col md:flex-row ">
         <div className="w-4/4 md:w-2/4 pl-4 md:pl-0">
           <h2 className="text-base text-indigo-500 dark:text-yellow-500 font-semibold tracking-wide uppercase">
             Timing
@@ -376,7 +370,7 @@ const WhatIsDCA = () => {
           <ChartTiming />
         </div>
       </div>
-      <div className="flex justify-center bg-gray-100 dark:bg-gray-800 py-16 md:py-24 mt-12 md:mt-36">
+      <div className="flex justify-center py-16 md:py-24">
         <div className="text-center">
           <p className="text-3xl px-4 sm:text-4xl tracking-tight font-bold text-gray-900 dark:text-gray-100 max-w-4xl mb-2">
             People saving{" "}
@@ -402,7 +396,7 @@ const WhatIsDCA = () => {
           </Link>
         </div>
       </div>
-      <div className="bg-gray-100 dark:bg-gray-800 pb-24">
+      <div className=" pb-24">
         <div className="container mx-auto max-w-7xl px-6 p-6 flex flex-col md:flex-row">
           <div className="mb-16 w-3/3 md:w-1/3 pl-4 md:pl-0 md:pr-8">
             <h2 className="text-base text-indigo-500 dark:text-yellow-500 font-semibold tracking-wide uppercase">
