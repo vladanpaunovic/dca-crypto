@@ -10,7 +10,7 @@ const BreadcrumbDCA = ({ name, coinId }) => {
     },
     {
       name: "DCA Calculator",
-      item: "/dca",
+      item: "/all-tokens?type=dca",
     },
     {
       name,

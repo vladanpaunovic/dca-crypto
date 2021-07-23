@@ -1,10 +1,8 @@
-import Head from "next/head";
 import React from "react";
 import AllCoinsTable from "../components/AllCoinsTable/AllCoinsTable";
 import { AppContextProvider } from "../components/Context/Context";
 import Footer from "../components/Footer/Footer";
 import LandingHero from "../components/LandingHero/LandingHero";
-import WhatIsDCA from "../components/LandingPage/WhatIsDCA";
 import { CACHE_INVALIDATION_INTERVAL, defaultCurrency } from "../config";
 import { getAllCoins } from "../queries/queries";
 import { NextSeo } from "next-seo";
@@ -56,10 +54,6 @@ function Home(props) {
             <AllCoinsTable showOnlyNTokens={10} showSearch={false} type="dca" />
           </div>
         </div>
-
-        <section className="mx-auto bg-white dark:bg-gray-900">
-          <WhatIsDCA />
-        </section>
 
         <div className="container mx-auto max-w-7xl bg-white dark:bg-gray-900 flex flex-col md:flex-row mt-16 mb-8 md:p-8">
           <div className="mb-16 w-3/3 md:w-1/3 px-6 md:px-0">

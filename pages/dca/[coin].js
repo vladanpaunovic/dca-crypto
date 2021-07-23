@@ -1,4 +1,3 @@
-import Head from "next/head";
 import InputFormWrapper from "../../components/InputForm/InputForm";
 import Chart from "../../components/Chart/Chart";
 import ChartBalance from "../../components/Chart/ChartBalance";
@@ -22,6 +21,8 @@ import Logo from "../../components/Logo/Logo";
 import ThemeSwitch from "../../components/ThemeSwitch/ThemeSwitch";
 import { generateDefaultInput } from "../../common/generateDefaultInput";
 import { NextSeo } from "next-seo";
+import BreadcrumbDCA from "../../components/Breadcrumb/BreadcrumbDCA";
+import WhatIsDCA from "../../components/LandingPage/WhatIsDCA";
 
 export async function getServerSideProps(context) {
   const currency = context.query.currency || defaultCurrency;
@@ -80,6 +81,7 @@ const Coin = (props) => {
             </div>
           </div>
           <div className="col-span-6">
+            <BreadcrumbDCA name={currentCoin.name} coinId={currentCoin.id} />
             <div className="shadow-xl border bg-white dark:bg-gray-900 dark:border-gray-800 md:rounded-lg md:p-6 mb-8">
               <div className="py-5 px-4 dark:bg-gray-900">
                 <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white">
@@ -127,6 +129,9 @@ const Coin = (props) => {
             >
               <DataTable />
             </div>
+            <section className="mx-auto mt-8">
+              <WhatIsDCA />
+            </section>
           </div>
         </div>
       </main>

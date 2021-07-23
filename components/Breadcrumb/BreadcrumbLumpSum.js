@@ -10,7 +10,7 @@ const BreadcrumbLumpSum = ({ name, coinId }) => {
     },
     {
       name: "Lump Sum Calculator",
-      item: "/lump-sum",
+      item: "/all-tokens?type=lump-sum",
     },
     {
       name,
