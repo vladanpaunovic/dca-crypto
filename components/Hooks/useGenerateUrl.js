@@ -10,7 +10,7 @@ const useGenerateUrl = (method) => {
   switch (method) {
     case "lump-sum":
       const { investment, dateFrom, currency } = state.input;
-      payload = { investment, coinId: state.input.coinId, dateFrom, currency };
+      payload = { investment, dateFrom, currency };
       break;
     case "dca":
       const { coinId, ...rest } = state.input;
