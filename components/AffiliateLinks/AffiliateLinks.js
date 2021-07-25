@@ -53,7 +53,7 @@ const AffiliatePartner = (props) => {
         <a
           href={affiliateLink}
           target="_blank"
-          rel="nofollow"
+          rel="nofollow noreferrer"
           className="flex items-center dark:text-gray-100 hover:underline"
           onClick={() => {
             ga.event({
