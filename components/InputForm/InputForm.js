@@ -20,7 +20,7 @@ import useGenerateUrl from "../Hooks/useGenerateUrl";
 
 dayjs.extend(isSameOrBefore);
 
-const before90Days = dayjs().subtract(90, "days").format("YYYY-MM-DD");
+const before90Days = dayjs().subtract(91, "days").format("YYYY-MM-DD");
 
 const InputForm = (props) => {
   const appContext = useAppContext();
