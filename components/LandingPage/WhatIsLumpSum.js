@@ -2,6 +2,7 @@ import Link from "next/link";
 import { formatCurrency } from "@coingecko/cryptoformat";
 import { Area, AreaChart, ResponsiveContainer, Tooltip } from "recharts";
 import { useTheme } from "next-themes";
+import { memo } from "react";
 
 const useChartStrokeColor = () => {
   const { theme } = useTheme();
@@ -319,4 +320,4 @@ const WhatIsLumpSum = () => {
   );
 };
 
-export default WhatIsLumpSum;
+export default memo(WhatIsLumpSum);

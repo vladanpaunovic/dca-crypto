@@ -1,12 +1,7 @@
 import Link from "next/link";
 import { formatCurrency } from "@coingecko/cryptoformat";
-import {
-  Area,
-  AreaChart,
-  CartesianGrid,
-  ResponsiveContainer,
-  Tooltip,
-} from "recharts";
+import { Area, AreaChart, ResponsiveContainer, Tooltip } from "recharts";
+import { memo } from "react";
 import { formatPrice } from "../Currency/Currency";
 import { ExternalLinkIcon } from "@heroicons/react/outline";
 import { useTheme } from "next-themes";
@@ -444,4 +439,4 @@ const WhatIsDCA = () => {
   );
 };
 
-export default WhatIsDCA;
+export default memo(WhatIsDCA);
