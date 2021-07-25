@@ -164,7 +164,9 @@ export default function LandingHero({ availableTokens }) {
         <img
           className="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full"
           src="https://images.unsplash.com/photo-1621504450181-5d356f61d307?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=40"
-          alt=""
+          width="600"
+          height="400"
+          alt="DCA & Lump sum calculator for crypto"
         />
       </div>
     </div>

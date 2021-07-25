@@ -17,7 +17,7 @@ export const availableInvestmentIntervals = [
 export const generateDefaultInput = (query) => {
   const dateTo = query.dateTo || dayjs().format("YYYY-MM-DD");
   const dateFrom =
-    query.dateFrom || dayjs(dateTo).subtract(90, "day").format("YYYY-MM-DD");
+    query.dateFrom || dayjs(dateTo).subtract(91, "day").format("YYYY-MM-DD");
 
   const DEFAULT_INPUT = {
     coinId: query.coin || null,

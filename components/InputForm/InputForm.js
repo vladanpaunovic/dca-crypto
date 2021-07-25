@@ -20,7 +20,7 @@ import useGenerateUrl from "../Hooks/useGenerateUrl";
 
 dayjs.extend(isSameOrBefore);
 
-const before90Days = dayjs().subtract(90, "days").format("YYYY-MM-DD");
+const before90Days = dayjs().subtract(91, "days").format("YYYY-MM-DD");
 
 const InputForm = (props) => {
   const appContext = useAppContext();
@@ -118,6 +118,7 @@ const InputForm = (props) => {
           });
         }}
         type="button"
+        aria-label="Change parameters"
       >
         {mutation.isLoading ? (
           <Loading type="spin" width={40} height={40} />
@@ -156,7 +157,13 @@ const InputForm = (props) => {
             </span>
             <div className="mt-1 flex rounded-md shadow-sm">
               <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 text-gray-500 text-sm dark:bg-gray-700 dark:border-gray-700 dark:text-gray-200">
-                <img src={currentCoin.image} className="w-5 h-5" />
+                <img
+                  src={currentCoin.image}
+                  className="w-5 h-5"
+                  alt={`${currentCoin.name} icon`}
+                  width="25"
+                  height="25"
+                />
               </span>
               <select
                 onChange={(e) => {

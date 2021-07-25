@@ -17,7 +17,9 @@ const Footer = ({ availableTokens }) => {
             });
           }}
         >
-          <span className="text-gray-300 dark:text-gray-700">DCA</span>{" "}
+          <span className="text-gray-600 dark:text-gray-400 font-medium">
+            DCA
+          </span>{" "}
           {coin.name}
           <span className="sr-only">
             Dollar cost average {coin.name} calculator
@@ -39,7 +41,9 @@ const Footer = ({ availableTokens }) => {
             });
           }}
         >
-          <span className="text-gray-300 dark:text-gray-700">Lump sum</span>{" "}
+          <span className="text-gray-600 dark:text-gray-400 font-medium">
+            Lump sum
+          </span>{" "}
           {coin.name}
           <span className="sr-only">
             Lump sum investing {coin.name} calculator
@@ -129,7 +133,7 @@ const Footer = ({ availableTokens }) => {
                   <Link href="https://twitter.com/dca_cc">
                     <a
                       target="_blank"
-                      rel="nofollow"
+                      rel="nofollow noreferrer"
                       className="text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:underline"
                     >
                       DCA-CC on Twitter
@@ -139,7 +143,7 @@ const Footer = ({ availableTokens }) => {
                 <li>
                   <Link href="https://github.com/vladanpaunovic/dca-crypto/issues/new?template=feature.yml">
                     <a
-                      rel="nofollow"
+                      rel="nofollow noreferrer"
                       className="text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:underline"
                       target="_blank"
                     >
@@ -150,7 +154,7 @@ const Footer = ({ availableTokens }) => {
                 <li>
                   <Link href="https://github.com/vladanpaunovic/dca-crypto/issues/new?template=bug.yml">
                     <a
-                      rel="nofollow"
+                      rel="nofollow noreferrer"
                       className="text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:underline"
                       target="_blank"
                     >
@@ -171,7 +175,8 @@ const Footer = ({ availableTokens }) => {
             <a
               target="_blank"
               href="https://twitter.com/dca_cc"
-              rel="nofollow"
+              aria-label="DCA-CC on Twitter"
+              rel="nofollow noreferrer"
               className="text-gray-500 hover:opacity-50"
             >
               <svg viewBox="0 0 24 24" fill="currentColor" className="h-5">
@@ -180,7 +185,8 @@ const Footer = ({ availableTokens }) => {
             </a>
             <a
               target="_blank"
-              rel="nofollow"
+              rel="nofollow noreferrer"
+              aria-label="DCA-CC on GitHub"
               href="https://github.com/vladanpaunovic/dca-crypto"
               className="text-gray-500 hover:opacity-50"
             >
