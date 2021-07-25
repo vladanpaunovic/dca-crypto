@@ -17,7 +17,9 @@ const Footer = ({ availableTokens }) => {
             });
           }}
         >
-          <span className="text-gray-300 dark:text-gray-700">DCA</span>{" "}
+          <span className="text-gray-600 dark:text-gray-400 font-medium">
+            DCA
+          </span>{" "}
           {coin.name}
           <span className="sr-only">
             Dollar cost average {coin.name} calculator
@@ -39,7 +41,9 @@ const Footer = ({ availableTokens }) => {
             });
           }}
         >
-          <span className="text-gray-300 dark:text-gray-700">Lump sum</span>{" "}
+          <span className="text-gray-600 dark:text-gray-400 font-medium">
+            Lump sum
+          </span>{" "}
           {coin.name}
           <span className="sr-only">
             Lump sum investing {coin.name} calculator
@@ -171,6 +175,7 @@ const Footer = ({ availableTokens }) => {
             <a
               target="_blank"
               href="https://twitter.com/dca_cc"
+              aria-label="DCA-CC on Twitter"
               rel="nofollow noreferrer"
               className="text-gray-500 hover:opacity-50"
             >
@@ -181,6 +186,7 @@ const Footer = ({ availableTokens }) => {
             <a
               target="_blank"
               rel="nofollow noreferrer"
+              aria-label="DCA-CC on GitHub"
               href="https://github.com/vladanpaunovic/dca-crypto"
               className="text-gray-500 hover:opacity-50"
             >

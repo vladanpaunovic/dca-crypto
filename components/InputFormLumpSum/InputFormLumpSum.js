@@ -103,6 +103,7 @@ const InputForm = (props) => {
           });
         }}
         type="button"
+        aria-label="Change parameters"
       >
         {mutation.isLoading ? (
           <Loading type="spin" width={40} height={40} />
