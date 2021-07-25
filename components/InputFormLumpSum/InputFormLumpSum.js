@@ -142,7 +142,13 @@ const InputForm = (props) => {
             </span>
             <div className="mt-1 flex rounded-md shadow-sm">
               <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 text-gray-500 text-sm dark:bg-gray-700 dark:border-gray-700 dark:text-gray-200">
-                <img src={currentCoin.image} className="w-5 h-5" />
+                <img
+                  src={currentCoin.image}
+                  className="w-5 h-5"
+                  alt={`${currentCoin.name} icon`}
+                  width="25"
+                  height="25"
+                />
               </span>
               <select
                 onChange={(e) => {
