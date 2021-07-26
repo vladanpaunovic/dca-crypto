@@ -11,7 +11,7 @@ const Breadcrumb = ({ name, icon, item, isLast }) => {
             {name}
           </span>
         ) : (
-          <Link href={item}>
+          <Link href={item} prefetch={false}>
             <a
               aria-label={name}
               className="no-underline text-indigo text-indigo-500 dark:text-yellow-500 hover:underline"
