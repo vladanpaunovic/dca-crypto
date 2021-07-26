@@ -18,6 +18,7 @@ import useEffectOnlyOnUpdate from "../Hooks/useEffectOnlyOnUpdate";
 import { availableInvestmentIntervals } from "../../common/generateDefaultInput";
 import useGenerateUrl from "../Hooks/useGenerateUrl";
 import Select from "react-select";
+import SelectCoin from "../SelectCoin/SelectCoin";
 
 dayjs.extend(isSameOrBefore);
 
@@ -101,15 +102,6 @@ const InputForm = (props) => {
     generateUrl();
   }, []);
 
-  if (!state.settings.availableTokens) {
-    return null;
-  }
-
-  const options = state.settings.availableTokens.map((coin) => ({
-    label: coin.name,
-    value: coin.id,
-  }));
-
   return (
     <>
       <button
@@ -162,23 +154,7 @@ const InputForm = (props) => {
               Coin
             </span>
             <div className="mt-1 flex rounded-md shadow-sm">
-              <Select
-                className="w-full"
-                classNamePrefix="select"
-                defaultValue={{
-                  label: currentCoin.name,
-                  value: currentCoin.id,
-                }}
-                isSearchable
-                name="coin"
-                options={options}
-                onChange={(e) => {
-                  dispatch({
-                    type: ACTIONS.UPDATE_COIN_ID,
-                    payload: e.value,
-                  });
-                }}
-              />
+              <SelectCoin />
             </div>
           </label>
         </div>
