@@ -3,11 +3,7 @@ import axios from "axios";
 import { useAppContext } from "../Context/Context";
 import { useRouter } from "next/router";
 import { XIcon, CalculatorIcon } from "@heroicons/react/outline";
-import {
-  ACTIONS,
-  calculateDateRangeDifference,
-  useCurrentCoin,
-} from "../Context/mainReducer";
+import { ACTIONS, useCurrentCoin } from "../Context/mainReducer";
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
@@ -15,9 +11,11 @@ import { availableCurrencies } from "../../config";
 import Loading from "react-loading";
 import * as ga from "../helpers/GoogleAnalytics";
 import useEffectOnlyOnUpdate from "../Hooks/useEffectOnlyOnUpdate";
-import { availableInvestmentIntervals } from "../../common/generateDefaultInput";
+import {
+  availableInvestmentIntervals,
+  calculateDateRangeDifference,
+} from "../../common/generateDefaultInput";
 import useGenerateUrl from "../Hooks/useGenerateUrl";
-import Select from "react-select";
 import SelectCoin from "../SelectCoin/SelectCoin";
 
 dayjs.extend(isSameOrBefore);
