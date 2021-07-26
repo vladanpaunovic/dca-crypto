@@ -1,12 +1,9 @@
 import InputFormWrapper from "../../components/InputForm/InputForm";
-import Chart from "../../components/Chart/Chart";
-import ChartBalance from "../../components/Chart/ChartBalance";
 import {
   AppContextProvider,
   useAppContext,
 } from "../../components/Context/Context";
 import DataTable from "../../components/DataTable/DataTable";
-import AffiliateLinks from "../../components/AffiliateLinks/AffiliateLinks";
 import Information from "../../components/Information/Information";
 import { getAllCoins, getDCAChartData } from "../../queries/queries";
 import {
@@ -23,6 +20,29 @@ import { generateDefaultInput } from "../../common/generateDefaultInput";
 import { NextSeo } from "next-seo";
 import BreadcrumbDCA from "../../components/Breadcrumb/BreadcrumbDCA";
 import WhatIsDCA from "../../components/LandingPage/WhatIsDCA";
+import dynamic from "next/dynamic";
+import Loading from "../../components/Loading/Loading";
+
+const DynamicChart = dynamic(() => import("../../components/Chart/Chart"), {
+  ssr: false,
+  loading: () => <Loading withWrapper />,
+});
+
+const DynamicChartBalance = dynamic(
+  () => import("../../components/Chart/ChartBalance"),
+  {
+    ssr: false,
+    loading: () => <Loading withWrapper />,
+  }
+);
+
+const DynamicAffiliateLinks = dynamic(
+  () => import("../../components/AffiliateLinks/AffiliateLinks"),
+  {
+    ssr: false,
+    loading: () => <Loading withWrapper />,
+  }
+);
 
 export async function getServerSideProps(context) {
   const currency = context.query.currency || defaultCurrency;
@@ -92,7 +112,7 @@ const Coin = (props) => {
                 <TweetMessage />
               </div>
               <div className="h-96 md:p-4 dark:bg-gray-900 flex items-center">
-                <Chart />
+                <DynamicChart />
               </div>
             </div>
             <div className="grid gap-8 mt-8 grid-cols-6">
@@ -117,12 +137,12 @@ const Coin = (props) => {
                   </p>
                 </div>
                 <div className="h-72 md:p-4 dark:bg-gray-900 flex items-center">
-                  <ChartBalance />
+                  <DynamicChartBalance />
                 </div>
               </div>
             </div>
             <div className="mb-8 block md:hidden">
-              <AffiliateLinks />
+              <DynamicAffiliateLinks />
             </div>
             <div
               className={`col-span-6 md:col-span-6 shadow overflow-hidden sm:rounded dark:border-gray-800 transition ${
@@ -156,7 +176,7 @@ const CoinWrapper = (props) => {
             <InputFormWrapper {...props} pathname="/dca/" />
           </div>
           <div className="mt-0 md:mt-8 hidden md:block">
-            <AffiliateLinks />
+            <DynamicAffiliateLinks />
           </div>
         </div>
         <div className="w-12/12 mt-4 md:mt-0 md:p-8 flex-1">

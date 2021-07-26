@@ -1,73 +1,10 @@
 import Link from "next/link";
 import { formatCurrency } from "@coingecko/cryptoformat";
-import { Area, AreaChart, ResponsiveContainer, Tooltip } from "recharts";
 import { memo } from "react";
 import { formatPrice } from "../Currency/Currency";
 import { ExternalLinkIcon } from "@heroicons/react/outline";
-import { useTheme } from "next-themes";
-
-const useChartStrokeColor = () => {
-  const { theme } = useTheme();
-
-  const isLight = theme === "light";
-
-  return {
-    price: isLight ? "#F59E0B" : "#9CA3AF",
-    primary: isLight ? "#34D399" : "#34D399",
-    secundary: isLight ? "#BE185D" : "#BE185D",
-  };
-};
-
-const chartData = [
-  {
-    price: 9662.71,
-    averagePrice: 8610,
-  },
-  {
-    price: 9185.17,
-    averagePrice: 9136,
-  },
-  {
-    price: 11093.61,
-    averagePrice: 9152,
-  },
-  {
-    price: 11519.12,
-    averagePrice: 9638,
-  },
-  {
-    price: 10765.3,
-    averagePrice: 10014,
-  },
-  {
-    price: 13655.19,
-    averagePrice: 10139,
-  },
-  {
-    price: 17138.03,
-    averagePrice: 10141,
-  },
-  {
-    price: 26476.13,
-    averagePrice: 11453,
-  },
-  {
-    price: 32375.32,
-    averagePrice: 13122,
-  },
-  {
-    price: 49849.38,
-    averagePrice: 15048,
-  },
-  {
-    price: 55033.1,
-    averagePrice: 18211,
-  },
-  {
-    price: 48981.44,
-    averagePrice: 21280,
-  },
-];
+import dynamic from "next/dynamic";
+import Loading from "../Loading/Loading";
 
 const annualGains = [
   {
@@ -114,181 +51,22 @@ const annualGains = [
   },
 ];
 
-const CustomTooltip = ({ active, payload, title }) => {
-  if (active && payload && payload.length) {
-    return (
-      <div className="p-4 transition-shadow border rounded shadow-sm bg-white dark:bg-gray-800 dark:border-gray-800">
-        <p className="text-sm text-gray-500 dark:text-gray-200 font-semibold mb-2">
-          {title}
-        </p>
-        {payload.map((e, index) => (
-          <p
-            key={`${e.payload.assetPrice}-${index}`}
-            style={{ color: e.color }}
-            className="text-sm"
-          >
-            {e.name}: <span>{formatCurrency(e.value, "USD")}</span>
-          </p>
-        ))}
-      </div>
-    );
-  }
+const DynamicDCAChartTiming = dynamic(() => import("./DCAChartTiming"), {
+  ssr: false,
+  loading: () => <Loading withWrapper />,
+});
 
-  return null;
-};
-
-const ChartDCA = () => {
-  const { price, primary } = useChartStrokeColor();
-  return (
-    <div style={{ width: "100%", height: "100%" }}>
-      <ResponsiveContainer>
-        <AreaChart
-          data={chartData}
-          margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
-        >
-          <Area
-            type="monotone"
-            dataKey="price"
-            stroke={price}
-            fillOpacity={0}
-            strokeWidth={2}
-            dot={{ width: 4 }}
-            name="Actual sset price"
-          />
-          <Area
-            type="monotone"
-            dataKey="averagePrice"
-            stroke={primary}
-            fillOpacity={0}
-            strokeWidth={2}
-            fill="url(#colorBalanceCrypto)"
-            name="Average price (DCA)"
-          />
-
-          <Tooltip
-            content={<CustomTooltip title="Actual price Vs. Average price" />}
-          />
-        </AreaChart>
-      </ResponsiveContainer>
-    </div>
-  );
-};
-
-const dcaTiming = [
-  {
-    assetPrice: 7195.15,
-    earlyBuyAverage: 7195.15,
-  },
-  {
-    assetPrice: 9509.81,
-    earlyBuyAverage: 8352.48,
-  },
-  {
-    assetPrice: 8552.99,
-    earlyBuyAverage: 8419.32,
-  },
-  {
-    assetPrice: 6403.14,
-    earlyBuyAverage: 7915.27,
-  },
-  {
-    assetPrice: 8744.43,
-    earlyBuyAverage: 8081.1,
-  },
-  {
-    assetPrice: 9427.12,
-    earlyBuyAverage: 8305.44,
-  },
-  {
-    assetPrice: 9149.72,
-    earlyBuyAverage: 8424.65,
-    lateBuyAverage: 9149.72,
-  },
-  {
-    assetPrice: 10904.92,
-    earlyBuyAverage: 8734.68,
-    lateBuyAverage: 10133.01,
-  },
-  {
-    assetPrice: 11300.4,
-    earlyBuyAverage: 9019.76,
-    lateBuyAverage: 10582.5,
-  },
-  {
-    assetPrice: 10743.19,
-    earlyBuyAverage: 9192.11,
-    lateBuyAverage: 10604.88,
-  },
-  {
-    assetPrice: 13060.79,
-    earlyBuyAverage: 9543.8,
-    lateBuyAverage: 11140.51,
-  },
-  {
-    assetPrice: 18753.29,
-    earlyBuyAverage: 10311.26,
-    lateBuyAverage: 12140.47,
-  },
-  {
-    assetPrice: 24671.11,
-    earlyBuyAverage: 11415.86,
-    lateBuyAverage: 14180.86,
-  },
-];
-
-const ChartTiming = () => {
-  const { price, primary, secundary } = useChartStrokeColor();
-
-  return (
-    <div style={{ width: "100%", height: "100%" }}>
-      <ResponsiveContainer>
-        <AreaChart
-          data={dcaTiming}
-          margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
-        >
-          <Area
-            type="monotone"
-            dataKey="assetPrice"
-            stroke={price}
-            fillOpacity={0}
-            strokeWidth={2}
-            dot={{ width: 4 }}
-            name="Asset price"
-          />
-          <Area
-            type="monotone"
-            dataKey="earlyBuyAverage"
-            stroke={primary}
-            fillOpacity={0}
-            strokeWidth={2}
-            fill="url(#colorBalanceCrypto)"
-            name="Early buy average price"
-          />
-          <Area
-            type="monotone"
-            dataKey="lateBuyAverage"
-            stroke={secundary}
-            fillOpacity={0}
-            strokeWidth={2}
-            fill="url(#colorBalanceCrypto)"
-            name="Late buy average price"
-          />
-
-          <Tooltip
-            content={<CustomTooltip title="Early Vs. Late investing" />}
-          />
-        </AreaChart>
-      </ResponsiveContainer>
-    </div>
-  );
-};
+const DynamicDCAChart = dynamic(() => import("./DCAChart"), {
+  ssr: false,
+  loading: () => <Loading withWrapper />,
+});
 
 const WhatIsDCA = () => {
   return (
     <div className="">
       <div className="container mx-auto max-w-7xl px-6 p-6 flex flex-col md:flex-row ">
         <div className="w-4/4 md:w-2/4">
-          <ChartDCA />
+          <DynamicDCAChart />
         </div>
         <div className="w-4/4 md:w-2/4 pl-4 md:pl-0 md:ml-8">
           <h2 className="text-base text-indigo-500 dark:text-yellow-500 font-semibold tracking-wide uppercase">
@@ -362,7 +140,7 @@ const WhatIsDCA = () => {
           </p>
         </div>
         <div className="w-4/4 md:w-2/4 gap-8 dark:text-white  md:pr-8">
-          <ChartTiming />
+          <DynamicDCAChartTiming />
         </div>
       </div>
       <div className="flex justify-center py-16 md:py-24">
