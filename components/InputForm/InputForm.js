@@ -17,6 +17,8 @@ import * as ga from "../helpers/GoogleAnalytics";
 import useEffectOnlyOnUpdate from "../Hooks/useEffectOnlyOnUpdate";
 import { availableInvestmentIntervals } from "../../common/generateDefaultInput";
 import useGenerateUrl from "../Hooks/useGenerateUrl";
+import Select from "react-select";
+import SelectCoin from "../SelectCoin/SelectCoin";
 
 dayjs.extend(isSameOrBefore);
 
@@ -100,10 +102,6 @@ const InputForm = (props) => {
     generateUrl();
   }, []);
 
-  if (!state.settings.availableTokens) {
-    return null;
-  }
-
   return (
     <>
       <button
@@ -156,32 +154,7 @@ const InputForm = (props) => {
               Coin
             </span>
             <div className="mt-1 flex rounded-md shadow-sm">
-              <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 text-gray-500 text-sm dark:bg-gray-700 dark:border-gray-700 dark:text-gray-200">
-                <img
-                  src={currentCoin.image}
-                  className="w-5 h-5"
-                  alt={`${currentCoin.name} icon`}
-                  width="25"
-                  height="25"
-                />
-              </span>
-              <select
-                onChange={(e) => {
-                  dispatch({
-                    type: ACTIONS.UPDATE_COIN_ID,
-                    payload: e.target.value,
-                  });
-                }}
-                name="coinId"
-                value={currentCoin.id || ""}
-                className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200"
-              >
-                {state.settings.availableTokens.map((coin, index) => (
-                  <option key={coin.id} value={coin.id}>
-                    #{index + 1} {coin.name}
-                  </option>
-                ))}
-              </select>
+              <SelectCoin />
             </div>
           </label>
         </div>
