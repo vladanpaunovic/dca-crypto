@@ -14,11 +14,9 @@ class MyDocument extends Document {
           <meta name="coinzilla" content="c750bcee93610c032c51946115b13e1b" />
           <script
             async
-            defer
             src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
           />
           <script
-            defer
             dangerouslySetInnerHTML={{
               __html: `
             window.dataLayer = window.dataLayer || [];
@@ -33,7 +31,6 @@ class MyDocument extends Document {
 
           <script
             async
-            defer
             dangerouslySetInnerHTML={{
               __html: `(function(h,o,t,j,a,r){
                 h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
