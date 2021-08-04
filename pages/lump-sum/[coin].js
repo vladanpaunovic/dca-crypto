@@ -23,6 +23,7 @@ import BreadcrumbLumpSum from "../../components/Breadcrumb/BreadcrumbLumpSum";
 import WhatIsLumpSum from "../../components/LandingPage/WhatIsLumpSum";
 import dynamic from "next/dynamic";
 import Loading from "../../components/Loading/Loading";
+import { AdBannerBig, AdBannerMedium } from "../../components/Ads/Ads";
 
 const DynamicChart = dynamic(() => import("../../components/Chart/Chart"), {
   ssr: false,
@@ -129,6 +130,9 @@ const Coin = (props) => {
                 <DynamicChart />
               </div>
             </div>
+            <div className="flex justify-center mb-4">
+              <AdBannerBig />
+            </div>
             <div className="grid gap-8 mt-8 grid-cols-6">
               <div
                 className={`col-span-6 md:col-span-3 shadow-xl border bg-white dark:bg-gray-900 dark:border-gray-800 md:rounded-lg mb-8 transition ${
@@ -188,6 +192,9 @@ const CoinWrapper = (props) => {
           </div>
           <div>
             <InputFormLumpSum {...props} pathname="/lump-sum/" />
+          </div>
+          <div className="flex justify-center">
+            <AdBannerMedium />
           </div>
           <div className="mt-0 md:mt-8 hidden md:block">
             <DynamicAffiliateLinks />
