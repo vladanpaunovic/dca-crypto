@@ -22,6 +22,7 @@ import BreadcrumbDCA from "../../components/Breadcrumb/BreadcrumbDCA";
 import WhatIsDCA from "../../components/LandingPage/WhatIsDCA";
 import dynamic from "next/dynamic";
 import Loading from "../../components/Loading/Loading";
+import { AdBannerBig, AdBannerMedium } from "../../components/Ads/Ads";
 
 const DynamicChart = dynamic(() => import("../../components/Chart/Chart"), {
   ssr: false,
@@ -104,6 +105,7 @@ const Coin = (props) => {
           </div>
           <div className="col-span-6">
             <BreadcrumbDCA name={currentCoin.name} coinId={currentCoin.id} />
+
             <div className="shadow-xl border bg-white dark:bg-gray-900 dark:border-gray-800 md:rounded-lg md:p-6 mb-8">
               <div className="py-5 px-4 dark:bg-gray-900">
                 <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white">
@@ -114,6 +116,9 @@ const Coin = (props) => {
               <div className="h-96 md:p-4 dark:bg-gray-900 flex items-center">
                 <DynamicChart />
               </div>
+            </div>
+            <div className="flex justify-center mb-4">
+              <AdBannerBig />
             </div>
             <div className="grid gap-8 mt-8 grid-cols-6">
               <div
@@ -174,6 +179,9 @@ const CoinWrapper = (props) => {
           </div>
           <div>
             <InputFormWrapper {...props} pathname="/dca/" />
+          </div>
+          <div className="flex justify-center">
+            <AdBannerMedium />
           </div>
           <div className="mt-0 md:mt-8 hidden md:block">
             <DynamicAffiliateLinks />
