@@ -1,10 +1,12 @@
 import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 import Select from "react-select";
 import { useAppContext } from "../Context/Context";
 import { ACTIONS, useCurrentCoin } from "../Context/mainReducer";
 
 const colorsLight = {
   primary50: "#D1D5DB",
+  neutral0: "white",
 };
 
 const colorsDark = {
@@ -13,7 +15,7 @@ const colorsDark = {
    * menu/backgroundColor
    * option/color(selected)
    */
-  neutral0: "#111827",
+  neutral0: "#1F2937",
 
   /*
    * control/backgroundColor(disabled)
@@ -95,12 +97,13 @@ const colorsDark = {
   primary75: "#374151",
 };
 
-const getThemeColors = (projectTheme) =>
-  projectTheme === "light" ? colorsLight : colorsDark;
+export const getThemeColors = (projectTheme) => {
+  return projectTheme === "light" ? colorsLight : colorsDark;
+};
 
-const getSelectTheme = (theme, projectTheme) => {
+export const getSelectTheme = (theme, projectTheme) => {
   const currentColors = getThemeColors(projectTheme);
-  return {
+  const output = {
     ...theme,
     borderRadius: 4,
     colors: {
@@ -108,14 +111,22 @@ const getSelectTheme = (theme, projectTheme) => {
       ...currentColors,
     },
   };
+
+  return output;
 };
 
-const SelectCoin = () => {
+const SelectCoin = (props) => {
   const { theme: projectTheme } = useTheme();
   const { state, dispatch } = useAppContext();
+  const [mounted, setMounted] = useState(false);
   const currentCoin = useCurrentCoin();
 
   const themeColors = getThemeColors(projectTheme);
+
+  // When mounted on client, now we can show the UI
+  useEffect(() => setMounted(true), []);
+
+  if (!mounted) return null;
 
   if (!state.settings.availableTokens) {
     return null;
@@ -134,6 +145,10 @@ const SelectCoin = () => {
           "input:focus": {
             boxShadow: "none",
           },
+        }),
+        control: (base) => ({
+          ...base,
+          backgroundColor: themeColors.neutral0,
         }),
         menu: (provided, state) => ({
           ...provided,
