@@ -2,7 +2,6 @@ import { ChartSquareBarIcon, ChevronDownIcon } from "@heroicons/react/solid";
 import AutosizeInput from "react-input-autosize";
 import { useState } from "react";
 import { defaultCurrency, WEBSITE_URL } from "../../config";
-import { useRouter } from "next/router";
 import queryString from "query-string";
 import Link from "next/link";
 import { generateDefaultInput } from "../../common/generateDefaultInput";
@@ -10,6 +9,7 @@ import { useQuery } from "react-query";
 import { getDCAChartData } from "../../queries/queries";
 import dayjs from "dayjs";
 import { formatPrice } from "../Currency/Currency";
+import * as ga from "../helpers/GoogleAnalytics";
 
 const hideSelectStyles = {
   position: "absolute",
@@ -181,12 +181,26 @@ export default function CoinCalculator(props) {
             style={{ backgroundColor: tweet.color }}
             rel="nofollow noreferrer"
             target="_blank"
+            onClick={() => {
+              ga.event({
+                action: "share_homepage",
+                params: { token: selectedCoin.name },
+              });
+            }}
           >
             Tweet this <span className="ml-1 fill-current">{tweet.icon}</span>
           </a>
         </Link>
         <Link href={chartUrl}>
-          <a className="btn-blue bg-indigo-500 inline-flex items-center">
+          <a
+            onClick={() => {
+              ga.event({
+                action: "see_details_homepage",
+                params: { token: selectedCoin.name },
+              });
+            }}
+            className="btn-blue bg-indigo-500 inline-flex items-center"
+          >
             See details <ChartSquareBarIcon className="w-6 h-6 ml-1" />
           </a>
         </Link>
