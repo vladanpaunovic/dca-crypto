@@ -33,25 +33,7 @@ export default function Hero(props) {
               className="relative flex items-center justify-between sm:h-10 lg:justify-start"
               aria-label="Global"
             >
-              <div className="flex items-center flex-grow flex-shrink-0 lg:flex-grow-0">
-                <div className="flex items-center  md:w-auto">
-                  <Logo />
-                </div>
-                <div className="-mr-2">
-                  <button
-                    className="ml-2 dark:text-white text-gray hover:text-gray-900 rounded-full p-1 mr-2 focus:outline-none"
-                    onClick={() =>
-                      setTheme(theme === "light" ? "dark" : "light")
-                    }
-                  >
-                    {theme === "light" ? (
-                      <MoonIcon className="w-5 h-5" />
-                    ) : (
-                      <SunIcon className="w-5 h-5" />
-                    )}
-                  </button>
-                </div>
-              </div>
+              <div className="flex items-center flex-grow flex-shrink-0 lg:flex-grow-0"></div>
             </nav>
           </div>
 

@@ -14,6 +14,18 @@
   .h1-title {
     @apply text-4xl font-extrabold px-4 sm:px-0 text-gray-900 dark:text-gray-100;
   }
+
+  .landing-choose-coin-title {
+    @apply text-gray-900 dark:text-gray-400 font-semibold text-3xl md:text-5xl tracking-wide;
+  }
+
+  .landing-choose-coin-title__variable {
+    @apply text-indigo-600 dark:text-yellow-500 font-bold inline-flex items-center cursor-pointer;
+  }
+
+  .landing-choose-coin-title__icon {
+    @apply w-6 h-6 md:w-10 md:h-10 mx-1;
+  }
 }
 
 html,
@@ -44,6 +56,18 @@ SELECT.no_arrows:focus {
 SELECT.no_arrows::-ms-expand {
   /* for IE 10+ */
   display: none;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input.no_arrows::-webkit-outer-spin-button,
+input.no_arrows::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"].no_arrows {
+  -moz-appearance: textfield;
 }
 
 .pattern-domino {

@@ -1,4 +1,3 @@
-import { formatCurrency } from "@coingecko/cryptoformat";
 import { useCurrentCoin } from "../Context/mainReducer";
 import Currency from "../Currency/Currency";
 

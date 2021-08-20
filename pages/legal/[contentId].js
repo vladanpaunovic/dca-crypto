@@ -9,6 +9,7 @@ import dayjs from "dayjs";
 import { getAllCoins } from "../../queries/queries";
 import { defaultCurrency } from "../../config";
 import { NextSeo } from "next-seo";
+import NavigationMenu from "../../components/Menu/Menu";
 
 const availablePages = ["cookie-policy", "privacy-policy", "terms-conditions"];
 
@@ -41,7 +42,7 @@ export default function Page({ contentId, availableTokens, content }) {
         title={content.attributes.title}
         description={`Dollar cost average calculator for top 100 cryptocurrencies - ${content.attributes.title}.`}
       />
-      <Navigation />
+      <NavigationMenu availableTokens={availableTokens} />
       <article className="p-8">
         <h1 className="text-center text-gray-800 dark:text-gray-100 leading-10 font-extrabold text-4xl mb-10">
           {content.attributes.title}
