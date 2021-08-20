@@ -7,11 +7,11 @@ const Logo = () => {
     <Link href="/">
       <a className="flex font-medium items-center border dark:border-gray-800 rounded ">
         <div className="px-2 flex">
-          <span className="rounded-full text-lg text-indigo-700 transform rotate-45 bg-white font-bold dark:bg-gray-800 dark:text-yellow-500 dark:border-gray-900">
+          <span className="text-lg text-indigo-700 transform rotate-45 bg-white font-bold dark:bg-gray-900 dark:text-yellow-500 dark:border-gray-900">
             <SwitchHorizontalIcon className="w-6 h-6" />
           </span>
         </div>
-        <span className="pl-2 pr-4 py-1 text-lg text-gray-900 bg-gray-100 font-medium  dark:bg-gray-800 dark:text-white dark:border-gray-900">
+        <span className="pl-2 pr-4 py-1 text-lg bg-white font-medium dark:bg-gray-900 text-gray-900 dark:text-white dark:border-gray-900">
           DCA Cryptocurrency
         </span>
       </a>
