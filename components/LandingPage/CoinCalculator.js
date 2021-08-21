@@ -1,6 +1,6 @@
 import { ChartSquareBarIcon, ChevronDownIcon } from "@heroicons/react/solid";
 import AutosizeInput from "react-input-autosize";
-import { useState } from "react";
+import React, { useState } from "react";
 import { defaultCurrency, WEBSITE_URL } from "../../config";
 import queryString from "query-string";
 import Link from "next/link";
@@ -10,6 +10,7 @@ import { getDCAChartData } from "../../queries/queries";
 import dayjs from "dayjs";
 import { formatPrice } from "../Currency/Currency";
 import * as ga from "../helpers/GoogleAnalytics";
+import { AdBannerBig, AdBannerMedium } from "../Ads/Ads";
 
 const hideSelectStyles = {
   position: "absolute",
@@ -207,6 +208,14 @@ export default function CoinCalculator(props) {
           </a>
         </Link>
       </div>
+      <section className="container mx-auto max-w-7xl my-8">
+        <div className="justify-center hidden md:flex">
+          <AdBannerBig />
+        </div>
+        <div className="flex md:hidden justify-center">
+          <AdBannerMedium />
+        </div>
+      </section>
       <div className="mt-10 max-w-2xl mx-auto">
         <h2 className="text-3xl leading-8 font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-4xl mb-4 mt-8">
           What is dollar cost averageing (DCA)?

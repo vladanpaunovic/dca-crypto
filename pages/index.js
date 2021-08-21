@@ -8,7 +8,7 @@ import NavigationMenu from "../components/Menu/Menu";
 import CoinCalculator from "../components/LandingPage/CoinCalculator";
 import { generateDefaultInput } from "../common/generateDefaultInput";
 import dayjs from "dayjs";
-import { AdBannerBig } from "../components/Ads/Ads";
+import { AdBannerBig, AdBannerMedium } from "../components/Ads/Ads";
 import AllCoinsTable from "../components/AllCoinsTable/AllCoinsTable";
 
 export async function getServerSideProps(context) {
@@ -74,11 +74,6 @@ function Home(props) {
             availableTokens={props.availableTokens}
           />
         </section>
-        <section className="container mx-auto max-w-7xl my-8">
-          <div className="flex justify-center">
-            <AdBannerBig />
-          </div>
-        </section>
 
         <div className="container mx-auto max-w-7xl bg-white dark:bg-gray-900 flex flex-col md:flex-row mt-16 mb-8 md:p-8">
           <div className="mb-16 w-3/3 md:w-1/3 px-6 md:px-0">
@@ -112,8 +107,11 @@ function Home(props) {
           </div>
         </div>
         <section className="container mx-auto max-w-7xl my-8">
-          <div className="flex justify-center">
+          <div className="justify-center hidden md:flex">
             <AdBannerBig />
+          </div>
+          <div className="flex md:hidden justify-center">
+            <AdBannerMedium />
           </div>
         </section>
       </main>
