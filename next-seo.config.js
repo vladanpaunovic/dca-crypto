@@ -15,12 +15,6 @@ export const defaultSEO = {
         height: 697,
         alt: "Dollar cost averaging calculator",
       },
-      {
-        url: `https://${WEBSITE_URL}/images/meta-open-graph-lump-sum.jpg`,
-        width: 1200,
-        height: 697,
-        alt: "Lump sum calculator",
-      },
     ],
   },
   twitter: {

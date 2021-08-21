@@ -86,7 +86,7 @@ const Coin = (props) => {
               url: `https://${WEBSITE_URL}/images/meta-open-graph-dca.jpg`,
               width: 1200,
               height: 697,
-              alt: "DCA calculator",
+              alt: "Dollar cost averaging calculator",
             },
           ],
         }}
