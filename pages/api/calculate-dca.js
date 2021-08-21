@@ -97,6 +97,9 @@ const handler = async (req, res) => {
       percentageChange,
       duration: dayjs(payload.dateTo).diff(payload.dateFrom),
       opportunityCost: chartData[0].balanceCrypto * mostRecentEntry.coinPrice,
+      lumpSum:
+        (payload.investment / chartData[0].coinPrice) *
+        mostRecentEntry.coinPrice,
     },
   };
 

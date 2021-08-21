@@ -42,6 +42,10 @@ export default function CoinCalculator(props) {
   const { data } = useQuery({
     queryKey: ["getDCAChartData", investment, years, interval, selectedCoin],
     queryFn: async () => {
+      if (!selectedCoin.id || !interval.value || !investment || !years) {
+        return props.chartData;
+      }
+
       const payload = generateDefaultInput({
         coin: selectedCoin.id,
         investmentInterval: interval.value,
@@ -69,11 +73,9 @@ export default function CoinCalculator(props) {
   } every ${
     interval.label
   } for the last ${years} years, you'd have spent ${formatPrice(
-    data.insights.totalInvestment,
-    defaultCurrency
+    data.insights.totalInvestment
   )}. Today, you would have ${formatPrice(
-    data.insights.totalValue.fiat,
-    defaultCurrency
+    data.insights.totalValue.fiat
   )} worth of #${selectedCoin.name}`;
 
   const tweet = {
@@ -160,13 +162,13 @@ export default function CoinCalculator(props) {
           />
           years, you'd have spent{" "}
           <span className="landing-choose-coin-title__variable cursor-auto text-gray-900 dark:text-gray-100">
-            {formatPrice(data.insights.totalInvestment, defaultCurrency)}
+            {formatPrice(data.insights.totalInvestment)}
           </span>
         </h2>
         <h2 className="landing-choose-coin-title mt-8">
           Today, you would have{" "}
           <span className="landing-choose-coin-title__variable cursor-auto text-gray-900 dark:text-gray-100">
-            {formatPrice(data.insights.totalValue.fiat, defaultCurrency)}
+            {formatPrice(data.insights.totalValue.fiat)}
           </span>{" "}
           worth of{" "}
           <span className="landing-choose-coin-title__variable cursor-auto text-gray-900 dark:text-gray-100">
@@ -204,6 +206,71 @@ export default function CoinCalculator(props) {
             See details <ChartSquareBarIcon className="w-6 h-6 ml-1" />
           </a>
         </Link>
+      </div>
+      <div className="mt-10 max-w-2xl mx-auto">
+        <h2 className="text-3xl leading-8 font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-4xl mb-4 mt-8">
+          What is dollar cost averageing (DCA)?
+        </h2>
+        <div className="pb-4">
+          <p className="text-xl text-gray-700 dark:text-gray-200">
+            Dollar cost averaging (DCA) is a strategy many investors use, where
+            people invests a fixed amount of money over fixed time intervals,
+            such as every week or every month, without checking prices and
+            stress.
+          </p>
+          <p className="text-xl text-gray-700 dark:text-gray-200">
+            Dollar cost averaging is mostly used by people who are looking to
+            invest in {selectedCoin.name} for the long-term, since it protects
+            them from potentially allocating all their capital at once.
+          </p>
+        </div>
+        <h2 className="text-3xl leading-8 font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-4xl mb-4 mt-8">
+          How dollar cost averageing works (with an example)?
+        </h2>
+
+        <div className="space-y-4 pb-4">
+          <p className="text-xl text-indigo-500 dark:text-yellow-500 font-semibold tracking-wide ">
+            Meet Patricia 💃
+          </p>
+          <p className="text-xl text-gray-700 dark:text-gray-200">
+            Patricia decided {years} years ago, to start investing{" "}
+            {formatPrice(investment)} in #{selectedCoin.name} every{" "}
+            {interval.label}.
+          </p>
+          <p className="text-xl text-gray-700 dark:text-gray-200">
+            During this period Patricia would have invested{"  "}
+            {formatPrice(data.insights.totalInvestment)} of her own money.
+          </p>
+          <p className="text-xl text-gray-700 dark:text-gray-200">
+            If we sum up that all together, today Patricia's investment would be
+            worth {formatPrice(data.insights.totalValue.fiat)} of #
+            {selectedCoin.name} converted to USD.
+          </p>
+        </div>
+        <h2 className="text-3xl leading-8 font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-4xl mb-4 mt-8">
+          What is Lump sum investing?
+        </h2>
+        <div className="space-y-4 pb-4">
+          <p className="text-xl text-gray-700 dark:text-gray-200">
+            Unlike dollar cost averaging where investment is devided across time
+            intervals, lump sum investing is an amount invested all at once.
+          </p>
+        </div>
+        <h2 className="text-3xl leading-8 font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-4xl mb-4 mt-8">
+          How lump sum investing works (with an example)?
+        </h2>
+        <div className="space-y-4  pb-4">
+          <p className="text-xl text-indigo-500 dark:text-yellow-500 font-semibold tracking-wide">
+            Meet Robert 👨‍⚕️
+          </p>
+          <p className="text-xl text-gray-700 dark:text-gray-200">
+            Robert started investing {years} years ago, and at that time, Robert
+            invested {formatPrice(investment)} in #{selectedCoin.name}. With the
+            price development over this time period, Robert would have{" "}
+            {formatPrice(data.insights.lumpSum)} worth #{selectedCoin.name}{" "}
+            today.
+          </p>
+        </div>
       </div>
     </div>
   );
