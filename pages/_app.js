@@ -6,10 +6,8 @@ import { Hydrate } from "react-query/hydration";
 import CookieBanner from "../components/CookieBanner/CookieBanner";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { DefaultSeo } from "next-seo";
 import * as ga from "../components/helpers/GoogleAnalytics";
-import { defaultSEO } from "../next-seo.config";
-import { WEBSITE_URL } from "../config";
+import DefaultSeo from "../components/Seo/DefaultSeo";
 
 function App({ Component, pageProps }) {
   const router = useRouter();
@@ -35,19 +33,7 @@ function App({ Component, pageProps }) {
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
           <CookieBanner />
-          <DefaultSeo
-            {...defaultSEO}
-            openGraph={{
-              images: [
-                {
-                  url: `https://${WEBSITE_URL}/images/meta-open-graph-dca.jpg`,
-                  width: 1200,
-                  height: 697,
-                  alt: "Dollar cost averaging calculator",
-                },
-              ],
-            }}
-          />
+          <DefaultSeo />
           <Component {...pageProps} />
           <ReactQueryDevtools />
         </Hydrate>
