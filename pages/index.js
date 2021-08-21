@@ -89,6 +89,15 @@ function Home(props) {
           </div>
         </div>
 
+        <section className="container mx-auto max-w-7xl my-8">
+          <div className="justify-center hidden md:flex">
+            <AdBannerBig />
+          </div>
+          <div className="flex md:hidden justify-center">
+            <AdBannerMedium />
+          </div>
+        </section>
+
         <div className="container mx-auto max-w-7xl bg-white dark:bg-gray-900 flex flex-col md:flex-row mt-16 mb-8 md:p-8">
           <div className="mb-16 w-3/3 md:w-1/3 px-6 md:px-0">
             <h2 className="text-base text-indigo-500 dark:text-yellow-500 font-semibold tracking-wide uppercase">
@@ -106,14 +115,6 @@ function Home(props) {
             />
           </div>
         </div>
-        <section className="container mx-auto max-w-7xl my-8">
-          <div className="justify-center hidden md:flex">
-            <AdBannerBig />
-          </div>
-          <div className="flex md:hidden justify-center">
-            <AdBannerMedium />
-          </div>
-        </section>
       </main>
 
       <Footer availableTokens={props.availableTokens} />
