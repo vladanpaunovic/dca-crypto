@@ -11,14 +11,6 @@ export const defaultSEO = {
     locale: "en_GB",
     url: `https://${WEBSITE_URL}`,
     site_name: "DCA-CC",
-    images: [
-      {
-        url: `https://${WEBSITE_URL}/images/meta-open-graph-dca.jpg`,
-        width: 1200,
-        height: 697,
-        alt: "Dollar cost averaging calculator",
-      },
-    ],
   },
   twitter: {
     handle: "@dca_cc",
