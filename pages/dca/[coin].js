@@ -80,6 +80,16 @@ const Coin = (props) => {
         title={`Dollar cost average ${currentCoin.name} (${coinSymbol}) calculator`}
         description={`Dollar cost average calculator for ${currentCoin.name} (${coinSymbol}). Visualise and examine the impact of your investments in ${currentCoin.name} or any other popular crypto.`}
         canonical={`https://${WEBSITE_URL}/dca/${currentCoin.id}`}
+        openGraph={{
+          images: [
+            {
+              url: `https://${WEBSITE_URL}/images/meta-open-graph-dca.jpg`,
+              width: 1200,
+              height: 697,
+              alt: "DCA calculator",
+            },
+          ],
+        }}
       />
       <main>
         <div className="grid grid-cols-6 w-full gap-8">
