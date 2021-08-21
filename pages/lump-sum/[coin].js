@@ -82,6 +82,8 @@ const Coin = (props) => {
         description={`Lump sum investing calculator for ${currentCoin.name} (${coinSymbol}). Visualise and examine the impact of your investments in ${currentCoin.name} or any other popular crypto.`}
         canonical={`https://${WEBSITE_URL}/lump-sum/${currentCoin.id}`}
         openGraph={{
+          title: `Lump sum ${currentCoin.name} (${coinSymbol}) calculator`,
+          description: `Lump sum investing calculator for ${currentCoin.name} (${coinSymbol}). Visualise and examine the impact of your investments in ${currentCoin.name} or any other popular crypto.`,
           images: [
             {
               url: `https://${WEBSITE_URL}/images/meta-open-graph-lump-sum.jpg`,

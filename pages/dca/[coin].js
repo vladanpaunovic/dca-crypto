@@ -81,6 +81,8 @@ const Coin = (props) => {
         description={`Dollar cost average calculator for ${currentCoin.name} (${coinSymbol}). Visualise and examine the impact of your investments in ${currentCoin.name} or any other popular crypto.`}
         canonical={`https://${WEBSITE_URL}/dca/${currentCoin.id}`}
         openGraph={{
+          title: `Dollar cost average ${currentCoin.name} (${coinSymbol}) calculator`,
+          description: `Dollar cost average calculator for ${currentCoin.name} (${coinSymbol}). Visualise and examine the impact of your investments in ${currentCoin.name} or any other popular crypto.`,
           images: [
             {
               url: `https://${WEBSITE_URL}/images/meta-open-graph-dca.jpg`,

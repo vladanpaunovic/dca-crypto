@@ -5,6 +5,9 @@ export const defaultSEO = {
   defaultTitle: "DCA Crypto",
   openGraph: {
     type: "website",
+    title: "DCA Crypto | Dollar cost average cryptocurrency",
+    description:
+      "Dollar cost average calculator for top 100 cryptocurrencies. Visualise and examine the impact of your investments in crypto.",
     locale: "en_GB",
     url: `https://${WEBSITE_URL}`,
     site_name: "DCA-CC",
