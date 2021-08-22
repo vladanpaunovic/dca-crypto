@@ -86,10 +86,10 @@ function Home(props) {
 
         <div className="container mx-auto max-w-3xl bg-white dark:bg-gray-900 mt-16 mb-8 md:p-8">
           <div className="mb-16 px-6 md:px-0">
-            <h2 className="text-base text-indigo-500 dark:text-yellow-500 font-semibold tracking-wide uppercase">
+            <h2 className="text-base text-indigo-500 text-center dark:text-yellow-500 font-semibold tracking-wide uppercase">
               DCA Calculator
             </h2>
-            <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
+            <p className="mt-2 text-3xl text-center leading-8 font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
               Calculate DCA for your favorite coins
             </p>
           </div>
@@ -109,10 +109,10 @@ function Home(props) {
 
         <div className="container mx-auto max-w-3xl bg-white dark:bg-gray-900 mt-16 mb-8 md:p-8">
           <div className="mb-16 px-6 md:px-0">
-            <h2 className="text-base text-indigo-500 dark:text-yellow-500 font-semibold tracking-wide uppercase">
+            <h2 className="text-base text-center text-indigo-500 dark:text-yellow-500 font-semibold tracking-wide uppercase">
               Lump Sum Calculator
             </h2>
-            <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
+            <p className="mt-2 text-center text-3xl leading-8 font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
               Calculate Lump Sum investments for your favorite coins
             </p>
           </div>
