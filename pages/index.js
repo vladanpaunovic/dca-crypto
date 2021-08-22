@@ -75,8 +75,17 @@ function Home(props) {
           />
         </section>
 
-        <div className="container mx-auto max-w-7xl bg-white dark:bg-gray-900 flex flex-col md:flex-row mt-16 mb-8 md:p-8">
-          <div className="mb-16 w-3/3 md:w-1/3 px-6 md:px-0">
+        <section className="container mx-auto max-w-7xl my-8">
+          <div className="justify-center hidden md:flex">
+            <AdBannerBig />
+          </div>
+          <div className="flex md:hidden justify-center">
+            <AdBannerMedium />
+          </div>
+        </section>
+
+        <div className="container mx-auto max-w-3xl bg-white dark:bg-gray-900 mt-16 mb-8 md:p-8">
+          <div className="mb-16 px-6 md:px-0">
             <h2 className="text-base text-indigo-500 dark:text-yellow-500 font-semibold tracking-wide uppercase">
               DCA Calculator
             </h2>
@@ -84,7 +93,7 @@ function Home(props) {
               Calculate DCA for your favorite coins
             </p>
           </div>
-          <div className="w-3/3 md:w-2/3 dark:text-white">
+          <div className=" dark:text-white">
             <AllCoinsTable showOnlyNTokens={10} showSearch={false} type="dca" />
           </div>
         </div>
@@ -98,8 +107,8 @@ function Home(props) {
           </div>
         </section>
 
-        <div className="container mx-auto max-w-7xl bg-white dark:bg-gray-900 flex flex-col md:flex-row mt-16 mb-8 md:p-8">
-          <div className="mb-16 w-3/3 md:w-1/3 px-6 md:px-0">
+        <div className="container mx-auto max-w-3xl bg-white dark:bg-gray-900 mt-16 mb-8 md:p-8">
+          <div className="mb-16 px-6 md:px-0">
             <h2 className="text-base text-indigo-500 dark:text-yellow-500 font-semibold tracking-wide uppercase">
               Lump Sum Calculator
             </h2>
@@ -107,7 +116,7 @@ function Home(props) {
               Calculate Lump Sum investments for your favorite coins
             </p>
           </div>
-          <div className="w-3/3 md:w-2/3 pr-4 dark:text-white">
+          <div className="pr-4 dark:text-white">
             <AllCoinsTable
               showOnlyNTokens={10}
               showSearch={false}
