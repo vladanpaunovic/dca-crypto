@@ -218,7 +218,7 @@ export default function CoinCalculator(props) {
       </section>
       <div className="mt-10 max-w-2xl mx-auto">
         <h2 className="text-3xl leading-8 font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-4xl mb-4 mt-8">
-          What is dollar cost averageing (DCA)?
+          What is dollar cost averaging (DCA)?
         </h2>
         <div className="pb-4">
           <p className="text-xl text-gray-700 dark:text-gray-200">

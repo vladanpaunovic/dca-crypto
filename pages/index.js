@@ -57,13 +57,16 @@ function Home(props) {
       <main className="w-full bg-white dark:bg-gray-900">
         <NavigationMenu availableTokens={props.availableTokens} />
         <section className="mx-auto p-8 primary-gradient dark:bg-gray-800 text-center">
-          <div className="container mx-auto">
+          <div className="container max-w-4xl mx-auto">
+            <p className="text-center text-xl md:text-3xl text-gray-200 dark:text-yellow-900">
+              Invest smarter with our tools
+            </p>
             <h1 className="h1-title text-4xl md:text-7xl text-center mb-4 text-white dark:text-gray-900">
-              Cryptocurrency DCA and Lump sum calculator
+              Automatic DCA Calculator and Lump Sum Investment Calculator
             </h1>
             <p className="text-center text-xl md:text-3xl text-gray-200 dark:text-yellow-900">
-              Calculate (backtest) compound interest using dollar cost averaging
-              or lump sum investing strategies
+              Calculate your returns with dollar cost averaging or lump sum
+              investing, the perfect tool for cryptocurrency investors.
             </p>
           </div>
         </section>
