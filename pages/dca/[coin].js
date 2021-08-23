@@ -168,19 +168,19 @@ const Coin = (props) => {
             >
               <DataTable />
             </div>
-            <div className="hidden lg:flex justify-center mb-4">
+            <div className="hidden lg:flex justify-center my-4">
               <AdBannerBig />
             </div>
-            <div className="flex lg:hidden justify-center">
+            <div className="flex lg:hidden justify-center my-4">
               <AdBannerMedium />
             </div>
             <section className="mx-auto mt-8">
               <WhatIsDCA />
             </section>
-            <div className="hidden lg:flex justify-center mb-4">
+            <div className="hidden lg:flex justify-center my-4">
               <AdBannerBig />
             </div>
-            <div className="flex lg:hidden justify-center">
+            <div className="flex lg:hidden justify-center my-4">
               <AdBannerMedium />
             </div>
           </div>
@@ -210,7 +210,7 @@ const CoinWrapper = (props) => {
           <div className="mt-0 md:mt-8 hidden md:block">
             <DynamicAffiliateLinks />
           </div>
-          <div className="flex justify-center">
+          <div className="hidden md:flex justify-center">
             <AdBannerMedium />
           </div>
         </div>
