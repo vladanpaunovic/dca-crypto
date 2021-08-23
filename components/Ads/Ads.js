@@ -1,6 +1,6 @@
 export const AdBannerBig = () => {
   return (
-    <div className="border-4">
+    <div className="">
       <script async src="https://coinzillatag.com/lib/display.js" />
       <div className="coinzilla" data-zone="C-14160f92ec110283428" />
 
@@ -21,7 +21,7 @@ export const AdBannerBig = () => {
 
 export const AdBannerMedium = () => {
   return (
-    <div className="border-4">
+    <div className="">
       <script async src="https://coinzillatag.com/lib/display.js" />
       <div className="coinzilla" data-zone="C-80660f92ec10f888819" />
 
