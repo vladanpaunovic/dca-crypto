@@ -51,8 +51,8 @@ function Home(props) {
   return (
     <div className="w-full">
       <NextSeo
-        title="Dollar cost average cryptocurrency"
-        description="Dollar cost average calculator for top 100 cryptocurrencies. Visualise and examine the impact of your investments in crypto."
+        title=" DCA and Lump Sum Investment Calculator"
+        description="Calculate your returns with dollar cost averaging or lump sum investing, the perfect tool for cryptocurrency investors"
       />
       <main className="w-full bg-white dark:bg-gray-900">
         <NavigationMenu availableTokens={props.availableTokens} />
