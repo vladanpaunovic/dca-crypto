@@ -9,6 +9,7 @@ import { CACHE_INVALIDATION_INTERVAL, defaultCurrency } from "../config";
 import { getAllCoins } from "../queries/queries";
 import { NextSeo } from "next-seo";
 import NavigationMenu from "../components/Menu/Menu";
+import { AdBannerBig, AdBannerMedium } from "../components/Ads/Ads";
 
 export async function getServerSideProps(context) {
   const availableTokens = await getAllCoins(
@@ -63,8 +64,20 @@ function AllTokens(props) {
             {isDca ? "Switch to lump sum investing" : "Switch to DCA"}
           </button>
         </div>
+        <div className="hidden lg:flex justify-center my-4">
+          <AdBannerBig />
+        </div>
+        <div className="flex lg:hidden justify-center my-4">
+          <AdBannerMedium />
+        </div>
         <div className="container lg:px-6 max-w-7xl mx-auto max-w-80 bg-white dark:bg-gray-900 mt-10">
           <AllCoinsTable showSearch type={calcType} />
+        </div>
+        <div className="hidden lg:flex justify-center my-4">
+          <AdBannerBig />
+        </div>
+        <div className="flex lg:hidden justify-center my-4">
+          <AdBannerMedium />
         </div>
       </main>
 
