@@ -62,8 +62,8 @@ function Home(props) {
               Cryptocurrency DCA and Lump sum calculator
             </h1>
             <p className="text-center text-xl md:text-3xl text-gray-200 dark:text-yellow-900">
-              Calculate (backtest) compound interest using dollar cost
-              averageing or lump sum invesing strategies
+              Calculate (backtest) compound interest using dollar cost averaging
+              or lump sum investing strategies
             </p>
           </div>
         </section>
