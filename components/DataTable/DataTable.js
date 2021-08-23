@@ -103,7 +103,8 @@ const DataTable = () => {
                           </>
                         ) : (
                           <>
-                            Show more{" "}
+                            Show more ({state.chart.data.length - MINIMUM_ROWS}{" "}
+                            more)
                             <ChevronDownIcon className="ml-1 w-5 h-5" />
                           </>
                         )}
