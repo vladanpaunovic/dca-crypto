@@ -113,7 +113,6 @@ export async function getServerSideProps(context) {
       `${WEBSITE_URL}/api/calculate-${type}`,
       payload
     );
-    console.log(WEBSITE_URL);
     dcaData = response.data;
   } catch (error) {
     console.log(error);
