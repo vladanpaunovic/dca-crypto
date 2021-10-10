@@ -58,7 +58,8 @@ const DataTable = () => {
                     scope="col"
                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-100"
                   >
-                    Crypto Balance ({currentCoin.symbol.toUpperCase()})
+                    {currentCoin.symbol.toUpperCase()} purchased with{" "}
+                    <Currency value={state.input.investment} />
                   </th>
                   <th
                     scope="col"
@@ -70,7 +71,6 @@ const DataTable = () => {
               </thead>
               <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-900">
                 {tableData.map((entry) => {
-                  console.log(entry);
                   return (
                     <tr
                       key={entry.date}
@@ -93,7 +93,7 @@ const DataTable = () => {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm">
                         {formatCurrency(
-                          parseFloat(entry.balanceCrypto) || 0,
+                          parseFloat(entry.totalCrypto) || 0,
                           currentCoin.symbol
                         )}
                       </td>

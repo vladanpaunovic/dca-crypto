@@ -48,32 +48,31 @@ const handler = async (req, res) => {
     return prev;
   }, []);
 
+  let allCrypto = [];
+  let prices = [];
+
   const chartData = reduced.map((entry, index) => {
-    const sumAllInvestments = reduced
-      .slice(0, index + 1)
-      .map((e) => parseFloat(e.coinPrice))
-      .reduce((prev, next) => prev + next, 0);
+    prices.push(parseFloat(entry.coinPrice));
+    const cryptoAmountInThisPurchase =
+      payload.investment / parseFloat(entry.coinPrice);
 
-    const costAverage =
-      index === 0 ? entry.coinPrice : sumAllInvestments / (index + 1);
+    allCrypto.push(cryptoAmountInThisPurchase);
+    const balanceCrypto = allCrypto.reduce((p, c) => p + c, 0);
 
-    const totalCrypto = payload.investment / entry.coinPrice;
-
-    const balanceCrypto = reduced
-      .slice(0, index + 1)
-      .map((e) => payload.investment / parseFloat(e.coinPrice))
-      .reduce((prev, curr) => prev + curr, 0)
-      .toFixed(6);
-
+    // const costAverage =
+    // prices.reduce((prev, curr) => prev + curr, 0) / (index + 1);
     const totalFIAT = (index + 1) * payload.investment;
+
+    const costAverage = totalFIAT / balanceCrypto;
+
     const balanceFIAT = (balanceCrypto * entry.coinPrice).toFixed(2);
 
     const percentageChange = getPercentageChange(totalFIAT, balanceFIAT);
 
     return {
       ...entry,
-      totalFIAT: (index + 1) * payload.investment,
-      totalCrypto,
+      totalFIAT,
+      totalCrypto: cryptoAmountInThisPurchase,
       costAverage,
       balanceFIAT,
       balanceCrypto,
@@ -81,24 +80,18 @@ const handler = async (req, res) => {
     };
   });
 
-  const mostRecentEntry = chartData[chartData.length - 1];
-
-  const totalInvestment = mostRecentEntry.totalFIAT;
-  const totalValueFIAT = mostRecentEntry.balanceFIAT;
-  const percentageChange = mostRecentEntry.percentageChange;
-  const totalValueCrypto = mostRecentEntry.balanceCrypto;
+  const { totalFIAT, balanceFIAT, balanceCrypto, percentageChange, coinPrice } =
+    chartData[chartData.length - 1];
 
   const output = {
     chartData,
     insights: {
-      totalInvestment,
-      totalValue: { crypto: totalValueCrypto, fiat: totalValueFIAT },
+      totalInvestment: totalFIAT,
+      totalValue: { crypto: balanceCrypto.toFixed(6), fiat: balanceFIAT },
       percentageChange,
       duration: dayjs(payload.dateTo).diff(payload.dateFrom),
-      opportunityCost: chartData[0].balanceCrypto * mostRecentEntry.coinPrice,
-      lumpSum:
-        (payload.investment / chartData[0].coinPrice) *
-        mostRecentEntry.coinPrice,
+      opportunityCost: chartData[0].balanceCrypto * coinPrice,
+      lumpSum: (payload.investment / chartData[0].coinPrice) * coinPrice,
     },
   };
 
