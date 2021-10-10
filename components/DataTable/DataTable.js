@@ -1,12 +1,15 @@
+import { formatCurrency } from "@coingecko/cryptoformat";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/outline";
 import { useState } from "react";
 import { useAppContext } from "../Context/Context";
+import { useCurrentCoin } from "../Context/mainReducer";
 import Currency from "../Currency/Currency";
 
 const MINIMUM_ROWS = 10;
 const DataTable = () => {
   const { state } = useAppContext();
   const [isShowingMore, setIsShowingMore] = useState(false);
+  const currentCoin = useCurrentCoin();
 
   const tableData = isShowingMore
     ? [...state.chart.data]
@@ -55,12 +58,19 @@ const DataTable = () => {
                     scope="col"
                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-100"
                   >
+                    Crypto Balance ({currentCoin.symbol.toUpperCase()})
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-100"
+                  >
                     Profit/Loss %
                   </th>
                 </tr>
               </thead>
               <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-900">
                 {tableData.map((entry) => {
+                  console.log(entry);
                   return (
                     <tr
                       key={entry.date}
@@ -82,17 +92,34 @@ const DataTable = () => {
                         <Currency value={entry.balanceFIAT} />
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm">
-                        {entry.percentageChange > 0
-                          ? `+${entry.percentageChange}`
-                          : entry.percentageChange}
-                        %
+                        {formatCurrency(
+                          parseFloat(entry.balanceCrypto) || 0,
+                          currentCoin.symbol
+                        )}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm">
+                        {entry.percentageChange > 0 && (
+                          <span className="text-green-500">
+                            +${entry.percentageChange}
+                          </span>
+                        )}
+
+                        {entry.percentageChange < 0 && (
+                          <span className="text-red-500">
+                            {entry.percentageChange}%
+                          </span>
+                        )}
+
+                        {parseFloat(entry.percentageChange) === 0 && (
+                          <span>{entry.percentageChange}%</span>
+                        )}
                       </td>
                     </tr>
                   );
                 })}
                 {state.chart.data.length > MINIMUM_ROWS && (
                   <tr className="hover:bg-gray-50 dark:hover:bg-gray-900 text-gray-500 dark:text-gray-100">
-                    <td colSpan={6} className="text-sm">
+                    <td colSpan={7} className="text-sm">
                       <button
                         onClick={() => setIsShowingMore(!isShowingMore)}
                         className="flex items-center font-medium px-6 py-4 w-full h-full hover:font-semibold"

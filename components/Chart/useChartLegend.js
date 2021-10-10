@@ -2,8 +2,8 @@ import { useState } from "react";
 
 const useChartLegend = (firstDataKey, secondDataKey) => {
   const [strokeSize, setStrokeSize] = useState({
-    [firstDataKey]: 3,
-    [secondDataKey]: 3,
+    [firstDataKey]: 1,
+    [secondDataKey]: 1,
   });
 
   const handleMouseEnter = (o) => {

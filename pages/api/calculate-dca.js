@@ -2,6 +2,9 @@ import axios from "axios";
 import dayjs from "dayjs";
 import getPercentageChange from "../../components/helpers/getPercentageChange";
 import { withSentry } from "@sentry/nextjs";
+import CoinGecko from "coingecko-api";
+
+const CoinGeckoClient = new CoinGecko();
 
 const convertDateStringToUnix = (dateString) =>
   new Date(dateString).getTime() / 1000;
@@ -9,14 +12,12 @@ const convertDateStringToUnix = (dateString) =>
 const handler = async (req, res) => {
   const payload = { ...req.body };
 
-  const response = await axios.get(
-    `https://api.coingecko.com/api/v3/coins/${payload.coinId}/market_chart/range`,
+  const response = await CoinGeckoClient.coins.fetchMarketChartRange(
+    payload.coinId,
     {
-      params: {
-        vs_currency: payload.currency,
-        from: convertDateStringToUnix(payload.dateFrom),
-        to: convertDateStringToUnix(payload.dateTo),
-      },
+      from: convertDateStringToUnix(payload.dateFrom),
+      to: convertDateStringToUnix(payload.dateTo),
+      vs_currency: payload.currency,
     }
   );
 
@@ -54,9 +55,7 @@ const handler = async (req, res) => {
       .reduce((prev, next) => prev + next, 0);
 
     const costAverage =
-      index === 0
-        ? entry.coinPrice
-        : (sumAllInvestments / (index + 1)).toFixed(2);
+      index === 0 ? entry.coinPrice : sumAllInvestments / (index + 1);
 
     const totalCrypto = payload.investment / entry.coinPrice;
 
