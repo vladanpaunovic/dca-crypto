@@ -1,6 +1,10 @@
 import Head from "next/head";
 import { getAllCoins } from "../../queries/queries";
-import { CACHE_INVALIDATION_INTERVAL, defaultCurrency } from "../../config";
+import {
+  CACHE_INVALIDATION_INTERVAL,
+  defaultCurrency,
+  WEBSITE_URL,
+} from "../../config";
 import axios from "axios";
 import React from "react";
 import dayjs from "dayjs";
@@ -106,9 +110,10 @@ export async function getServerSideProps(context) {
   let dcaData;
   try {
     const response = await axios.post(
-      `${process.env.NEXTAUTH_URL}/api/calculate-${type}`,
+      `${WEBSITE_URL}/api/calculate-${type}`,
       payload
     );
+    console.log(WEBSITE_URL);
     dcaData = response.data;
   } catch (error) {
     console.log(error);
