@@ -3,7 +3,7 @@ import { getAllCoins } from "../../queries/queries";
 import {
   CACHE_INVALIDATION_INTERVAL,
   defaultCurrency,
-  WEBSITE_URL,
+  WEBSITE_PATHNAME,
 } from "../../config";
 import axios from "axios";
 import React from "react";
@@ -110,7 +110,7 @@ export async function getServerSideProps(context) {
   let dcaData;
   try {
     const response = await axios.post(
-      `${WEBSITE_URL}/api/calculate-${type}`,
+      `${WEBSITE_PATHNAME}/api/calculate-${type}`,
       payload
     );
     dcaData = response.data;

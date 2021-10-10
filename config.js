@@ -16,3 +16,7 @@ export const WEBSITE_URL =
   process.env.NEXT_PUBLIC_VERCEL_ENV === "production"
     ? "www.dca-cc.com"
     : process.env.NEXT_PUBLIC_VERCEL_URL;
+
+export const WEBSITE_PREFIX =
+  process.env.NEXT_PUBLIC_VERCEL_ENV === "production" ? "https://" : "http://";
+export const WEBSITE_PATHNAME = WEBSITE_PREFIX + WEBSITE_URL;
