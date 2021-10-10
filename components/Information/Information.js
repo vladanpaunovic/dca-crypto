@@ -39,7 +39,6 @@ const Information = () => {
   const { state } = useAppContext();
   const currentCoin = useCurrentCoin();
 
-  const coinSymbol = currentCoin.symbol.toUpperCase();
   const information = [
     {
       label: "Duration",
@@ -49,14 +48,41 @@ const Information = () => {
     },
     {
       label: "Total investment",
-      value: <Currency value={state.chart.insights.totalInvestment || 0} />,
+      value: (
+        <>
+          <Currency value={state.chart.insights.totalInvestment || 0} /> (
+          {state.chart.data.length} investments)
+        </>
+      ),
     },
     {
       label: "Value in FIAT",
+      value: <Currency value={state.chart.insights.totalValue?.fiat || 0} />,
+    },
+    {
+      label: `Value in crypto`,
+      value: (
+        <>
+          {state.chart.insights.totalValue?.crypto || 0}{" "}
+          {currentCoin.symbol.toUpperCase()}
+        </>
+      ),
+    },
+    {
+      label: "ROI",
+      description: (
+        <div>
+          <p className="mb-2">ROI - Return of investment </p>
+          <p className="text-thin text-sm">
+            Return on investment, or ROI, is a mathematical formula that
+            investors can use to evaluate their investments and judge how well a
+            particular investment has performed compared to others.
+          </p>
+        </div>
+      ),
       value: (
         <>
           <p>
-            <Currency value={state.chart.insights.totalValue?.fiat || 0} />{" "}
             <span
               className={`inline-block px-2 text-sm text-white dark:text-gray-900 ${
                 state.chart.insights.percentageChange > 0
@@ -68,15 +94,6 @@ const Information = () => {
               {state.chart.insights.percentageChange}%
             </span>
           </p>
-        </>
-      ),
-    },
-    {
-      label: `Value in crypto`,
-      value: (
-        <>
-          {state.chart.insights.totalValue?.crypto || 0}{" "}
-          {currentCoin.symbol.toUpperCase()}
         </>
       ),
     },

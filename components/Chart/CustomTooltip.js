@@ -1,5 +1,6 @@
 import { useCurrentCoin } from "../Context/mainReducer";
 import Currency from "../Currency/Currency";
+import { CalendarIcon } from "@heroicons/react/outline";
 
 const mapFormatting = (entry) => {
   const currentCoin = useCurrentCoin();
@@ -36,7 +37,12 @@ const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
     return (
       <div className="p-4 transition-shadow border rounded shadow-sm bg-white dark:bg-gray-800 dark:border-gray-800">
-        <p className="text-sm text-gray-500 dark:text-gray-200">{label}</p>
+        <p className="text-sm text-gray-500 dark:text-gray-200 flex items-center">
+          <span className="mr-1">
+            <CalendarIcon width={16} height={16} />
+          </span>{" "}
+          {label}
+        </p>
         {payload.map((e, index) => (
           <p
             key={`${e.value}-${index}`}
