@@ -153,6 +153,10 @@ const Chart = (props) => {
   );
   const color = "transparent";
 
+  if (!props.dcaData) {
+    return null;
+  }
+
   const allValues = props.dcaData.chartData.map((v) => parseFloat(v.coinPrice));
   const minValue = Math.min(...allValues) / 1.1;
   const maxValue = Math.max(...allValues) * 1.1;
@@ -235,6 +239,10 @@ const Information = (props) => {
 
   const coinSymbol = currentCoin.symbol.toUpperCase();
   const duration = dayjs(props.dateTo).diff(props.dateFrom, "day");
+
+  if (!props.dcaData) {
+    return null;
+  }
 
   const information = [
     {

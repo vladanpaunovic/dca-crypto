@@ -59,8 +59,6 @@ const handler = async (req, res) => {
     allCrypto.push(cryptoAmountInThisPurchase);
     const balanceCrypto = allCrypto.reduce((p, c) => p + c, 0);
 
-    // const costAverage =
-    // prices.reduce((prev, curr) => prev + curr, 0) / (index + 1);
     const totalFIAT = (index + 1) * payload.investment;
 
     const costAverage = totalFIAT / balanceCrypto;
