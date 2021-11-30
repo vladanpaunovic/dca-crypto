@@ -7,7 +7,7 @@ const detectAdBlocker = async (setter) => {
   const detected = await detectAnyAdblocker();
 
   Sentry.setTag("ad_blocker", detected);
-  Sentry.captureMessage(`ad blocker is ${detected ? "enabled" : "disabled"}`);
+  Sentry.captureMessage(`ad blocker status`);
 
   return setter(detected);
 };
