@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import * as ga from "../components/helpers/GoogleAnalytics";
 import DefaultSeo from "../components/Seo/DefaultSeo";
+import AdBlockerBanner from "../components/AdBlockerBanner/AdBlockerBanner";
 
 function App({ Component, pageProps }) {
   const router = useRouter();
@@ -33,6 +34,7 @@ function App({ Component, pageProps }) {
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
           <CookieBanner />
+          <AdBlockerBanner />
           <DefaultSeo />
           <Component {...pageProps} />
           <ReactQueryDevtools />

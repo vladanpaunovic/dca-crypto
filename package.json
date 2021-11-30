@@ -20,6 +20,7 @@
     "coingecko-api": "^1.0.10",
     "dayjs": "^1.10.6",
     "dotenv": "^8.2.0",
+    "just-detect-adblock": "^1.1.0",
     "next": "11.1.0",
     "next-seo": "^4.26.0",
     "next-themes": "^0.0.15",
