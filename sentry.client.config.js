@@ -15,7 +15,7 @@ Sentry.init({
   // Set tracesSampleRate to 1.0 to capture 100%
   // of transactions for performance monitoring.
   // We recommend adjusting this value in production
-  tracesSampleRate: 0.1,
+  tracesSampleRate: 0.5,
   beforeSend(event, hint) {
     // Check if it is an exception, and if so, show the report dialog
     if (event.exception) {
