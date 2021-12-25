@@ -10,9 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: cURL request
-        run: curl --location --request POST 'https://www.dca-cc.com/api/twitter/tweet' \
-          --header 'Content-Type: application/x-www-form-urlencoded' \
-          --data-urlencode 'consumer_key=${{secrets.TWITTER_CONSUMER_KEY}}' \
-          --data-urlencode 'consumer_secret=${{secrets.TWITTER_CONSUMER_SECRET}}' \
-          --data-urlencode 'access_token_key=${{secrets.TWITTER_ACCESS_TOKEN_KEY}}' \
-          --data-urlencode 'access_token_secret=${{secrets.TWITTER_ACCESS_TOKEN_SECRET}}'
+        run:
+          curl --location --request POST 'https://www.dca-cc.com/api/twitter/tweet' \
+          --data-urlencode 'consumer_key="${{secrets.TWITTER_CONSUMER_KEY}}"' \
+          --data-urlencode 'consumer_secret="${{secrets.TWITTER_CONSUMER_SECRET}}"' \
+          --data-urlencode 'access_token_key="${{secrets.TWITTER_ACCESS_TOKEN_KEY}}"' \
+          --data-urlencode 'access_token_secret="${{secrets.TWITTER_ACCESS_TOKEN_SECRET}}"'
+          --header 'Content-Type=application/x-www-form-urlencoded' \
