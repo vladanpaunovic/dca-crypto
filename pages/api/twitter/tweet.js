@@ -18,6 +18,8 @@ export const availableInvestmentIntervals = [
   { label: "year", value: "365" },
 ];
 
+const stableCoins = ["usdt", "usdc", "busd", "ust", "dai"];
+
 const generateTweetMessage = (payload) =>
   `If you'd bought ${formatPrice(payload.investment)} of #${
     payload.coinName
@@ -30,8 +32,6 @@ const generateTweetMessage = (payload) =>
   }`;
 
 async function handler(req, res) {
-  console.log("BODY", req.body);
-
   if (!req.body.consumer_key) {
     throw new Error("Missing consumer_key");
   }
@@ -62,7 +62,11 @@ async function handler(req, res) {
     .format("YYYY-MM-DD");
 
   const availableTokens = await getAllCoins(defaultCurrency);
-  const topTenCoins = availableTokens.slice(0, 9);
+
+  const filteredAvailableTokens = availableTokens.filter(
+    (token) => !stableCoins.includes(token.symbol)
+  );
+  const topTenCoins = filteredAvailableTokens.slice(0, 9);
   const randomCoin = randomArrayKey(topTenCoins);
   const randomInterval = randomArrayKey(availableInvestmentIntervals);
   const payload = generateDefaultInput({
