@@ -1,10 +1,10 @@
 name: Trigger Site Rebuild on a CRON Schedule
 
 on:
-  workflow_dispatch
   schedule:
     # Runs "at minute 40 past every hour" (see https://crontab.guru)
     - cron: "40 * * * *"
+  workflow_dispatch:
 jobs:
   build:
     name: Post tweet to twitter
