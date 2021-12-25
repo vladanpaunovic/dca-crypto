@@ -96,7 +96,7 @@ export default function CoinCalculator(props) {
 
   return (
     <div className="px-8 md:px-0">
-      <div className="text-center">
+      <div className="text-center shadow-2xl border dark:border-gray-700 rounded-3xl p-4">
         <h2 className="landing-choose-coin-title" aria-label={tweetMessage}>
           If you'd bought $
           <AutosizeInput
@@ -176,38 +176,40 @@ export default function CoinCalculator(props) {
             #{selectedCoin.name}
           </span>
         </h2>
+
+        <div className="text-center mt-16 space-x-6">
+          <Link href={tweet.href}>
+            <a
+              className="btn-blue inline-flex items-center"
+              style={{ backgroundColor: tweet.color }}
+              rel="nofollow noreferrer"
+              target="_blank"
+              onClick={() => {
+                ga.event({
+                  action: "share_homepage",
+                  params: { token: selectedCoin.name },
+                });
+              }}
+            >
+              Tweet this <span className="ml-1 fill-current">{tweet.icon}</span>
+            </a>
+          </Link>
+          <Link href={chartUrl}>
+            <a
+              onClick={() => {
+                ga.event({
+                  action: "see_details_homepage",
+                  params: { token: selectedCoin.name },
+                });
+              }}
+              className="btn-blue bg-indigo-500 inline-flex items-center"
+            >
+              See details <ChartSquareBarIcon className="w-6 h-6 ml-1" />
+            </a>
+          </Link>
+        </div>
       </div>
-      <div className="text-center mt-16 space-x-6">
-        <Link href={tweet.href}>
-          <a
-            className="btn-blue inline-flex items-center"
-            style={{ backgroundColor: tweet.color }}
-            rel="nofollow noreferrer"
-            target="_blank"
-            onClick={() => {
-              ga.event({
-                action: "share_homepage",
-                params: { token: selectedCoin.name },
-              });
-            }}
-          >
-            Tweet this <span className="ml-1 fill-current">{tweet.icon}</span>
-          </a>
-        </Link>
-        <Link href={chartUrl}>
-          <a
-            onClick={() => {
-              ga.event({
-                action: "see_details_homepage",
-                params: { token: selectedCoin.name },
-              });
-            }}
-            className="btn-blue bg-indigo-500 inline-flex items-center"
-          >
-            See details <ChartSquareBarIcon className="w-6 h-6 ml-1" />
-          </a>
-        </Link>
-      </div>
+
       <section className="container mx-auto max-w-7xl my-8">
         <div className="justify-center hidden md:flex">
           <AdBannerBig />
