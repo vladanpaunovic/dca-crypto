@@ -1,13 +1,20 @@
 import axios from "axios";
 import dayjs from "dayjs";
 import getPercentageChange from "../../components/helpers/getPercentageChange";
-import { withSentry } from "@sentry/nextjs";
+import { withSentry, addBreadcrumb, Severity } from "@sentry/nextjs";
 
 const convertDateStringToUnix = (dateString) =>
   Math.round(new Date(dateString).getTime() / 1000);
 
 const handler = async (req, res) => {
   const payload = { ...req.body };
+
+  addBreadcrumb({
+    category: "Payload",
+    level: Severity.Info,
+    message: "Lump Sum Payload",
+    data: payload,
+  });
 
   const response = await axios.get(
     `https://api.coingecko.com/api/v3/coins/${payload.coinId}/market_chart/range`,

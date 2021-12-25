@@ -1,7 +1,7 @@
 import axios from "axios";
 import dayjs from "dayjs";
 import getPercentageChange from "../../components/helpers/getPercentageChange";
-import { withSentry } from "@sentry/nextjs";
+import { withSentry, addBreadcrumb, Severity } from "@sentry/nextjs";
 import CoinGecko from "coingecko-api";
 
 const CoinGeckoClient = new CoinGecko();
@@ -11,6 +11,12 @@ const convertDateStringToUnix = (dateString) =>
 
 const handler = async (req, res) => {
   const payload = { ...req.body };
+  addBreadcrumb({
+    category: "Payload",
+    level: Severity.Info,
+    message: "DCA Payload",
+    data: payload,
+  });
 
   const response = await CoinGeckoClient.coins.fetchMarketChartRange(
     payload.coinId,
