@@ -78,13 +78,13 @@ const handler = async (req, res) => {
     };
   });
 
-  const { totalFIAT, balanceFIAT, balanceCrypto, percentageChange, coinPrice } =
-    chartData[chartData.length - 1];
+  const lastItem = chartData[chartData.length - 1];
+  const { balanceFIAT, balanceCrypto, percentageChange, coinPrice } = lastItem;
 
   const output = {
     chartData,
     insights: {
-      totalInvestment: totalFIAT,
+      totalInvestment: lastItem.totalFIAT || payload.investment,
       totalValue: { crypto: balanceCrypto.toFixed(6), fiat: balanceFIAT },
       percentageChange,
       duration: dayjs(payload.dateTo).diff(payload.dateFrom),
