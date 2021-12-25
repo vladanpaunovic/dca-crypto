@@ -1,0 +1,15 @@
+name: Trigger Site Rebuild on a CRON Schedule
+
+on:
+  schedule:
+    # Runs "at minute 55 past every hour" (see https://crontab.guru)
+    - cron: "10 * * * *"
+jobs:
+  build:
+    name: Post tweet to twitter
+    runs-on: ubuntu-latest
+    steps:
+      - name: cURL request
+        run: curl -X POST \
+          -d {"consumer_key": "${{secrets.TWITTER_CONSUMER_KEY}}", "consumer_secret": "${{secrets.TWITTER_CONSUMER_SECRET}}", "access_token_key": "${{secrets.TWITTER_ACCESS_TOKEN_KEY}}", "access_token_secret": "${{secrets.TWITTER_ACCESS_TOKEN_SECRET}}"} \
+          -H "Content-Type: application/x-www-form-urlencoded" https://www.dca-cc.com/api/twitter/tweet
