@@ -2,7 +2,6 @@ name: Trigger Site Rebuild on a CRON Schedule
 
 on:
   schedule:
-    # Runs "at minute 40 past every hour" (see https://crontab.guru)
     - cron: "40 * * * *"
   workflow_dispatch:
 jobs:
