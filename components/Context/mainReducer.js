@@ -6,6 +6,7 @@ import {
   generateDefaultInput,
   calculateDateRangeDifference,
 } from "../../common/generateDefaultInput";
+import * as Sentry from "@sentry/nextjs";
 
 export const ACTIONS = {
   // Input actions
@@ -34,6 +35,13 @@ export const useCurrentCoin = (coinId = null) => {
   );
 
   if (!currentCoin) {
+    Sentry.addBreadcrumb({
+      category: "Payload",
+      level: Sentry.Severity.Info,
+      message: "Router query",
+      data: { ...router.query, coinId },
+    });
+
     throw new Error("Can't assotiate coin id to the coin object");
   }
 
