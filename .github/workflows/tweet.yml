@@ -17,4 +17,7 @@ jobs:
 
     steps:
       - name: cURL request
-        run: curl --location --request POST https://www.dca-cc.com/api/twitter/tweet/ -H 'Content-Type=application/x-www-form-urlencoded' --data-urlencode 'consumer_key="$TWITTER_CONSUMER_KEY"' --data-urlencode 'consumer_secret="$TWITTER_CONSUMER_SECRET"' --data-urlencode 'access_token_key="$TWITTER_ACCESS_TOKEN_KEY"' --data-urlencode 'access_token_secret="$TWITTER_ACCESS_TOKEN_SECRET"'
+        uses: distributhor/workflow-webhook
+        with:
+          url: "https://www.dca-cc.com/api/twitter/tweet"
+          json: '{ "consumer_key": "${{secrets.TWITTER_CONSUMER_KEY}}", "consumer_secret": "${{secrets.TWITTER_CONSUMER_SECRET}}", "access_token_key": "${{secrets.TWITTER_ACCESS_TOKEN_KEY}}", "access_token_secret": "${{secrets.TWITTER_ACCESS_TOKEN_SECRET}}" }'
