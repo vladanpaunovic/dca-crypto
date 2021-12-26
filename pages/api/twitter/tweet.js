@@ -147,7 +147,7 @@ async function handler(req, res) {
     years: randomYears,
   });
 
-  const qs = queryString.stringify({
+  const dcaQueryString = queryString.stringify({
     investment: payload.investment,
     investmentInterval: randomInterval.value,
     dateFrom: beforeNYears,
@@ -155,8 +155,15 @@ async function handler(req, res) {
     currency: defaultCurrency,
   });
 
-  const dcaChartUrl = `https://${WEBSITE_URL}/dca/${randomCoin.id}/?${qs}`;
-  const lumpSumChartUrl = `https://${WEBSITE_URL}/lump-sum/${randomCoin.id}/?${qs}`;
+  const lumpSumQueryString = queryString.stringify({
+    investment: lumpSumChartData.insights.totalInvestment,
+    investmentInterval: randomInterval.value,
+    dateFrom: beforeNYears,
+    currency: defaultCurrency,
+  });
+
+  const dcaChartUrl = `https://${WEBSITE_URL}/dca/${randomCoin.id}/?${dcaQueryString}`;
+  const lumpSumChartUrl = `https://${WEBSITE_URL}/lump-sum/${randomCoin.id}/?${lumpSumQueryString}`;
 
   const summaryMessage = generateSummaryMessage(dcaChartData, lumpSumChartData);
   try {
