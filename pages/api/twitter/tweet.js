@@ -64,16 +64,16 @@ const generateSummaryMessage = (dca, lumpSum) => {
 
   if (totalValue.DCA > totalValue.LUMPSUM) {
     const difference = totalValue.DCA - totalValue.LUMPSUM;
-    return `Observing this scenario DCA is a better investing strategy, overtaking lump-investment by ${formatPrice(
+    return `Observing this scenario #DCA would be better investing strategy, overtaking #lumpsum investment by ${formatPrice(
       difference
     )}. #DCA`;
   }
 
   if (totalValue.DCA < totalValue.LUMPSUM) {
     const difference = totalValue.LUMPSUM - totalValue.DCA;
-    return `Observing this scenario Lump-sum is a better investing strategy, overtaking DCA by ${formatPrice(
+    return `Observing this scenario Lump-sum would be better investing strategy, overtaking #DCA by ${formatPrice(
       difference
-    )}. #lump-sum`;
+    )}. #lumpsum`;
   }
 
   return "There are no differences in gain over this time period. Both strategies prove equal returns.";
