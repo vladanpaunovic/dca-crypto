@@ -1,12 +1,12 @@
-name: Trigger Site Rebuild on a CRON Schedule
+name: Tweet on a CRON Schedule
 
 on:
   schedule:
-    - cron: "40 * * * *"
+    - cron: "0 */3 * * *"
   workflow_dispatch:
 jobs:
   build:
-    name: Post tweet to twitter
+    name: Tweet
     runs-on: ubuntu-latest
     steps:
       - name: cURL request
