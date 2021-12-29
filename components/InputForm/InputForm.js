@@ -36,7 +36,7 @@ const InputForm = (props) => {
   const isSubmitDisabled = state.input.duration < 90 || !state.input.investment;
 
   const mutation = useMutation(
-    (payload) => axios.post("/api/calculate-dca", payload),
+    (payload) => axios.post("/api/calculate/dca", payload),
     {
       onSuccess: (data) => {
         dispatch({

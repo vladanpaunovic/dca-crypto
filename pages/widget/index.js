@@ -110,7 +110,7 @@ export async function getServerSideProps(context) {
   let dcaData;
   try {
     const response = await axios.post(
-      `${WEBSITE_PATHNAME}/api/calculate-${type}`,
+      `${WEBSITE_PATHNAME}/api/calculate/${type}`,
       payload
     );
     dcaData = response.data;

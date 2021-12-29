@@ -1,7 +1,7 @@
 import axios from "axios";
 import dayjs from "dayjs";
-import getPercentageChange from "../../components/helpers/getPercentageChange";
-import { withSentry, addBreadcrumb, Severity } from "@sentry/nextjs";
+import getPercentageChange from "../../../components/helpers/getPercentageChange";
+import * as Sentry from "@sentry/nextjs";
 import CoinGecko from "coingecko-api";
 
 const CoinGeckoClient = new CoinGecko();
@@ -11,9 +11,10 @@ const convertDateStringToUnix = (dateString) =>
 
 const handler = async (req, res) => {
   const payload = { ...req.body };
-  addBreadcrumb({
+
+  Sentry.addBreadcrumb({
     category: "Payload",
-    level: Severity.Info,
+    level: Sentry.Severity.Info,
     message: "DCA Payload",
     data: payload,
   });
@@ -102,4 +103,4 @@ const handler = async (req, res) => {
   res.status(200).json(output);
 };
 
-export default withSentry(handler);
+export default Sentry.withSentry(handler);

@@ -25,7 +25,7 @@ const InputForm = (props) => {
   const isSubmitDisabled = state.input.duration < 90 || !state.input.investment;
 
   const mutation = useMutation(
-    (payload) => axios.post("/api/calculate-lump-sum", payload),
+    (payload) => axios.post("/api/calculate/lump-sum", payload),
     {
       onSuccess: (data) => {
         dispatch({
