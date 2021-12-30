@@ -9,14 +9,6 @@ const convertDateStringToUnix = (dateString) =>
 const handler = async (req, res) => {
   const payload = { ...req.body };
 
-  const sentryTransactionId = req.headers["x-transaction-id"];
-
-  if (sentryTransactionId) {
-    Sentry.configureScope((scope) => {
-      scope.setTag("transaction_id", sentryTransactionId);
-    });
-  }
-
   Sentry.addBreadcrumb({
     category: "Payload",
     level: Sentry.Severity.Info,

@@ -2,23 +2,12 @@ import axios from "axios";
 import dayjs from "dayjs";
 import getPercentageChange from "../../../components/helpers/getPercentageChange";
 import * as Sentry from "@sentry/nextjs";
-import CoinGecko from "coingecko-api";
-
-const CoinGeckoClient = new CoinGecko();
 
 const convertDateStringToUnix = (dateString) =>
   new Date(dateString).getTime() / 1000;
 
 const handler = async (req, res) => {
   const payload = { ...req.body };
-
-  const sentryTransactionId = req.headers["x-transaction-id"];
-
-  if (sentryTransactionId) {
-    Sentry.configureScope((scope) => {
-      scope.setTag("transaction_id", sentryTransactionId);
-    });
-  }
 
   Sentry.addBreadcrumb({
     category: "Payload",
@@ -27,12 +16,14 @@ const handler = async (req, res) => {
     data: payload,
   });
 
-  const response = await CoinGeckoClient.coins.fetchMarketChartRange(
-    payload.coinId,
+  const response = await axios.get(
+    `https://api.coingecko.com/api/v3/coins/${payload.coinId}/market_chart/range`,
     {
-      from: convertDateStringToUnix(payload.dateFrom),
-      to: convertDateStringToUnix(payload.dateTo),
-      vs_currency: payload.currency,
+      params: {
+        from: convertDateStringToUnix(payload.dateFrom),
+        to: convertDateStringToUnix(payload.dateTo),
+        vs_currency: payload.currency,
+      },
     }
   );
 
