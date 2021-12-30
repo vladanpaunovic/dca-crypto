@@ -3,8 +3,6 @@
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/
 
 import * as Sentry from "@sentry/nextjs";
-import { v4 as uuidv4 } from "uuid";
-const transactionId = uuidv4();
 
 const SENTRY_DSN = process.env.SENTRY_DSN || process.env.NEXT_PUBLIC_SENTRY_DSN;
 
@@ -26,7 +24,4 @@ Sentry.init({
     return event;
   },
   tunnel: "/api/tunnel",
-  initialScope: (scope) => {
-    scope.setTag("transaction_id", transactionId);
-  },
 });

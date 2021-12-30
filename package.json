@@ -36,8 +36,7 @@
     "recharts": "^2.1.0",
     "store": "^2.0.12",
     "twitter-lite": "^1.1.0",
-    "url": "^0.11.0",
-    "uuid": "^8.3.2"
+    "url": "^0.11.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.2.5",
