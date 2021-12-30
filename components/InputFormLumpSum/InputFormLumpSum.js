@@ -10,6 +10,7 @@ import * as ga from "../helpers/GoogleAnalytics";
 import useEffectOnlyOnUpdate from "../Hooks/useEffectOnlyOnUpdate";
 import useGenerateUrl from "../Hooks/useGenerateUrl";
 import SelectCoin from "../SelectCoin/SelectCoin";
+import apiClient from "../../server/apiClient";
 
 const InputForm = (props) => {
   const appContext = useAppContext();
@@ -25,7 +26,7 @@ const InputForm = (props) => {
   const isSubmitDisabled = state.input.duration < 90 || !state.input.investment;
 
   const mutation = useMutation(
-    (payload) => axios.post("/api/calculate-lump-sum", payload),
+    (payload) => apiClient.post("calculate/lump-sum", payload),
     {
       onSuccess: (data) => {
         dispatch({

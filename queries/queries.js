@@ -20,13 +20,13 @@ export const getAllCoins = async (currency) => {
 };
 
 export const getDCAChartData = async (payload) => {
-  const response = await apiClient.post("calculate-dca", payload);
+  const response = await apiClient.post("calculate/dca", payload);
 
   return response.data;
 };
 
 export const getLumpSumChartData = async (payload) => {
-  const response = await apiClient.post("calculate-lump-sum", payload);
+  const response = await apiClient.post("calculate/lump-sum", payload);
 
   return response.data;
 };

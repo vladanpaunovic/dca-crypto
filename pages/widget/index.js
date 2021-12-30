@@ -5,7 +5,6 @@ import {
   defaultCurrency,
   WEBSITE_PATHNAME,
 } from "../../config";
-import axios from "axios";
 import React from "react";
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
@@ -23,6 +22,7 @@ import {
 import { kFormatter } from "../../components/Chart/helpers";
 import useChartLegend from "../../components/Chart/useChartLegend";
 import { formatCurrency } from "@coingecko/cryptoformat";
+import apiClient from "../../server/apiClient";
 dayjs.extend(localizedFormat);
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
@@ -109,10 +109,7 @@ export async function getServerSideProps(context) {
 
   let dcaData;
   try {
-    const response = await axios.post(
-      `${WEBSITE_PATHNAME}/api/calculate-${type}`,
-      payload
-    );
+    const response = await apiClient.post(`calculate/${type}`, payload);
     dcaData = response.data;
   } catch (error) {
     console.log(error);
