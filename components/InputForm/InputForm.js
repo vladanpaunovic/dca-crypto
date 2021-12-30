@@ -1,5 +1,4 @@
 import { useMutation } from "react-query";
-import axios from "axios";
 import { useAppContext } from "../Context/Context";
 import { useRouter } from "next/router";
 import { XIcon, CalculatorIcon } from "@heroicons/react/outline";
@@ -17,6 +16,7 @@ import {
 } from "../../common/generateDefaultInput";
 import useGenerateUrl from "../Hooks/useGenerateUrl";
 import SelectCoin from "../SelectCoin/SelectCoin";
+import apiClient from "../../server/apiClient";
 
 dayjs.extend(isSameOrBefore);
 
@@ -36,7 +36,7 @@ const InputForm = (props) => {
   const isSubmitDisabled = state.input.duration < 90 || !state.input.investment;
 
   const mutation = useMutation(
-    (payload) => axios.post("/api/calculate/dca", payload),
+    (payload) => apiClient.post("calculate/dca", payload),
     {
       onSuccess: (data) => {
         dispatch({
