@@ -2,7 +2,7 @@ import { Popover } from "@headlessui/react";
 import { CodeIcon, ShareIcon } from "@heroicons/react/outline";
 import { useRouter } from "next/router";
 import React from "react";
-import { WEBSITE_URL } from "../../config";
+import { WEBSITE_PATHNAME } from "../../config";
 import { useCurrentCoin } from "../Context/mainReducer";
 import queryString from "query-string";
 import { useTweetMessage } from "../TweetMessage/TweetMessage";
@@ -25,7 +25,7 @@ const SharingButtons = () => {
   };
 
   const readyQueryString = queryString.stringify(queryWithoutCoin);
-  const locationHref = `${WEBSITE_URL}/${pathname}/${router.query.coin}?${readyQueryString}`;
+  const locationHref = `${WEBSITE_PATHNAME}/${pathname}/${router.query.coin}?${readyQueryString}`;
 
   const subject = `DCA Crypto - Dollar cost average ${currentCoin.name} (${coinSymbol}) calculator`;
   const priceChartMessage = useTweetMessage();
@@ -146,7 +146,7 @@ const ShareChart = () => {
     ...router.query,
     type: pathname,
   });
-  const locationHref = `${WEBSITE_URL}/widget?${readyQueryString}`;
+  const locationHref = `${WEBSITE_PATHNAME}/widget?${readyQueryString}`;
 
   const embedScript = `<iframe src="${locationHref}" title="DCA Crypto - Dollar cost average ${currentCoin.name} (${coinSymbol})
   calculator" width="800" height="600"></iframe>`;
