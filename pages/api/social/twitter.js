@@ -1,5 +1,5 @@
 import { withSentry } from "@sentry/nextjs";
-// import Twitter from "twitter-lite";
+import Twitter from "twitter-lite";
 import apiClient from "../../../server/apiClient";
 
 async function handler(req, res) {
