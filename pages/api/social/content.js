@@ -9,6 +9,7 @@ import {
 import { formatPrice } from "../../../components/Currency/Currency";
 import dayjs from "dayjs";
 import queryString from "query-string";
+import { checkCORS } from "../../../server/cors";
 
 const randomArrayKey = (array) =>
   array[Math.floor(Math.random() * array.length)];
@@ -79,6 +80,7 @@ const generateSummaryMessage = (dca, lumpSum) => {
 };
 
 async function handler(req, res) {
+  await checkCORS(req, res);
   const availableTokens = await getAllCoins(defaultCurrency);
 
   const filteredAvailableTokens = availableTokens.filter(

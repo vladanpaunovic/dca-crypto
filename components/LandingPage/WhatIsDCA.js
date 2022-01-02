@@ -191,7 +191,7 @@ const WhatIsDCA = () => {
                     <NextImage
                       src={`https://img.clankapp.com/symbol/${coin.symbol.toLowerCase()}.svg`}
                       alt={`${coin.coin} logo`}
-                      layout="fill" // required
+                      layout="fill"
                       objectFit="cover"
                     />
                   </div>
