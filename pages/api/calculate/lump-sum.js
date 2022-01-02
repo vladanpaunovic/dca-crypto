@@ -2,14 +2,11 @@ import axios from "axios";
 import dayjs from "dayjs";
 import getPercentageChange from "../../../components/helpers/getPercentageChange";
 import * as Sentry from "@sentry/nextjs";
-import { checkCORS } from "../../../server/cors";
 
 const convertDateStringToUnix = (dateString) =>
   Math.round(new Date(dateString).getTime() / 1000);
 
 const handler = async (req, res) => {
-  await checkCORS(req, res);
-
   const payload = { ...req.body };
 
   Sentry.addBreadcrumb({

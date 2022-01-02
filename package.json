@@ -18,7 +18,6 @@
     "@tailwindcss/forms": "^0.3.3",
     "@tailwindcss/typography": "^0.4.1",
     "axios": "^0.21.1",
-    "cors": "^2.8.5",
     "dayjs": "^1.10.6",
     "dotenv": "^8.2.0",
     "just-detect-adblock": "^1.1.0",
