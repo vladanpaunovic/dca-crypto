@@ -5,10 +5,6 @@ import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import Logo from "../Logo/Logo";
 import ThemeSwitch from "../ThemeSwitch/ThemeSwitch";
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
-
 export default function NavigationMenu({ availableTokens }) {
   const allTokens = [...availableTokens];
   const navigation = [

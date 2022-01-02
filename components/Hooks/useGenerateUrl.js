@@ -8,16 +8,25 @@ const useGenerateUrl = (method) => {
   let payload;
 
   switch (method) {
-    case "lump-sum":
+    case "lump-sum": {
       const { investment, dateFrom, currency } = state.input;
       payload = { investment, dateFrom, currency };
       break;
-    case "dca":
-      const { coinId, ...rest } = state.input;
-      payload = rest;
+    }
+    case "dca": {
+      payload = {
+        investment: state.input.investment,
+        investmentInterval: state.input.investmentInterval,
+        dateFrom: state.input.dateFrom,
+        dateTo: state.input.dateTo,
+        duration: state.input.duration,
+        currency: state.input.currency,
+      };
       break;
-    default:
+    }
+    default: {
       break;
+    }
   }
 
   const generateUrl = () =>

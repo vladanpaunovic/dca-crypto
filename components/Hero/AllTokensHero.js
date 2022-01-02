@@ -1,19 +1,4 @@
-/* This example requires Tailwind CSS v2.0+ */
-import { MoonIcon, SunIcon } from "@heroicons/react/outline";
-import Logo from "../Logo/Logo";
-import Link from "next/link";
-import { useTheme } from "next-themes";
-import { useAppContext } from "../Context/Context";
-
 export default function Hero(props) {
-  const { theme, setTheme } = useTheme();
-  const { state } = useAppContext();
-
-  const topTokens = state.settings.availableTokens.slice(0, 8);
-
-  // Show different token every day
-  const randomToken = topTokens[new Date().getDay()];
-
   return (
     <div className="relative bg-white dark:bg-gray-900 overflow-hidden">
       <div className="max-w-7xl mx-auto">

@@ -98,7 +98,7 @@ export default function CoinCalculator(props) {
     <div className="px-8 md:px-0">
       <div className="text-center shadow-2xl border dark:border-gray-700 rounded-3xl p-4">
         <h2 className="landing-choose-coin-title" aria-label={tweetMessage}>
-          If you'd bought $
+          If you&apos;d bought $
           <AutosizeInput
             className="flex items-center"
             value={investment}
@@ -161,7 +161,7 @@ export default function CoinCalculator(props) {
             inputClassName="no_arrows px-0 landing-choose-coin-title landing-choose-coin-title__variable border-none underline dark:bg-gray-900"
             onChange={(event) => setYears(event.target.value)}
           />
-          years, you'd have spent{" "}
+          years, you&apos;d have spent{" "}
           <span className="landing-choose-coin-title__variable cursor-auto text-gray-900 dark:text-gray-100">
             {formatPrice(data.insights.totalInvestment)}
           </span>
@@ -253,8 +253,8 @@ export default function CoinCalculator(props) {
             {formatPrice(data.insights.totalInvestment)} of her own money.
           </p>
           <p className="text-xl text-gray-700 dark:text-gray-200">
-            If we sum up that all together, today Patricia's investment would be
-            worth {formatPrice(data.insights.totalValue.fiat)} of #
+            If we sum up that all together, today Patricia&apos;s investment
+            would be worth {formatPrice(data.insights.totalValue.fiat)} of #
             {selectedCoin.name} converted to USD.
           </p>
         </div>

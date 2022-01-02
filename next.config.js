@@ -22,7 +22,9 @@ const moduleExports = (phase) => ({
     });
     return cfg;
   },
-
+  images: {
+    domains: ["img.clankapp.com", "assets.coingecko.com"],
+  },
   env: {
     IS_PROD: phase === PHASE_PRODUCTION_BUILD,
   },

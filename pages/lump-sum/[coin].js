@@ -24,6 +24,7 @@ import WhatIsLumpSum from "../../components/LandingPage/WhatIsLumpSum";
 import dynamic from "next/dynamic";
 import Loading from "../../components/Loading/Loading";
 import { AdBannerBig, AdBannerMedium } from "../../components/Ads/Ads";
+import NextImage from "next/image";
 
 const DynamicChart = dynamic(() => import("../../components/Chart/Chart"), {
   ssr: false,
@@ -70,7 +71,7 @@ export async function getServerSideProps(context) {
   };
 }
 
-const Coin = (props) => {
+const Coin = () => {
   const { state } = useAppContext();
   const currentCoin = useCurrentCoin();
   const coinSymbol = currentCoin.symbol.toUpperCase();
@@ -106,13 +107,14 @@ const Coin = (props) => {
                 backtesting
               </h1>
               {state.input.isLoading ? null : (
-                <img
-                  className="w-8 h-8 ml-2 hidden sm:block"
-                  src={currentCoin.image}
-                  alt={`${currentCoin.name} logo`}
-                  width="40"
-                  height="40"
-                />
+                <div className="w-8 h-8 ml-2 hidden sm:block relative">
+                  <NextImage
+                    src={currentCoin.image}
+                    alt={`${currentCoin.name} logo`}
+                    layout="fill"
+                    objectFit="cover"
+                  />
+                </div>
               )}
             </div>
           </div>

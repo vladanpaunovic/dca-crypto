@@ -115,7 +115,7 @@ export const getSelectTheme = (theme, projectTheme) => {
   return output;
 };
 
-const SelectCoin = (props) => {
+const SelectCoin = () => {
   const { theme: projectTheme } = useTheme();
   const { state, dispatch } = useAppContext();
   const [mounted, setMounted] = useState(false);
@@ -150,7 +150,7 @@ const SelectCoin = (props) => {
           ...base,
           backgroundColor: themeColors.neutral0,
         }),
-        menu: (provided, state) => ({
+        menu: (provided) => ({
           ...provided,
           border: "1px solid",
           borderColor: themeColors.primary50,

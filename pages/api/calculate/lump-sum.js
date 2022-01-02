@@ -56,7 +56,7 @@ const handler = async (req, res) => {
 
   const firstInvestment = reduced[0];
 
-  const chartData = reduced.map((entry, index) => {
+  const chartData = reduced.map((entry) => {
     const costAverage = firstInvestment.coinPrice;
 
     const totalCrypto = payload.investment / firstInvestment.coinPrice;

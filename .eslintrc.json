@@ -1,3 +1,4 @@
 {
-  "extends": ["eslint:recommended", "next"]
+  "extends": ["eslint:recommended", "next"],
+  "env": { "es6": true }
 }

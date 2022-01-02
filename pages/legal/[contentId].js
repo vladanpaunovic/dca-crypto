@@ -1,7 +1,5 @@
-import Head from "next/head";
 import NextError from "next/error";
 import Footer from "../../components/Footer/Footer";
-import Navigation from "../../components/Navigarion/Navigation";
 
 import React from "react";
 import ReactMarkdown from "react-markdown";

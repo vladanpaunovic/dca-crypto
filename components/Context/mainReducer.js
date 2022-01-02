@@ -1,5 +1,4 @@
 import { useReducer } from "react";
-import dayjs from "dayjs";
 import { useAppContext } from "./Context";
 import { useRouter } from "next/router";
 import {
@@ -24,7 +23,6 @@ export const ACTIONS = {
   // Settings actions
   UPDATE_CURRENCY: "UPDATE_CURRENCY",
   UPDATE_LIST_OF_TOKENS: "UPDATE_LIST_OF_TOKENS",
-  UPDATE_CURRENCY: "UPDATE_CURRENCY",
 };
 
 export const useCurrentCoin = (coinId = null) => {
@@ -51,7 +49,7 @@ export const useCurrentCoin = (coinId = null) => {
 const reducer = (state, action) => {
   switch (action.type) {
     // Input
-    case ACTIONS.UPDATE_COIN_ID:
+    case ACTIONS.UPDATE_COIN_ID: {
       const currentCoin = state.settings.availableTokens.find(
         (c) => c.id === action.payload
       );
@@ -67,17 +65,20 @@ const reducer = (state, action) => {
       }
 
       return state;
-    case ACTIONS.UPDATE_INVESTMENT:
+    }
+    case ACTIONS.UPDATE_INVESTMENT: {
       return {
         ...state,
         input: { ...state.input, investment: action.payload },
       };
-    case ACTIONS.UPDATE_INVESTMENT_INTERVAL:
+    }
+    case ACTIONS.UPDATE_INVESTMENT_INTERVAL: {
       return {
         ...state,
         input: { ...state.input, investmentInterval: action.payload },
       };
-    case ACTIONS.UPDATE_DATE_FROM:
+    }
+    case ACTIONS.UPDATE_DATE_FROM: {
       return {
         ...state,
         input: {
@@ -89,7 +90,8 @@ const reducer = (state, action) => {
           ),
         },
       };
-    case ACTIONS.UPDATE_DATE_TO:
+    }
+    case ACTIONS.UPDATE_DATE_TO: {
       return {
         ...state,
         input: {
@@ -101,8 +103,9 @@ const reducer = (state, action) => {
           ),
         },
       };
+    }
 
-    case ACTIONS.SET_COIN_LOADING:
+    case ACTIONS.SET_COIN_LOADING: {
       return {
         ...state,
         input: {
@@ -110,9 +113,10 @@ const reducer = (state, action) => {
           isLoading: action.payload,
         },
       };
+    }
 
     // Chart
-    case ACTIONS.SET_CHART_DATA:
+    case ACTIONS.SET_CHART_DATA: {
       return {
         ...state,
         chart: {
@@ -121,26 +125,24 @@ const reducer = (state, action) => {
           insights: action.payload.insights,
         },
       };
-
+    }
     // Settings
-    case ACTIONS.UPDATE_CURRENCY:
+    case ACTIONS.UPDATE_CURRENCY: {
       return {
         ...state,
         settings: { ...state.settings, currency: action.payload },
       };
-    case ACTIONS.UPDATE_LIST_OF_TOKENS:
+    }
+    case ACTIONS.UPDATE_LIST_OF_TOKENS: {
       return {
         ...state,
         settings: { ...state.settings, availableTokens: action.payload },
       };
+    }
 
-    case ACTIONS.UPDATE_CURRENCY:
-      return {
-        ...state,
-        settings: { ...state.settings, currency: action.payload },
-      };
-    default:
+    default: {
       throw new Error();
+    }
   }
 };
 

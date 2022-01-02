@@ -1,5 +1,4 @@
 import { useMutation } from "react-query";
-import axios from "axios";
 import { useAppContext } from "../Context/Context";
 import { XIcon, CalculatorIcon } from "@heroicons/react/outline";
 import { ACTIONS, useCurrentCoin } from "../Context/mainReducer";
@@ -12,7 +11,7 @@ import useGenerateUrl from "../Hooks/useGenerateUrl";
 import SelectCoin from "../SelectCoin/SelectCoin";
 import apiClient from "../../server/apiClient";
 
-const InputForm = (props) => {
+const InputForm = () => {
   const appContext = useAppContext();
   const { state, dispatch } = appContext;
   const currentCoin = useCurrentCoin();
@@ -185,7 +184,6 @@ const InputForm = (props) => {
                 }
                 name="investment"
                 className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200"
-                placeholder="100"
               />
             </div>
           </label>
