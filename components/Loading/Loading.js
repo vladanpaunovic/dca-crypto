@@ -9,7 +9,7 @@ const Loading = ({ withWrapper, height, width, type = "bars" }) => {
   useEffect(() => {
     const isDark = theme === "dark";
     setColor(isDark ? "white" : "black");
-  }, []);
+  }, [theme]);
 
   if (withWrapper) {
     return (
