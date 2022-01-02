@@ -1,10 +1,6 @@
 import Head from "next/head";
 import { getAllCoins } from "../../queries/queries";
-import {
-  CACHE_INVALIDATION_INTERVAL,
-  defaultCurrency,
-  WEBSITE_PATHNAME,
-} from "../../config";
+import { CACHE_INVALIDATION_INTERVAL, defaultCurrency } from "../../config";
 import React from "react";
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
@@ -23,6 +19,8 @@ import { kFormatter } from "../../components/Chart/helpers";
 import useChartLegend from "../../components/Chart/useChartLegend";
 import { formatCurrency } from "@coingecko/cryptoformat";
 import apiClient from "../../server/apiClient";
+import NextImage from "next/image";
+
 dayjs.extend(localizedFormat);
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
@@ -148,10 +146,7 @@ const CoinWrapper = (props) => {
 };
 
 const Chart = (props) => {
-  const { strokeSize, handleMouseEnter, handleMouseLeave } = useChartLegend(
-    "coinPrice",
-    "costAverage"
-  );
+  const { strokeSize } = useChartLegend("coinPrice", "costAverage");
   const color = "transparent";
 
   if (!props.dcaData) {
@@ -365,11 +360,14 @@ const Coin = (props) => {
               </span>{" "}
               backtesting
             </h2>
-            <img
-              className="w-8 h-8 ml-2 hidden sm:block"
-              src={props.currentCoin.image}
-              alt={`${props.currentCoin.name} logo`}
-            />
+            <div className="relative w-8 h-8 ml-2 hidden sm:block">
+              <NextImage
+                layout="fill"
+                objectFit="cover"
+                src={props.currentCoin.image}
+                alt={`${props.currentCoin.name} logo`}
+              />
+            </div>
           </div>
           <div className="md:flex">
             <div className="h-96 md:w-8/12">
@@ -385,6 +383,7 @@ const Coin = (props) => {
               <a
                 href="https://www.dca-cc.com"
                 target="_blank"
+                rel="noreferrer"
                 className="underline text-blue-500"
               >
                 DCA-CC

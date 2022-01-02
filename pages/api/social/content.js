@@ -1,5 +1,4 @@
 import { withSentry } from "@sentry/nextjs";
-import Twitter from "twitter-lite";
 import { generateDefaultInput } from "../../../common/generateDefaultInput";
 import { defaultCurrency, WEBSITE_URL } from "../../../config";
 import {
@@ -80,29 +79,6 @@ const generateSummaryMessage = (dca, lumpSum) => {
 };
 
 async function handler(req, res) {
-  if (!req.body.consumer_key) {
-    throw new Error("Missing consumer_key");
-  }
-
-  if (!req.body.consumer_secret) {
-    throw new Error("Missing consumer_secret");
-  }
-
-  if (!req.body.access_token_key) {
-    throw new Error("Missing access_token_key");
-  }
-
-  if (!req.body.access_token_secret) {
-    throw new Error("Missing access_token_secret");
-  }
-
-  const twitterClient = new Twitter({
-    consumer_key: req.body.consumer_key,
-    consumer_secret: req.body.consumer_secret,
-    access_token_key: req.body.access_token_key,
-    access_token_secret: req.body.access_token_secret,
-  });
-
   const availableTokens = await getAllCoins(defaultCurrency);
 
   const filteredAvailableTokens = availableTokens.filter(
@@ -167,33 +143,16 @@ async function handler(req, res) {
 
   const summaryMessage = generateSummaryMessage(dcaChartData, lumpSumChartData);
   try {
-    const tweet = await twitterClient.post("statuses/update", {
-      status: `${tweetMessage} ${dcaChartUrl}`,
-      auto_populate_reply_metadata: true,
-    });
-
-    const tweetInThread = await twitterClient.post("statuses/update", {
-      status: `${threadMessage} ${lumpSumChartUrl}`,
-      in_reply_to_status_id: tweet.id_str,
-      auto_populate_reply_metadata: true,
-    });
-
-    const tweetSummary = await twitterClient.post("statuses/update", {
-      status: `${summaryMessage} #${randomCoin.symbol.toUpperCase()}`,
-      in_reply_to_status_id: tweetInThread.id_str,
-      auto_populate_reply_metadata: true,
-    });
-
     res.status(200).json({
       status: "ok",
-      tweetMessage,
-      threadMessage,
-      dcaChartUrl,
-      lumpSumChartUrl,
-      tweetSummary,
-      tweet,
-      tweetInThread,
-      tweetSummary,
+      posts: [
+        { message: tweetMessage, url: dcaChartUrl },
+        { message: threadMessage, url: lumpSumChartUrl },
+        {
+          message: `${summaryMessage} #${randomCoin.symbol.toUpperCase()}`,
+          url: null,
+        },
+      ],
     });
   } catch (error) {
     res.status(200).json({ status: "error", ...error });

@@ -1,6 +1,5 @@
 import { useMutation } from "react-query";
 import { useAppContext } from "../Context/Context";
-import { useRouter } from "next/router";
 import { XIcon, CalculatorIcon } from "@heroicons/react/outline";
 import { ACTIONS, useCurrentCoin } from "../Context/mainReducer";
 import { useEffect, useState } from "react";
@@ -22,9 +21,8 @@ dayjs.extend(isSameOrBefore);
 
 const before90Days = dayjs().subtract(91, "days").format("YYYY-MM-DD");
 
-const InputForm = (props) => {
+const InputForm = () => {
   const appContext = useAppContext();
-  const router = useRouter();
   const generateUrl = useGenerateUrl("dca");
   const currentCoin = useCurrentCoin();
   const { state, dispatch } = appContext;
@@ -73,8 +71,6 @@ const InputForm = (props) => {
     if (!state.input.coinId) {
       return null;
     }
-
-    const { coinId, ...rest } = payload;
 
     generateUrl();
 
@@ -193,7 +189,6 @@ const InputForm = (props) => {
                 }
                 name="investment"
                 className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200"
-                placeholder="100"
               />
             </div>
           </label>

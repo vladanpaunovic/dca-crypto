@@ -5,6 +5,7 @@ import { formatPrice } from "../Currency/Currency";
 import { ExternalLinkIcon } from "@heroicons/react/outline";
 import dynamic from "next/dynamic";
 import Loading from "../Loading/Loading";
+import NextImage from "next/image";
 
 const annualGains = [
   {
@@ -115,8 +116,8 @@ const WhatIsDCA = () => {
           </p>
           <p className="mt-3 text-base text-gray-500 dark:text-gray-200 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
             This is made to be simple and calm, remember? The rule of thumb here
-            is - don't wait for any dips, just start. So, the simple answer is -
-            now.
+            is - don&apos;t wait for any dips, just start. So, the simple answer
+            is - now.
           </p>
           <p className="mt-3 text-base text-gray-500 dark:text-gray-200 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
             Even if price dumps in a meanwhile, historical data shows us that it
@@ -186,11 +187,14 @@ const WhatIsDCA = () => {
                   target="_blank"
                   className="shadow rounded-lg col-span-2 md:col-span-1 overflow-hidden w-full relative border dark:border-gray-900 group"
                 >
-                  <img
-                    src={`https://img.clankapp.com/symbol/${coin.symbol.toLowerCase()}.svg`}
-                    alt={`${coin.coin} logo`}
-                    className="h-24 w-24 rounded-full shadow-2xl absolute -top-6 -right-6 md:-right-4"
-                  />
+                  <div className="h-24 w-24 absolute -top-6 -right-6 md:-right-4 shadow-2xl rounded-full">
+                    <NextImage
+                      src={`https://img.clankapp.com/symbol/${coin.symbol.toLowerCase()}.svg`}
+                      alt={`${coin.coin} logo`}
+                      layout="fill" // required
+                      objectFit="cover"
+                    />
+                  </div>
                   <div className="px-4 py-5 ">
                     <dl>
                       <dt className="text-xl leading-5 font-medium text-gray-900 dark:text-gray-300 truncate">

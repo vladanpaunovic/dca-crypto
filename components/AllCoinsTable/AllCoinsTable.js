@@ -3,6 +3,7 @@ import Currency from "../Currency/Currency";
 import Link from "next/link";
 import { useState } from "react";
 import { ChevronRightIcon, SearchIcon } from "@heroicons/react/outline";
+import NextImage from "next/image";
 
 const AllCoinsTable = ({ showOnlyNTokens, showSearch, type }) => {
   const { state } = useAppContext();
@@ -94,13 +95,16 @@ const AllCoinsTable = ({ showOnlyNTokens, showSearch, type }) => {
                         <td className="px-6 whitespace-nowrap text-sm">
                           <Link href={`/${type}/${entry.id}`}>
                             <a className="flex items-center py-4">
-                              <img
-                                className="w-7 mr-2"
-                                src={entry.image}
-                                alt={`${entry.name} logo`}
-                                width={28}
-                                height={28}
-                              />
+                              <div className="relative w-7 h-7 mr-2">
+                                <NextImage
+                                  layout="fill"
+                                  objectFit="cover"
+                                  src={entry.image}
+                                  alt={`${entry.name} logo`}
+                                  // width={28}
+                                  // height={28}
+                                />
+                              </div>
                               <span className="font-medium">
                                 <span className="uppercase">{type}</span>{" "}
                                 {entry.name}

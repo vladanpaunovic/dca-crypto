@@ -15,7 +15,15 @@ const SharingButtons = () => {
   const currentCoin = useCurrentCoin();
   const coinSymbol = currentCoin.symbol.toUpperCase();
 
-  const { coin, ...queryWithoutCoin } = router.query;
+  const queryWithoutCoin = {
+    investment: router.query.investment,
+    investmentInterval: router.query.investmentInterval,
+    dateFrom: router.query.dateFrom,
+    dateTo: router.query.dateTo,
+    duration: router.query.duration,
+    currency: router.query.currency,
+  };
+
   const readyQueryString = queryString.stringify(queryWithoutCoin);
   const locationHref = `${WEBSITE_URL}/${pathname}/${router.query.coin}?${readyQueryString}`;
 
@@ -101,7 +109,7 @@ const SharingButtons = () => {
           key={social.label}
           href={social.href}
           target="_blank"
-          rel="noopener"
+          rel="noopener noreferrer"
           aria-label={social.label}
           style={{ backgroundColor: social.color }}
           onClick={() => {

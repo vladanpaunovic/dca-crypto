@@ -1,6 +1,6 @@
 import Logo from "../Logo/Logo";
 import { useTheme } from "next-themes";
-import { MoonIcon, SunIcon, TemplateIcon } from "@heroicons/react/outline";
+import { MoonIcon, SunIcon } from "@heroicons/react/outline";
 import Link from "next/link";
 
 const Navigation = () => {

@@ -1,7 +1,5 @@
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { detectAnyAdblocker } from "just-detect-adblock";
-import * as Sentry from "@sentry/nextjs";
 
 const detectAdBlocker = async (setter) => {
   const detected = await detectAnyAdblocker();
@@ -24,7 +22,7 @@ const AdBlockerBanner = () => {
           <div className="flex items-center justify-center min-h-screen text-center">
             <div className="max-w-md w-full dark:border-gray-700 bg-white dark:bg-gray-900 p-4 shadow-xl sm:rounded">
               <h2 className="h1-title text-xl sm:text-3xl">
-                It looks like you're
+                It looks like you&apos;re
               </h2>
               <h2 className="h1-title text-xl sm:text-3xl mb-4">
                 using an ad-blocker!
@@ -38,7 +36,7 @@ const AdBlockerBanner = () => {
                 onClick={() => setHasAdBlocker(false)}
                 className="py-1 px-3 transition bg-indigo-500 hover:bg-indigo-700 dark:bg-yellow-500 dark:hover:bg-yellow-300 rounded shadow-xl text-white dark:text-gray-900"
               >
-                I've whitelisted
+                I&apos;ve whitelisted
               </button>
             </div>
           </div>

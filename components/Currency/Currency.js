@@ -10,8 +10,8 @@ export const formatPrice = (value, currency) =>
 
 const Currency = ({ value }) => {
   const context = useAppContext();
-  if (value === NaN) {
-    throw new TypeError("The value inserted is not a");
+  if (isNaN(value)) {
+    throw new TypeError("The value inserted is not a number");
   }
 
   return <>{formatPrice(value, context.state.settings.currency)}</>;

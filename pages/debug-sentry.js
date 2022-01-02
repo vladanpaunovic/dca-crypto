@@ -1,7 +1,7 @@
 import { useMutation } from "react-query";
 import apiClient from "../server/apiClient";
 
-export default function HomeWrapper(props) {
+export default function HomeWrapper() {
   const mutation = useMutation(() => apiClient.post("calculate/test-sentry"));
 
   return (
