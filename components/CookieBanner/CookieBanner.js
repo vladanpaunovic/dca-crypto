@@ -7,10 +7,10 @@ store.addPlugin(expirePlugin);
 const COOKIE_CONSENT_NAME = "cookie_consent_given";
 const cookieExpiration = new Date().getTime() + 31556952000;
 const CookieBanner = () => {
-  const initialConsent = store.get(COOKIE_CONSENT_NAME, false);
   const [isShown, setIsShown] = useState(false);
 
   useEffect(() => {
+    const initialConsent = store.get(COOKIE_CONSENT_NAME, false);
     setIsShown(!initialConsent);
   }, []);
 

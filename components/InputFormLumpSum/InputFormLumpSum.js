@@ -84,6 +84,8 @@ const InputForm = () => {
 
   useEffect(() => {
     generateUrl();
+
+    // eslint-disable-next-line
   }, []);
 
   if (!state.settings.availableTokens) {

@@ -9,6 +9,8 @@ const useEffectOnlyOnUpdate = (callback, dependencies) => {
     } else {
       return callback();
     }
+
+    // eslint-disable-next-line
   }, dependencies);
 };
 
