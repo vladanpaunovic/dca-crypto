@@ -7,7 +7,7 @@ var whitelist = [WEBSITE_PATHNAME, VERCEL_URL];
 
 const corsOptions = {
   origin: function (origin, cb) {
-    const isAllowed = whitelist.includes(origin);
+    const isAllowed = !origin || whitelist.includes(origin);
     const verb = isAllowed ? "Accepting" : "Denying";
 
     Sentry.addBreadcrumb({
