@@ -250,7 +250,7 @@ const Information = (props) => {
     {
       label: "Total investment",
       value: formatCurrency(
-        props.dcaData.insights.totalInvestment,
+        parseFloat(props.dcaData.insights.totalInvestment || 0),
         props.currency
       ),
     },
@@ -260,7 +260,7 @@ const Information = (props) => {
         <>
           <p>
             {formatCurrency(
-              props.dcaData.insights.totalValue?.fiat,
+              parseFloat(props.dcaData.insights.totalValue?.fiat),
               props.currency
             )}{" "}
             <span
@@ -282,7 +282,7 @@ const Information = (props) => {
       value: (
         <>
           {formatCurrency(
-            props.dcaData.insights.totalValue?.crypto || 0,
+            parseFloat(props.dcaData.insights.totalValue?.crypto || 0),
             coinSymbol
           )}
         </>
