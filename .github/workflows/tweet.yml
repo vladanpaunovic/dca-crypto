@@ -12,6 +12,6 @@ jobs:
       - name: cURL request
         uses: fjogeleit/http-request-action@master
         with:
-          url: "https://www.dca-cc.com/api/twitter/tweet"
+          url: "https://www.dca-cc.com/api/social/twitter"
           method: "POST"
           data: '{ "consumer_key": "${{secrets.TWITTER_CONSUMER_KEY}}", "consumer_secret": "${{secrets.TWITTER_CONSUMER_SECRET}}", "access_token_key": "${{secrets.TWITTER_ACCESS_TOKEN_KEY}}", "access_token_secret": "${{secrets.TWITTER_ACCESS_TOKEN_SECRET}}" }'
