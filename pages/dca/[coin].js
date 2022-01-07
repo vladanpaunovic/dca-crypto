@@ -12,10 +12,7 @@ import {
   WEBSITE_URL,
 } from "../../config";
 import { useCurrentCoin } from "../../components/Context/mainReducer";
-import {
-  TweetMessage,
-  useTweetMessage,
-} from "../../components/TweetMessage/TweetMessage";
+import { TweetMessage } from "../../components/TweetMessage/TweetMessage";
 import Footer from "../../components/Footer/Footer";
 import Logo from "../../components/Logo/Logo";
 import ThemeSwitch from "../../components/ThemeSwitch/ThemeSwitch";
@@ -27,6 +24,8 @@ import dynamic from "next/dynamic";
 import Loading from "../../components/Loading/Loading";
 import { AdBannerBig, AdBannerMedium } from "../../components/Ads/Ads";
 import NextImage from "next/image";
+import { formatPrice } from "../../components/Currency/Currency";
+import dayjs from "dayjs";
 
 const DynamicChart = dynamic(() => import("../../components/Chart/Chart"), {
   ssr: false,
@@ -82,15 +81,23 @@ const Coin = () => {
     <div className="w-full">
       <NextSeo
         title={`Dollar cost average ${currentCoin.name} (${coinSymbol}) calculator`}
-        description={`Dollar cost average calculator for ${
-          currentCoin.name
-        } (${coinSymbol}). ${useTweetMessage()}`}
+        description={`Visualise and calculate historical returns of investing ${formatPrice(
+          state.input.investment
+        )} in ${currentCoin.name} (${coinSymbol}) every ${
+          state.input.investmentInterval
+        } days from ${dayjs(state.input.dateFrom).format(
+          "MMM YYYY"
+        )} until now. See it on charts!`}
         canonical={`https://${WEBSITE_URL}/dca/${currentCoin.id}`}
         openGraph={{
-          title: `Dollar cost average ${currentCoin.name} (${coinSymbol}) calculator`,
-          description: `Dollar cost average calculator for ${
-            currentCoin.name
-          } (${coinSymbol}). ${useTweetMessage()}`,
+          title: `Dollar cost average ${coinSymbol} calculator`,
+          description: `Visualise and calculate historical returns of investing ${formatPrice(
+            state.input.investment
+          )} in ${coinSymbol} every ${
+            state.input.investmentInterval
+          } days from ${dayjs(state.input.dateFrom).format(
+            "MMM YYYY"
+          )} until now. See it on charts!`,
           images: [
             {
               url: `https://${WEBSITE_URL}/images/meta-open-graph-dca.jpg`,

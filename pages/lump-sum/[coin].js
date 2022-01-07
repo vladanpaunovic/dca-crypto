@@ -12,10 +12,7 @@ import {
   WEBSITE_URL,
 } from "../../config";
 import { useCurrentCoin } from "../../components/Context/mainReducer";
-import {
-  TweetMessage,
-  useTweetMessage,
-} from "../../components/TweetMessage/TweetMessage";
+import { TweetMessage } from "../../components/TweetMessage/TweetMessage";
 import Footer from "../../components/Footer/Footer";
 import React from "react";
 import Logo from "../../components/Logo/Logo";
@@ -28,6 +25,8 @@ import dynamic from "next/dynamic";
 import Loading from "../../components/Loading/Loading";
 import { AdBannerBig, AdBannerMedium } from "../../components/Ads/Ads";
 import NextImage from "next/image";
+import dayjs from "dayjs";
+import { formatPrice } from "../../components/Currency/Currency";
 
 const DynamicChart = dynamic(() => import("../../components/Chart/Chart"), {
   ssr: false,
@@ -83,16 +82,19 @@ const Coin = () => {
     <div className="w-full">
       <NextSeo
         title={`Lump sum ${currentCoin.name} (${coinSymbol}) calculator`}
-        // description={`Lump sum investing calculator for ${currentCoin.name} (${coinSymbol}). Visualise and examine the impact of your investments in ${currentCoin.name} or any other popular crypto.`}
-        description={`Lump sum investing calculator for ${
-          currentCoin.name
-        } (${coinSymbol}). ${useTweetMessage()}`}
+        description={`Visualise and calculate potential returns of investing lump-sum ${formatPrice(
+          state.input.investment
+        )} in ${currentCoin.name} (${coinSymbol}) on ${dayjs(
+          state.input.dateFrom
+        ).format("MMM YYYY")}. See it on charts!`}
         canonical={`https://${WEBSITE_URL}/lump-sum/${currentCoin.id}`}
         openGraph={{
           title: `Lump sum ${currentCoin.name} (${coinSymbol}) calculator`,
-          description: `Lump sum investing calculator for ${
-            currentCoin.name
-          } (${coinSymbol}). ${useTweetMessage()}`,
+          description: `Visualise and calculate potential returns of investing lump-sum ${formatPrice(
+            state.input.investment
+          )} in ${currentCoin.name} (${coinSymbol}) on ${dayjs(
+            state.input.dateFrom
+          ).format("MMM YYYY")}. See it on charts!`,
           images: [
             {
               url: `https://${WEBSITE_URL}/images/meta-open-graph-lump-sum.jpg`,
