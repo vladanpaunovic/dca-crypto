@@ -12,7 +12,10 @@ import {
   WEBSITE_URL,
 } from "../../config";
 import { useCurrentCoin } from "../../components/Context/mainReducer";
-import { TweetMessage } from "../../components/TweetMessage/TweetMessage";
+import {
+  TweetMessage,
+  useTweetMessage,
+} from "../../components/TweetMessage/TweetMessage";
 import Footer from "../../components/Footer/Footer";
 import Logo from "../../components/Logo/Logo";
 import ThemeSwitch from "../../components/ThemeSwitch/ThemeSwitch";
@@ -79,11 +82,15 @@ const Coin = () => {
     <div className="w-full">
       <NextSeo
         title={`Dollar cost average ${currentCoin.name} (${coinSymbol}) calculator`}
-        description={`Dollar cost average calculator for ${currentCoin.name} (${coinSymbol}). Visualise and examine the impact of your investments in ${currentCoin.name} or any other popular crypto.`}
+        description={`Dollar cost average calculator for ${
+          currentCoin.name
+        } (${coinSymbol}). ${useTweetMessage()}`}
         canonical={`https://${WEBSITE_URL}/dca/${currentCoin.id}`}
         openGraph={{
           title: `Dollar cost average ${currentCoin.name} (${coinSymbol}) calculator`,
-          description: `Dollar cost average calculator for ${currentCoin.name} (${coinSymbol}). Visualise and examine the impact of your investments in ${currentCoin.name} or any other popular crypto.`,
+          description: `Dollar cost average calculator for ${
+            currentCoin.name
+          } (${coinSymbol}). ${useTweetMessage()}`,
           images: [
             {
               url: `https://${WEBSITE_URL}/images/meta-open-graph-dca.jpg`,
