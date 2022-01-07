@@ -12,7 +12,10 @@ import {
   WEBSITE_URL,
 } from "../../config";
 import { useCurrentCoin } from "../../components/Context/mainReducer";
-import { TweetMessage } from "../../components/TweetMessage/TweetMessage";
+import {
+  TweetMessage,
+  useTweetMessage,
+} from "../../components/TweetMessage/TweetMessage";
 import Footer from "../../components/Footer/Footer";
 import React from "react";
 import Logo from "../../components/Logo/Logo";
@@ -80,11 +83,16 @@ const Coin = () => {
     <div className="w-full">
       <NextSeo
         title={`Lump sum ${currentCoin.name} (${coinSymbol}) calculator`}
-        description={`Lump sum investing calculator for ${currentCoin.name} (${coinSymbol}). Visualise and examine the impact of your investments in ${currentCoin.name} or any other popular crypto.`}
+        // description={`Lump sum investing calculator for ${currentCoin.name} (${coinSymbol}). Visualise and examine the impact of your investments in ${currentCoin.name} or any other popular crypto.`}
+        description={`Lump sum investing calculator for ${
+          currentCoin.name
+        } (${coinSymbol}). ${useTweetMessage()}`}
         canonical={`https://${WEBSITE_URL}/lump-sum/${currentCoin.id}`}
         openGraph={{
           title: `Lump sum ${currentCoin.name} (${coinSymbol}) calculator`,
-          description: `Lump sum investing calculator for ${currentCoin.name} (${coinSymbol}). Visualise and examine the impact of your investments in ${currentCoin.name} or any other popular crypto.`,
+          description: `Lump sum investing calculator for ${
+            currentCoin.name
+          } (${coinSymbol}). ${useTweetMessage()}`,
           images: [
             {
               url: `https://${WEBSITE_URL}/images/meta-open-graph-lump-sum.jpg`,
