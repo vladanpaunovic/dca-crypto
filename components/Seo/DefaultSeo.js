@@ -1,10 +1,11 @@
 import { DefaultSeo as NextSeoDefault } from "next-seo";
 import { WEBSITE_URL } from "../../config";
+import generateSEOYear from "../../common/generateSEOYear/generateSEOYear";
 
 export default function DefaultSeo() {
   return (
     <NextSeoDefault
-      titleTemplate="DCA Crypto | %s"
+      titleTemplate={`DCA Crypto | ${generateSEOYear()} %s`}
       defaultTitle="DCA Crypto"
       additionalLinkTags={[
         {

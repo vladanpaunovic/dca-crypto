@@ -1,4 +1,4 @@
 {
   "extends": ["eslint:recommended", "next"],
-  "env": { "es6": true }
+  "env": { "es6": true, "jest": true }
 }
