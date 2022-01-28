@@ -1,6 +1,5 @@
 import Document, { Html, Head, Main, NextScript } from "next/document";
 import { GA_TRACKING_ID } from "../config";
-import * as Sentry from "@sentry/nextjs";
 
 class MyDocument extends Document {
   static async getInitialProps(ctx) {
@@ -9,14 +8,10 @@ class MyDocument extends Document {
   }
 
   render() {
-    const span = Sentry.getCurrentHub().getScope().getSpan();
-    const traceparent = span ? span.toTraceparent() : undefined;
-
     return (
       <Html lang="en">
         <Head>
           <meta name="coinzilla" content="c750bcee93610c032c51946115b13e1b" />
-          <meta name="sentry-trace" content={traceparent} />
           <script
             async
             src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
