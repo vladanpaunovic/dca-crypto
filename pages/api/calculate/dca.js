@@ -10,6 +10,8 @@ const convertDateStringToUnix = (dateString) =>
 const handler = async (req, res) => {
   await checkCORS(req, res);
 
+  console.log(req.headers);
+
   const payload = { ...req.body };
 
   Sentry.addBreadcrumb({
