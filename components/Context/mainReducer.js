@@ -28,7 +28,7 @@ export const ACTIONS = {
 export const useCurrentCoin = (coinId = null) => {
   const router = useRouter();
   const { state } = useAppContext();
-  const currentCoin = !state.settings.availableTokens.find(
+  const currentCoin = state.settings.availableTokens.find(
     (c) => c.id === (coinId || router.query.coin)
   );
 
