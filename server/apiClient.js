@@ -15,7 +15,11 @@ let span;
 apiClient.interceptors.request.use(
   function (config) {
     // Do something before request is sent
-    transaction = Sentry.startTransaction({ name: "axiosRequest" });
+    const transactionName = `${config.method.toUpperCase()} ${config.url}`;
+    transaction = Sentry.startTransaction({
+      name: transactionName,
+      op: "http.client",
+    });
     Sentry.getCurrentHub().configureScope((scope) =>
       scope.setSpan(transaction)
     );
@@ -29,12 +33,15 @@ apiClient.interceptors.request.use(
 
 apiClient.interceptors.response.use(
   function (response) {
+    const transactionName = `${response.config.method.toUpperCase()} ${
+      response.config.url
+    }`;
     span = transaction.startChild({
       data: {
         result: response,
       },
-      op: "task",
-      description: `processing axios request`,
+      op: "http.client",
+      description: `Processing ${transactionName}`,
     });
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
@@ -46,6 +53,14 @@ apiClient.interceptors.response.use(
   function (error) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
+    span = transaction.startChild({
+      data: {
+        result: error,
+      },
+      op: "http.client",
+      description: `Processing failed`,
+    });
+
     span.setStatus("unknown_error");
     span.finish();
     transaction.finish();

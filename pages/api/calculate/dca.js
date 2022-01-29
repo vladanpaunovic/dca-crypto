@@ -12,12 +12,7 @@ const handler = async (req, res) => {
 
   const payload = { ...req.body };
 
-  Sentry.addBreadcrumb({
-    category: "Payload",
-    level: Sentry.Severity.Info,
-    message: "DCA Payload",
-    data: payload,
-  });
+  Sentry.setContext("Payload", payload);
 
   const response = await axios.get(
     `https://api.coingecko.com/api/v3/coins/${payload.coinId}/market_chart/range`,

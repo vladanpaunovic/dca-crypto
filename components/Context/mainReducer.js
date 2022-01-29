@@ -28,18 +28,13 @@ export const ACTIONS = {
 export const useCurrentCoin = (coinId = null) => {
   const router = useRouter();
   const { state } = useAppContext();
-  const currentCoin = state.settings.availableTokens.find(
+  const currentCoin = !state.settings.availableTokens.find(
     (c) => c.id === (coinId || router.query.coin)
   );
 
-  if (!currentCoin) {
-    Sentry.addBreadcrumb({
-      category: "Payload",
-      level: Sentry.Severity.Info,
-      message: "Router query",
-      data: { ...router.query, coinId },
-    });
+  Sentry.setContext("Payload", { ...router.query, coinId });
 
+  if (!currentCoin) {
     throw new Error("Can't assotiate coin id to the coin object");
   }
 
