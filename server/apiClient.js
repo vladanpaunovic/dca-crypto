@@ -20,6 +20,7 @@ apiClient.interceptors.request.use(
       name: transactionName,
       op: "http.client",
     });
+
     Sentry.getCurrentHub().configureScope((scope) =>
       scope.setSpan(transaction)
     );
@@ -45,7 +46,7 @@ apiClient.interceptors.response.use(
     });
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
-    span.setStatus("ok");
+    span.setHttpStatus(response.status);
     span.finish();
     transaction.finish();
     return response;
