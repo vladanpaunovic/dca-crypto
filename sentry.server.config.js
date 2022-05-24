@@ -21,4 +21,9 @@ Sentry.init({
   // of transactions for performance monitoring.
   // We recommend adjusting this value in production
   tracesSampleRate: 0.5,
+  beforeSend: (event) => {
+    event.tags.playground = true;
+
+    return event;
+  },
 });
