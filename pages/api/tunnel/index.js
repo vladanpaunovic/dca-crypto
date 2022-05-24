@@ -1,28 +1,44 @@
-import { withSentry } from "@sentry/nextjs";
-import axios from "axios";
-import * as url from "url";
+import { withSentry, captureException } from "@sentry/nextjs";
+import * as urlLibrary from "url";
+
+// Change host appropriately if you run your own Sentry instance.
+const sentryHost = "o574491.ingest.sentry.io";
+
+// Set knownProjectIds to an array with your Sentry project IDs which you
+// want to accept through this proxy.
+const knownProjectIds = ["/5821539"];
 
 async function handler(req, res) {
-  const envelope = req.body;
-  const pieces = envelope.split("\n");
+  try {
+    const envelope = req.body;
+    const pieces = envelope.split("\n");
 
-  if (!pieces[0]) {
-    return res.status(400).json({ status: "broken_envelope" });
+    const header = JSON.parse(pieces[0]);
+
+    const { host, path } = urlLibrary.parse(header.dsn);
+    if (host !== sentryHost) {
+      console.log({ host, sentryHost });
+      throw new Error(`invalid host: ${host}`);
+    }
+
+    const projectId = path?.endsWith("/") ? path.slice(0, -1) : path;
+    if (!knownProjectIds.includes(projectId || "")) {
+      console.log({ projectId, knownProjectIds });
+      throw new Error(`invalid project id: ${projectId}`);
+    }
+
+    const url = `https://${sentryHost}/api/${projectId}/envelope/`;
+    const response = await fetch(url, {
+      method: "POST",
+      body: envelope,
+    });
+
+    const sentryResponse = await response.json();
+    return res.json(sentryResponse);
+  } catch (e) {
+    captureException(e);
+    return res.status(400).json({ status: "invalid request" });
   }
-
-  const header = JSON.parse(pieces[0]);
-
-  if (header.dsn) {
-    const { host, path } = url.parse(header.dsn);
-    const projectId = path.endsWith("/") ? path.slice(0, -1) : path;
-    const sentryApi = `https://${host}/api/${projectId}/envelope/`;
-
-    const response = await axios.post(sentryApi, envelope);
-
-    return res.status(200).json(response.data);
-  }
-
-  res.status(400).json({ status: "missing_dsn" });
 }
 
 export default withSentry(handler);

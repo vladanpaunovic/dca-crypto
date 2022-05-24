@@ -12,6 +12,17 @@ export default function HomeWrapper() {
           className="px-2 py-1 text-white hover:bg-red-500 bg-red-400 border border-red-500 rounded transition-all tracking-wide"
           type="button"
           onClick={(e) => {
+            throw new Error("Moooooo!");
+          }}
+        >
+          Throw me!
+        </button>
+      </div>
+      <div>
+        <button
+          className="px-2 py-1 text-white hover:bg-red-500 bg-red-400 border border-red-500 rounded transition-all tracking-wide"
+          type="button"
+          onClick={(e) => {
             e.preventDefault();
             mutation.mutate();
           }}
