@@ -11,7 +11,7 @@ const corsOptions = {
     const verb = isAllowed ? "Accepting" : "Denying";
 
     Sentry.addBreadcrumb({
-      level: Sentry.Severity.Info,
+      level: "info",
       message: `${verb} CORS request from origin: ${origin}`,
     });
 
@@ -30,7 +30,7 @@ const getCORSConfig = () => {
     return corsOptions;
   } else {
     Sentry.addBreadcrumb({
-      level: Sentry.Severity.Warning,
+      level: "warning",
       message: "Dangerous CORS policy in use",
     });
 
