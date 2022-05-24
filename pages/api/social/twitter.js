@@ -1,4 +1,4 @@
-import { withSentry } from "@sentry/nextjs";
+import * as Sentry from "@sentry/nextjs";
 import Twitter from "twitter-lite";
 import apiClient from "../../../server/apiClient";
 
@@ -25,6 +25,13 @@ async function handler(req, res) {
     access_token_key: req.body.access_token_key,
     access_token_secret: req.body.access_token_secret,
   });
+
+  try {
+    await twitterClient.get("account/verify_credentials");
+  } catch (error) {
+    Sentry.captureMessage(error.errors[0].message, { level: "error" });
+    console.log(error.errors[0].message);
+  }
 
   try {
     const response = await apiClient.get("social/content");
@@ -56,4 +63,4 @@ async function handler(req, res) {
   }
 }
 
-export default withSentry(handler);
+export default Sentry.withSentry(handler);
