@@ -16,7 +16,7 @@
     "@coingecko/cryptoformat": "^0.4.4",
     "@headlessui/react": "^1.4.0",
     "@heroicons/react": "^1.0.3",
-    "@sentry/nextjs": "6.19.0",
+    "@sentry/nextjs": "7.0.0-beta.2",
     "@tailwindcss/forms": "^0.3.3",
     "@tailwindcss/typography": "^0.4.1",
     "axios": "^0.21.1",
