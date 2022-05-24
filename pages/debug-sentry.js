@@ -11,7 +11,7 @@ export default function HomeWrapper() {
         <button
           className="px-2 py-1 text-white hover:bg-red-500 bg-red-400 border border-red-500 rounded transition-all tracking-wide"
           type="button"
-          onClick={(e) => {
+          onClick={() => {
             throw new Error("Moooooo!");
           }}
         >
