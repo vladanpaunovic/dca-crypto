@@ -56,9 +56,10 @@ const handler = async (req, res) => {
   let prices = [];
 
   const chartData = reduced.map((entry, index) => {
-    prices.push(parseFloat(entry.coinPrice));
+    const coinPrice = parseFloat(entry.coinPrice);
+    prices.push(coinPrice);
     const cryptoAmountInThisPurchase =
-      payload.investment / parseFloat(entry.coinPrice);
+      coinPrice === 0 ? 0 : parseFloat(payload.investment) / coinPrice;
 
     allCrypto.push(cryptoAmountInThisPurchase);
     const balanceCrypto = allCrypto.reduce((p, c) => p + c, 0);
@@ -96,7 +97,6 @@ const handler = async (req, res) => {
       lumpSum: (payload.investment / chartData[0].coinPrice) * coinPrice,
     },
   };
-
   res.status(200).json(output);
 };
 
