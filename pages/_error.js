@@ -14,7 +14,7 @@ const MyError = ({ statusCode, hasGetInitialPropsRun, err }) => {
   return <NextErrorComponent statusCode={statusCode} />;
 };
 
-MyError.getInitialProps = async ({ res, err, asPath }) => {
+MyError.getInitialProps = async ({ res, err }) => {
   const errorInitialProps = await NextErrorComponent.getInitialProps({
     res,
     err,
@@ -46,14 +46,6 @@ MyError.getInitialProps = async ({ res, err, asPath }) => {
 
     return errorInitialProps;
   }
-
-  // If this point is reached, getInitialProps was called without any
-  // information about what the error might be. This is unexpected and may
-  // indicate a bug introduced in Next.js, so record it in Sentry
-  Sentry.captureMessage(
-    `_error.js getInitialProps missing data at path: ${asPath}`
-  );
-  await Sentry.flush(2000);
 
   return errorInitialProps;
 };
