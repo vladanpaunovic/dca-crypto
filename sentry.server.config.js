@@ -6,6 +6,8 @@ import * as Sentry from "@sentry/nextjs";
 
 const SENTRY_DSN = process.env.SENTRY_DSN || process.env.NEXT_PUBLIC_SENTRY_DSN;
 
+Error.stackTraceLimit = Infinity;
+
 Sentry.init({
   dsn: SENTRY_DSN,
   // Note: if you want to override the automatic release value, do not set a
