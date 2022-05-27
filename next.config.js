@@ -1,4 +1,6 @@
 require("dotenv").config();
+const qs = require("query-string");
+const dayjs = require("dayjs");
 const Mode = require("frontmatter-markdown-loader/mode");
 const generateSitemap = require("./scripts/generate-sitemap.js");
 const { PHASE_PRODUCTION_BUILD } = require("next/constants");
@@ -8,6 +10,16 @@ const { PHASE_PRODUCTION_BUILD } = require("next/constants");
 // https://nextjs.org/docs/api-reference/next.config.js/introduction
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/
 const { withSentryConfig } = require("@sentry/nextjs");
+
+const DEFAULT_QUERYSTRING = qs.stringify({
+  investment: 10,
+  investmentInterval: 7,
+  dateFrom: dayjs().subtract(3, "year").format("YYYY-MM-DD"),
+  dateTo: dayjs().format("YYYY-MM-DD"),
+  currency: "usd",
+});
+
+console.log(DEFAULT_QUERYSTRING);
 
 generateSitemap();
 
@@ -30,6 +42,15 @@ const moduleExports = (phase) => ({
   },
   env: {
     IS_PROD: phase === PHASE_PRODUCTION_BUILD,
+  },
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: `/dca/bitcoin/?${DEFAULT_QUERYSTRING}`,
+        permanent: true,
+      },
+    ];
   },
 });
 
