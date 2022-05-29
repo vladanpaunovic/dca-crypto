@@ -14,9 +14,9 @@ const { withSentryConfig } = require("@sentry/nextjs");
 const DEFAULT_QUERYSTRING = qs.stringify(
   {
     investment: 10,
+    investmentInterval: 7,
     dateFrom: dayjs().subtract(3, "year").format("YYYY-MM-DD"),
     dateTo: dayjs().format("YYYY-MM-DD"),
-    investmentInterval: 7,
     currency: "usd",
   },
   { sort: false }
