@@ -2,13 +2,14 @@ import { formatCurrency } from "@coingecko/cryptoformat";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/outline";
 import { useState } from "react";
 import { useAppContext } from "../Context/Context";
+import { useCurrentCoin } from "../Context/mainReducer";
 import Currency from "../Currency/Currency";
 
 const MINIMUM_ROWS = 10;
 const DataTable = () => {
   const { state } = useAppContext();
-  const currentCoin = state.currentCoin;
   const [isShowingMore, setIsShowingMore] = useState(false);
+  const currentCoin = useCurrentCoin();
 
   const tableData = isShowingMore
     ? [...state.chart.data]

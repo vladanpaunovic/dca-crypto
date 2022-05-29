@@ -3,6 +3,7 @@ import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useAppContext } from "../Context/Context";
+import { useCurrentCoin } from "../Context/mainReducer";
 import Currency from "../Currency/Currency";
 import { InformationCircleIcon } from "@heroicons/react/outline";
 import { Popover } from "@headlessui/react";
@@ -36,7 +37,7 @@ const InformationPopover = ({ description }) => {
 
 const Information = () => {
   const { state } = useAppContext();
-  const currentCoin = state.currentCoin;
+  const currentCoin = useCurrentCoin();
 
   const information = [
     {
