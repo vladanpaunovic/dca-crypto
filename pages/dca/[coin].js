@@ -157,9 +157,6 @@ const Coin = () => {
                 <DynamicChart />
               </div>
             </div>
-            <div className="flex justify-center mb-4">
-              <AdBannerBig />
-            </div>
             <div className="grid gap-8 mt-8 grid-cols-6">
               <div
                 className={`col-span-6 md:col-span-3 shadow-xl border bg-white dark:bg-gray-900 dark:border-gray-800 md:rounded-lg mb-8 transition ${
@@ -238,9 +235,6 @@ const CoinWrapper = (props) => {
           </div>
           <div className="mt-0 md:mt-8 hidden md:block">
             <DynamicAffiliateLinks />
-          </div>
-          <div className="hidden md:flex justify-center">
-            <AdBannerMedium />
           </div>
         </div>
         <div className="w-12/12 mt-4 md:mt-0 md:p-8 flex-1">

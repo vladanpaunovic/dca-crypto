@@ -35,10 +35,8 @@ const affiliatePartners = [
 const donationMeta = {
   name: "Donate",
   icon: <HeartIcon className="text-red-500" />,
-  pitch:
-    "Make one time donation (in crypto) and help me support and grow this project.",
-  affiliateLink:
-    "https://commerce.coinbase.com/checkout/d090d647-be30-4621-a494-3b7ee3d6827d",
+  pitch: "Make a donation and help me support and grow this project.",
+  affiliateLink: "https://ko-fi.com/dcacc",
 };
 
 const AffiliatePartner = (props) => {
@@ -73,9 +71,7 @@ const AffiliatePartner = (props) => {
           </span>
         </a>
 
-        <p className="mt-1 max-w-2xl text-sm text-gray-500 dark:text-white">
-          {pitch}
-        </p>
+        <p className="mt-1 max-w-2xl text-sm text-gray-400">{pitch}</p>
       </div>
     </div>
   );
@@ -89,13 +85,13 @@ const AffiliateLinks = () => {
           <h5 className="flex md:text-lg font-medium text-gray-900 dark:text-white">
             <SupportIcon /> Support this site
           </h5>
-          <p className="hidden md:block mt-1 max-w-2xl text-xs text-gray-500 dark:text-white">
+          <p className="hidden md:block mt-1 max-w-2xl text-xs text-gray-400">
             Likes below are affiliate links, meaning, at no additional cost to
             you, I will earn a commision if you click trough and make a purchase
           </p>
         </div>
         <div className="grid grid-cols-1 border-t border-gray-200 dark:border-gray-800 divide-y dark:divide-gray-800">
-          {[...affiliatePartners, donationMeta].map((partner, index) => (
+          {[donationMeta, ...affiliatePartners].map((partner, index) => (
             <AffiliatePartner
               key={partner.affiliateLink}
               {...partner}
