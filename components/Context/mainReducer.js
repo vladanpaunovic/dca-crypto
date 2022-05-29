@@ -1,4 +1,4 @@
-import { useReducer } from "react";
+import { useReducer, useState, useEffect } from "react";
 import { useAppContext } from "./Context";
 import { useRouter } from "next/router";
 import {
@@ -6,6 +6,7 @@ import {
   calculateDateRangeDifference,
 } from "../../common/generateDefaultInput";
 import * as Sentry from "@sentry/nextjs";
+import { getCoinById } from "../../queries/queries";
 
 export const ACTIONS = {
   // Input actions
@@ -25,19 +26,15 @@ export const ACTIONS = {
   UPDATE_LIST_OF_TOKENS: "UPDATE_LIST_OF_TOKENS",
 };
 
-export const useCurrentCoin = (coinId = null) => {
+export const useCurrentCoin = (id = null) => {
   const router = useRouter();
   const { state } = useAppContext();
+  const coinId = id || router.query.coin;
   const currentCoin = state.settings.availableTokens.find(
-    (c) => c.id === (coinId || router.query.coin)
+    (c) => c.id === coinId
   );
 
   Sentry.setContext("Payload", { ...router.query, coinId });
-
-  if (!currentCoin) {
-    throw new Error("Can't assotiate coin id to the coin object");
-  }
-
   return currentCoin;
 };
 
@@ -141,7 +138,7 @@ const reducer = (state, action) => {
   }
 };
 
-export const useMainReducer = ({ availableTokens, chartData }) => {
+export const useMainReducer = ({ availableTokens, chartData, currentCoin }) => {
   const router = useRouter();
   const DEFAULT_INPUT = generateDefaultInput(router.query);
 
@@ -156,6 +153,7 @@ export const useMainReducer = ({ availableTokens, chartData }) => {
       darkMode: false,
       availableTokens,
     },
+    currentCoin,
   };
 
   return useReducer(reducer, initialState);
