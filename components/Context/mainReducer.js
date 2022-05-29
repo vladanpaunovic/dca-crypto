@@ -1,12 +1,9 @@
-import { useReducer, useState, useEffect } from "react";
-import { useAppContext } from "./Context";
+import { useReducer } from "react";
 import { useRouter } from "next/router";
 import {
   generateDefaultInput,
   calculateDateRangeDifference,
 } from "../../common/generateDefaultInput";
-import * as Sentry from "@sentry/nextjs";
-import { getCoinById } from "../../queries/queries";
 
 export const ACTIONS = {
   // Input actions
