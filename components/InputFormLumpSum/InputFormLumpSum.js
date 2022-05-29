@@ -1,7 +1,7 @@
 import { useMutation } from "react-query";
 import { useAppContext } from "../Context/Context";
 import { XIcon, CalculatorIcon } from "@heroicons/react/outline";
-import { ACTIONS, useCurrentCoin } from "../Context/mainReducer";
+import { ACTIONS } from "../Context/mainReducer";
 import { useEffect, useState } from "react";
 import { availableCurrencies } from "../../config";
 import Loading from "react-loading";
@@ -14,7 +14,7 @@ import apiClient from "../../server/apiClient";
 const InputForm = () => {
   const appContext = useAppContext();
   const { state, dispatch } = appContext;
-  const currentCoin = useCurrentCoin();
+  const currentCoin = state.currentCoin;
   const [isOpen, setIsOpen] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
 

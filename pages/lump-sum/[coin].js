@@ -15,7 +15,6 @@ import {
   defaultCurrency,
   WEBSITE_URL,
 } from "../../config";
-import { useCurrentCoin } from "../../components/Context/mainReducer";
 import { TweetMessage } from "../../components/TweetMessage/TweetMessage";
 import Footer from "../../components/Footer/Footer";
 import React from "react";

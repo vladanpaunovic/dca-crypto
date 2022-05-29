@@ -26,18 +26,6 @@ export const ACTIONS = {
   UPDATE_LIST_OF_TOKENS: "UPDATE_LIST_OF_TOKENS",
 };
 
-export const useCurrentCoin = (id = null) => {
-  const router = useRouter();
-  const { state } = useAppContext();
-  const coinId = id || router.query.coin;
-  const currentCoin = state.settings.availableTokens.find(
-    (c) => c.id === coinId
-  );
-
-  Sentry.setContext("Payload", { ...router.query, coinId });
-  return currentCoin;
-};
-
 const reducer = (state, action) => {
   switch (action.type) {
     // Input

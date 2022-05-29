@@ -2,7 +2,7 @@ import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import Select from "react-select";
 import { useAppContext } from "../Context/Context";
-import { ACTIONS, useCurrentCoin } from "../Context/mainReducer";
+import { ACTIONS } from "../Context/mainReducer";
 
 const colorsLight = {
   primary50: "#D1D5DB",
