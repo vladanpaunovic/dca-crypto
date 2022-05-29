@@ -1,6 +1,7 @@
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
-import Select from "react-select";
+import Select from "react-select/async";
+import { getCoinById, searchCoin } from "../../queries/queries";
 import { useAppContext } from "../Context/Context";
 import { ACTIONS } from "../Context/mainReducer";
 
@@ -115,6 +116,25 @@ export const getSelectTheme = (theme, projectTheme) => {
   return output;
 };
 
+const parseOptions = (options) =>
+  options.map((option) => ({
+    ...option,
+    value: option.id,
+    label: (
+      <span className="flex items-center">
+        <span className="text-xs text-gray-300 mr-2">
+          #{option.market_cap_rank}
+        </span>{" "}
+        {option.name}
+      </span>
+    ),
+  }));
+
+const promiseOptions = async (inputValue) => {
+  const coins = await searchCoin(inputValue);
+  return parseOptions(coins);
+};
+
 const SelectCoin = () => {
   const { theme: projectTheme } = useTheme();
   const { state, dispatch } = useAppContext();
@@ -125,16 +145,24 @@ const SelectCoin = () => {
   // When mounted on client, now we can show the UI
   useEffect(() => setMounted(true), []);
 
+  const handleOnChange = async (e) => {
+    const currentCoin = await getCoinById(e.value);
+
+    dispatch({
+      type: ACTIONS.UPDATE_COIN_ID,
+      payload: currentCoin,
+    });
+  };
+
   if (!mounted) return null;
 
   if (!state.settings.availableTokens) {
     return null;
   }
 
-  const options = state.settings.availableTokens.map((coin) => ({
-    label: coin.name,
-    value: coin.id,
-  }));
+  const options = parseOptions(state.settings.availableTokens);
+
+  const defaultValue = parseOptions([currentCoin])[0];
 
   return (
     <Select
@@ -158,20 +186,14 @@ const SelectCoin = () => {
       theme={(theme) => getSelectTheme(theme, projectTheme)}
       className="w-full"
       classNamePrefix="select"
-      defaultValue={{
-        label: currentCoin.name,
-        value: currentCoin.id,
-      }}
+      defaultValue={defaultValue}
       isSearchable
       name="coin"
-      options={options}
-      onChange={(e) => {
-        dispatch({
-          type: ACTIONS.UPDATE_COIN_ID,
-          payload: e.value,
-        });
-      }}
+      onChange={handleOnChange}
       maxMenuHeight={200}
+      cacheOptions
+      loadOptions={promiseOptions}
+      defaultOptions={options}
     />
   );
 };

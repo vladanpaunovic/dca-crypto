@@ -47,7 +47,16 @@ export const getCoinById = async (coinId) => {
     symbol: response.data.symbol,
     id: response.data.id,
     image: response.data.image.thumb,
+    market_cap_rank: response.data.market_cap_rank,
   };
+
+  return output;
+};
+
+export const searchCoin = async (query = "") => {
+  const response = await coinGecko.get(`search/?query=${query}`);
+
+  const output = response.data.coins;
 
   return output;
 };

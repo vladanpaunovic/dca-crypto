@@ -27,21 +27,16 @@ const reducer = (state, action) => {
   switch (action.type) {
     // Input
     case ACTIONS.UPDATE_COIN_ID: {
-      const currentCoin = state.settings.availableTokens.find(
-        (c) => c.id === action.payload
-      );
+      const currentCoin = action.payload;
 
-      if (currentCoin) {
-        return {
-          ...state,
-          input: {
-            ...state.input,
-            coinId: currentCoin.id,
-          },
-        };
-      }
-
-      return state;
+      return {
+        ...state,
+        input: {
+          ...state.input,
+          coinId: currentCoin.id,
+        },
+        currentCoin,
+      };
     }
     case ACTIONS.UPDATE_INVESTMENT: {
       return {
