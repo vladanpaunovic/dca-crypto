@@ -30,3 +30,33 @@ export const getLumpSumChartData = async (payload) => {
 
   return response.data;
 };
+
+export const getCoinById = async (coinId) => {
+  const response = await coinGecko.get(`coins/${coinId}`, {
+    params: {
+      tickers: false,
+      market_data: false,
+      community_data: false,
+      developer_data: false,
+      localization: false,
+    },
+  });
+
+  const output = {
+    name: response.data.name,
+    symbol: response.data.symbol,
+    id: response.data.id,
+    image: response.data.image.thumb,
+    market_cap_rank: response.data.market_cap_rank,
+  };
+
+  return output;
+};
+
+export const searchCoin = async (query = "") => {
+  const response = await coinGecko.get(`search/?query=${query}`);
+
+  const output = response.data.coins;
+
+  return output;
+};

@@ -1,16 +1,16 @@
-import { useCurrentCoin } from "../Context/mainReducer";
 import Currency from "../Currency/Currency";
 import { CalendarIcon } from "@heroicons/react/outline";
+import { useAppContext } from "../Context/Context";
 
 const CustomTooltip = ({ active, payload, label }) => {
-  const currentCoin = useCurrentCoin();
+  const { state } = useAppContext();
 
   const mapFormatting = (entry) => {
     switch (entry.dataKey) {
       case "balanceCrypto":
         return (
           <>
-            {entry.name}: {entry.value} {currentCoin.symbol.toUpperCase()}
+            {entry.name}: {entry.value} {state.currentCoin.symbol.toUpperCase()}
           </>
         );
       case "percentageChange": {

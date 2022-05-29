@@ -3,8 +3,17 @@ import { useMainReducer } from "./mainReducer";
 
 const AppContext = createContext();
 
-export function AppContextProvider({ children, availableTokens, chartData }) {
-  const [state, dispatch] = useMainReducer({ availableTokens, chartData });
+export function AppContextProvider({
+  children,
+  availableTokens,
+  chartData,
+  currentCoin,
+}) {
+  const [state, dispatch] = useMainReducer({
+    availableTokens,
+    chartData,
+    currentCoin,
+  });
 
   const initialState = {
     state,

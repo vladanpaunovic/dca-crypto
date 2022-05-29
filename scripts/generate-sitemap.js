@@ -14,7 +14,7 @@ const generateSitemaps = async () => {
     params: {
       vs_currency: "usd",
       order: "market_cap_desc",
-      per_page: 100,
+      per_page: 300,
       page: 1,
       sparkline: false,
     },
