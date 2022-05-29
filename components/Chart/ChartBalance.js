@@ -11,12 +11,13 @@ import {
 import CustomTooltip from "./CustomTooltip";
 import { CHART_SYNCID } from "./Chart";
 import { kFormatter } from "./helpers";
+import { useCurrentCoin } from "../Context/mainReducer";
 import { useMediaQuery } from "react-responsive";
 
 const ChartBalance = () => {
   const { state } = useAppContext();
   const { chart } = state;
-  const currentCoin = state.currentCoin;
+  const currentCoin = useCurrentCoin();
 
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
 

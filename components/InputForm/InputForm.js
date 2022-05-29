@@ -1,7 +1,7 @@
 import { useMutation } from "react-query";
 import { useAppContext } from "../Context/Context";
 import { XIcon, CalculatorIcon } from "@heroicons/react/outline";
-import { ACTIONS } from "../Context/mainReducer";
+import { ACTIONS, useCurrentCoin } from "../Context/mainReducer";
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
@@ -24,8 +24,8 @@ const before90Days = dayjs().subtract(91, "days").format("YYYY-MM-DD");
 const InputForm = () => {
   const appContext = useAppContext();
   const generateUrl = useGenerateUrl("dca");
+  const currentCoin = useCurrentCoin();
   const { state, dispatch } = appContext;
-  const currentCoin = state.currentCoin;
   const [isOpen, setIsOpen] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
 

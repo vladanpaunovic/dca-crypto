@@ -5,16 +5,14 @@ import {
 } from "../../components/Context/Context";
 import DataTable from "../../components/DataTable/DataTable";
 import Information from "../../components/Information/Information";
-import {
-  getAllCoins,
-  getCoinById,
-  getDCAChartData,
-} from "../../queries/queries";
+import { getAllCoins, getDCAChartData } from "../../queries/queries";
 import {
   CACHE_INVALIDATION_INTERVAL,
   defaultCurrency,
   WEBSITE_URL,
 } from "../../config";
+import { useCurrentCoin } from "../../components/Context/mainReducer";
+import { TweetMessage } from "../../components/TweetMessage/TweetMessage";
 import Footer from "../../components/Footer/Footer";
 import Logo from "../../components/Logo/Logo";
 import ThemeSwitch from "../../components/ThemeSwitch/ThemeSwitch";
@@ -27,7 +25,6 @@ import Loading from "../../components/Loading/Loading";
 import { AdBannerBig, AdBannerMedium } from "../../components/Ads/Ads";
 import NextImage from "next/image";
 import { formatPrice } from "../../components/Currency/Currency";
-import { TweetMessage } from "../../components/TweetMessage/TweetMessage";
 import dayjs from "dayjs";
 
 const DynamicChart = dynamic(() => import("../../components/Chart/Chart"), {
@@ -56,10 +53,9 @@ export async function getServerSideProps(context) {
 
   const payload = generateDefaultInput(context.query);
 
-  const [availableTokens, chartData, currentCoin] = await Promise.all([
-    getAllCoins(currency), // TODO: REMOVE
+  const [availableTokens, chartData] = await Promise.all([
+    getAllCoins(currency),
     getDCAChartData(payload),
-    getCoinById(payload.coinId),
   ]);
 
   context.res.setHeader(
@@ -71,7 +67,6 @@ export async function getServerSideProps(context) {
     props: {
       availableTokens,
       chartData,
-      currentCoin,
       ...payload,
     },
   };
@@ -79,25 +74,21 @@ export async function getServerSideProps(context) {
 
 const Coin = () => {
   const { state } = useAppContext();
-
-  if (!state.currentCoin) {
-    return null;
-  }
-
-  const coinSymbol = state.currentCoin.symbol.toUpperCase();
+  const currentCoin = useCurrentCoin();
+  const coinSymbol = currentCoin.symbol.toUpperCase();
 
   return (
     <div className="w-full">
       <NextSeo
-        title={`Dollar cost average ${state.currentCoin.name} (${coinSymbol}) calculator`}
+        title={`Dollar cost average ${currentCoin.name} (${coinSymbol}) calculator`}
         description={`Visualise and calculate historical returns of investing ${formatPrice(
           state.input.investment
-        )} in ${state.currentCoin.name} (${coinSymbol}) every ${
+        )} in ${currentCoin.name} (${coinSymbol}) every ${
           state.input.investmentInterval
         } days from ${dayjs(state.input.dateFrom).format(
           "MMM YYYY"
         )} until now. See it on charts!`}
-        canonical={`https://${WEBSITE_URL}/dca/${state.currentCoin.id}`}
+        canonical={`https://${WEBSITE_URL}/dca/${currentCoin.id}`}
         openGraph={{
           title: `Dollar cost average ${coinSymbol} calculator`,
           description: `Visualise and calculate historical returns of investing ${formatPrice(
@@ -124,15 +115,15 @@ const Coin = () => {
               <h1 className="h1-title">
                 Dollar-cost averaging (DCA) calculator for{" "}
                 <span className="text-indigo-700 dark:text-yellow-500 capitalize">
-                  {state.currentCoin.name} ({coinSymbol})
+                  {currentCoin.name} ({coinSymbol})
                 </span>{" "}
                 backtesting
               </h1>
               {state.input.isLoading ? null : (
                 <div className="w-8 h-8 ml-2 hidden sm:block relative">
                   <NextImage
-                    src={state.currentCoin.image}
-                    alt={`${state.currentCoin.name} logo`}
+                    src={currentCoin.image}
+                    alt={`${currentCoin.name} logo`}
                     layout="fill"
                     objectFit="cover"
                   />
@@ -141,10 +132,7 @@ const Coin = () => {
             </div>
           </div>
           <div className="col-span-6">
-            <BreadcrumbDCA
-              name={state.currentCoin.name}
-              coinId={state.currentCoin.id}
-            />
+            <BreadcrumbDCA name={currentCoin.name} coinId={currentCoin.id} />
 
             <div className="shadow-xl border bg-white dark:bg-gray-900 dark:border-gray-800 md:rounded-lg md:p-6 mb-8">
               <div className="py-5 px-4 dark:bg-gray-900">
@@ -223,7 +211,6 @@ const CoinWrapper = (props) => {
     <AppContextProvider
       availableTokens={props.availableTokens}
       chartData={props.chartData}
-      currentCoin={props.currentCoin}
     >
       <div className="lg:flex bg-gray-100 dark:bg-gray-800">
         <div className="w-12/12 lg:w-330 md:border-r dark:border-gray-700 bg-white dark:bg-gray-900">

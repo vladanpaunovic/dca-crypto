@@ -3,15 +3,16 @@ import { CodeIcon, ShareIcon } from "@heroicons/react/outline";
 import { useRouter } from "next/router";
 import React from "react";
 import { WEBSITE_PATHNAME } from "../../config";
+import { useCurrentCoin } from "../Context/mainReducer";
 import queryString from "query-string";
 import { useTweetMessage } from "../TweetMessage/TweetMessage";
 import * as ga from "../helpers/GoogleAnalytics";
-import { useAppContext } from "../Context/Context";
 
-const SharingButtons = ({ currentCoin }) => {
+const SharingButtons = () => {
   const router = useRouter();
   const isDca = router.pathname.includes("dca");
   const pathname = isDca ? "dca" : "lump-sum";
+  const currentCoin = useCurrentCoin();
   const coinSymbol = currentCoin.symbol.toUpperCase();
 
   const queryWithoutCoin = {
@@ -27,7 +28,7 @@ const SharingButtons = ({ currentCoin }) => {
   const locationHref = `${WEBSITE_PATHNAME}/${pathname}/${router.query.coin}?${readyQueryString}`;
 
   const subject = `DCA Crypto - Dollar cost average ${currentCoin.name} (${coinSymbol}) calculator`;
-  const priceChartMessage = useTweetMessage(currentCoin);
+  const priceChartMessage = useTweetMessage();
 
   const socialNetworks = [
     {
@@ -135,11 +136,10 @@ const SharingButtons = ({ currentCoin }) => {
 };
 
 const ShareChart = () => {
-  const { state } = useAppContext();
-  const currentCoin = state.currentCoin;
   const router = useRouter();
   const isDca = router.pathname.includes("dca");
   const pathname = isDca ? "dca" : "lump-sum";
+  const currentCoin = useCurrentCoin();
   const coinSymbol = currentCoin.symbol.toUpperCase();
 
   const readyQueryString = queryString.stringify({
@@ -181,7 +181,7 @@ const ShareChart = () => {
             <div className="p-4 bg-white dark:bg-gray-900 rounded border dark:border-gray-700 shadow md:max-w-sm">
               <h4 className="text-normal font-medium mb-2">Share this chart</h4>
               <div className="mb-2">
-                <SharingButtons currentCoin={currentCoin} />
+                <SharingButtons />
               </div>
 
               <p className="mb-2 mt-4 text-gray-600 dark:text-gray-300 flex items-center">
