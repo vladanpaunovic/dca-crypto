@@ -2,7 +2,7 @@ import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import Select from "react-select";
 import { useAppContext } from "../Context/Context";
-import { ACTIONS, useCurrentCoin } from "../Context/mainReducer";
+import { ACTIONS } from "../Context/mainReducer";
 
 const colorsLight = {
   primary50: "#D1D5DB",
@@ -119,8 +119,7 @@ const SelectCoin = () => {
   const { theme: projectTheme } = useTheme();
   const { state, dispatch } = useAppContext();
   const [mounted, setMounted] = useState(false);
-  const currentCoin = useCurrentCoin();
-
+  const currentCoin = state.currentCoin;
   const themeColors = getThemeColors(projectTheme);
 
   // When mounted on client, now we can show the UI

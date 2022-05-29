@@ -19,8 +19,6 @@ const DEFAULT_QUERYSTRING = qs.stringify({
   currency: "usd",
 });
 
-console.log(DEFAULT_QUERYSTRING);
-
 generateSitemap();
 
 const moduleExports = (phase) => ({

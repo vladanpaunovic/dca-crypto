@@ -4,7 +4,6 @@ import duration from "dayjs/plugin/duration";
 import relativeTime from "dayjs/plugin/relativeTime";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import { formatPrice } from "../Currency/Currency";
-import { useCurrentCoin } from "../Context/mainReducer";
 import React from "react";
 import ShareChart from "../ShareChart/ShareChart";
 import { useRouter } from "next/router";
@@ -18,8 +17,7 @@ export const useTweetMessage = () => {
   const isDca = router.pathname.includes("dca");
 
   const { state } = useAppContext();
-  const currentCoin = useCurrentCoin();
-  const coinSymbol = currentCoin.symbol.toUpperCase();
+  const coinSymbol = state.currentCoin.symbol.toUpperCase();
   const costAverage =
     state.chart.data[state.chart.data.length - 1]?.costAverage;
 

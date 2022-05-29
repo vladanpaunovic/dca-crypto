@@ -3,7 +3,7 @@ import SupportIcon from "../Icons/SupportIcon";
 import Image from "next/image";
 import * as ga from "../helpers/GoogleAnalytics";
 import { HeartIcon } from "@heroicons/react/outline";
-import { useCurrentCoin } from "../Context/mainReducer";
+import { useAppContext } from "../Context/Context";
 
 const affiliatePartners = [
   {
@@ -42,7 +42,7 @@ const donationMeta = {
 };
 
 const AffiliatePartner = (props) => {
-  const currentCoin = useCurrentCoin();
+  const { state } = useAppContext();
   const { name, pitch, affiliateLink, icon, value } = props;
   return (
     <div className="bg-white dark:bg-gray-900 p-2 md:px-4 md:py-5 flex md:col-span-3">
@@ -58,7 +58,7 @@ const AffiliatePartner = (props) => {
           onClick={() => {
             ga.event({
               action: "support_site",
-              params: { affiliate: name, token: currentCoin.name },
+              params: { affiliate: name, token: state.currentCoin.name },
             });
           }}
         >
