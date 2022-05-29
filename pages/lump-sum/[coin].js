@@ -5,7 +5,11 @@ import {
 } from "../../components/Context/Context";
 import DataTable from "../../components/DataTable/DataTable";
 import Information from "../../components/Information/Information";
-import { getAllCoins, getLumpSumChartData } from "../../queries/queries";
+import {
+  getAllCoins,
+  getCoinById,
+  getLumpSumChartData,
+} from "../../queries/queries";
 import {
   CACHE_INVALIDATION_INTERVAL,
   defaultCurrency,
@@ -54,9 +58,10 @@ export async function getServerSideProps(context) {
 
   const payload = generateDefaultInput(context.query);
 
-  const [availableTokens, chartData] = await Promise.all([
+  const [availableTokens, chartData, currentCoin] = await Promise.all([
     getAllCoins(currency),
     getLumpSumChartData(payload),
+    getCoinById(payload.coinId),
   ]);
 
   context.res.setHeader(
@@ -68,6 +73,7 @@ export async function getServerSideProps(context) {
     props: {
       availableTokens,
       chartData,
+      currentCoin,
       ...payload,
     },
   };
@@ -75,7 +81,7 @@ export async function getServerSideProps(context) {
 
 const Coin = () => {
   const { state } = useAppContext();
-  const currentCoin = useCurrentCoin();
+  const currentCoin = state.currentCoin;
   const coinSymbol = currentCoin.symbol.toUpperCase();
 
   return (
@@ -211,6 +217,7 @@ const CoinWrapper = (props) => {
     <AppContextProvider
       availableTokens={props.availableTokens}
       chartData={props.chartData}
+      currentCoin={props.currentCoin}
     >
       <div className="lg:flex bg-gray-100 dark:bg-gray-800">
         <div className="w-12/12 lg:w-330 md:border-r dark:border-gray-700 bg-white dark:bg-gray-900">

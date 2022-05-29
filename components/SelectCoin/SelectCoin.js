@@ -119,8 +119,7 @@ const SelectCoin = () => {
   const { theme: projectTheme } = useTheme();
   const { state, dispatch } = useAppContext();
   const [mounted, setMounted] = useState(false);
-  const currentCoin = useCurrentCoin();
-
+  const currentCoin = state.currentCoin;
   const themeColors = getThemeColors(projectTheme);
 
   // When mounted on client, now we can show the UI
