@@ -40,7 +40,7 @@ apiClient.interceptors.response.use(
     }`;
     span = transaction.startChild({
       data: {
-        result: response,
+        result: normalize(response),
       },
       op: "http.client",
       description: `Processing ${transactionName}`,
