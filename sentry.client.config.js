@@ -3,6 +3,7 @@
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/
 
 import * as Sentry from "@sentry/nextjs";
+import SentryRRWeb from "@sentry/rrweb";
 
 const SENTRY_DSN = process.env.SENTRY_DSN || process.env.NEXT_PUBLIC_SENTRY_DSN;
 
@@ -23,5 +24,6 @@ Sentry.init({
     }
     return event;
   },
+  integrations: [new SentryRRWeb()],
   tunnel: "/api/tunnel",
 });
