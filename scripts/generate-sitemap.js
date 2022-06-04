@@ -55,6 +55,4 @@ const generateSitemaps = async () => {
   fs.writeFileSync(pathName, formattedSitemap, "utf8");
 };
 
-generateSitemaps();
-
-// module.exports = generateSitemaps;
+module.exports = generateSitemaps;
