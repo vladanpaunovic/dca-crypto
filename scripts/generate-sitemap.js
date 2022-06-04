@@ -4,29 +4,16 @@ const axios = require("axios");
 const prettier = require("prettier");
 const getDate = new Date().toISOString();
 
-const coinGeckoApi = "https://api.coingecko.com/api/v3/coins/markets";
 const WEBSITE_DOMAIN = "https://www.dca-cc.com";
 
 const formatted = (sitemap) => prettier.format(sitemap, { parser: "html" });
 
 const generateSitemaps = async () => {
-  const fetchMarketData = await axios.get(coinGeckoApi, {
-    params: {
-      vs_currency: "usd",
-      order: "market_cap_desc",
-      per_page: 300,
-      page: 1,
-      sparkline: false,
-    },
-  });
+  const coinsList = await axios.get(
+    "https://api.coingecko.com/api/v3/coins/list"
+  );
 
-  const postList = fetchMarketData.data.map((e) => e.id);
-
-  const firstEntry = `<url>
-        <loc>${WEBSITE_DOMAIN}</loc>
-        <lastmod>${getDate}</lastmod>
-        <changefreq>daily</changefreq>
-    </url>`;
+  const postList = coinsList.data.map((e) => e.id);
 
   const dcaListSitemap = postList
     .map((id) => {
@@ -57,7 +44,6 @@ const generateSitemaps = async () => {
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
     >
-        ${firstEntry}
       ${dcaListSitemap}
       ${lumpSumListSitemap}
     </urlset>
@@ -69,4 +55,6 @@ const generateSitemaps = async () => {
   fs.writeFileSync(pathName, formattedSitemap, "utf8");
 };
 
-module.exports = generateSitemaps;
+generateSitemaps();
+
+// module.exports = generateSitemaps;
