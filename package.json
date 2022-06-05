@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start -p 4000",
     "lint": "next lint",
-    "build:sitemaps": "node scripts/generate-sitemap.js",
+    "prebuild": "node scripts/generate-sitemap.js",
     "find:unused": "next-unused",
     "test": "jest",
     "test:ci": "jest --ci"

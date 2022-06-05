@@ -2,7 +2,6 @@ require("dotenv").config();
 const qs = require("query-string");
 const dayjs = require("dayjs");
 const Mode = require("frontmatter-markdown-loader/mode");
-const generateSitemap = require("./scripts/generate-sitemap.js");
 const { PHASE_PRODUCTION_BUILD } = require("next/constants");
 
 // This file sets a custom webpack configuration to use your Next.js app
@@ -21,8 +20,6 @@ const DEFAULT_QUERYSTRING = qs.stringify(
   },
   { sort: false }
 );
-
-generateSitemap();
 
 const moduleExports = (phase) => ({
   webpack: (cfg) => {

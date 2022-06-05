@@ -9,6 +9,8 @@ const WEBSITE_DOMAIN = "https://www.dca-cc.com";
 const formatted = (sitemap) => prettier.format(sitemap, { parser: "html" });
 
 const generateSitemaps = async () => {
+  console.log("[SITEMAPS] Genereting sitemaps...");
+
   const coinsList = await axios.get(
     "https://api.coingecko.com/api/v3/coins/list"
   );
@@ -53,6 +55,8 @@ const generateSitemaps = async () => {
 
   const pathName = path.join(__dirname, "../", "public", "sitemap.xml");
   fs.writeFileSync(pathName, formattedSitemap, "utf8");
+
+  console.log("[SITEMAPS] Sitemaps generated.");
 };
 
-module.exports = generateSitemaps;
+generateSitemaps();
