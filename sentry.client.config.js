@@ -24,6 +24,6 @@ Sentry.init({
     }
     return event;
   },
-  integrations: [new SentryRRWeb()],
+  integrations: [new SentryRRWeb({ checkoutEveryNth: 50 })],
   tunnel: "/api/tunnel",
 });
