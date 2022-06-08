@@ -55,14 +55,13 @@ const handler = async (req, res) => {
   const firstInvestment = reduced[0];
 
   const chartData = reduced.map((entry) => {
-    const costAverage = firstInvestment.coinPrice;
+    const coinPrice = parseFloat(firstInvestment.coinPrice);
 
-    const totalCrypto = payload.investment / firstInvestment.coinPrice;
-
-    const balanceCrypto = payload.investment / firstInvestment.coinPrice;
+    const totalCrypto =
+      coinPrice === 0 ? 0 : parseFloat(payload.investment) / coinPrice;
 
     const totalFIAT = payload.investment;
-    const balanceFIAT = (balanceCrypto * entry.coinPrice).toFixed(2);
+    const balanceFIAT = (totalCrypto * entry.coinPrice).toFixed(2);
 
     const percentageChange = getPercentageChange(totalFIAT, balanceFIAT);
 
@@ -70,9 +69,9 @@ const handler = async (req, res) => {
       ...entry,
       totalFIAT: payload.investment,
       totalCrypto,
-      costAverage,
+      costAverage: coinPrice,
       balanceFIAT,
-      balanceCrypto,
+      balanceCrypto: totalCrypto,
       percentageChange,
     };
   });

@@ -9,6 +9,8 @@ import { useEffect, useState } from "react";
 import * as ga from "../components/helpers/GoogleAnalytics";
 import DefaultSeo from "../components/Seo/DefaultSeo";
 import AdBlockerBanner from "../components/AdBlockerBanner/AdBlockerBanner";
+import { WEBSITE_PATHNAME } from "../config";
+import * as Sentry from "@sentry/nextjs";
 
 function App({ Component, pageProps }) {
   const router = useRouter();
@@ -17,7 +19,9 @@ function App({ Component, pageProps }) {
   useEffect(() => {
     const handleRouteChange = (url) => {
       ga.pageview(url);
+      Sentry.setContext("route changed", { url: `${WEBSITE_PATHNAME}${url}` });
     };
+
     //When the component is mounted, subscribe to router changes
     //and log those page views
     router.events.on("routeChangeComplete", handleRouteChange);

@@ -1,6 +1,5 @@
 import axios from "axios";
 import * as Sentry from "@sentry/nextjs";
-import { normalize } from "@sentry/utils";
 
 import { WEBSITE_URL } from "../config";
 
@@ -13,10 +12,13 @@ const apiClient = axios.create({
 let transaction;
 let span;
 
+const generateTransactionName = (method, url) =>
+  `[axios] ${method.toUpperCase()} ${url}`;
+
 apiClient.interceptors.request.use(
   function (config) {
     // Do something before request is sent
-    const transactionName = `${config.method.toUpperCase()} ${config.url}`;
+    const transactionName = generateTransactionName(config.method, config.url);
     transaction = Sentry.startTransaction({
       name: transactionName,
       op: "http.client",
@@ -35,12 +37,14 @@ apiClient.interceptors.request.use(
 
 apiClient.interceptors.response.use(
   function (response) {
-    const transactionName = `${response.config.method.toUpperCase()} ${
+    const transactionName = generateTransactionName(
+      response.config.method,
       response.config.url
-    }`;
+    );
+
     span = transaction.startChild({
       data: {
-        result: normalize(response),
+        result: response,
       },
       op: "http.client",
       description: `Processing ${transactionName}`,
@@ -57,7 +61,7 @@ apiClient.interceptors.response.use(
     // Do something with response error
     span = transaction.startChild({
       data: {
-        result: normalize(error),
+        result: error,
       },
       op: "http.client",
       description: `Processing failed`,
