@@ -34,9 +34,6 @@ const moduleExports = (phase) => ({
   },
   experimental: {
     outputStandalone: true,
-    images: {
-      unoptimized: true,
-    },
   },
   images: {
     domains: ["img.clankapp.com", "assets.coingecko.com"],
