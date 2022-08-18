@@ -4,6 +4,9 @@ const dayjs = require("dayjs");
 const Mode = require("frontmatter-markdown-loader/mode");
 const { PHASE_PRODUCTION_BUILD } = require("next/constants");
 
+console.log("DEBUGGING");
+console.log({NODE_ENV: process.env.NODE_ENV, VERCEL_ENV: process.env.VERCEL_ENV});
+
 // This file sets a custom webpack configuration to use your Next.js app
 // with Sentry.
 // https://nextjs.org/docs/api-reference/next.config.js/introduction
