@@ -3,6 +3,7 @@ import dayjs from "dayjs";
 import getPercentageChange from "../../../components/helpers/getPercentageChange";
 import * as Sentry from "@sentry/nextjs";
 import { checkCORS } from "../../../server/cors";
+import { spanStatusfromHttpCode } from "@sentry/tracing";
 
 const convertDateStringToUnix = (dateString) =>
   new Date(dateString).getTime() / 1000;
@@ -24,6 +25,17 @@ const handler = async (req, res) => {
       },
     }
   );
+
+  const transaction = Sentry.getCurrentHub().getScope().getTransaction();
+  const span = transaction.startChild({
+    data: {
+      result: response.data,
+    },
+    op: "task",
+    description: `processing CoinGecko results`,
+  });
+
+  span.setStatus(spanStatusfromHttpCode(response.status));
 
   if (!response.data.prices) {
     throw new Error("No data received from the CoinGecko");
@@ -97,6 +109,10 @@ const handler = async (req, res) => {
       lumpSum: (payload.investment / chartData[0].coinPrice) * coinPrice,
     },
   };
+
+  span.finish();
+  transaction.finish();
+
   res.status(200).json(output);
 };
 

@@ -32,9 +32,6 @@ const moduleExports = (phase) => ({
     });
     return cfg;
   },
-  experimental: {
-    outputStandalone: true,
-  },
   images: {
     domains: ["img.clankapp.com", "assets.coingecko.com"],
   },
