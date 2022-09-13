@@ -17,13 +17,11 @@ async function handler(req, res) {
 
     const { host, path } = urlLibrary.parse(header.dsn);
     if (host !== sentryHost) {
-      console.log({ host, sentryHost });
       throw new Error(`invalid host: ${host}`);
     }
 
     const projectId = path?.endsWith("/") ? path.slice(0, -1) : path;
     if (!knownProjectIds.includes(projectId || "")) {
-      console.log({ projectId, knownProjectIds });
       throw new Error(`invalid project id: ${projectId}`);
     }
 
