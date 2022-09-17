@@ -16,6 +16,7 @@ const DEFAULT_QUERYSTRING = qs.stringify(
   { sort: false }
 );
 
+/** @type {import('next').NextConfig} */
 const moduleExports = (phase) => ({
   webpack: (cfg) => {
     cfg.module.rules.push({
@@ -28,7 +29,19 @@ const moduleExports = (phase) => ({
     return cfg;
   },
   images: {
-    domains: ["img.clankapp.com", "assets.coingecko.com"],
+    domains: [
+      "img.clankapp.com",
+      "assets.coingecko.com",
+
+      // Google storage
+      "storage.googleapis.com",
+      "lh1.googleusercontent.com",
+      "lh2.googleusercontent.com",
+      "lh3.googleusercontent.com",
+      "lh4.googleusercontent.com",
+      "lh5.googleusercontent.com",
+      "lh6.googleusercontent.com",
+    ],
   },
   env: {
     IS_PROD: phase === PHASE_PRODUCTION_BUILD,

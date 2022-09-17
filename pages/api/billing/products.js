@@ -7,9 +7,20 @@ async function handler(req, res) {
     active: true,
   });
 
-  const stripNonActiveProducts = prices.data.filter(
-    (prices) => prices.product.active
-  );
+  const stripNonActiveProducts = prices.data
+    .filter((prices) => prices.product.active)
+    // Ordering prices from lowest to highest
+    .sort((a, b) => {
+      if (a.unit_amount < b.unit_amount) {
+        return -1;
+      }
+
+      if (a.unit_amount > b.unit_amount) {
+        return 1;
+      }
+
+      return 0;
+    });
 
   res.status(200).json(stripNonActiveProducts);
 }

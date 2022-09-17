@@ -11,7 +11,6 @@ import DefaultSeo from "../components/Seo/DefaultSeo";
 import AdBlockerBanner from "../components/AdBlockerBanner/AdBlockerBanner";
 import { WEBSITE_PATHNAME } from "../config";
 import { SessionProvider } from "next-auth/react";
-import LoginBtn from "../components/LoginBtn/LoginBtn";
 import * as Sentry from "@sentry/nextjs";
 
 function App({ Component, pageProps: { session, ...pageProps } }) {
@@ -43,7 +42,6 @@ function App({ Component, pageProps: { session, ...pageProps } }) {
             <CookieBanner />
             <AdBlockerBanner />
             <DefaultSeo />
-            <LoginBtn />
             <Component {...pageProps} />
             <ReactQueryDevtools />
           </Hydrate>

@@ -39,6 +39,7 @@
     "react-input-autosize": "^3.0.0",
     "react-loading": "^2.0.3",
     "react-markdown": "^6.0.2",
+    "react-payment-icons": "^1.2.6",
     "react-query": "3.34.7",
     "react-responsive": "^8.2.0",
     "react-select": "^4.3.1",

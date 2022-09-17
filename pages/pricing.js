@@ -3,7 +3,6 @@ import { AppContextProvider } from "../components/Context/Context";
 import Footer from "../components/Footer/Footer";
 import { CACHE_INVALIDATION_INTERVAL, defaultCurrency } from "../config";
 import {
-  createStripeCustomerPortal,
   createStripeSession,
   getAllCoins,
   getAllPricingProducts,
@@ -12,7 +11,11 @@ import { NextSeo } from "next-seo";
 import { useMutation } from "react-query";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import Loading from "../components/Loading/Loading";
+import Navigation from "../components/Navigarion/Navigation";
+import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/solid";
+import { classNames } from "../styles/utils";
+import PaymentMethods from "../components/PaymentMethods/PaymentMethods";
+import FAQ from "../components/FAQ/FAQ";
 
 export async function getServerSideProps(context) {
   const availableTokens = await getAllCoins(
@@ -38,6 +41,7 @@ export async function getServerSideProps(context) {
 export default function HomeWrapper(props) {
   return (
     <AppContextProvider availableTokens={props.availableTokens}>
+      <Navigation />
       <Pricing {...props} />
     </AppContextProvider>
   );
@@ -72,88 +76,109 @@ function PricingTab(props) {
     });
   };
 
+  const isRecurring = !!props.recurring;
+
+  const intervalLabel = isRecurring ? props.recurring.interval : "for 7 days";
+  const pricingDescription = isRecurring
+    ? "Recurring billing"
+    : "One time payment";
+
+  const isFavorable = isRecurring && props.recurring.interval === "month";
+  const isAnnual = isRecurring && props.recurring.interval === "year";
+  const featureClasses = classNames(
+    isFavorable
+      ? "text-white dark:text-gray-900"
+      : "text-gray-900 dark:text-gray-300",
+    "h-6 w-6 mr-2"
+  );
   return (
-    <div className="p-4 border">
-      <div>
-        <h3>{props.product.name}</h3>
-      </div>
-      <div>
-        <h3>Price {priceFormatter.format(props.unit_amount / 100)}</h3>
-      </div>
-      <div>
-        {data?.user?.hasActivePackage ? null : (
-          <button
-            disabled={status === "loading"}
-            onClick={handleOnSelect}
-            className="btn-blue"
-          >
-            {status === "loading" ? (
-              <Loading width={16} height={16} />
-            ) : (
-              "Select"
-            )}
-          </button>
+    <div
+      className={classNames(
+        isFavorable
+          ? "primary-gradient transform md:scale-105 text-white dark:text-gray-900 hover:scale-110"
+          : "bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-300 hover:scale-105",
+        "shadow-lg rounded-2xl w-full md:w-64 p-4 transform transition-all"
+      )}
+    >
+      <div className="relative">
+        <p className="text-xl font-bold mb-4">{props.product.name}</p>
+        {isAnnual && (
+          <p className="absolute -bottom-4 left-0 text-xs text-indigo-600 dark:text-yellow-600">
+            Save 20% over monthly
+          </p>
         )}
       </div>
-    </div>
-  );
-}
+      <p className="text-3xl font-bold">
+        {priceFormatter.format(props.unit_amount / 100)}
+        <span className="text-sm  opacity-60">/ {intervalLabel}</span>
+      </p>
+      <p className="text-xs mt-4 opacity-60">{pricingDescription}</p>
+      <ul className="text-sm w-full mt-6 mb-6">
+        <li className="mb-3 flex items-center ">
+          <CheckCircleIcon className={featureClasses} />
+          All unlimited features
+        </li>
 
-function Account() {
-  const { data, status } = useSession();
-  const router = useRouter();
-
-  const mutation = useMutation(
-    (payload) => createStripeCustomerPortal(payload),
-    {
-      onSuccess: (response) => {
-        router.push(response.url);
-      },
-    }
-  );
-
-  const handleOnSelect = () => {
-    mutation.mutate({
-      customerId: data.user.stripeCustomerId,
-      userId: data.user.id,
-    });
-  };
-
-  return (
-    <div className="p-4 border">
-      <div>
-        <h3>Account Management</h3>
-      </div>
-      <div>
+        {isRecurring ? (
+          <li className="mb-3 flex items-center">
+            <CheckCircleIcon className={featureClasses} /> Continuous access
+          </li>
+        ) : (
+          <li className="mb-3 flex items-center">
+            <CheckCircleIcon className={featureClasses} />
+            Time limited access
+          </li>
+        )}
+        {isRecurring ? (
+          <li className="mb-3 flex items-center">
+            <CheckCircleIcon className={featureClasses} />
+            Full access
+          </li>
+        ) : (
+          <li className="mb-3 flex items-center opacity-50">
+            <XCircleIcon className={featureClasses} />
+            Expires in 7 days
+          </li>
+        )}
+      </ul>
+      {data?.user?.hasActivePackage ? null : (
         <button
+          type="button"
           disabled={status === "loading"}
           onClick={handleOnSelect}
-          className="btn-blue"
+          className="bg-gray-900 dark:bg-white rounded-md text-white dark:text-gray-900 p-2 w-full hover:opacity-80 transition"
         >
-          {status === "loading" ? (
-            <Loading width={16} height={16} />
-          ) : (
-            "Manage Your Account"
-          )}
+          Choose plan
         </button>
-      </div>
+      )}
     </div>
   );
 }
 
 function Pricing(props) {
-  const { status } = useSession();
   return (
     <div className="w-full">
       <NextSeo
         title="Pricing &amp; Upgrade - DCA-CC"
         description="Select a plan that's right for you"
       />
-      <main className="w-full bg-white dark:bg-gray-900">
-        {status === "authenticated" && <Account />}
-        {props.pricing.map((price) => (
-          <PricingTab key={price.id} {...price} />
-        ))}
+      <main className="w-full ">
+        <div className="px-8 py-16">
+          <h1 className="h1-title text-center">
+            Select a plan that's right for you
+          </h1>
+        </div>
+        <div className="w-full p-8 gap-8 flex-col md:flex-row bg-white dark:bg-gray-900 flex justify-center">
+          {props.pricing.map((price) => (
+            <PricingTab key={price.id} {...price} />
+          ))}
+        </div>
+        <div className="w-full flex justify-center pt-16 pb-8">
+          <PaymentMethods />
+        </div>
+        <div className="w-full flex justify-center pt-16 pb-8">
+          <FAQ />
+        </div>
       </main>
 
       <Footer availableTokens={props.availableTokens} />

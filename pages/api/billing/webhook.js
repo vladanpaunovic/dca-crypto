@@ -33,9 +33,21 @@ async function handler(req, res) {
   switch (event.type) {
     case "checkout.session.completed":
       if (paymentIntent.mode === "subscription") {
+        const upcomingSubscription = await stripe.subscriptions.retrieve(
+          paymentIntent.subscription
+        );
+
         upstashAdopter.updateUser({
           id: paymentIntent.metadata.redisUserId,
-          subscription: { subId: paymentIntent.subscription, status: "active" },
+          subscription: {
+            subId: paymentIntent.subscription,
+            status: "active",
+            type: "subscription",
+            created_at: dayjs().valueOf(),
+            ends_on: dayjs
+              .unix(upcomingSubscription.current_period_end)
+              .valueOf(),
+          },
         });
       }
 
@@ -83,7 +95,13 @@ async function handler(req, res) {
 
       upstashAdopter.updateUser({
         id: updatedSubscription.customer.metadata.redisUserId,
-        subscription: { subId: paymentIntent.id, status: paymentIntent.status },
+        subscription: {
+          subId: paymentIntent.id,
+          status: paymentIntent.status,
+          type: "subscription",
+          created_at: dayjs().valueOf(),
+          ends_on: dayjs.unix(paymentIntent.current_period_end).valueOf(),
+        },
       });
 
       break;
