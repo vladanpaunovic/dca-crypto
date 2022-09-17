@@ -68,6 +68,7 @@ export const authOptions = {
       return baseUrl;
     },
   },
+  secret: process.env.STRIPE_ENCRYPTION_SECRET,
 };
 
 export default NextAuth(authOptions);
