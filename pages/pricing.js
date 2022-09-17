@@ -165,7 +165,7 @@ function Pricing(props) {
       <main className="w-full ">
         <div className="px-8 py-16">
           <h1 className="h1-title text-center">
-            Select a plan that's right for you
+            Select a plan that is right for you
           </h1>
         </div>
         <div className="w-full p-8 gap-8 flex-col md:flex-row bg-white dark:bg-gray-900 flex justify-center">

@@ -11,7 +11,7 @@ const FAQ = () => {
           </p>
           <p className="mt-2 space-y-4">
             <p className="text-base leading-6 text-gray-500 dark:text-gray-400">
-              To cancel a recurring subscription just click 'Stop auto-renewal'
+              To cancel a recurring subscription just click stop auto-renewal
               from your account page.
             </p>
             <p className="text-base leading-6 text-gray-500 dark:text-gray-400">
@@ -70,7 +70,7 @@ const FAQ = () => {
           <p className="mt-2 space-y-4">
             <p className="text-base leading-6 text-gray-500 dark:text-gray-400">
               Yes. Simply cancel auto-renewal immediately after signing up and
-              you'll only be charged for the current billing cycle.
+              you will only be charged for the current billing cycle.
             </p>
           </p>
         </li>

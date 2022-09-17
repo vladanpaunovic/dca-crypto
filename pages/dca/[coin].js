@@ -16,8 +16,6 @@ import {
   WEBSITE_URL,
 } from "../../config";
 import Footer from "../../components/Footer/Footer";
-import Logo from "../../components/Logo/Logo";
-import ThemeSwitch from "../../components/ThemeSwitch/ThemeSwitch";
 import { generateDefaultInput } from "../../common/generateDefaultInput";
 import { NextSeo } from "next-seo";
 import BreadcrumbDCA from "../../components/Breadcrumb/BreadcrumbDCA";
