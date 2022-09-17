@@ -102,19 +102,19 @@ function PricingTab(props) {
     >
       <div className="relative">
         <p className="text-xl font-bold mb-4">{props.product.name}</p>
-        {isAnnual && (
-          <p className="absolute -bottom-4 left-0 text-xs text-indigo-600 dark:text-yellow-600">
-            Save 20% over monthly
+        {isAnnual ? (
+          <p className="absolute -bottom-4 left-0 text-xs font-normal text-indigo-600 dark:text-yellow-600">
+            Get one month for free
           </p>
-        )}
+        ) : null}
       </div>
       <p className="text-3xl font-bold">
         {priceFormatter.format(props.unit_amount / 100)}
-        <span className="text-sm  opacity-60">/ {intervalLabel}</span>
+        <span className="text-sm opacity-60">/ {intervalLabel}</span>
       </p>
       <p className="text-xs mt-4 opacity-60">{pricingDescription}</p>
       <ul className="text-sm w-full mt-6 mb-6">
-        <li className="mb-3 flex items-center ">
+        <li className="mb-3 flex items-center">
           <CheckCircleIcon className={featureClasses} />
           All unlimited features
         </li>
