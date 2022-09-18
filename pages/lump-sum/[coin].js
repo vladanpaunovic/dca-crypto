@@ -30,6 +30,7 @@ import { AdBannerBig, AdBannerMedium } from "../../components/Ads/Ads";
 import NextImage from "next/image";
 import dayjs from "dayjs";
 import { formatPrice } from "../../components/Currency/Currency";
+import Navigation from "../../components/Navigarion/Navigation";
 
 const DynamicChart = dynamic(() => import("../../components/Chart/Chart"), {
   ssr: false,
@@ -215,11 +216,9 @@ const CoinWrapper = (props) => {
       chartData={props.chartData}
       currentCoin={props.currentCoin}
     >
+      <Navigation />
       <div className="lg:flex bg-gray-100 dark:bg-gray-800">
         <div className="w-12/12 lg:w-330 md:border-r dark:border-gray-700 bg-white dark:bg-gray-900">
-          <div className="w-full flex items-center justify-between px-4 h-16 border-b dark:border-gray-700">
-            <Logo /> <ThemeSwitch />
-          </div>
           <div>
             <InputFormLumpSum {...props} pathname="/lump-sum/" />
           </div>
