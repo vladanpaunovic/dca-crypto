@@ -3,11 +3,6 @@ const qs = require("query-string");
 const dayjs = require("dayjs");
 const Mode = require("frontmatter-markdown-loader/mode");
 const { PHASE_PRODUCTION_BUILD } = require("next/constants");
-
-// This file sets a custom webpack configuration to use your Next.js app
-// with Sentry.
-// https://nextjs.org/docs/api-reference/next.config.js/introduction
-// https://docs.sentry.io/platforms/javascript/guides/nextjs/
 const { withSentryConfig } = require("@sentry/nextjs");
 
 const DEFAULT_QUERYSTRING = qs.stringify(
@@ -21,6 +16,7 @@ const DEFAULT_QUERYSTRING = qs.stringify(
   { sort: false }
 );
 
+/** @type {import('next').NextConfig} */
 const moduleExports = (phase) => ({
   webpack: (cfg) => {
     cfg.module.rules.push({
@@ -33,7 +29,19 @@ const moduleExports = (phase) => ({
     return cfg;
   },
   images: {
-    domains: ["img.clankapp.com", "assets.coingecko.com"],
+    domains: [
+      "img.clankapp.com",
+      "assets.coingecko.com",
+
+      // Google storage
+      "storage.googleapis.com",
+      "lh1.googleusercontent.com",
+      "lh2.googleusercontent.com",
+      "lh3.googleusercontent.com",
+      "lh4.googleusercontent.com",
+      "lh5.googleusercontent.com",
+      "lh6.googleusercontent.com",
+    ],
   },
   env: {
     IS_PROD: phase === PHASE_PRODUCTION_BUILD,
@@ -51,4 +59,7 @@ const moduleExports = (phase) => ({
 
 // Make sure adding Sentry options is the last code to run before exporting, to
 // ensure that your source maps include changes from all other Webpack plugins
-module.exports = withSentryConfig(moduleExports, { silent: true });
+module.exports = withSentryConfig(moduleExports, {
+  silent: true,
+  hideSourceMaps: false,
+});

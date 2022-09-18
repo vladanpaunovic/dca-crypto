@@ -20,3 +20,5 @@ export const WEBSITE_URL =
 export const WEBSITE_PREFIX =
   process.env.NEXT_PUBLIC_VERCEL_ENV === "production" ? "https://" : "http://";
 export const WEBSITE_PATHNAME = WEBSITE_PREFIX + WEBSITE_URL;
+
+export const WEBSITE_EMAIL = "dcacryptocurrency@gmail.com";

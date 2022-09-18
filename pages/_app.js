@@ -10,9 +10,10 @@ import * as ga from "../components/helpers/GoogleAnalytics";
 import DefaultSeo from "../components/Seo/DefaultSeo";
 import AdBlockerBanner from "../components/AdBlockerBanner/AdBlockerBanner";
 import { WEBSITE_PATHNAME } from "../config";
+import { SessionProvider } from "next-auth/react";
 import * as Sentry from "@sentry/nextjs";
 
-function App({ Component, pageProps }) {
+function App({ Component, pageProps: { session, ...pageProps } }) {
   const router = useRouter();
   const [queryClient] = useState(() => new QueryClient());
 
@@ -34,17 +35,19 @@ function App({ Component, pageProps }) {
   }, [router.events]);
 
   return (
-    <ThemeProvider attribute="class" defaultTheme="system">
-      <QueryClientProvider client={queryClient}>
-        <Hydrate state={pageProps.dehydratedState}>
-          <CookieBanner />
-          <AdBlockerBanner />
-          <DefaultSeo />
-          <Component {...pageProps} />
-          <ReactQueryDevtools />
-        </Hydrate>
-      </QueryClientProvider>
-    </ThemeProvider>
+    <SessionProvider session={session}>
+      <ThemeProvider attribute="class" defaultTheme="system">
+        <QueryClientProvider client={queryClient}>
+          <Hydrate state={pageProps.dehydratedState}>
+            <CookieBanner />
+            <AdBlockerBanner />
+            <DefaultSeo />
+            <Component {...pageProps} />
+            <ReactQueryDevtools />
+          </Hydrate>
+        </QueryClientProvider>
+      </ThemeProvider>
+    </SessionProvider>
   );
 }
 

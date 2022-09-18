@@ -16,8 +16,6 @@ import {
   WEBSITE_URL,
 } from "../../config";
 import Footer from "../../components/Footer/Footer";
-import Logo from "../../components/Logo/Logo";
-import ThemeSwitch from "../../components/ThemeSwitch/ThemeSwitch";
 import { generateDefaultInput } from "../../common/generateDefaultInput";
 import { NextSeo } from "next-seo";
 import BreadcrumbDCA from "../../components/Breadcrumb/BreadcrumbDCA";
@@ -29,6 +27,7 @@ import NextImage from "next/image";
 import { formatPrice } from "../../components/Currency/Currency";
 import { TweetMessage } from "../../components/TweetMessage/TweetMessage";
 import dayjs from "dayjs";
+import Navigation from "../../components/Navigarion/Navigation";
 
 const DynamicChart = dynamic(() => import("../../components/Chart/Chart"), {
   ssr: false,
@@ -222,11 +221,10 @@ const CoinWrapper = (props) => {
       chartData={props.chartData}
       currentCoin={props.currentCoin}
     >
+      <Navigation />
+
       <div className="lg:flex bg-gray-100 dark:bg-gray-800">
         <div className="w-12/12 lg:w-330 md:border-r dark:border-gray-700 bg-white dark:bg-gray-900">
-          <div className="w-full flex items-center justify-between px-4 h-16 border-b dark:border-gray-700">
-            <Logo /> <ThemeSwitch />
-          </div>
           <div>
             <InputFormWrapper {...props} pathname="/dca/" />
           </div>
