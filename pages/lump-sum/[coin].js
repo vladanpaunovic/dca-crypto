@@ -18,18 +18,16 @@ import {
 import { TweetMessage } from "../../components/TweetMessage/TweetMessage";
 import Footer from "../../components/Footer/Footer";
 import React from "react";
-import Logo from "../../components/Logo/Logo";
-import ThemeSwitch from "../../components/ThemeSwitch/ThemeSwitch";
 import { generateDefaultInput } from "../../common/generateDefaultInput";
 import { NextSeo } from "next-seo";
 import BreadcrumbLumpSum from "../../components/Breadcrumb/BreadcrumbLumpSum";
 import WhatIsLumpSum from "../../components/LandingPage/WhatIsLumpSum";
 import dynamic from "next/dynamic";
 import Loading from "../../components/Loading/Loading";
-import { AdBannerBig, AdBannerMedium } from "../../components/Ads/Ads";
 import NextImage from "next/image";
 import dayjs from "dayjs";
 import { formatPrice } from "../../components/Currency/Currency";
+import Navigation from "../../components/Navigarion/Navigation";
 
 const DynamicChart = dynamic(() => import("../../components/Chart/Chart"), {
   ssr: false,
@@ -186,21 +184,9 @@ const Coin = () => {
               <DataTable />
             </div>
 
-            <div className="hidden lg:flex justify-center my-4">
-              <AdBannerBig />
-            </div>
-            <div className="flex lg:hidden justify-center my-4">
-              <AdBannerMedium />
-            </div>
             <section className="mx-auto mt-8">
               <WhatIsLumpSum />
             </section>
-            <div className="hidden lg:flex justify-center my-4">
-              <AdBannerBig />
-            </div>
-            <div className="flex lg:hidden justify-center my-4">
-              <AdBannerMedium />
-            </div>
           </div>
         </div>
       </main>
@@ -215,16 +201,11 @@ const CoinWrapper = (props) => {
       chartData={props.chartData}
       currentCoin={props.currentCoin}
     >
+      <Navigation />
       <div className="lg:flex bg-gray-100 dark:bg-gray-800">
         <div className="w-12/12 lg:w-330 md:border-r dark:border-gray-700 bg-white dark:bg-gray-900">
-          <div className="w-full flex items-center justify-between px-4 h-16 border-b dark:border-gray-700">
-            <Logo /> <ThemeSwitch />
-          </div>
           <div>
             <InputFormLumpSum {...props} pathname="/lump-sum/" />
-          </div>
-          <div className="flex justify-center">
-            <AdBannerMedium />
           </div>
           <div className="mt-0 md:mt-8 hidden md:block">
             <DynamicAffiliateLinks />

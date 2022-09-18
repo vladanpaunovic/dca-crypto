@@ -109,6 +109,13 @@ const Footer = ({ availableTokens }) => {
                   </Link>
                 </li>
                 <li>
+                  <Link href="/pricing">
+                    <a className="text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:underline">
+                      Pricing
+                    </a>
+                  </Link>
+                </li>
+                <li>
                   <Link href="/legal/terms-conditions">
                     <a className="text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:underline">
                       Terms & Conditions

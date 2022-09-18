@@ -22,7 +22,6 @@ import BreadcrumbDCA from "../../components/Breadcrumb/BreadcrumbDCA";
 import WhatIsDCA from "../../components/LandingPage/WhatIsDCA";
 import dynamic from "next/dynamic";
 import Loading from "../../components/Loading/Loading";
-import { AdBannerBig, AdBannerMedium } from "../../components/Ads/Ads";
 import NextImage from "next/image";
 import { formatPrice } from "../../components/Currency/Currency";
 import { TweetMessage } from "../../components/TweetMessage/TweetMessage";
@@ -192,21 +191,10 @@ const Coin = () => {
             >
               <DataTable />
             </div>
-            <div className="hidden lg:flex justify-center my-4">
-              <AdBannerBig />
-            </div>
-            <div className="flex lg:hidden justify-center my-4">
-              <AdBannerMedium />
-            </div>
+
             <section className="mx-auto mt-8">
               <WhatIsDCA />
             </section>
-            <div className="hidden lg:flex justify-center my-4">
-              <AdBannerBig />
-            </div>
-            <div className="flex lg:hidden justify-center my-4">
-              <AdBannerMedium />
-            </div>
           </div>
         </div>
       </main>
@@ -227,9 +215,6 @@ const CoinWrapper = (props) => {
         <div className="w-12/12 lg:w-330 md:border-r dark:border-gray-700 bg-white dark:bg-gray-900">
           <div>
             <InputFormWrapper {...props} pathname="/dca/" />
-          </div>
-          <div className="flex justify-center">
-            <AdBannerMedium />
           </div>
           <div className="mt-0 md:mt-8 hidden md:block">
             <DynamicAffiliateLinks />

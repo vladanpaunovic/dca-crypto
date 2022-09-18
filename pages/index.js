@@ -8,7 +8,6 @@ import NavigationMenu from "../components/Menu/Menu";
 import CoinCalculator from "../components/LandingPage/CoinCalculator";
 import { generateDefaultInput } from "../common/generateDefaultInput";
 import dayjs from "dayjs";
-import { AdBannerBig, AdBannerMedium } from "../components/Ads/Ads";
 import AllCoinsTable from "../components/AllCoinsTable/AllCoinsTable";
 
 export async function getServerSideProps(context) {
@@ -78,15 +77,6 @@ function Home(props) {
           />
         </section>
 
-        <section className="container mx-auto max-w-7xl my-8">
-          <div className="justify-center hidden md:flex">
-            <AdBannerBig />
-          </div>
-          <div className="flex md:hidden justify-center">
-            <AdBannerMedium />
-          </div>
-        </section>
-
         <div className="container mx-auto max-w-3xl bg-white dark:bg-gray-900 mt-16 mb-8 md:p-8">
           <div className="mb-16 px-6 md:px-0">
             <h2 className="text-base text-indigo-500 text-center dark:text-yellow-500 font-semibold tracking-wide uppercase">
@@ -100,15 +90,6 @@ function Home(props) {
             <AllCoinsTable showOnlyNTokens={10} showSearch={false} type="dca" />
           </div>
         </div>
-
-        <section className="container mx-auto max-w-7xl my-8">
-          <div className="justify-center hidden md:flex">
-            <AdBannerBig />
-          </div>
-          <div className="flex md:hidden justify-center">
-            <AdBannerMedium />
-          </div>
-        </section>
 
         <div className="container mx-auto max-w-3xl bg-white dark:bg-gray-900 mt-16 mb-8 md:p-8">
           <div className="mb-16 px-6 md:px-0">
