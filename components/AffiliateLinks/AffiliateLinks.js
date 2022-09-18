@@ -2,7 +2,6 @@ import ExternalLinkIcon from "../Icons/ExternalLink";
 import SupportIcon from "../Icons/SupportIcon";
 import Image from "next/image";
 import * as ga from "../helpers/GoogleAnalytics";
-import { HeartIcon } from "@heroicons/react/outline";
 import { useAppContext } from "../Context/Context";
 
 const affiliatePartners = [
@@ -31,13 +30,6 @@ const affiliatePartners = [
     value: "10% discount",
   },
 ];
-
-const donationMeta = {
-  name: "Donate",
-  icon: <HeartIcon className="text-red-500" />,
-  pitch: "Make a donation and help me support and grow this project.",
-  affiliateLink: "https://ko-fi.com/dcacc",
-};
 
 const AffiliatePartner = (props) => {
   const { state } = useAppContext();
@@ -91,7 +83,7 @@ const AffiliateLinks = () => {
           </p>
         </div>
         <div className="grid grid-cols-1 border-t border-gray-200 dark:border-gray-800 divide-y dark:divide-gray-800">
-          {[donationMeta, ...affiliatePartners].map((partner, index) => (
+          {affiliatePartners.map((partner, index) => (
             <AffiliatePartner
               key={partner.affiliateLink}
               {...partner}
