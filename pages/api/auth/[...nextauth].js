@@ -2,8 +2,8 @@ import NextAuth from "next-auth";
 import EmailProvider from "next-auth/providers/email";
 import GoogleProvider from "next-auth/providers/google";
 import { WEBSITE_EMAIL } from "../../../config";
-import { upstashAdopter } from "../../../database/redis";
-import stripe from "../../../database/stripe";
+import { upstashAdopter } from "../../../server/redis";
+import stripe from "../../../server/stripe";
 
 export const authOptions = {
   adapter: upstashAdopter,

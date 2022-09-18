@@ -1,6 +1,6 @@
 import { withSentry } from "@sentry/nextjs";
-import { upstashAdopter } from "../../database/redis";
-import stripe from "../../database/stripe";
+import { upstashAdopter } from "../../server/redis";
+import stripe from "../../server/stripe";
 
 async function handler(req, res) {
   // TODO: Make this dynamic

@@ -1,5 +1,5 @@
 import { withSentry } from "@sentry/nextjs";
-import redis, { upstashAdopter } from "../../../database/redis";
+import redis, { upstashAdopter } from "../../../server/redis";
 import dayjs from "dayjs";
 
 async function handler(req, res) {

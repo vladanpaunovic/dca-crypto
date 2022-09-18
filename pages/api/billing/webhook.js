@@ -1,7 +1,7 @@
 import * as Sentry from "@sentry/nextjs";
-import stripe from "../../../database/stripe";
+import stripe from "../../../server/stripe";
 import { buffer } from "micro";
-import { upstashAdopter } from "../../../database/redis";
+import { upstashAdopter } from "../../../server/redis";
 import dayjs from "dayjs";
 
 export const config = {

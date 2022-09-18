@@ -1,5 +1,5 @@
 import * as Sentry from "@sentry/nextjs";
-import stripe from "../../../database/stripe";
+import stripe from "../../../server/stripe";
 
 async function handler(req, res) {
   const prices = await stripe.prices.list({

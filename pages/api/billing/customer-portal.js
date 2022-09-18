@@ -1,6 +1,6 @@
 import * as Sentry from "@sentry/nextjs";
 import { WEBSITE_PATHNAME } from "../../../config";
-import stripe from "../../../database/stripe";
+import stripe from "../../../server/stripe";
 
 async function handler(req, res) {
   const session = await stripe.billingPortal.sessions.create({
