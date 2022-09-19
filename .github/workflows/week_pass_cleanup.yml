@@ -1,4 +1,4 @@
-name: Hourly cron job
+name: Free Tier Cleanup
 on:
   schedule:
     - cron: "0 */6 * * *"

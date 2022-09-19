@@ -1,4 +1,4 @@
-import { withSentry } from "@sentry/nextjs";
+import * as Sentry from "@sentry/nextjs";
 import redis, { upstashAdopter } from "../../../server/redis";
 import dayjs from "dayjs";
 
@@ -19,7 +19,7 @@ async function handler(req, res) {
 
       // Filter for users with weekly pass only
       const usersWithWeeklyPass = allUsers.filter(
-        (user) => user.subscription.type === "week_pass"
+        (user) => user?.subscription?.type === "week_pass"
       );
 
       // Inspect every user whether weekly pass ended or not
@@ -38,8 +38,9 @@ async function handler(req, res) {
       res.status(401).send("Unauthorized");
     }
   } catch (err) {
+    Sentry.captureException(err);
     res.status(500).send("Server error");
   }
 }
 
-export default withSentry(handler);
+export default Sentry.withSentry(handler);
