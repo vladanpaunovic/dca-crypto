@@ -20,6 +20,7 @@ export const getAllCoins = async (currency) => {
 };
 
 export const getDCAChartData = async (payload) => {
+  console.log({ payload });
   const response = await apiClient.post("calculate/dca", payload);
 
   return response.data;

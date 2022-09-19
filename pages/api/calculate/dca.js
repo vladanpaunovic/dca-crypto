@@ -28,7 +28,6 @@ const handler = async (req, res) => {
       secure: true,
       maxAge: 3600,
       sameSite: "lax",
-      httpOnly: true,
     });
 
     const session = await unstable_getServerSession(req, res, authOptions);
