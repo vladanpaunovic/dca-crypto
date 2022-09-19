@@ -3,6 +3,7 @@
 import "dotenv/config";
 import { Redis } from "@upstash/redis";
 import { UpstashRedisAdapter } from "@next-auth/upstash-redis-adapter";
+import { FREE_TIER_CALCULATION_LIMIT, FREE_TIER_REDIS_TTL } from "../config";
 
 const rawRedis = new Redis({
   url: process.env.UPSTASH_REDIS_URL,
@@ -10,5 +11,42 @@ const rawRedis = new Redis({
 });
 
 export const upstashAdopter = UpstashRedisAdapter(rawRedis);
+
+const generateFingerprintString = (fingerprint) => `fingerprint:${fingerprint}`;
+
+export const storeFingerprint = (fingerprint) => {
+  const redisKey = generateFingerprintString(fingerprint);
+
+  rawRedis.get(redisKey).then((isStored) => {
+    if (isStored) {
+      rawRedis
+        .incr(redisKey)
+        .then(() => rawRedis.expire(redisKey, FREE_TIER_REDIS_TTL));
+    } else {
+      rawRedis.set(redisKey, 1, { ex: FREE_TIER_REDIS_TTL });
+    }
+  });
+};
+
+export const canUserProceed = async (fingerprint, session) => {
+  if (session?.user?.hasActivePackage) {
+    return { proceed: true, package: session.user.subscription };
+  }
+
+  const redisKey = generateFingerprintString(fingerprint);
+
+  const sessionUserCount = await rawRedis.get(redisKey);
+
+  if (sessionUserCount > FREE_TIER_CALCULATION_LIMIT) {
+    const ttl = await rawRedis.ttl(redisKey);
+    return { proceed: false, ttl, error: "limit reached" };
+  }
+
+  return {
+    proceed: true,
+    sessionUserCount,
+    available: FREE_TIER_CALCULATION_LIMIT,
+  };
+};
 
 export default rawRedis;

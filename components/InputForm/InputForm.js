@@ -16,6 +16,7 @@ import {
 import useGenerateUrl from "../Hooks/useGenerateUrl";
 import SelectCoin from "../SelectCoin/SelectCoin";
 import apiClient from "../../server/apiClient";
+import { getFingerprint } from "../../common/fingerprinting";
 
 dayjs.extend(isSameOrBefore);
 
@@ -29,6 +30,8 @@ const InputForm = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
 
+  const canProceed = state.chart.canProceed;
+  const freeTierLimitReached = !canProceed.proceed;
   // Due to the constrains of the CoinGecko API, we enable calculations only
   // agter the perod of 90 days
   const isSubmitDisabled = state.input.duration < 90 || !state.input.investment;
@@ -58,7 +61,7 @@ const InputForm = () => {
     currency: state.settings.currency,
   };
 
-  const submitForm = () => {
+  const submitForm = async () => {
     if (isSubmitDisabled) {
       return null;
     }
@@ -72,9 +75,11 @@ const InputForm = () => {
       return null;
     }
 
+    const fingerprint = await getFingerprint();
+
     generateUrl();
 
-    mutation.mutate(payload);
+    mutation.mutate({ ...payload, fingerprint });
 
     setIsOpen(false);
   };
@@ -94,7 +99,6 @@ const InputForm = () => {
 
   useEffect(() => {
     generateUrl();
-
     // eslint-disable-next-line
   }, []);
 
@@ -264,7 +268,9 @@ const InputForm = () => {
           <button
             type="submit"
             className="px-4 py-2 disabled:opacity-50 rounded bg-gray-900 hover:bg-gray-800 text-base text-white dark:bg-gray-50 dark:hover:bg-gray-200 dark:text-gray-900 font-bold shadow"
-            disabled={isSubmitDisabled || mutation.isLoading}
+            disabled={
+              isSubmitDisabled || mutation.isLoading || freeTierLimitReached
+            }
           >
             {mutation.isLoading ? "Loading..." : "Calculate"}
           </button>
@@ -282,6 +288,17 @@ const InputForm = () => {
                 days
               </p>
             </>
+          ) : null}
+          {canProceed.sessionUserCount ? (
+            <p className="text-xs p-2 bg-gray-100 mt-4 rounded-lg ">
+              Used free calculations:{" "}
+              <b>
+                {canProceed.sessionUserCount} out of {canProceed.available}
+              </b>
+            </p>
+          ) : null}
+          {freeTierLimitReached ? (
+            <p className="text-sm py-2 text-red-500">Limit reached.</p>
           ) : null}
         </div>
       </form>
