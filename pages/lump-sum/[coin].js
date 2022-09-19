@@ -11,7 +11,7 @@ import {
   getLumpSumChartData,
 } from "../../queries/queries";
 import {
-  CACHE_INVALIDATION_INTERVAL,
+  // CACHE_INVALIDATION_INTERVAL,
   defaultCurrency,
   WEBSITE_URL,
 } from "../../config";
@@ -69,10 +69,10 @@ export async function getServerSideProps(context) {
     getCoinById(payload.coinId),
   ]);
 
-  context.res.setHeader(
-    "Cache-Control",
-    `s-maxage=${CACHE_INVALIDATION_INTERVAL}, stale-while-revalidate`
-  );
+  // context.res.setHeader(
+  //   "Cache-Control",
+  //   `s-maxage=${CACHE_INVALIDATION_INTERVAL}, stale-while-revalidate`
+  // );
 
   return {
     props: {
