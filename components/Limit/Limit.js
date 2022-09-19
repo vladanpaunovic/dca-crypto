@@ -58,7 +58,7 @@ const Limit = ({ canProceed }) => {
                 </a>
               </Link>
             </div>
-            {session.status === "loading" && (
+            {session.status === "unauthenticated" && (
               <div className="ml-4 w-full">
                 <button
                   className="flex w-full items-center justify-center rounded-md border border-transparent bg-yellow-400 dark:bg-yellow-900 px-4 py-2 font-medium leading-6 text-yellow-900 dark:text-yellow-400 shadow-sm hover:opacity-80"
