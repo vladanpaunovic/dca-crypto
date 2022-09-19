@@ -10,5 +10,5 @@ jobs:
       - name: Cleanup weekly pass for users
         run: |
           curl --request POST \
-          --url 'https://dca-cc/api/billing/cleanup' \
+          --url 'https://www.dca-cc.com/api/billing/cleanup' \
           --header 'Authorization: Bearer ${{ secrets.ACTION_KEY }}'
