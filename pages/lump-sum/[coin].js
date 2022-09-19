@@ -28,6 +28,9 @@ import NextImage from "next/image";
 import dayjs from "dayjs";
 import { formatPrice } from "../../components/Currency/Currency";
 import Navigation from "../../components/Navigarion/Navigation";
+import Limit from "../../components/Limit/Limit";
+import { getCookie } from "cookies-next";
+import { FINGERPRING_ID } from "../../common/fingerprinting";
 
 const DynamicChart = dynamic(() => import("../../components/Chart/Chart"), {
   ssr: false,
@@ -55,9 +58,14 @@ export async function getServerSideProps(context) {
 
   const payload = generateDefaultInput(context.query);
 
+  const fingerprint = getCookie(FINGERPRING_ID, {
+    req: context.req,
+    res: context.res,
+  });
+
   const [availableTokens, chartData, currentCoin] = await Promise.all([
     getAllCoins(currency),
-    getLumpSumChartData(payload),
+    getLumpSumChartData({ ...payload, fingerprint }),
     getCoinById(payload.coinId),
   ]);
 
@@ -71,6 +79,7 @@ export async function getServerSideProps(context) {
       availableTokens,
       chartData,
       currentCoin,
+      fingerprint,
       ...payload,
     },
   };
@@ -80,6 +89,10 @@ const Coin = () => {
   const { state } = useAppContext();
   const currentCoin = state.currentCoin;
   const coinSymbol = currentCoin.symbol.toUpperCase();
+
+  if (!state.chart.canProceed.proceed) {
+    return <Limit canProceed={state.chart.canProceed} />;
+  }
 
   return (
     <div className="w-full">

@@ -27,6 +27,9 @@ import { formatPrice } from "../../components/Currency/Currency";
 import { TweetMessage } from "../../components/TweetMessage/TweetMessage";
 import dayjs from "dayjs";
 import Navigation from "../../components/Navigarion/Navigation";
+import Limit from "../../components/Limit/Limit";
+import { getCookie } from "cookies-next";
+import { FINGERPRING_ID } from "../../common/fingerprinting";
 
 const DynamicChart = dynamic(() => import("../../components/Chart/Chart"), {
   ssr: false,
@@ -52,11 +55,16 @@ const DynamicAffiliateLinks = dynamic(
 export async function getServerSideProps(context) {
   const currency = context.query.currency || defaultCurrency;
 
+  const fingerprint = getCookie(FINGERPRING_ID, {
+    req: context.req,
+    res: context.res,
+  });
+
   const payload = generateDefaultInput(context.query);
 
   const [availableTokens, chartData, currentCoin] = await Promise.all([
     getAllCoins(currency), // TODO: REMOVE
-    getDCAChartData(payload),
+    getDCAChartData({ ...payload, fingerprint }),
     getCoinById(payload.coinId),
   ]);
 
@@ -70,6 +78,7 @@ export async function getServerSideProps(context) {
       availableTokens,
       chartData,
       currentCoin,
+      fingerprint,
       ...payload,
     },
   };
@@ -83,6 +92,10 @@ const Coin = () => {
   }
 
   const coinSymbol = state.currentCoin.symbol.toUpperCase();
+
+  if (!state.chart.canProceed.proceed) {
+    return <Limit canProceed={state.chart.canProceed} />;
+  }
 
   return (
     <div className="w-full">
@@ -210,7 +223,6 @@ const CoinWrapper = (props) => {
       currentCoin={props.currentCoin}
     >
       <Navigation />
-
       <div className="lg:flex bg-gray-100 dark:bg-gray-800">
         <div className="w-12/12 lg:w-330 md:border-r dark:border-gray-700 bg-white dark:bg-gray-900">
           <div>

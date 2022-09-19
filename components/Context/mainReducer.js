@@ -17,6 +17,7 @@ export const ACTIONS = {
   // Chart actions
   SET_CHART_DATA: "SET_CHART_DATA",
   SET_INSIGHTS: "SET_INSIGHTS",
+  UPDATE_CAN_PROCEED: "UPDATE_CAN_PROCEED",
 
   // Settings actions
   UPDATE_CURRENCY: "UPDATE_CURRENCY",
@@ -94,7 +95,18 @@ const reducer = (state, action) => {
         chart: {
           ...state.chart,
           data: action.payload.chartData,
+          canProceed: action.payload.canProceed,
           insights: action.payload.insights,
+        },
+      };
+    }
+
+    case ACTIONS.UPDATE_CAN_PROCEED: {
+      return {
+        ...state,
+        chart: {
+          ...state.chart,
+          canProceed: action.payload,
         },
       };
     }
@@ -127,6 +139,7 @@ export const useMainReducer = ({ availableTokens, chartData, currentCoin }) => {
     chart: {
       data: chartData ? chartData.chartData : [],
       insights: chartData ? chartData.insights : {},
+      canProceed: chartData ? chartData.canProceed : {},
     },
     settings: {
       currency: "usd",

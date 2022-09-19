@@ -4,6 +4,9 @@ import getPercentageChange from "../../../components/helpers/getPercentageChange
 import * as Sentry from "@sentry/nextjs";
 import { checkCORS } from "../../../server/cors";
 import { spanStatusfromHttpCode } from "@sentry/tracing";
+import { canUserProceed, storeFingerprint } from "../../../server/redis";
+import { unstable_getServerSession } from "next-auth/next";
+import { authOptions } from "../auth/[...nextauth]";
 
 const convertDateStringToUnix = (dateString) =>
   Math.round(new Date(dateString).getTime() / 1000);
@@ -14,6 +17,16 @@ const handler = async (req, res) => {
   const payload = { ...req.body };
 
   Sentry.setContext("Payload", payload);
+
+  let canProceed = { proceed: true };
+  if (payload.fingerprint) {
+    const session = await unstable_getServerSession(req, res, authOptions);
+    canProceed = await canUserProceed(payload.fingerprint, session);
+
+    if (canProceed.proceed) {
+      storeFingerprint(payload.fingerprint);
+    }
+  }
 
   const response = await axios.get(
     `https://api.coingecko.com/api/v3/coins/${payload.coinId}/market_chart/range`,
@@ -96,6 +109,7 @@ const handler = async (req, res) => {
   const totalValueCrypto = mostRecentEntry.balanceCrypto;
 
   const output = {
+    canProceed,
     chartData,
     insights: {
       totalInvestment,

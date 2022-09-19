@@ -8,7 +8,6 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import * as ga from "../components/helpers/GoogleAnalytics";
 import DefaultSeo from "../components/Seo/DefaultSeo";
-import AdBlockerBanner from "../components/AdBlockerBanner/AdBlockerBanner";
 import { WEBSITE_PATHNAME } from "../config";
 import { SessionProvider } from "next-auth/react";
 import * as Sentry from "@sentry/nextjs";
@@ -40,7 +39,6 @@ function App({ Component, pageProps: { session, ...pageProps } }) {
         <QueryClientProvider client={queryClient}>
           <Hydrate state={pageProps.dehydratedState}>
             <CookieBanner />
-            <AdBlockerBanner />
             <DefaultSeo />
             <Component {...pageProps} />
             <ReactQueryDevtools />
