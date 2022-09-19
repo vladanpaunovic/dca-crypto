@@ -14,8 +14,3 @@ jobs:
           url: "https://www.dca-cc.com/api/billing/cleanup"
           method: "POST"
           bearerToken: "${{ secrets.ACTION_KEY }}"
-      - name: Show Response
-          run: |
-            echo ${{ steps.cleanupWeekly.outputs.response }}
-            echo ${{ steps.cleanupWeekly.outputs.headers }}
-
