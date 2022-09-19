@@ -8,7 +8,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cleanup weekly pass for users
-        run: |
-          curl --request POST \
-          --url 'https://www.dca-cc.com/api/billing/cleanup' \
-          --header 'Authorization: Bearer ${{ secrets.ACTION_KEY }}'
+        id: cleanupWeekly
+        uses: fjogeleit/http-request-action@master
+        with:
+          url: "https://www.dca-cc.com/api/billing/cleanup"
+          method: "POST"
+          bearerToken: "${{ secrets.ACTION_KEY }}"
+      - name: Show Response
+          run: |
+            echo ${{ steps.cleanupWeekly.outputs.response }}
+            echo ${{ steps.cleanupWeekly.outputs.headers }}
+
