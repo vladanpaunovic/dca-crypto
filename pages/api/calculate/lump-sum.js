@@ -7,6 +7,8 @@ import { spanStatusfromHttpCode } from "@sentry/tracing";
 import { canUserProceed, storeFingerprint } from "../../../server/redis";
 import { unstable_getServerSession } from "next-auth/next";
 import { authOptions } from "../auth/[...nextauth]";
+import { setCookie } from "cookies-next";
+import { FINGERPRING_ID } from "../../../common/fingerprinting";
 
 const convertDateStringToUnix = (dateString) =>
   Math.round(new Date(dateString).getTime() / 1000);
@@ -20,6 +22,15 @@ const handler = async (req, res) => {
 
   let canProceed = { proceed: true };
   if (payload.fingerprint) {
+    setCookie(FINGERPRING_ID, payload.fingerprint, {
+      req,
+      res,
+      secure: true,
+      maxAge: 3600,
+      sameSite: "lax",
+      httpOnly: true,
+    });
+
     const session = await unstable_getServerSession(req, res, authOptions);
     canProceed = await canUserProceed(payload.fingerprint, session);
 
