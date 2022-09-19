@@ -290,7 +290,7 @@ const InputForm = () => {
             </>
           ) : null}
           {canProceed.sessionUserCount ? (
-            <p className="text-xs p-2 bg-gray-100 mt-4 rounded-lg ">
+            <p className="text-xs p-2 bg-gray-100 dark:bg-gray-800 mt-4 rounded-lg">
               Used free calculations:{" "}
               <b>
                 {canProceed.sessionUserCount} out of {canProceed.available}
