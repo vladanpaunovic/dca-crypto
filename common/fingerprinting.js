@@ -11,6 +11,7 @@ export const getFingerprint = async () => {
   setCookie(FINGERPRING_ID, visitorId, {
     secure: true,
     maxAge: 3600,
+    sameSite: "lax",
   });
 
   return visitorId;
