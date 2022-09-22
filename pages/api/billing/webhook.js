@@ -23,6 +23,7 @@ async function handler(req, res) {
       process.env.STRIPE_ENCRYPTION_SECRET
     );
   } catch (err) {
+    Sentry.captureException(err);
     res.status(400).json({ error: `Webhook Error: ${err.message}` });
     return;
   }

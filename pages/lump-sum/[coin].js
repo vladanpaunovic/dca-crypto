@@ -65,7 +65,10 @@ export async function getServerSideProps(context) {
 
   const [availableTokens, chartData, currentCoin] = await Promise.all([
     getAllCoins(currency),
-    getLumpSumChartData({ ...payload, fingerprint }),
+    getLumpSumChartData({
+      ...payload,
+      ...(fingerprint ? { fingerprint } : {}),
+    }),
     getCoinById(payload.coinId),
   ]);
 
@@ -79,7 +82,6 @@ export async function getServerSideProps(context) {
       availableTokens,
       chartData,
       currentCoin,
-      fingerprint,
       ...payload,
     },
   };

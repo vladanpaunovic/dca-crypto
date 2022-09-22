@@ -64,7 +64,7 @@ export async function getServerSideProps(context) {
 
   const [availableTokens, chartData, currentCoin] = await Promise.all([
     getAllCoins(currency), // TODO: REMOVE
-    getDCAChartData({ ...payload, fingerprint }),
+    getDCAChartData({ ...payload, ...(fingerprint ? { fingerprint } : {}) }),
     getCoinById(payload.coinId),
   ]);
 
@@ -78,7 +78,6 @@ export async function getServerSideProps(context) {
       availableTokens,
       chartData,
       currentCoin,
-      fingerprint,
       ...payload,
     },
   };
