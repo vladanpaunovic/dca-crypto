@@ -11,6 +11,7 @@ import DefaultSeo from "../components/Seo/DefaultSeo";
 import { WEBSITE_PATHNAME } from "../config";
 import { SessionProvider } from "next-auth/react";
 import * as Sentry from "@sentry/nextjs";
+import { setFingerprintCookie } from "../common/fingerprinting";
 
 function App({ Component, pageProps: { session, ...pageProps } }) {
   const router = useRouter();
@@ -25,6 +26,8 @@ function App({ Component, pageProps: { session, ...pageProps } }) {
     //When the component is mounted, subscribe to router changes
     //and log those page views
     router.events.on("routeChangeComplete", handleRouteChange);
+
+    setFingerprintCookie();
 
     // If the component is unmounted, unsubscribe
     // from the event with the `off` method

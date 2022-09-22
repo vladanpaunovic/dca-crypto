@@ -21,12 +21,13 @@ const handler = async (req, res) => {
   Sentry.setContext("Payload", payload);
 
   let canProceed = { proceed: true };
+
   if (payload.fingerprint) {
     setCookie(FINGERPRING_ID, payload.fingerprint, {
       req,
       res,
       secure: true,
-      maxAge: 3600,
+      maxAge: 3600 * 24,
       sameSite: "lax",
     });
 

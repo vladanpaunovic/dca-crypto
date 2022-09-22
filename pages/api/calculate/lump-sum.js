@@ -26,7 +26,7 @@ const handler = async (req, res) => {
       req,
       res,
       secure: true,
-      maxAge: 3600,
+      maxAge: 3600 * 24,
       sameSite: "lax",
     });
 
