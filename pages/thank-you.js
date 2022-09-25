@@ -47,7 +47,7 @@ const ThankYou = () => {
   const router = useRouter();
 
   const handleOnComplete = () => {
-    // router.push("/dca/bitcoin");
+    router.push("/dca/bitcoin");
   };
 
   return (
