@@ -6,7 +6,6 @@ import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import {
   UserCircleIcon,
-  CogIcon,
   LogoutIcon,
   CreditCardIcon,
 } from "@heroicons/react/outline";
@@ -129,7 +128,7 @@ const AuthenticatedMenu = ({ session }) => {
                   )}
                 </div>
               </Menu.Item>
-              <Menu.Item>
+              {/* <Menu.Item>
                 {({ active }) => (
                   <a
                     href="#"
@@ -144,7 +143,7 @@ const AuthenticatedMenu = ({ session }) => {
                     </span>
                   </a>
                 )}
-              </Menu.Item>
+              </Menu.Item> */}
               {!isWeekPass && (
                 <Menu.Item>
                   {({ active }) => (
