@@ -6,7 +6,7 @@ async function handler(req, res) {
   const mode = req.body.type === "recurring" ? "subscription" : "payment";
 
   const options = {
-    success_url: `${WEBSITE_PATHNAME}/?payment=success`,
+    success_url: `${WEBSITE_PATHNAME}/thank-you?payment=success`,
     cancel_url: `${WEBSITE_PATHNAME}/pricing?payment=error`,
     line_items: [{ price: req.body.priceId, quantity: 1 }],
     mode,

@@ -29,8 +29,6 @@ const handler = async (req, res) => {
       sameSite: "lax",
     });
 
-    console.log({ sess: payload.session });
-
     canProceed = await canUserProceed(payload.fingerprint, payload.session);
     if (canProceed.proceed) {
       storeFingerprint(payload.fingerprint);
