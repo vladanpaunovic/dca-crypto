@@ -17,12 +17,14 @@ import useGenerateUrl from "../Hooks/useGenerateUrl";
 import SelectCoin from "../SelectCoin/SelectCoin";
 import apiClient from "../../server/apiClient";
 import { getFingerprint } from "../../common/fingerprinting";
+import { useSession } from "next-auth/react";
 
 dayjs.extend(isSameOrBefore);
 
 const before90Days = dayjs().subtract(91, "days").format("YYYY-MM-DD");
 
 const InputForm = () => {
+  const session = useSession();
   const appContext = useAppContext();
   const generateUrl = useGenerateUrl("dca");
   const { state, dispatch } = appContext;
@@ -79,7 +81,7 @@ const InputForm = () => {
 
     generateUrl();
 
-    mutation.mutate({ ...payload, fingerprint });
+    mutation.mutate({ ...payload, session: session.data, fingerprint });
 
     setIsOpen(false);
   };

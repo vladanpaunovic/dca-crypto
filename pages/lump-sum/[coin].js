@@ -31,6 +31,8 @@ import Navigation from "../../components/Navigarion/Navigation";
 import Limit from "../../components/Limit/Limit";
 import { getCookie } from "cookies-next";
 import { FINGERPRING_ID } from "../../common/fingerprinting";
+import { unstable_getServerSession } from "next-auth";
+import { authOptions } from "../api/auth/[...nextauth]";
 
 const DynamicChart = dynamic(() => import("../../components/Chart/Chart"), {
   ssr: false,
@@ -63,11 +65,18 @@ export async function getServerSideProps(context) {
     res: context.res,
   });
 
+  const session = await unstable_getServerSession(
+    context.req,
+    context.res,
+    authOptions
+  );
+
   const [availableTokens, chartData, currentCoin] = await Promise.all([
     getAllCoins(currency),
     getLumpSumChartData({
       ...payload,
       ...(fingerprint ? { fingerprint } : {}),
+      session,
     }),
     getCoinById(payload.coinId),
   ]);

@@ -10,6 +10,7 @@ import { getDCAChartData } from "../../queries/queries";
 import dayjs from "dayjs";
 import { formatPrice } from "../Currency/Currency";
 import * as ga from "../helpers/GoogleAnalytics";
+import { useSession } from "next-auth/react";
 
 const hideSelectStyles = {
   position: "absolute",
@@ -29,6 +30,7 @@ export const availableInvestmentIntervals = [
 ];
 
 export default function CoinCalculator(props) {
+  const session = useSession();
   const top20Tokens = [...props.availableTokens.slice(0, 20)];
   const [investment, setInvestment] = useState(10);
   const [years, setYears] = useState(5);
@@ -54,7 +56,7 @@ export default function CoinCalculator(props) {
         dateTo: today,
       });
 
-      return await getDCAChartData(payload);
+      return await getDCAChartData({ ...payload, session: session.data });
     },
     initialData: props.chartData,
   });

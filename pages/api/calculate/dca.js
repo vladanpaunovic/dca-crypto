@@ -5,8 +5,6 @@ import * as Sentry from "@sentry/nextjs";
 import { checkCORS } from "../../../server/cors";
 import { spanStatusfromHttpCode } from "@sentry/tracing";
 import { canUserProceed, storeFingerprint } from "../../../server/redis";
-import { unstable_getServerSession } from "next-auth/next";
-import { authOptions } from "../auth/[...nextauth]";
 import { setCookie } from "cookies-next";
 import { FINGERPRING_ID } from "../../../common/fingerprinting";
 
@@ -31,8 +29,9 @@ const handler = async (req, res) => {
       sameSite: "lax",
     });
 
-    const session = await unstable_getServerSession(req, res, authOptions);
-    canProceed = await canUserProceed(payload.fingerprint, session);
+    console.log({ sess: payload.session });
+
+    canProceed = await canUserProceed(payload.fingerprint, payload.session);
     if (canProceed.proceed) {
       storeFingerprint(payload.fingerprint);
     }

@@ -11,8 +11,10 @@ import useGenerateUrl from "../Hooks/useGenerateUrl";
 import SelectCoin from "../SelectCoin/SelectCoin";
 import apiClient from "../../server/apiClient";
 import { getFingerprint } from "../../common/fingerprinting";
+import { useSession } from "next-auth/react";
 
 const InputForm = () => {
+  const session = useSession();
   const appContext = useAppContext();
   const { state, dispatch } = appContext;
   const currentCoin = state.currentCoin;
@@ -68,7 +70,7 @@ const InputForm = () => {
 
     generateUrl();
 
-    mutation.mutate({ ...payload, fingerprint });
+    mutation.mutate({ ...payload, session: session.data, fingerprint });
 
     setIsOpen(false);
   };
