@@ -18,7 +18,7 @@
     "@headlessui/react": "^1.4.0",
     "@heroicons/react": "^1.0.3",
     "@next-auth/upstash-redis-adapter": "^3.0.1",
-    "@sentry/nextjs": "7.12.1",
+    "@sentry/nextjs": "7.14.0",
     "@sentry/rrweb": "^0.3.3",
     "@tailwindcss/forms": "^0.3.3",
     "@tailwindcss/typography": "^0.4.1",

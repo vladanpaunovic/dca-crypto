@@ -62,4 +62,5 @@ const moduleExports = (phase) => ({
 module.exports = withSentryConfig(moduleExports, {
   silent: true,
   hideSourceMaps: false,
+  autoInstrumentServerFunctions: true,
 });
