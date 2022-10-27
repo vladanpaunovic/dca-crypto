@@ -3,6 +3,8 @@
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/
 
 import * as Sentry from "@sentry/nextjs";
+import * as Tracing from "@sentry/tracing";
+import prismaClient from "./server/prisma/prismadb";
 
 const SENTRY_DSN = process.env.SENTRY_DSN || process.env.NEXT_PUBLIC_SENTRY_DSN;
 
@@ -16,4 +18,5 @@ Sentry.init({
   // of transactions for performance monitoring.
   // We recommend adjusting this value in production
   tracesSampleRate: 0.5,
+  integrations: [new Tracing.Integrations.Prisma({ client: prismaClient })],
 });

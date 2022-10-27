@@ -1,0 +1,84 @@
+{
+    "id": "evt_1LxvcBDWOXVfBF9thHOJB4rS",
+    "api_version": "2020-08-27",
+    "data": {
+        "object": {
+            "after_expiration": null,
+            "allow_promotion_codes": null,
+            "amount_subtotal": 3000,
+            "amount_total": 3000,
+            "automatic_tax": {
+                "enabled": false,
+                "status": null
+            },
+            "billing_address_collection": null,
+            "cancel_url": "https://httpbin.org/post",
+            "client_reference_id": null,
+            "consent": null,
+            "consent_collection": null,
+            "created": 1666975259,
+            "currency": "usd",
+            "customer": "cus_MhKGYmiuty5W8T",
+            "customer_creation": "always",
+            "customer_details": {
+                "address": {
+                    "city": null,
+                    "country": null,
+                    "line1": null,
+                    "line2": null,
+                    "postal_code": null,
+                    "state": null
+                },
+                "email": "stripe@example.com",
+                "name": null,
+                "phone": null,
+                "tax_exempt": "none",
+                "tax_ids": []
+            },
+            "customer_email": null,
+            "expires_at": 1667061659,
+            "id": "cs_test_a1foycTdbEaF1zVOuq7j44SB5AwQZf8bz8MTUDXVnkGqn0s6UuXH2OcgC3",
+            "livemode": false,
+            "locale": null,
+            "metadata": {},
+            "mode": "payment",
+            "object": "checkout.session",
+            "payment_intent": "pi_3Lxvc7DWOXVfBF9t3LRkLGij",
+            "payment_link": null,
+            "payment_method_collection": "always",
+            "payment_method_options": {},
+            "payment_method_types": [
+                "card"
+            ],
+            "payment_status": "paid",
+            "phone_number_collection": {
+                "enabled": false
+            },
+            "recovered_from": null,
+            "setup_intent": null,
+            "shipping": null,
+            "shipping_address_collection": null,
+            "shipping_options": [],
+            "shipping_rate": null,
+            "status": "complete",
+            "submit_type": null,
+            "subscription": null,
+            "success_url": "https://httpbin.org/post",
+            "total_details": {
+                "amount_discount": 0,
+                "amount_shipping": 0,
+                "amount_tax": 0
+            },
+            "url": null
+        }
+    },
+    "request": {
+        "id": "",
+        "idempotency_key": ""
+    },
+    "type": "checkout.session.completed",
+    "account": "",
+    "created": 1666975263,
+    "livemode": false,
+    "pending_webhooks": 3
+}

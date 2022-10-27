@@ -1,14 +1,17 @@
 import { withSentry } from "@sentry/nextjs";
-import { upstashAdopter } from "../../server/redis";
 import stripe from "../../server/stripe";
+
+import prismaClient, { PrismaAdapter } from "../../server/prisma/prismadb";
+
+const prisma = PrismaAdapter(prismaClient);
 
 async function handler(req, res) {
   // TODO: Make this dynamic
-  const USER_ID = "153e8b30-0146-4dd5-9b31-7ed309543b1d";
+  const USER_ID = "635c32a6a1ee2658ef76aad9";
 
-  const user = await upstashAdopter.getUser(USER_ID);
+  const user = await prisma.getUser(USER_ID);
 
-  await upstashAdopter.deleteUser(user.id);
+  await prisma.deleteUser(USER_ID);
 
   const deleted = await stripe.customers.del(user.stripeCustomerId);
 
