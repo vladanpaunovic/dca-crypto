@@ -2,11 +2,11 @@ import NextAuth from "next-auth";
 import EmailProvider from "next-auth/providers/email";
 import GoogleProvider from "next-auth/providers/google";
 import { WEBSITE_EMAIL } from "../../../config";
-import { upstashAdopter } from "../../../server/redis";
-import stripe from "../../../server/stripe";
+
+import prismaClient, { PrismaAdapter } from "../../../server/prisma/prismadb";
 
 export const authOptions = {
-  adapter: upstashAdopter,
+  adapter: PrismaAdapter(prismaClient),
   providers: [
     EmailProvider({
       server: {
@@ -24,19 +24,6 @@ export const authOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
   ],
-  events: {
-    async createUser({ user }) {
-      const customer = await stripe.customers.create({
-        email: user.email,
-        metadata: { redisUserId: user.id },
-      });
-
-      await upstashAdopter.updateUser({
-        id: user.id,
-        stripeCustomerId: customer.id,
-      });
-    },
-  },
   callbacks: {
     async session({ session, user }) {
       return {
