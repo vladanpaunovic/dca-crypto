@@ -7,7 +7,7 @@ async function handler(req, res) {
   try {
     if (ACTION_KEY === process.env.STRIPE_ENCRYPTION_SECRET) {
       const usersWithWeeklyPass = await prismaClient.subscription.updateMany({
-        where: { type: "week_pass", ends_on: { gte: new Date() } },
+        where: { type: "week_pass", ends_on: { lt: new Date() } },
         data: { status: "expired" },
       });
 

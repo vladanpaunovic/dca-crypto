@@ -70,9 +70,7 @@ function PricingTab(props) {
     mutation.mutate({
       priceId: props.id,
       type: props.type,
-      ...(data
-        ? { customerId: data.user.stripeCustomerId, userId: data.user.id }
-        : {}),
+      ...(data ? { userId: data.user.id } : {}),
     });
   };
 

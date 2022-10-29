@@ -25,20 +25,6 @@ export const authOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
   ],
-  events: {
-    async createUser({ user }) {
-      // TODO: Store stripe customer ID to a user at better time then this
-      const customer = await stripe.customers.create({
-        email: user.email,
-        metadata: { redisUserId: user.id },
-      });
-
-      await prismaClient.user.update({
-        where: { id: user.id },
-        data: { stripeCustomerId: customer.id },
-      });
-    },
-  },
   callbacks: {
     async session({ session, user }) {
       return {
