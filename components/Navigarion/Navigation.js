@@ -71,7 +71,6 @@ const AuthenticatedMenu = ({ session }) => {
 
   const handleOnAccountSettings = () => {
     mutation.mutate({
-      customerId: data.user.stripeCustomerId,
       userId: data.user.id,
       returnUrl: router.asPath,
     });

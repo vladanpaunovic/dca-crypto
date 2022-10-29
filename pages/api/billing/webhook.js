@@ -1,8 +1,8 @@
 import * as Sentry from "@sentry/nextjs";
 import stripe from "../../../server/stripe";
 import { buffer } from "micro";
-import { upstashAdopter } from "../../../server/redis";
 import dayjs from "dayjs";
+import prismaClient from "../../../server/prisma/prismadb";
 
 export const config = {
   api: {
@@ -10,60 +10,65 @@ export const config = {
   },
 };
 
-async function handler(req, res) {
-  const signature = req.headers["stripe-signature"];
-  const reqBuffer = await buffer(req);
-
-  let event;
-
+export const createSubscription = async (subscriptionData) => {
   try {
-    event = stripe.webhooks.constructEvent(
-      reqBuffer,
-      signature,
-      process.env.STRIPE_ENCRYPTION_SECRET
-    );
-  } catch (err) {
-    Sentry.captureException(err);
-    res.status(400).json({ error: `Webhook Error: ${err.message}` });
-    return;
-  }
+    const user = await prismaClient.user.findUnique({
+      where: { stripeCustomerId: subscriptionData.stripeCustomerId },
+    });
 
-  // Handle the event
+    const output = await prismaClient.subscription.upsert({
+      where: { stripeCustomerId: subscriptionData.stripeCustomerId },
+      update: subscriptionData,
+      create: {
+        ...subscriptionData,
+        User: { connect: { id: user.id } },
+      },
+    });
+
+    return output;
+  } catch (error) {
+    console.log(error);
+    Sentry.captureException(error);
+    return "prc milojko";
+  }
+};
+
+export const handleStripeWebhook = async (event) => {
+  let options;
+
   const paymentIntent = event.data.object;
 
   switch (event.type) {
     case "checkout.session.completed":
       if (paymentIntent.mode === "subscription") {
         const upcomingSubscription = await stripe.subscriptions.retrieve(
-          paymentIntent.subscription
+          paymentIntent.subscription,
+          { expand: ["customer"] }
         );
 
-        upstashAdopter.updateUser({
-          id: paymentIntent.metadata.redisUserId,
-          subscription: {
-            subId: paymentIntent.subscription,
-            status: "active",
-            type: "subscription",
-            created_at: dayjs().valueOf(),
-            ends_on: dayjs
-              .unix(upcomingSubscription.current_period_end)
-              .valueOf(),
-          },
-        });
+        options = {
+          subId: paymentIntent.subscription,
+          status: "active",
+          type: "subscription",
+          created_at: dayjs().toDate(),
+          ends_on: dayjs.unix(upcomingSubscription.current_period_end).toDate(),
+          stripeCustomerId: paymentIntent.customer,
+        };
+
+        return await createSubscription(options);
       }
 
       if (paymentIntent.mode === "payment") {
-        upstashAdopter.updateUser({
-          id: paymentIntent.metadata.redisUserId,
-          subscription: {
-            checkout_id: paymentIntent.id,
-            payment_intent: paymentIntent.payment_intent,
-            status: "active",
-            type: "week_pass",
-            created_at: dayjs().valueOf(),
-            ends_on: dayjs().add(7, "day").valueOf(),
-          },
-        });
+        options = {
+          subId: paymentIntent.id,
+          status: "active",
+          type: "week_pass",
+          created_at: dayjs().toDate(),
+          ends_on: dayjs().add(7, "day").toDate(),
+          stripeCustomerId: paymentIntent.customer,
+        };
+
+        return await createSubscription(options);
       }
 
       break;
@@ -89,34 +94,41 @@ async function handler(req, res) {
       break;
 
     case "customer.subscription.updated":
-      const updatedSubscription = await stripe.subscriptions.retrieve(
-        paymentIntent.id,
-        { expand: ["customer"] }
-      );
+      // const updatedSubscription = await stripe.subscriptions.retrieve(
+      //   paymentIntent.id,
+      //   { expand: ["customer"] }
+      // );
 
-      upstashAdopter.updateUser({
-        id: updatedSubscription.customer.metadata.redisUserId,
-        subscription: {
-          subId: paymentIntent.id,
-          status: paymentIntent.status,
-          type: "subscription",
-          created_at: dayjs().valueOf(),
-          ends_on: dayjs.unix(paymentIntent.current_period_end).valueOf(),
-        },
-      });
+      options = {
+        subId: paymentIntent.id,
+        status: paymentIntent.status,
+        type: "subscription",
+        created_at: dayjs().toDate(),
+        ends_on: dayjs.unix(paymentIntent.current_period_end).toDate(),
+      };
+
+      try {
+        return await prismaClient.subscription.update({
+          where: { stripeCustomerId: paymentIntent.customer },
+          data: options,
+        });
+      } catch (error) {
+        Sentry.captureException(error);
+      }
 
       break;
 
     case "customer.subscription.deleted":
-      const deletedSubscription = await stripe.subscriptions.retrieve(
-        paymentIntent.id,
-        { expand: ["customer"] }
-      );
+      options = { subId: paymentIntent.id, status: paymentIntent.status };
 
-      upstashAdopter.updateUser({
-        id: deletedSubscription.customer.metadata.redisUserId,
-        subscription: { subId: paymentIntent.id, status: paymentIntent.status },
-      });
+      try {
+        return await prismaClient.subscription.update({
+          where: { stripeCustomerId: paymentIntent.customer },
+          data: options,
+        });
+      } catch (error) {
+        Sentry.captureException(error);
+      }
 
       break;
 
@@ -129,6 +141,33 @@ async function handler(req, res) {
 
     default:
       console.log(`Unhandled event type ${event.type}`);
+  }
+};
+
+async function handler(req, res) {
+  const signature = req.headers["stripe-signature"];
+  const reqBuffer = await buffer(req);
+
+  let event;
+
+  try {
+    event = stripe.webhooks.constructEvent(
+      reqBuffer,
+      signature,
+      process.env.STRIPE_ENCRYPTION_SECRET
+    );
+  } catch (err) {
+    console.log(err);
+    Sentry.captureException(err);
+    res.status(400).json({ error: `Webhook Error: ${err.message}` });
+  }
+
+  try {
+    // Handle the event
+    await handleStripeWebhook(event);
+  } catch (error) {
+    Sentry.captureException(error);
+    res.status(400).json({ error: `Webhook Error: ${error.message}` });
   }
 
   res.status(200).json({ ok: true });
