@@ -36,11 +36,12 @@ model Session {
 
 model User {
     id               String        @id @default(auto()) @map("_id") @db.ObjectId
+    legacyRedisId    String?       @unique
     name             String?
     email            String?       @unique
     emailVerified    DateTime?
     image            String?
-    stripeCustomerId String?
+    stripeCustomerId String?       @unique
     accounts         Account[]
     sessions         Session[]
     subscription     Subscription?
@@ -49,21 +50,24 @@ model User {
 model VerificationToken {
     id         String   @id @default(auto()) @map("_id") @db.ObjectId
     identifier String
-    token      String   @unique
+    token      String
     expires    DateTime
 
     @@unique([identifier, token])
 }
 
 model Subscription {
-    id         String           @id @default(auto()) @map("_id") @db.ObjectId
-    subId      String
-    status     String
-    type       SubscriptionType
-    created_at DateTime
-    ends_on    DateTime
-    User       User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-    userId     String           @unique @db.ObjectId
+    id               String           @id @default(auto()) @map("_id") @db.ObjectId
+    subId            String
+    status           String
+    type             SubscriptionType
+    created_at       DateTime
+    ends_on          DateTime
+    User             User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId           String           @db.ObjectId
+    stripeCustomerId String           @unique
+
+    @@unique([userId])
 }
 
 enum SubscriptionType {

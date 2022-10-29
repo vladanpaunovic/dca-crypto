@@ -10,14 +10,18 @@ export const config = {
   },
 };
 
-export const createSubscription = async (subscriptionData, userId) => {
+export const createSubscription = async (subscriptionData) => {
   try {
+    const user = await prismaClient.user.findUnique({
+      where: { stripeCustomerId: subscriptionData.stripeCustomerId },
+    });
+
     const output = await prismaClient.subscription.upsert({
-      where: { userId },
+      where: { stripeCustomerId: subscriptionData.stripeCustomerId },
       update: subscriptionData,
       create: {
         ...subscriptionData,
-        User: { connect: { id: userId } },
+        User: { connect: { id: user.id } },
       },
     });
 
@@ -48,12 +52,10 @@ export const handleStripeWebhook = async (event) => {
           type: "subscription",
           created_at: dayjs().toDate(),
           ends_on: dayjs.unix(upcomingSubscription.current_period_end).toDate(),
+          stripeCustomerId: paymentIntent.customer,
         };
 
-        return await createSubscription(
-          options,
-          upcomingSubscription.customer.metadata.redisUserId
-        );
+        return await createSubscription(options);
       }
 
       if (paymentIntent.mode === "payment") {
@@ -63,12 +65,10 @@ export const handleStripeWebhook = async (event) => {
           type: "week_pass",
           created_at: dayjs().toDate(),
           ends_on: dayjs().add(7, "day").toDate(),
+          stripeCustomerId: paymentIntent.customer,
         };
 
-        return await createSubscription(
-          options,
-          paymentIntent.metadata.redisUserId
-        );
+        return await createSubscription(options);
       }
 
       break;
@@ -94,10 +94,10 @@ export const handleStripeWebhook = async (event) => {
       break;
 
     case "customer.subscription.updated":
-      const updatedSubscription = await stripe.subscriptions.retrieve(
-        paymentIntent.id,
-        { expand: ["customer"] }
-      );
+      // const updatedSubscription = await stripe.subscriptions.retrieve(
+      //   paymentIntent.id,
+      //   { expand: ["customer"] }
+      // );
 
       options = {
         subId: paymentIntent.id,
@@ -109,7 +109,7 @@ export const handleStripeWebhook = async (event) => {
 
       try {
         return await prismaClient.subscription.update({
-          where: { userId: updatedSubscription.customer.metadata.redisUserId },
+          where: { stripeCustomerId: paymentIntent.customer },
           data: options,
         });
       } catch (error) {
@@ -119,16 +119,11 @@ export const handleStripeWebhook = async (event) => {
       break;
 
     case "customer.subscription.deleted":
-      const deletedSubscription = await stripe.subscriptions.retrieve(
-        paymentIntent.id,
-        { expand: ["customer"] }
-      );
-
       options = { subId: paymentIntent.id, status: paymentIntent.status };
 
       try {
         return await prismaClient.subscription.update({
-          where: { userId: deletedSubscription.customer.metadata.redisUserId },
+          where: { stripeCustomerId: paymentIntent.customer },
           data: options,
         });
       } catch (error) {
