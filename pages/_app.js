@@ -12,6 +12,7 @@ import { WEBSITE_PATHNAME } from "../config";
 import { SessionProvider } from "next-auth/react";
 import * as Sentry from "@sentry/nextjs";
 import { setFingerprintCookie } from "../common/fingerprinting";
+import { Analytics } from "@vercel/analytics/react";
 
 function App({ Component, pageProps: { session, ...pageProps } }) {
   const router = useRouter();
@@ -44,6 +45,7 @@ function App({ Component, pageProps: { session, ...pageProps } }) {
             <CookieBanner />
             <DefaultSeo />
             <Component {...pageProps} />
+            <Analytics />
             <ReactQueryDevtools />
           </Hydrate>
         </QueryClientProvider>
