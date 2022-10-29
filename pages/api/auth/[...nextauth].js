@@ -3,7 +3,6 @@ import EmailProvider from "next-auth/providers/email";
 import GoogleProvider from "next-auth/providers/google";
 import { WEBSITE_EMAIL } from "../../../config";
 
-import stripe from "../../../server/stripe";
 import prismaClient, { PrismaAdapter } from "../../../server/prisma/prismadb";
 
 export const authOptions = {
