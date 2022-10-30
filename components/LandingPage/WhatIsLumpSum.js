@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { memo } from "react";
 import dynamic from "next/dynamic";
 import Loading from "../Loading/Loading";
