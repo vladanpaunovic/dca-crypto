@@ -28,7 +28,14 @@ export const authOptions = {
   ],
   events: {
     async signIn(message) {
-      Sentry.setUser({ email: message.user.email });
+      const isPaidUser = message.user?.subscription?.status === "active";
+      console.log(message);
+      Sentry.setUser({
+        email: message.user.email,
+        segment: isPaidUser
+          ? `paid_${message.user?.subscription?.type}`
+          : "free_user",
+      });
     },
     async signOut() {
       Sentry.setUser(null);
