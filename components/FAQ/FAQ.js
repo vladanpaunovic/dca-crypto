@@ -91,7 +91,7 @@ const FAQ = () => {
           </p>
           <p className="mt-2 space-y-4">
             <p className="text-base leading-6 text-gray-500 dark:text-gray-400">
-              Yes. Free version of DCA-CC is not limited in anuthing but usage.
+              Yes. Free version of DCA-CC is not limited in anything but usage.
               Our free users can enjoy the same set of features, yet limited to
               making 5 calculations per hour.
             </p>
