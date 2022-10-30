@@ -57,8 +57,15 @@ const handler = async (req, res) => {
 
   span.setStatus(spanStatusfromHttpCode(response.status));
 
-  if (!response.data.prices) {
-    throw new Error("No data received from the CoinGecko");
+  if (!response.data.prices.length) {
+    res.status(200).json({
+      canProceed,
+      error: {
+        message: `No market data yet for ${payload.coinId} yet`,
+        subheading: "Try changing the coin",
+      },
+    });
+    return;
   }
 
   const data = response.data.prices.map((entry) => ({

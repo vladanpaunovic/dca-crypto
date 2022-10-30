@@ -33,6 +33,7 @@ import { getCookie } from "cookies-next";
 import { FINGERPRING_ID } from "../../common/fingerprinting";
 import { unstable_getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]";
+import ErrorComponent from "../../components/Error/Error";
 
 const DynamicChart = dynamic(() => import("../../components/Chart/Chart"), {
   ssr: false,
@@ -100,6 +101,10 @@ const Coin = () => {
   const { state } = useAppContext();
   const currentCoin = state.currentCoin;
   const coinSymbol = currentCoin.symbol.toUpperCase();
+
+  if (state.chart.error) {
+    return <ErrorComponent error={state.chart.error} />;
+  }
 
   if (!state.chart.canProceed.proceed) {
     return <Limit canProceed={state.chart.canProceed} />;

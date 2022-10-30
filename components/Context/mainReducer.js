@@ -18,6 +18,7 @@ export const ACTIONS = {
   SET_CHART_DATA: "SET_CHART_DATA",
   SET_INSIGHTS: "SET_INSIGHTS",
   UPDATE_CAN_PROCEED: "UPDATE_CAN_PROCEED",
+  UPDATE_ERROR: "UPDATE_ERROR",
 
   // Settings actions
   UPDATE_CURRENCY: "UPDATE_CURRENCY",
@@ -97,6 +98,7 @@ const reducer = (state, action) => {
           data: action.payload.chartData,
           canProceed: action.payload.canProceed,
           insights: action.payload.insights,
+          error: action.payload.error,
         },
       };
     }
@@ -110,6 +112,17 @@ const reducer = (state, action) => {
         },
       };
     }
+
+    case ACTIONS.UPDATE_ERROR: {
+      return {
+        ...state,
+        chart: {
+          ...state.chart,
+          error: action.payload,
+        },
+      };
+    }
+
     // Settings
     case ACTIONS.UPDATE_CURRENCY: {
       return {
@@ -140,6 +153,7 @@ export const useMainReducer = ({ availableTokens, chartData, currentCoin }) => {
       data: chartData ? chartData.chartData : [],
       insights: chartData ? chartData.insights : {},
       canProceed: chartData ? chartData.canProceed : {},
+      error: chartData ? chartData.error : undefined,
     },
     settings: {
       currency: "usd",
