@@ -48,15 +48,6 @@ const WhatIsLumpSum = () => {
             </a>
             ).
           </p>
-          <p className="mt-3 text-sm text-gray-400">
-            Source: investing in Bitcoin from{" "}
-            <Link href="/lump-sum/bitcoin?investment=5000&dateFrom=2021-01-01&currency=usd">
-              <a target="_blank" className="underline">
-                January 2021
-              </a>
-            </Link>
-            .
-          </p>
         </div>
       </div>
       <div className="container mx-auto max-w-7xl px-6 p-6 flex flex-col md:flex-row ">
@@ -72,22 +63,6 @@ const WhatIsLumpSum = () => {
             finding the best time to start might be tricky. We suggest invisting
             in market during corrections or when a long term growth is
             inevitable.
-          </p>
-
-          <p className="mt-3 text-sm text-gray-400">
-            Source: investing in Bitcoin{" "}
-            <Link href="/lump-sum/bitcoin?investment=5000&dateFrom=2020-01-01&currency=usd">
-              <a target="_blank" className="underline">
-                whole 2020
-              </a>
-            </Link>{" "}
-            Vs. only the{" "}
-            <Link href="/lump-sum/bitcoin?investment=5000&dateFrom=2020-07-01&currency=usd">
-              <a target="_blank" className="underline">
-                second half
-              </a>
-            </Link>{" "}
-            of 2020
           </p>
         </div>
         <div className="w-4/4 md:w-2/4 gap-8 dark:text-white  md:pr-8">
