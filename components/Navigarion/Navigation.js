@@ -1,6 +1,6 @@
 import Logo from "../Logo/Logo";
 import { useTheme } from "next-themes";
-import { MoonIcon, SunIcon } from "@heroicons/react/outline";
+import { MoonIcon, SunIcon, ColorSwatchIcon } from "@heroicons/react/outline";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
@@ -16,11 +16,19 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import { createStripeCustomerPortal } from "../../queries/queries";
 import { useMutation } from "react-query";
 import { classNames } from "../../styles/utils";
+import Link from "next/link";
 
 dayjs.extend(relativeTime);
 
 const UnAuthenticatedMenu = () => (
   <>
+    <div>
+      <Link href="/pricing">
+        <a className="px-2 py-1 font-medium text-gray-900 dark:text-gray-200">
+          Pricing
+        </a>
+      </Link>
+    </div>
     <div>
       <button
         onClick={() => signIn()}
@@ -59,6 +67,12 @@ const AuthenticatedMenu = ({ session }) => {
   const { data } = useSession();
   const router = useRouter();
   const isWeekPass = data.user.subscription?.type === "week_pass";
+
+  const isActiveSubscription = data.user.subscription?.type === "subscription";
+  const showPricingButton =
+    !data.user.subscription ||
+    data.user.subscription?.status === "canceled" ||
+    isWeekPass;
 
   const mutation = useMutation(
     (payload) => createStripeCustomerPortal(payload),
@@ -143,7 +157,7 @@ const AuthenticatedMenu = ({ session }) => {
                   </a>
                 )}
               </Menu.Item> */}
-              {!isWeekPass && (
+              {isActiveSubscription && (
                 <Menu.Item>
                   {({ active }) => (
                     <button
@@ -156,6 +170,29 @@ const AuthenticatedMenu = ({ session }) => {
                       <CreditCardIcon className="mr-1" width={16} height={16} />
                       Subscription Settings
                     </button>
+                  )}
+                </Menu.Item>
+              )}
+              {showPricingButton && (
+                <Menu.Item>
+                  {({ active }) => (
+                    <div>
+                      <Link href="/pricing">
+                        <a
+                          className={classNames(
+                            active ? "bg-gray-100 dark:bg-gray-900" : "",
+                            "flex items-center w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-gray-100 rounded-b-md"
+                          )}
+                        >
+                          <ColorSwatchIcon
+                            className="mr-1"
+                            width={16}
+                            height={16}
+                          />
+                          Pricing
+                        </a>
+                      </Link>
+                    </div>
                   )}
                 </Menu.Item>
               )}
