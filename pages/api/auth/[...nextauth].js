@@ -2,9 +2,11 @@ import NextAuth from "next-auth";
 import EmailProvider from "next-auth/providers/email";
 import GoogleProvider from "next-auth/providers/google";
 import { WEBSITE_EMAIL } from "../../../config";
+import * as Sentry from "@sentry/nextjs";
 
 import prismaClient, { PrismaAdapter } from "../../../server/prisma/prismadb";
 
+/** @type {import('next-auth').NextAuthOptions} */
 export const authOptions = {
   adapter: PrismaAdapter(prismaClient),
   providers: [
@@ -24,6 +26,14 @@ export const authOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
   ],
+  events: {
+    async signIn(message) {
+      Sentry.setUser({ email: message.user.email });
+    },
+    async signOut() {
+      Sentry.setUser(null);
+    },
+  },
   callbacks: {
     async session({ session, user }) {
       return {
