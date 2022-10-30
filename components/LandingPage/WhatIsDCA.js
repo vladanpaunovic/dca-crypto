@@ -95,15 +95,6 @@ const WhatIsDCA = () => {
             </a>
             ).
           </p>
-          <p className="mt-3 text-sm text-gray-400">
-            Source: investing in Bitcoin from{" "}
-            <Link href="/dca/bitcoin?investmentInterval=7&investment=50&dateFrom=2021-01-01&dateTo=2021-05-20&currency=usd">
-              <a target="_blank" className="underline">
-                January to May
-              </a>
-            </Link>{" "}
-            in 2021.
-          </p>
         </div>
       </div>
       <div className="container mx-auto max-w-7xl px-6 p-6 flex flex-col md:flex-row ">
@@ -123,21 +114,6 @@ const WhatIsDCA = () => {
             Even if price dumps in a meanwhile, historical data shows us that it
             will eventually rise (usually by a lot) which gives you a
             competetive adventage and lower average price.
-          </p>
-          <p className="mt-3 text-sm text-gray-400">
-            Source: investing in Bitcoin{" "}
-            <Link href="/dca/bitcoin?investmentInterval=30&investment=50&dateFrom=2020-01-01&dateTo=2021-01-01&currency=usd">
-              <a target="_blank" className="underline">
-                whole 2020
-              </a>
-            </Link>{" "}
-            Vs. only the{" "}
-            <Link href="/dca/bitcoin?investmentInterval=30&investment=50&dateFrom=2020-07-01&dateTo=2021-01-01&currency=usd">
-              <a target="_blank" className="underline">
-                second half
-              </a>
-            </Link>{" "}
-            of 2020
           </p>
         </div>
         <div className="w-4/4 md:w-2/4 gap-8 dark:text-white  md:pr-8">
