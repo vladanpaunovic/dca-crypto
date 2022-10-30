@@ -72,6 +72,9 @@ export const authOptions = {
     },
   },
   secret: process.env.STRIPE_ENCRYPTION_SECRET,
+  pages: {
+    signIn: "/auth/signin",
+  },
 };
 
 export default NextAuth(authOptions);
