@@ -29,7 +29,6 @@ export const authOptions = {
   events: {
     async signIn(message) {
       const isPaidUser = message.user?.subscription?.status === "active";
-      console.log(message);
       Sentry.setUser({
         email: message.user.email,
         segment: isPaidUser
