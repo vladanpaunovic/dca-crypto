@@ -55,6 +55,14 @@ const moduleExports = (phase) => ({
       },
     ];
   },
+  async rewrites() {
+    return [
+      {
+        source: "/sentry-tunnel",
+        destination: "https://o574491.ingest.sentry.io/api/5821539/envelope/",
+      },
+    ];
+  },
 });
 
 // Make sure adding Sentry options is the last code to run before exporting, to
