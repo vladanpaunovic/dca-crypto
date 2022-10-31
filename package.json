@@ -19,7 +19,7 @@
     "@heroicons/react": "^1.0.3",
     "@next-auth/upstash-redis-adapter": "^3.0.1",
     "@prisma/client": "^4.5.0",
-    "@sentry/nextjs": "7.17.2",
+    "@sentry/nextjs": "7.17.3",
     "@tailwindcss/forms": "^0.3.3",
     "@tailwindcss/typography": "^0.4.1",
     "@upstash/redis": "^1.13.1",
