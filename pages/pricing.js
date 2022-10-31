@@ -58,20 +58,20 @@ function PricingTab(props) {
 
   const mutation = useMutation((payload) => createStripeSession(payload), {
     onSuccess: (response) => {
-      if (data) {
-        router.push(response.url);
-      } else {
-        signIn(undefined, { callbackUrl: response.url });
-      }
+      router.push(response.url);
     },
   });
 
   const handleOnSelect = () => {
-    mutation.mutate({
-      priceId: props.id,
-      type: props.type,
-      ...(data ? { userId: data.user.id } : {}),
-    });
+    if (data?.user) {
+      mutation.mutate({
+        priceId: props.id,
+        type: props.type,
+        userId: data.user.id,
+      });
+    } else {
+      signIn(undefined, { callbackUrl: router.asPath });
+    }
   };
 
   const isRecurring = !!props.recurring;
