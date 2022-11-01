@@ -74,7 +74,7 @@ export default function CoinPage({ currentCoin, coinSymbol }) {
         handleSelect={(value) => setSelectedView(value)}
         marginTop="mt-2"
       >
-        <Tab value={1} text="DCA" />
+        <Tab value={1} text="Dollar Cost Average" />
         <Tab value={2} text="Lump Sum" />
       </TabList>
 
