@@ -12,27 +12,42 @@ dayjs.extend(duration);
 dayjs.extend(relativeTime);
 dayjs.extend(localizedFormat);
 
-export const useTweetMessage = () => {
-  const router = useRouter();
-  const isDca = router.pathname.includes("dca");
-
+export const useTweetMessage = (props) => {
   const { state } = useAppContext();
-  const coinSymbol = state.currentCoin.symbol.toUpperCase();
-  const costAverage =
-    state.chart.data[state.chart.data.length - 1]?.costAverage;
+  const router = useRouter();
 
-  const earnings = state.chart.insights.totalValue?.fiat || 0;
+  let isDca = router.pathname.includes("dca");
+  let chartData = state.chart.data;
+  let chartInsights = state.chart.insights;
+  let investment = state.input.investment || 0;
+
+  if (props?.isLumpSum) {
+    isDca = false;
+
+    if (!props.chartData) {
+      throw new Error("chartData missing");
+    }
+
+    chartData = props.chartData.chartData;
+    chartInsights = props.chartData.insights;
+    investment = state.chart.data.length * parseFloat(state.input.investment);
+  }
+
+  const coinSymbol = state.currentCoin.symbol.toUpperCase();
+  const costAverage = chartData[chartData.length - 1]?.costAverage;
+
+  const earnings = chartInsights.totalValue?.fiat || 0;
   const currency = state.settings.currency;
 
   const priceChartMessageDca = `Investing ${formatPrice(
-    state.input.investment || 0,
+    investment,
     currency
   )} in ${coinSymbol} from ${dayjs(state.input.dateFrom).format(
     "MMM YYYY"
   )} to ${dayjs(state.input.dateTo).format("MMM YYYY")} every ${
     state.input.investmentInterval
   } days (${formatPrice(
-    state.chart.insights.totalInvestment || 0,
+    chartInsights.totalInvestment || 0,
     currency
   )} in total) would result in ${formatPrice(earnings, currency)} of ${
     earnings > 0 ? "value" : "loss"
@@ -40,13 +55,13 @@ export const useTweetMessage = () => {
     costAverage,
     currency
   )} per 1${coinSymbol}.\r${
-    state.chart.insights.percentageChange > 0
-      ? `+${state.chart.insights.percentageChange}%!`
-      : state.chart.insights.percentageChange
+    chartInsights.percentageChange > 0
+      ? `+${chartInsights.percentageChange}%!`
+      : `${chartInsights.percentageChange}%`
   }`;
 
   const priceChartMessageLumpSum = `Investing ${formatPrice(
-    state.input.investment || 0,
+    investment,
     currency
   )} in ${coinSymbol} on ${dayjs(state.input.dateFrom).format(
     "MMM YYYY"
@@ -57,9 +72,9 @@ export const useTweetMessage = () => {
     costAverage,
     currency
   )} per 1${coinSymbol}.\r${
-    state.chart.insights.percentageChange > 0
-      ? `+${state.chart.insights.percentageChange}%!`
-      : state.chart.insights.percentageChange
+    chartInsights.percentageChange > 0
+      ? `+${chartInsights.percentageChange}%!`
+      : `${chartInsights.percentageChange}%`
   }`;
 
   return isDca ? priceChartMessageDca : priceChartMessageLumpSum;

@@ -62,7 +62,7 @@ const handler = async (req, res) => {
       canProceed,
       error: {
         message: `No market data yet for ${payload.coinId} yet`,
-        subheading: "Try changing the coin",
+        subheading: "Try changing the coin or extending the investment period",
       },
     });
     return;
@@ -107,12 +107,13 @@ const handler = async (req, res) => {
 
     const costAverage = totalFIAT / balanceCrypto;
 
-    const balanceFIAT = (balanceCrypto * entry.coinPrice).toFixed(2);
+    const balanceFIAT = parseFloat(balanceCrypto * entry.coinPrice);
 
     const percentageChange = getPercentageChange(totalFIAT, balanceFIAT);
 
     return {
       ...entry,
+      coinPrice,
       totalFIAT,
       totalCrypto: cryptoAmountInThisPurchase,
       costAverage,
@@ -135,6 +136,8 @@ const handler = async (req, res) => {
       duration: dayjs(payload.dateTo).diff(payload.dateFrom),
       opportunityCost: chartData[0].balanceCrypto * coinPrice,
       lumpSum: (payload.investment / chartData[0].coinPrice) * coinPrice,
+      coinPrice,
+      costAverage: lastItem.costAverage,
     },
   };
 

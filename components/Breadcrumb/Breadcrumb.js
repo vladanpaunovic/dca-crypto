@@ -5,7 +5,7 @@ import { ChevronRightIcon } from "@heroicons/react/outline";
 const Breadcrumb = ({ name, icon, item, isLast }) => {
   return (
     <>
-      <li className="flex items-center">
+      <li className="flex items-center text-xs">
         {isLast ? (
           <span className="no-underline text-indigo text-gray-900 dark:text-gray-100">
             {name}
