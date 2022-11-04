@@ -1,9 +1,6 @@
 /* eslint-disable react/function-component-definition */
 import { Block } from "@tremor/react";
-import { useQuery } from "react-query";
-import { getLumpSumChartData } from "../../../queries/queries";
 import { useAppContext } from "../../Context/Context";
-import Loading from "../../Loading/Loading";
 import LumpSumCoinChart from "./LumpSumCoinChart";
 import LumpSumCoinTable from "./LumpSumCoinTable";
 import LumpSumTopCards from "./LumpSumTopCards";
