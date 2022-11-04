@@ -6,7 +6,7 @@ import {
 import {
   getAllCoins,
   getCoinById,
-  getDCAChartData,
+  getCommonChartData,
 } from "../../queries/queries";
 import {
   // CACHE_INVALIDATION_INTERVAL,
@@ -53,9 +53,9 @@ export async function getServerSideProps(context) {
     authOptions
   );
 
-  const [availableTokens, chartData, currentCoin] = await Promise.all([
+  const [availableTokens, chart, currentCoin] = await Promise.all([
     getAllCoins(currency), // TODO: REMOVE
-    getDCAChartData({
+    getCommonChartData({
       ...payload,
       session,
       ...(fingerprint ? { fingerprint } : {}),
@@ -66,7 +66,7 @@ export async function getServerSideProps(context) {
   return {
     props: {
       availableTokens,
-      chartData,
+      chart,
       currentCoin,
       ...payload,
     },
@@ -95,20 +95,20 @@ const Coin = () => {
       <NextSeo
         title={`Dollar cost average ${state.currentCoin.name} (${coinSymbol}) calculator`}
         description={`Visualise and calculate historical returns of investing ${formatPrice(
-          state.input.investment
+          state.chart.input.investment
         )} in ${state.currentCoin.name} (${coinSymbol}) every ${
-          state.input.investmentInterval
-        } days from ${dayjs(state.input.dateFrom).format(
+          state.chart.input.investmentInterval
+        } days from ${dayjs(state.chart.input.dateFrom).format(
           "MMM YYYY"
         )} until now. See it on charts!`}
         canonical={`https://${WEBSITE_URL}/dca/${state.currentCoin.id}`}
         openGraph={{
           title: `Dollar cost average ${coinSymbol} calculator`,
           description: `Visualise and calculate historical returns of investing ${formatPrice(
-            state.input.investment
+            state.chart.input.investment
           )} in ${coinSymbol} every ${
-            state.input.investmentInterval
-          } days from ${dayjs(state.input.dateFrom).format(
+            state.chart.input.investmentInterval
+          } days from ${dayjs(state.chart.input.dateFrom).format(
             "MMM YYYY"
           )} until now. See it on charts!`,
           images: [
@@ -132,7 +132,7 @@ const CoinWrapper = (props) => {
   return (
     <AppContextProvider
       availableTokens={props.availableTokens}
-      chartData={props.chartData}
+      chart={props.chart}
       currentCoin={props.currentCoin}
     >
       <Navigation />
@@ -146,7 +146,7 @@ const CoinWrapper = (props) => {
           </div>
         </div>
         <div className="w-12/12 pt-4 md:mt-0 md:p-6 flex-1">
-          <Coin {...props} />
+          <Coin />
         </div>
       </div>
       <div className="border-t dark:border-gray-700">

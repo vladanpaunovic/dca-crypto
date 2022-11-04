@@ -86,7 +86,7 @@ const CoinTracked = () => {
     unchanged: "amber",
   };
 
-  const profitLoss = state.chart.data.map((item) =>
+  const profitLoss = state.chart.dca.chartData.map((item) =>
     item.percentageChange > 0 ? "profit" : "loss"
   );
 
@@ -107,7 +107,7 @@ const CoinTracked = () => {
         time
       </Text>
       <Tracking marginTop="mt-6">
-        {state.chart.data.map((item) => (
+        {state.chart.dca.chartData.map((item) => (
           <TrackingBlock
             key={item.date}
             color={statusStyles[getDeltaType(item)]}
@@ -124,7 +124,7 @@ export default function CoinTable() {
 
   return (
     <Card>
-      <CoinTracked items={state.chart.data} />
+      <CoinTracked items={state.chart.dca.chartData} />
 
       <Divider />
       <Title marginTop="mt-6">Purchases breakdown</Title>
@@ -147,7 +147,7 @@ export default function CoinTable() {
             </TableHeaderCell>
             <TableHeaderCell textAlignment="text-right">
               {state.currentCoin.symbol.toUpperCase()} in{" "}
-              <Currency value={state.input.investment} />
+              <Currency value={state.chart.input.investment} />
             </TableHeaderCell>
             <TableHeaderCell textAlignment="text-right">
               Profit/Loss %
@@ -156,8 +156,8 @@ export default function CoinTable() {
         </TableHead>
 
         <TableBody>
-          {state.chart.data.map((item) => (
-            <TableItem key={item.name} item={item} />
+          {state.chart.dca.chartData.map((item) => (
+            <TableItem key={item.date} item={item} />
           ))}
         </TableBody>
       </Table>

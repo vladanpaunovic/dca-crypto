@@ -39,7 +39,7 @@ const InputForm = () => {
   const isSubmitDisabled = state.input.duration < 90 || !state.input.investment;
 
   const mutation = useMutation(
-    (payload) => apiClient.post("calculate/dca", payload),
+    (payload) => apiClient.post("calculate/common", payload),
     {
       onSuccess: (data) => {
         dispatch({

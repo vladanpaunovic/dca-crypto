@@ -18,6 +18,8 @@ import { TrendingUpIcon, TrendingDownIcon } from "@heroicons/react/solid";
 import { useQuery } from "react-query";
 import { getCoinPrice } from "../../queries/queries";
 import getPercentageChange from "../helpers/getPercentageChange";
+import { useState } from "react";
+import { useInterval } from "usehooks-ts";
 
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
@@ -25,21 +27,23 @@ dayjs.extend(relativeTime);
 const CardValueInFIAT = () => {
   const { state } = useAppContext();
 
-  const isEarning = state.chart.insights.percentageChange > 0;
+  const isEarning = state.chart.dca.insights.percentageChange > 0;
   const color = isEarning ? "emerald" : "pink";
 
   const fiatEarnings =
-    state.chart.insights.totalValue?.fiat -
-    state.chart.insights.totalInvestment;
+    state.chart.dca.insights.totalValue?.fiat -
+    state.chart.dca.insights.totalInvestment;
 
   const percentageChange = isEarning
-    ? `+${state.chart.insights.percentageChange}%`
-    : `${state.chart.insights.percentageChange}%`;
+    ? `+${state.chart.dca.insights.percentageChange}%`
+    : `${state.chart.dca.insights.percentageChange}%`;
 
   const options = {
     title: "Value in FIAT",
-    metric: <Currency value={state.chart.insights.totalValue?.fiat || 0} />,
-    metricPrev: <Currency value={state.chart.insights.totalInvestment || 0} />,
+    metric: <Currency value={state.chart.dca.insights.totalValue?.fiat || 0} />,
+    metricPrev: (
+      <Currency value={state.chart.dca.insights.totalInvestment || 0} />
+    ),
     delta: isEarning ? (
       <>
         <Currency value={fiatEarnings} />
@@ -50,7 +54,9 @@ const CardValueInFIAT = () => {
     deltaType: isEarning ? "moderateIncrease" : "moderateDecrease",
   };
 
-  const percentageChangeRaw = parseFloat(state.chart.insights.percentageChange);
+  const percentageChangeRaw = parseFloat(
+    state.chart.dca.insights.percentageChange
+  );
   const categoryPercentageValues = isEarning
     ? [100 - percentageChangeRaw, percentageChangeRaw]
     : [percentageChangeRaw + 100, 100 - (percentageChangeRaw + 100)];
@@ -96,30 +102,38 @@ const CardValueInFIAT = () => {
   );
 };
 
+const PRICE_FETCH_INTERVAL = 60000; // 1 minute
+
 const CardCurrentCoin = () => {
   const { state } = useAppContext();
   const coinSymbol = state.currentCoin.symbol.toUpperCase();
+  const [shouldUpdatePrice, setShouldUpdatePrice] = useState(false);
+
+  useInterval(() => setShouldUpdatePrice(true), PRICE_FETCH_INTERVAL);
 
   const query = useQuery({
     queryFn: () => getCoinPrice(state.currentCoin.id),
     queryKey: `price_${state.currentCoin.id}`,
-    refetchInterval: 60000, // 1 minute
+    refetchInterval: PRICE_FETCH_INTERVAL,
+    enabled: shouldUpdatePrice,
   });
 
-  const isEarning = state.chart.insights.costAverage < query.data;
+  const currentPrice =
+    query.data || state.currentCoin.market_data.current_price.usd;
 
+  const isEarning = state.chart.dca.insights.costAverage < currentPrice;
   const color = isEarning ? "emerald" : "pink";
 
   const options = {
     title: `${coinSymbol} current price`,
-    metric: query.data ? <Currency value={query.data} /> : "-",
-    metricPrev: <Currency value={state.chart.insights.costAverage || 0} />,
-    delta: <Currency value={state.chart.data[0].coinPrice || 0} />,
+    metric: <Currency value={currentPrice} />,
+    metricPrev: <Currency value={state.chart.dca.insights.costAverage || 0} />,
+    delta: <Currency value={state.chart.dca.chartData[0].coinPrice || 0} />,
     deltaType: isEarning ? "moderateDecrease" : "moderateIncrease",
   };
 
   const percentageDiff = parseFloat(
-    getPercentageChange(query.data, state.chart.insights.costAverage)
+    getPercentageChange(currentPrice, state.chart.dca.insights.costAverage)
   );
   const categoryPercentageValues = isEarning
     ? [100 - (100 - (percentageDiff + 100)), 100 - (percentageDiff + 100)]
@@ -173,7 +187,7 @@ const CardCurrentCoin = () => {
 const CalloutPerformance = () => {
   const { state } = useAppContext();
   const priceChartMessage = useTweetMessage();
-  const isEarning = state.chart.insights.percentageChange > 0;
+  const isEarning = state.chart.dca.insights.percentageChange > 0;
   const color = isEarning ? "emerald" : "pink";
   const icon = isEarning ? TrendingUpIcon : TrendingDownIcon;
 

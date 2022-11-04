@@ -17,8 +17,8 @@ export const useTweetMessage = (props) => {
   const router = useRouter();
 
   let isDca = router.pathname.includes("dca");
-  let chartData = state.chart.data;
-  let chartInsights = state.chart.insights;
+  let chartData = state.chart.dca.chartData;
+  let chartInsights = state.chart.dca.insights;
   let investment = state.input.investment || 0;
 
   if (props?.isLumpSum) {
@@ -28,9 +28,11 @@ export const useTweetMessage = (props) => {
       throw new Error("chartData missing");
     }
 
-    chartData = props.chartData.chartData;
-    chartInsights = props.chartData.insights;
-    investment = state.chart.data.length * parseFloat(state.input.investment);
+    chartData = state.chart.lumpSum.chartData;
+    chartInsights = state.chart.lumpSum.insights;
+    investment =
+      state.chart.dca.chartData.length *
+      parseFloat(state.chart.input.investment);
   }
 
   const coinSymbol = state.currentCoin.symbol.toUpperCase();

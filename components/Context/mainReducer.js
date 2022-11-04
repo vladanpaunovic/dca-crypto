@@ -93,13 +93,7 @@ const reducer = (state, action) => {
     case ACTIONS.SET_CHART_DATA: {
       return {
         ...state,
-        chart: {
-          ...state.chart,
-          data: action.payload.chartData,
-          canProceed: action.payload.canProceed,
-          insights: action.payload.insights,
-          error: action.payload.error,
-        },
+        chart: action.payload,
       };
     }
 
@@ -143,18 +137,13 @@ const reducer = (state, action) => {
   }
 };
 
-export const useMainReducer = ({ availableTokens, chartData, currentCoin }) => {
+export const useMainReducer = ({ availableTokens, chart, currentCoin }) => {
   const router = useRouter();
   const DEFAULT_INPUT = generateDefaultInput(router.query);
 
   const initialState = {
     input: DEFAULT_INPUT,
-    chart: {
-      data: chartData ? chartData.chartData : [],
-      insights: chartData ? chartData.insights : {},
-      canProceed: chartData ? chartData.canProceed : {},
-      error: chartData ? chartData.error : undefined,
-    },
+    chart,
     settings: {
       currency: "usd",
       darkMode: false,

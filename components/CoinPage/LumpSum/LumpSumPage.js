@@ -11,34 +11,18 @@ import LumpSumTopCards from "./LumpSumTopCards";
 export default function LumpSumPage() {
   const { state } = useAppContext();
 
-  const investment =
-    state.chart.data.length * parseFloat(state.input.investment);
-
-  const input = { ...state.input, investment };
-
-  const chartData = useQuery({
-    queryFn: () => getLumpSumChartData(input),
-    queryKey: JSON.stringify(input),
-  });
-
-  if (!chartData.data) {
-    return (
-      <div className="p-8">
-        <Loading withWrapper width={20} height={20} />
-      </div>
-    );
-  }
+  const chartData = state.chart.lumpSum;
 
   return (
     <>
-      <LumpSumTopCards chartData={chartData.data} />
+      <LumpSumTopCards chartData={chartData} />
 
       <Block marginTop="mt-6">
-        <LumpSumCoinChart chartData={chartData.data} />
+        <LumpSumCoinChart chartData={chartData} />
       </Block>
 
       <Block marginTop="mt-6">
-        <LumpSumCoinTable chartData={chartData.data} />
+        <LumpSumCoinTable chartData={chartData} />
       </Block>
     </>
   );

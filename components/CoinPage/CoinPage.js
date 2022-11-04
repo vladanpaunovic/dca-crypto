@@ -25,10 +25,12 @@ export default function CoinPage({ currentCoin, coinSymbol }) {
   const { state } = useAppContext();
 
   const description = `Visualise and calculate historical returns of investing ${formatPrice(
-    state.input.investment
-  )} in ${coinSymbol} every ${state.input.investmentInterval} days from ${dayjs(
-    state.input.dateFrom
-  ).format("MMM YYYY")} until now`;
+    state.chart.input.investment
+  )} in ${coinSymbol} every ${
+    state.chart.input.investmentInterval
+  } days from ${dayjs(state.chart.input.dateFrom).format(
+    "MMM YYYY"
+  )} until now`;
 
   return (
     <main>
@@ -63,7 +65,7 @@ export default function CoinPage({ currentCoin, coinSymbol }) {
             <Text>Total Investment</Text>
 
             <Metric>
-              <Currency value={state.chart.insights.totalInvestment} />
+              <Currency value={state.chart.dca.insights.totalInvestment} />
             </Metric>
           </Card>
         </Col>

@@ -6,12 +6,12 @@ const AppContext = createContext();
 export function AppContextProvider({
   children,
   availableTokens,
-  chartData,
+  chart,
   currentCoin,
 }) {
   const [state, dispatch] = useMainReducer({
     availableTokens,
-    chartData,
+    chart,
     currentCoin,
   });
 

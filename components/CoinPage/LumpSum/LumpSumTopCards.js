@@ -109,7 +109,6 @@ const CardCurrentCoin = ({ chartData }) => {
 
   const color = isEarning ? "emerald" : "pink";
 
-  console.log(chartData);
   const options = {
     title: `${coinSymbol} current price`,
     metric: query.data ? <Currency value={query.data} /> : "-",

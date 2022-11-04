@@ -107,7 +107,7 @@ export default function LumpSumCoinTable({ chartData }) {
 
         <TableBody>
           {chartData.chartData.map((item) => (
-            <TableItem key={item.name} item={item} />
+            <TableItem key={item.date} item={item} />
           ))}
         </TableBody>
       </Table>

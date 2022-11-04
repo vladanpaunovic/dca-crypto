@@ -8,7 +8,7 @@ const valueFormatter = (number) =>
 export default function CoinChart() {
   const { state } = useAppContext();
 
-  const isEarning = state.chart.insights.percentageChange > 0;
+  const isEarning = state.chart.dca.insights.percentageChange > 0;
 
   const color = isEarning ? "emerald" : "rose";
 
@@ -20,7 +20,7 @@ export default function CoinChart() {
       <Text>Estimate the development of your earnings over time</Text>
       <AreaChart
         marginTop="mt-4"
-        data={state.chart.data}
+        data={state.chart.dca.chartData}
         categories={["balanceFIAT", "totalFIAT"]}
         dataKey="date"
         colors={[color, "amber"]}
@@ -36,7 +36,7 @@ export default function CoinChart() {
 
       <AreaChart
         marginTop="mt-4"
-        data={state.chart.data}
+        data={state.chart.dca.chartData}
         categories={["coinPrice", "costAverage"]}
         dataKey="date"
         colors={["amber", color]}
