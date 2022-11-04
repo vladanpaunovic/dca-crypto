@@ -269,7 +269,7 @@ const InputForm = () => {
         <div className="col-span-2">
           <button
             type="submit"
-            className="px-4 py-2 disabled:opacity-50 rounded bg-gray-900 hover:bg-gray-800 text-base text-white dark:bg-gray-50 dark:hover:bg-gray-200 dark:text-gray-900 font-bold shadow"
+            className="px-4 py-2 w-full disabled:opacity-50 rounded bg-gray-900 hover:bg-gray-800 text-base text-white dark:bg-gray-50 dark:hover:bg-gray-200 dark:text-gray-900 font-bold shadow"
             disabled={
               isSubmitDisabled || mutation.isLoading || freeTierLimitReached
             }

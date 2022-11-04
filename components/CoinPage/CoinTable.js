@@ -51,7 +51,7 @@ const TableItem = ({ item }) => {
   };
 
   return (
-    <TableRow key={item.name}>
+    <TableRow key={item.date}>
       <TableCell>{item.date}</TableCell>
       <TableCell textAlignment="text-right">
         <Currency value={item.coinPrice} />
