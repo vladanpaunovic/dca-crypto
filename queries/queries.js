@@ -61,6 +61,16 @@ export const searchCoin = async (query = "") => {
   return output;
 };
 
+export const getCoinPrice = async (coinId) => {
+  const response = await coinGecko.get(
+    `simple/price?ids=${coinId}&vs_currencies=usd`
+  );
+
+  const output = response.data[coinId]?.usd;
+
+  return output;
+};
+
 export const getAllPricingProducts = async (payload) => {
   const response = await apiClient.post("billing/products", payload);
 
