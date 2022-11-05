@@ -16,19 +16,11 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import Currency from "../../Currency/Currency";
 import CardTotalInvestment from "../TotalInvestment";
+import { valueFormatter } from "../../Chart/helpers";
 
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
 dayjs.extend(localizedFormat);
-
-const valueFormatter = (number) =>
-  Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    currencyDisplay: "narrowSymbol",
-  })
-    .format(number)
-    .toString();
 
 const CardValueInFIAT = ({ chartData }) => {
   const { state } = useAppContext();

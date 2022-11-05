@@ -1,15 +1,7 @@
 /* eslint-disable react/function-component-definition */
 import { Card, AreaChart, Title, Text, Divider } from "@tremor/react";
+import { valueFormatter } from "../Chart/helpers";
 import { useAppContext } from "../Context/Context";
-
-const valueFormatter = (number) =>
-  Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    currencyDisplay: "narrowSymbol",
-  })
-    .format(number)
-    .toString();
 
 export default function CoinChart() {
   const { state } = useAppContext();
