@@ -131,7 +131,7 @@ const AllCoinsTable = ({ showOnlyNTokens, showSearch }) => {
                       scope="col"
                       className="px-6 py-3 w-10 text-center text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-100"
                     >
-                      <Link href={`/all-tokens?type=${type}`}>
+                      <Link href={`/all-tokens`}>
                         <a className="flex items-center justify-start sm:justify-center hover:underline py-2">
                           More tokens{" "}
                           <span className="ml-1">

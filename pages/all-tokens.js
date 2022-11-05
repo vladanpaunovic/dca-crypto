@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import AllCoinsTable from "../components/AllCoinsTable/AllCoinsTable";
 import { AppContextProvider } from "../components/Context/Context";
 import Footer from "../components/Footer/Footer";
