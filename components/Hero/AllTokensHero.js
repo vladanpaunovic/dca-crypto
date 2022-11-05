@@ -1,4 +1,4 @@
-export default function Hero(props) {
+export default function Hero() {
   return (
     <div className="relative bg-white dark:bg-gray-900 overflow-hidden">
       <div className="max-w-7xl mx-auto">
@@ -29,7 +29,7 @@ export default function Hero(props) {
                   Select a coin to calculate
                 </span>{" "}
                 <span className="block text-indigo-600 dark:text-yellow-500 xl:inline">
-                  {props.type === "dca" ? "DCA" : "Lump Sum investing"}
+                  DCA
                 </span>
               </h1>
               {/* <p className="mt-3 text-base text-gray-500 dark:text-gray-200 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">

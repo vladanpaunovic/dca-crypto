@@ -26,7 +26,7 @@ const before90Days = dayjs().subtract(91, "days").format("YYYY-MM-DD");
 const InputForm = () => {
   const session = useSession();
   const appContext = useAppContext();
-  const generateUrl = useGenerateUrl("dca");
+  const generateUrl = useGenerateUrl();
   const { state, dispatch } = appContext;
   const currentCoin = state.currentCoin;
   const [isOpen, setIsOpen] = useState(false);

@@ -10,8 +10,7 @@ import { useAppContext } from "../Context/Context";
 
 const SharingButtons = ({ currentCoin }) => {
   const router = useRouter();
-  const isDca = router.pathname.includes("dca");
-  const pathname = isDca ? "dca" : "lump-sum";
+  const pathname = "dca";
   const coinSymbol = currentCoin.symbol.toUpperCase();
 
   const queryWithoutCoin = {

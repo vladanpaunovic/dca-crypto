@@ -58,7 +58,6 @@ export default function CoinPage({ currentCoin, coinSymbol }) {
           <CardCurrentCoin />
         </Col>
       </ColGrid>
-
       <TabList
         defaultValue={1}
         handleSelect={(value) => setSelectedView(value)}
@@ -81,11 +80,9 @@ export default function CoinPage({ currentCoin, coinSymbol }) {
             <CalloutPerformance />
           </Block>
 
-          <Block marginTop="mt-6">
-            <Card>
-              <CoinTracked />
-            </Card>
-          </Block>
+          <Card marginTop="mt-6">
+            <CoinTracked />
+          </Card>
 
           <Block marginTop="mt-6">
             <Accordion expanded={false} shadow={true} marginTop="mt-0">

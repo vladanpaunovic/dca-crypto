@@ -109,11 +109,7 @@ function Home(props) {
             </p>
           </div>
           <div className="pr-4 dark:text-white">
-            <AllCoinsTable
-              showOnlyNTokens={10}
-              showSearch={false}
-              type="lump-sum"
-            />
+            <AllCoinsTable showOnlyNTokens={10} showSearch={false} />
           </div>
         </div>
       </main>
