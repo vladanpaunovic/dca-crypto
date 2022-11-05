@@ -5,7 +5,6 @@ import { CACHE_INVALIDATION_INTERVAL } from "../config";
 import { getAllCoins, getDCAChartData } from "../queries/queries";
 import { NextSeo } from "next-seo";
 import NavigationMenu from "../components/Menu/Menu";
-import CoinCalculator from "../components/LandingPage/CoinCalculator";
 import { generateDefaultInput } from "../common/generateDefaultInput";
 import dayjs from "dayjs";
 import AllCoinsTable from "../components/AllCoinsTable/AllCoinsTable";
@@ -76,13 +75,6 @@ function Home(props) {
               investing, the perfect tool for cryptocurrency investors.
             </p>
           </div>
-        </section>
-
-        <section className="container mx-auto my-8 md:p-8">
-          <CoinCalculator
-            chartData={props.chartData}
-            availableTokens={props.availableTokens}
-          />
         </section>
 
         <div className="container mx-auto max-w-3xl bg-white dark:bg-gray-900 mt-16 mb-8 md:p-8">
