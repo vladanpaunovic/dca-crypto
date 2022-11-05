@@ -28,6 +28,7 @@ import { authOptions } from "../api/auth/[...nextauth]";
 import ErrorComponent from "../../components/Error/Error";
 import "@tremor/react/dist/esm/tremor.css";
 import CoinPage from "../../components/CoinPage/CoinPage";
+import Limit from "../../components/Limit/Limit";
 
 const DynamicAffiliateLinks = dynamic(
   () => import("../../components/AffiliateLinks/AffiliateLinks"),
@@ -86,9 +87,9 @@ const Coin = () => {
     return <ErrorComponent error={state.chart.error} />;
   }
 
-  // if (!state.chart.canProceed.proceed) {
-  //   return <Limit canProceed={state.chart.canProceed} />;
-  // }
+  if (!state.chart.canProceed.proceed) {
+    return <Limit canProceed={state.chart.canProceed} />;
+  }
 
   return (
     <div className="w-full">
