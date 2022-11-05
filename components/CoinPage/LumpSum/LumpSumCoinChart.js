@@ -2,7 +2,13 @@ import { Card, AreaChart, Title, Text, Divider } from "@tremor/react";
 import { useAppContext } from "../../Context/Context";
 
 const valueFormatter = (number) =>
-  `$ ${Intl.NumberFormat("us").format(number).toString()}`;
+  Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    currencyDisplay: "narrowSymbol",
+  })
+    .format(number)
+    .toString();
 
 export default function LumpSumCoinChart({ chartData }) {
   const { state } = useAppContext();
@@ -20,7 +26,7 @@ export default function LumpSumCoinChart({ chartData }) {
       <AreaChart
         marginTop="mt-4"
         data={chartData.chartData}
-        categories={["balanceFIAT", "totalFIAT"]}
+        categories={["Balance in FIAT", "Total investment"]}
         dataKey="date"
         colors={[color, "amber"]}
         valueFormatter={valueFormatter}
@@ -36,7 +42,7 @@ export default function LumpSumCoinChart({ chartData }) {
       <AreaChart
         marginTop="mt-4"
         data={chartData.chartData}
-        categories={["coinPrice", "costAverage"]}
+        categories={["Price", "Buying price"]}
         dataKey="date"
         colors={["amber", color]}
         valueFormatter={valueFormatter}

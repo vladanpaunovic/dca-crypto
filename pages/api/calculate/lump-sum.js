@@ -11,6 +11,82 @@ import { FINGERPRING_ID } from "../../../common/fingerprinting";
 const convertDateStringToUnix = (dateString) =>
   Math.round(new Date(dateString).getTime() / 1000);
 
+export const generateLumpSumResponse = ({
+  response,
+  canProceed,
+  payload,
+  investmentCount,
+}) => {
+  const data = response.data.prices.map((entry) => ({
+    date: new Date(entry[0]).toLocaleDateString(),
+    coinPrice: parseFloat(entry[1]).toFixed(6),
+  }));
+
+  const reduced = data.reduce((prev, current, index) => {
+    if (index === 0) {
+      return [current];
+    }
+
+    const isNth = index % 7 === 0;
+    if (isNth) {
+      // Make sure there are no duplicates
+      if (prev.find((e) => e.date === current.date)) {
+        return prev;
+      }
+
+      return [...prev, current];
+    }
+
+    return prev;
+  }, []);
+
+  const firstInvestment = reduced[0];
+
+  const chartData = reduced.map((entry) => {
+    const totalFIAT = payload.investment * investmentCount;
+    const coinPrice = parseFloat(firstInvestment.coinPrice);
+
+    const totalCrypto = coinPrice === 0 ? 0 : parseFloat(totalFIAT) / coinPrice;
+
+    const balanceFIAT = parseFloat(totalCrypto * entry.coinPrice);
+
+    const percentageChange = getPercentageChange(totalFIAT, balanceFIAT);
+
+    return {
+      ...entry,
+      Price: parseFloat(entry.coinPrice),
+      "Total investment": parseFloat(totalFIAT),
+      totalCrypto,
+      "Buying price": parseFloat(coinPrice),
+      "Balance in FIAT": balanceFIAT,
+      balanceCrypto: totalCrypto,
+      percentageChange,
+    };
+  });
+
+  const mostRecentEntry = chartData[chartData.length - 1];
+
+  const totalInvestment = mostRecentEntry["Total investment"];
+  const totalValueFIAT = mostRecentEntry["Balance in FIAT"];
+  const percentageChange = mostRecentEntry.percentageChange;
+  const totalValueCrypto = mostRecentEntry.balanceCrypto;
+
+  const output = {
+    canProceed,
+    chartData,
+    insights: {
+      totalInvestment,
+      totalValue: { crypto: totalValueCrypto, fiat: totalValueFIAT },
+      percentageChange,
+      duration: dayjs(payload.dateTo).diff(payload.dateFrom),
+      opportunityCost: chartData[0].balanceCrypto * mostRecentEntry["Price"],
+      coinPrice: mostRecentEntry["Price"],
+    },
+  };
+
+  return output;
+};
+
 const handler = async (req, res) => {
   await checkCORS(req, res);
 
@@ -46,17 +122,6 @@ const handler = async (req, res) => {
     }
   );
 
-  const transaction = Sentry.getCurrentHub().getScope().getTransaction();
-  const span = transaction.startChild({
-    data: {
-      result: response.data,
-    },
-    op: "task",
-    description: `processing CoinGecko results`,
-  });
-
-  span.setStatus(spanStatusfromHttpCode(response.status));
-
   if (!response.data.prices.length) {
     res.status(200).json({
       canProceed,
@@ -68,73 +133,22 @@ const handler = async (req, res) => {
     return;
   }
 
-  const data = response.data.prices.map((entry) => ({
-    date: new Date(entry[0]).toLocaleDateString(),
-    coinPrice: parseFloat(entry[1]).toFixed(6),
-  }));
-
-  const reduced = data.reduce((prev, current, index) => {
-    if (index === 0) {
-      return [current];
-    }
-
-    const isNth = index % 7 === 0;
-    if (isNth) {
-      // Make sure there are no duplicates
-      if (prev.find((e) => e.date === current.date)) {
-        return prev;
-      }
-
-      return [...prev, current];
-    }
-
-    return prev;
-  }, []);
-
-  const firstInvestment = reduced[0];
-
-  const chartData = reduced.map((entry) => {
-    const coinPrice = parseFloat(firstInvestment.coinPrice);
-
-    const totalCrypto =
-      coinPrice === 0 ? 0 : parseFloat(payload.investment) / coinPrice;
-
-    const totalFIAT = payload.investment;
-    const balanceFIAT = parseFloat(totalCrypto * entry.coinPrice);
-
-    const percentageChange = getPercentageChange(totalFIAT, balanceFIAT);
-
-    return {
-      ...entry,
-      coinPrice: parseFloat(entry.coinPrice),
-      totalFIAT: parseFloat(payload.investment),
-      totalCrypto,
-      costAverage: parseFloat(coinPrice),
-      balanceFIAT,
-      balanceCrypto: totalCrypto,
-      percentageChange,
-    };
+  const transaction = Sentry.getCurrentHub().getScope().getTransaction();
+  const span = transaction.startChild({
+    data: {
+      result: response.data,
+    },
+    op: "task",
+    description: `processing CoinGecko results`,
   });
 
-  const mostRecentEntry = chartData[chartData.length - 1];
+  span.setStatus(spanStatusfromHttpCode(response.status));
 
-  const totalInvestment = mostRecentEntry.totalFIAT;
-  const totalValueFIAT = mostRecentEntry.balanceFIAT;
-  const percentageChange = mostRecentEntry.percentageChange;
-  const totalValueCrypto = mostRecentEntry.balanceCrypto;
-
-  const output = {
+  const output = generateLumpSumResponse({
     canProceed,
-    chartData,
-    insights: {
-      totalInvestment,
-      totalValue: { crypto: totalValueCrypto, fiat: totalValueFIAT },
-      percentageChange,
-      duration: dayjs(payload.dateTo).diff(payload.dateFrom),
-      opportunityCost: chartData[0].balanceCrypto * mostRecentEntry.coinPrice,
-      coinPrice: mostRecentEntry.coinPrice,
-    },
-  };
+    payload,
+    response,
+  });
 
   span.finish();
   transaction.finish();

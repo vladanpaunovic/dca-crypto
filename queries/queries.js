@@ -31,11 +31,16 @@ export const getLumpSumChartData = async (payload) => {
   return response.data;
 };
 
+export const getCommonChartData = async (payload) => {
+  const response = await apiClient.post("calculate/common", payload);
+
+  return response.data;
+};
+
 export const getCoinById = async (coinId) => {
   const response = await coinGecko.get(`coins/${coinId}`, {
     params: {
       tickers: false,
-      market_data: false,
       community_data: false,
       developer_data: false,
       localization: false,
@@ -43,11 +48,8 @@ export const getCoinById = async (coinId) => {
   });
 
   const output = {
-    name: response.data.name,
-    symbol: response.data.symbol,
-    id: response.data.id,
+    ...response.data,
     image: response.data.image.thumb,
-    market_cap_rank: response.data.market_cap_rank,
   };
 
   return output;

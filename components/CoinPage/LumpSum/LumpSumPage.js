@@ -1,9 +1,12 @@
 /* eslint-disable react/function-component-definition */
-import { Block } from "@tremor/react";
-import { useQuery } from "react-query";
-import { getLumpSumChartData } from "../../../queries/queries";
+import {
+  Accordion,
+  AccordionBody,
+  AccordionHeader,
+  Block,
+} from "@tremor/react";
 import { useAppContext } from "../../Context/Context";
-import Loading from "../../Loading/Loading";
+import CalloutPerformance from "../CalloutPerformance";
 import LumpSumCoinChart from "./LumpSumCoinChart";
 import LumpSumCoinTable from "./LumpSumCoinTable";
 import LumpSumTopCards from "./LumpSumTopCards";
@@ -11,34 +14,28 @@ import LumpSumTopCards from "./LumpSumTopCards";
 export default function LumpSumPage() {
   const { state } = useAppContext();
 
-  const investment =
-    state.chart.data.length * parseFloat(state.input.investment);
-
-  const input = { ...state.input, investment };
-
-  const chartData = useQuery({
-    queryFn: () => getLumpSumChartData(input),
-    queryKey: JSON.stringify(input),
-  });
-
-  if (!chartData.data) {
-    return (
-      <div className="p-8">
-        <Loading withWrapper width={20} height={20} />
-      </div>
-    );
-  }
+  const chartData = state.chart.lumpSum;
 
   return (
     <>
-      <LumpSumTopCards chartData={chartData.data} />
+      <LumpSumTopCards chartData={chartData} />
 
       <Block marginTop="mt-6">
-        <LumpSumCoinChart chartData={chartData.data} />
+        <LumpSumCoinChart chartData={chartData} />
       </Block>
 
       <Block marginTop="mt-6">
-        <LumpSumCoinTable chartData={chartData.data} />
+        <CalloutPerformance chartData={chartData} isLumpSum />
+      </Block>
+
+      <Block marginTop="mt-6">
+        <Accordion expanded={false} shadow={true} marginTop="mt-0">
+          <AccordionHeader>
+            <span className="text-gray-900">Purchase history</span>
+          </AccordionHeader>
+          <LumpSumCoinTable chartData={chartData} />
+          <AccordionBody></AccordionBody>
+        </Accordion>
       </Block>
     </>
   );

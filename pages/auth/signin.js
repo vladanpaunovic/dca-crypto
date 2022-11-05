@@ -45,11 +45,11 @@ function GoogleSignIn({ provider, callbackUrl }) {
       <button
         className={classNames(
           buttonStyle,
-          "hover:bg-gray-100 dark:hover:bg-gray-700"
+          "text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700"
         )}
         onClick={() => signIn(provider.id, { callbackUrl })}
       >
-        <div className="relative w-6 h-6 mr-2">
+        <div className=" relative w-6 h-6 mr-2">
           <Image
             src="/images/google-logo.svg"
             layout="fill"

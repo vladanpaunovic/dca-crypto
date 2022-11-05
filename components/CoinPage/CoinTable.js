@@ -1,6 +1,5 @@
 import { formatCurrency } from "@coingecko/cryptoformat";
 import {
-  Card,
   Table,
   TableRow,
   TableCell,
@@ -8,15 +7,9 @@ import {
   TableHeaderCell,
   TableBody,
   BadgeDelta,
-  Tracking,
-  TrackingBlock,
-  Title,
-  Text,
-  Divider,
 } from "@tremor/react";
 import { useAppContext } from "../Context/Context";
 import Currency from "../Currency/Currency";
-import getPercentageChange from "../helpers/getPercentageChange";
 
 const getDeltaType = (item) => {
   let deltaType = "unchanged";
@@ -35,6 +28,7 @@ const getDeltaType = (item) => {
 
   return deltaType;
 };
+
 const TableItem = ({ item }) => {
   const { state } = useAppContext();
 
@@ -54,16 +48,16 @@ const TableItem = ({ item }) => {
     <TableRow key={item.date}>
       <TableCell>{item.date}</TableCell>
       <TableCell textAlignment="text-right">
-        <Currency value={item.coinPrice} />
+        <Currency value={item["Price"]} />
       </TableCell>
       <TableCell textAlignment="text-right">
-        <Currency value={item.costAverage} />
+        <Currency value={item["Average cost"]} />
       </TableCell>
       <TableCell textAlignment="text-right">
-        <Currency value={item.totalFIAT} />
+        <Currency value={item["Total investment"]} />
       </TableCell>
       <TableCell textAlignment="text-right">
-        <Currency value={item.balanceFIAT} />
+        <Currency value={item["Balance in FIAT"]} />
       </TableCell>
       <TableCell textAlignment="text-right">
         {formatCurrency(
@@ -78,57 +72,14 @@ const TableItem = ({ item }) => {
   );
 };
 
-const CoinTracked = () => {
-  const { state } = useAppContext();
-  const statusStyles = {
-    moderateIncrease: "emerald",
-    moderateDecrease: "rose",
-    unchanged: "amber",
-  };
-
-  const profitLoss = state.chart.data.map((item) =>
-    item.percentageChange > 0 ? "profit" : "loss"
-  );
-
-  const onlyProfit = profitLoss.filter((pl) => pl === "profit");
-
-  const percentageDifference = getPercentageChange(
-    profitLoss.length,
-    onlyProfit.length
-  );
-
-  const inProfit = Math.round(100 - Math.abs(percentageDifference));
-
-  return (
-    <>
-      <Title>Profit/Loss every {state.input.investmentInterval} days</Title>
-      <Text>
-        Based on your purchase interval you would make profit {inProfit}% of the
-        time
-      </Text>
-      <Tracking marginTop="mt-6">
-        {state.chart.data.map((item) => (
-          <TrackingBlock
-            key={item.date}
-            color={statusStyles[getDeltaType(item)]}
-            tooltip={item.percentageChange}
-          />
-        ))}
-      </Tracking>
-    </>
-  );
-};
-
 export default function CoinTable() {
   const { state } = useAppContext();
 
   return (
-    <Card>
-      <CoinTracked items={state.chart.data} />
-
-      <Divider />
-      <Title marginTop="mt-6">Purchases breakdown</Title>
-      <Text>Detail view of all your purchases over the time</Text>
+    <>
+      <p className="pl-6 text-gray-500 text-sm">
+        Detail view of all your purchases over the time
+      </p>
       <Table marginTop="mt-6">
         <TableHead>
           <TableRow>
@@ -147,7 +98,7 @@ export default function CoinTable() {
             </TableHeaderCell>
             <TableHeaderCell textAlignment="text-right">
               {state.currentCoin.symbol.toUpperCase()} in{" "}
-              <Currency value={state.input.investment} />
+              <Currency value={state.chart.input.investment} />
             </TableHeaderCell>
             <TableHeaderCell textAlignment="text-right">
               Profit/Loss %
@@ -156,11 +107,11 @@ export default function CoinTable() {
         </TableHead>
 
         <TableBody>
-          {state.chart.data.map((item) => (
-            <TableItem key={item.name} item={item} />
+          {state.chart.dca.chartData.map((item) => (
+            <TableItem key={item.date} item={item} />
           ))}
         </TableBody>
       </Table>
-    </Card>
+    </>
   );
 }

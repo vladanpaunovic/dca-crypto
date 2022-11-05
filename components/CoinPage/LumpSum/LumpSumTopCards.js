@@ -1,26 +1,34 @@
 import {
   Card,
-  Callout,
   Metric,
   Text,
   Flex,
   BadgeDelta,
   ColGrid,
   CategoryBar,
+  Legend,
+  BarList,
 } from "@tremor/react";
 import { useAppContext } from "../../Context/Context";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import relativeTime from "dayjs/plugin/relativeTime";
+import localizedFormat from "dayjs/plugin/localizedFormat";
 import Currency from "../../Currency/Currency";
-import { useTweetMessage } from "../../TweetMessage/TweetMessage";
-import { TrendingUpIcon, TrendingDownIcon } from "@heroicons/react/solid";
-import { useQuery } from "react-query";
-import { getCoinPrice } from "../../../queries/queries";
-import getPercentageChange from "../../helpers/getPercentageChange";
+import CardTotalInvestment from "../TotalInvestment";
 
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
+dayjs.extend(localizedFormat);
+
+const valueFormatter = (number) =>
+  Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    currencyDisplay: "narrowSymbol",
+  })
+    .format(number)
+    .toString();
 
 const CardValueInFIAT = ({ chartData }) => {
   const { state } = useAppContext();
@@ -91,6 +99,15 @@ const CardValueInFIAT = ({ chartData }) => {
             : `Losing ${percentageChange}`
         }
       />
+      <Legend
+        categories={
+          isEarning
+            ? ["Investment", "Earnings"]
+            : ["Remaining investment", "Lost value"]
+        }
+        colors={["orange", color]}
+        marginTop="mt-3"
+      />
     </Card>
   );
 };
@@ -99,96 +116,48 @@ const CardCurrentCoin = ({ chartData }) => {
   const { state } = useAppContext();
   const coinSymbol = state.currentCoin.symbol.toUpperCase();
 
-  const query = useQuery({
-    queryFn: () => getCoinPrice(state.currentCoin.id),
-    queryKey: `price_${state.currentCoin.id}`,
-    refetchInterval: 60000, // 1 minute
-  });
+  const currentPrice = state.chart.lumpSum.insights.coinPrice;
 
-  const isEarning = chartData.chartData[0].coinPrice < query.data;
+  const isEarning = chartData.chartData[0].coinPrice < currentPrice;
 
   const color = isEarning ? "emerald" : "pink";
 
-  console.log(chartData);
   const options = {
-    title: `${coinSymbol} current price`,
-    metric: query.data ? <Currency value={query.data} /> : "-",
+    title: `${coinSymbol} selling price`,
+    metric: <Currency value={currentPrice} />,
     metricPrev: (
-      <Currency value={chartData.chartData[0].coinPrice - query.data || 0} />
+      <Currency value={chartData.chartData[0].coinPrice - currentPrice || 0} />
     ),
     delta: <Currency value={chartData.chartData[0].coinPrice || 0} />,
     deltaType: isEarning ? "moderateDecrease" : "moderateIncrease",
   };
 
-  const percentageDiff = parseFloat(
-    getPercentageChange(query.data, chartData.chartData[0].coinPrice)
-  );
-  const categoryPercentageValues = isEarning
-    ? [100 - (100 - (percentageDiff + 100)), 100 - (percentageDiff + 100)]
-    : [100 - percentageDiff, percentageDiff];
-
-  const categoryBarColor = isEarning ? "pink" : "emerald";
-
-  const percentageValue = isEarning ? categoryPercentageValues[0] : 100;
+  const data = [
+    { name: "Buying price", value: chartData.chartData[0].coinPrice },
+    {
+      name: "Selling price",
+      value: chartData.chartData[chartData.chartData.length - 1].coinPrice,
+    },
+  ];
 
   return (
     <Card key={options.title}>
       <Text>{options.title}</Text>
-      <Flex
-        justifyContent="justify-start"
-        alignItems="items-baseline"
-        spaceX="space-x-3"
-        truncate
-      >
-        <Metric>{options.metric}</Metric>
-        <Text truncate>1st order at {options.delta}</Text>
-      </Flex>
-      <Flex justifyContent="justify-start" spaceX="space-x-2" marginTop="mt-4">
-        <BadgeDelta
-          tooltip="Buying price difference"
-          color={categoryBarColor}
-          isIncreasePositive={false}
-          text={options.metricPrev}
-          deltaType={options.deltaType}
-        />
-        <Flex justifyContent="justify-start" spaceX="space-x-1" truncate={true}>
-          <Text>price difference</Text>
-        </Flex>
-      </Flex>
 
-      <CategoryBar
-        categoryPercentageValues={categoryPercentageValues}
-        percentageValue={percentageValue}
-        colors={isEarning ? [color, "orange"] : ["orange", color]}
+      <Metric>{options.metric}</Metric>
+
+      <BarList
+        data={data}
+        color={color}
+        valueFormatter={valueFormatter}
         marginTop="mt-4"
-        showLabels={false}
-        tooltip={
-          isEarning
-            ? `Buying price was ${percentageDiff}% cheaper`
-            : `Buying price was more expensive by ${percentageDiff}%`
-        }
       />
     </Card>
   );
 };
 
-const CalloutPerformance = ({ chartData }) => {
-  const priceChartMessage = useTweetMessage({ isLumpSum: true, chartData });
-  const isEarning = chartData.insights.percentageChange > 0;
-  const color = isEarning ? "emerald" : "pink";
-  const icon = isEarning ? TrendingUpIcon : TrendingDownIcon;
-
-  return (
-    <Callout
-      icon={icon}
-      title={"Fact"}
-      text={priceChartMessage}
-      color={color}
-    />
-  );
-};
-
 export default function LumpSumTopCards({ chartData }) {
+  const { state } = useAppContext();
   return (
     <ColGrid
       gapX="gap-x-6"
@@ -201,7 +170,10 @@ export default function LumpSumTopCards({ chartData }) {
       <CardValueInFIAT chartData={chartData} />
       <CardCurrentCoin chartData={chartData} />
 
-      <CalloutPerformance chartData={chartData} />
+      <CardTotalInvestment
+        totalInvestment={state.chart.lumpSum.insights.totalInvestment}
+        text={`Once on ${dayjs(state.chart.input.dateFrom).format("L")}`}
+      />
     </ColGrid>
   );
 }

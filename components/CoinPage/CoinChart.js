@@ -3,12 +3,18 @@ import { Card, AreaChart, Title, Text, Divider } from "@tremor/react";
 import { useAppContext } from "../Context/Context";
 
 const valueFormatter = (number) =>
-  `$ ${Intl.NumberFormat("us").format(number).toString()}`;
+  Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    currencyDisplay: "narrowSymbol",
+  })
+    .format(number)
+    .toString();
 
 export default function CoinChart() {
   const { state } = useAppContext();
 
-  const isEarning = state.chart.insights.percentageChange > 0;
+  const isEarning = state.chart.dca.insights.percentageChange > 0;
 
   const color = isEarning ? "emerald" : "rose";
 
@@ -20,8 +26,8 @@ export default function CoinChart() {
       <Text>Estimate the development of your earnings over time</Text>
       <AreaChart
         marginTop="mt-4"
-        data={state.chart.data}
-        categories={["balanceFIAT", "totalFIAT"]}
+        data={state.chart.dca.chartData}
+        categories={["Balance in FIAT", "Total investment"]}
         dataKey="date"
         colors={[color, "amber"]}
         valueFormatter={valueFormatter}
@@ -36,8 +42,8 @@ export default function CoinChart() {
 
       <AreaChart
         marginTop="mt-4"
-        data={state.chart.data}
-        categories={["coinPrice", "costAverage"]}
+        data={state.chart.dca.chartData}
+        categories={["Price", "Average cost"]}
         dataKey="date"
         colors={["amber", color]}
         valueFormatter={valueFormatter}

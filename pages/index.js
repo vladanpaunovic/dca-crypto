@@ -5,7 +5,6 @@ import { CACHE_INVALIDATION_INTERVAL } from "../config";
 import { getAllCoins, getDCAChartData } from "../queries/queries";
 import { NextSeo } from "next-seo";
 import NavigationMenu from "../components/Menu/Menu";
-import CoinCalculator from "../components/LandingPage/CoinCalculator";
 import { generateDefaultInput } from "../common/generateDefaultInput";
 import dayjs from "dayjs";
 import AllCoinsTable from "../components/AllCoinsTable/AllCoinsTable";
@@ -78,13 +77,6 @@ function Home(props) {
           </div>
         </section>
 
-        <section className="container mx-auto my-8 md:p-8">
-          <CoinCalculator
-            chartData={props.chartData}
-            availableTokens={props.availableTokens}
-          />
-        </section>
-
         <div className="container mx-auto max-w-3xl bg-white dark:bg-gray-900 mt-16 mb-8 md:p-8">
           <div className="mb-16 px-6 md:px-0">
             <h2 className="text-base text-indigo-500 text-center dark:text-yellow-500 font-semibold tracking-wide uppercase">
@@ -109,11 +101,7 @@ function Home(props) {
             </p>
           </div>
           <div className="pr-4 dark:text-white">
-            <AllCoinsTable
-              showOnlyNTokens={10}
-              showSearch={false}
-              type="lump-sum"
-            />
+            <AllCoinsTable showOnlyNTokens={10} showSearch={false} />
           </div>
         </div>
       </main>

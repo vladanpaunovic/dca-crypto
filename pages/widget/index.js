@@ -27,16 +27,16 @@ dayjs.extend(relativeTime);
 
 const mapFormatting = (entry, currentCoin, currency) => {
   switch (entry.dataKey) {
-    case "coinPrice":
-    case "costAverage":
+    case "Price":
+    case "Average cost":
       return (
         <>
           {entry.name}: {formatCurrency(entry.value, currency)}
         </>
       );
 
-    case "totalFIAT":
-    case "balanceFIAT":
+    case "Total Investment":
+    case "Balance in FIAT":
       return (
         <span className="text-gray-400">
           {entry.name}: {formatCurrency(parseFloat(entry.value), currency)}
@@ -146,7 +146,7 @@ const CoinWrapper = (props) => {
 };
 
 const Chart = (props) => {
-  const { strokeSize } = useChartLegend("coinPrice", "costAverage");
+  const { strokeSize } = useChartLegend("Price", "costAverage");
   const color = "transparent";
 
   if (!props.dcaData) {
@@ -183,7 +183,7 @@ const Chart = (props) => {
           />
           <Area
             type="monotone"
-            dataKey="costAverage"
+            dataKey="Average cost"
             stroke="#82ca9d"
             strokeWidth={strokeSize.costAverage}
             fillOpacity={0}
@@ -193,7 +193,7 @@ const Chart = (props) => {
 
           <Area
             type="monotone"
-            dataKey="totalFIAT"
+            dataKey="Total Investment"
             stroke={color}
             fillOpacity={0}
             name="Investment"

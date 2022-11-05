@@ -26,7 +26,7 @@ const before90Days = dayjs().subtract(91, "days").format("YYYY-MM-DD");
 const InputForm = () => {
   const session = useSession();
   const appContext = useAppContext();
-  const generateUrl = useGenerateUrl("dca");
+  const generateUrl = useGenerateUrl();
   const { state, dispatch } = appContext;
   const currentCoin = state.currentCoin;
   const [isOpen, setIsOpen] = useState(false);
@@ -39,7 +39,7 @@ const InputForm = () => {
   const isSubmitDisabled = state.input.duration < 90 || !state.input.investment;
 
   const mutation = useMutation(
-    (payload) => apiClient.post("calculate/dca", payload),
+    (payload) => apiClient.post("calculate/common", payload),
     {
       onSuccess: (data) => {
         dispatch({
@@ -107,7 +107,7 @@ const InputForm = () => {
   return (
     <>
       <button
-        className={`fixed right-8 bottom-8 z-10 md:hidden p-2 bg-indigo-500 dark:bg-yellow-500 rounded-full shadow-xl text-white dark:text-gray-900 `}
+        className={`fixed right-8 bottom-8 z-10 md:hidden p-2 bg-indigo-500 rounded-full shadow-xl text-white`}
         onClick={() => {
           setIsOpen(!isOpen);
           setIsClicked(true);
@@ -127,9 +127,9 @@ const InputForm = () => {
             <span
               className={` ${
                 isClicked ? "animate-none" : "animate-ping"
-              } absolute inline-flex h-10 z-0 w-10 rounded-full bg-indigo-500 dark:bg-yellow-500 opacity-40`}
+              } absolute inline-flex h-10 z-0 w-10 rounded-full bg-indigo-500 opacity-40`}
             />
-            <span className="relative z-10 inline-flex rounded-full h-10 w-10 bg-indigo-500 dark:bg-yellow-500">
+            <span className="relative z-10 inline-flex rounded-full h-10 w-10 bg-indigo-500">
               <CalculatorIcon className="h-10 w-10" aria-hidden="true" />
             </span>
           </span>
@@ -137,9 +137,7 @@ const InputForm = () => {
       </button>
       <form
         className={`flex flex-col md:grid grid-cols-2 gap-4 overflow-y-auto p-4 ${
-          isOpen
-            ? "fixed md:static z-10 inset-0 bg-white dark:bg-gray-900"
-            : "hidden md:grid"
+          isOpen ? "fixed md:static z-10 inset-0 bg-white" : "hidden md:grid"
         }`}
         onSubmit={onSubmit}
         name="dca-crypto"
@@ -152,9 +150,7 @@ const InputForm = () => {
         </div>
         <div className="col-span-2">
           <label className="block">
-            <span className="font-medium text-gray-700 dark:text-gray-300">
-              Coin
-            </span>
+            <span className="font-medium text-gray-700">Coin</span>
             <div className="mt-1 flex rounded-md shadow-sm">
               <SelectCoin />
             </div>
@@ -162,9 +158,7 @@ const InputForm = () => {
         </div>
         <div className="col-span-2">
           <label className="block">
-            <span className="font-medium text-gray-700 dark:text-gray-300">
-              Investment
-            </span>
+            <span className="font-medium text-gray-700">Investment</span>
             <div className="mt-1 flex rounded-md shadow-sm">
               <select
                 onChange={(e) =>
@@ -173,7 +167,7 @@ const InputForm = () => {
                     payload: e.target.value,
                   })
                 }
-                className="no_arrows inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm dark:bg-gray-700 dark:border-gray-700 dark:text-gray-200"
+                className="no_arrows inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm"
                 value={state.settings.currency}
               >
                 {availableCurrencies.map((c) => (
@@ -196,14 +190,14 @@ const InputForm = () => {
                   })
                 }
                 name="investment"
-                className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200"
+                className="text-gray-900 focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
               />
             </div>
           </label>
         </div>
         <div className="col-span-2">
           <label className="block">
-            <span className="font-medium text-gray-700 dark:text-gray-300">
+            <span className="font-medium text-gray-700">
               Investment interval
             </span>
             <select
@@ -215,7 +209,7 @@ const InputForm = () => {
               }
               name="investmentInterval"
               value={state.input.investmentInterval || ""}
-              className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200"
+              className="text-gray-900 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
             >
               {availableInvestmentIntervals.map((interval) => (
                 <option key={interval.value} value={interval.value}>
@@ -228,11 +222,10 @@ const InputForm = () => {
 
         <div className="col-span-2">
           <label className="block">
-            <span className="font-medium text-gray-700 dark:text-gray-300">
-              From
-            </span>
+            <span className="font-medium text-gray-700">From</span>
             <input
-              className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200"
+              style={{ colorScheme: "light" }}
+              className="text-gray-900 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
               type="date"
               value={state.input.dateFrom}
               max={before90Days}
@@ -248,11 +241,10 @@ const InputForm = () => {
         </div>
         <div className="col-span-2">
           <label className="block">
-            <span className="font-medium text-gray-700 dark:text-gray-300">
-              To
-            </span>
+            <span className="font-medium text-gray-700">To</span>
             <input
-              className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200"
+              style={{ colorScheme: "light" }}
+              className="text-gray-900 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
               type="date"
               value={state.input.dateTo}
               onChange={(e) =>
@@ -269,7 +261,7 @@ const InputForm = () => {
         <div className="col-span-2">
           <button
             type="submit"
-            className="px-4 py-2 w-full disabled:opacity-50 rounded bg-gray-900 hover:bg-gray-800 text-base text-white dark:bg-gray-50 dark:hover:bg-gray-200 dark:text-gray-900 font-bold shadow"
+            className="px-4 py-2 w-full disabled:opacity-50 rounded bg-gray-900 hover:bg-gray-800 text-base text-white font-bold shadow"
             disabled={
               isSubmitDisabled || mutation.isLoading || freeTierLimitReached
             }
@@ -292,7 +284,7 @@ const InputForm = () => {
             </>
           ) : null}
           {canProceed.sessionUserCount ? (
-            <p className="text-xs p-2 bg-gray-100 dark:bg-gray-800 mt-4 rounded-lg">
+            <p className="text-xs p-2 bg-gray-100 mt-4 rounded-lg">
               Used free calculations:{" "}
               <b>
                 {canProceed.sessionUserCount} out of {canProceed.available}

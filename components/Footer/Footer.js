@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import * as ga from "../helpers/GoogleAnalytics";
 
 const Footer = ({ availableTokens }) => {
-  const tokens = availableTokens.slice(0, 10);
+  const tokens = availableTokens.slice(0, 20);
   const dcaAllTokens = tokens.map((coin) => (
     <li key={coin.id}>
       <Link href={`/dca/${coin.id}`}>
@@ -29,29 +29,8 @@ const Footer = ({ availableTokens }) => {
     </li>
   ));
 
-  const lumpSumAllTokens = tokens.map((coin) => (
-    <li key={coin.id}>
-      <Link href={`/lump-sum/${coin.id}`}>
-        <a
-          className="text-gray-600 dark:text-gray-400 hover:underline"
-          onClick={() => {
-            ga.event({
-              action: "footer_link",
-              params: { calculator: "lump_sum", token: coin.name },
-            });
-          }}
-        >
-          <span className="text-gray-600 dark:text-gray-400 font-medium">
-            Lump sum
-          </span>{" "}
-          {coin.name}
-          <span className="sr-only">
-            Lump sum investing {coin.name} calculator
-          </span>
-        </a>
-      </Link>
-    </li>
-  ));
+  const first10Tokens = dcaAllTokens.slice(0, 10);
+  const second10Tokens = dcaAllTokens.slice(10, 20);
 
   return (
     <footer className="m-8">
@@ -86,14 +65,12 @@ const Footer = ({ availableTokens }) => {
               <p className="font-semibold tracking-wide text-gray-800 dark:text-gray-300">
                 DCA Calculator
               </p>
-              <ul className="mt-2 space-y-2">{dcaAllTokens}</ul>
+              <ul className="mt-2 space-y-2">{first10Tokens}</ul>
             </div>
 
             <div>
-              <p className="font-semibold tracking-wide text-gray-800 dark:text-gray-300">
-                Lump sum calculator
-              </p>
-              <ul className="mt-2 space-y-2">{lumpSumAllTokens}</ul>
+              <div className="font-semibold tracking-wide text-gray-800 dark:text-gray-300 sm:h-6" />
+              <ul className="mt-2 space-y-2">{second10Tokens}</ul>
             </div>
 
             <div>

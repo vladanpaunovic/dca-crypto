@@ -28,17 +28,6 @@ const generateSitemaps = async () => {
     })
     .join("");
 
-  const lumpSumListSitemap = postList
-    .map((id) => {
-      return `
-          <url>
-            <loc>${`${WEBSITE_DOMAIN}/lump-sum/${id}`}</loc>
-            <lastmod>${getDate}</lastmod>
-            <changefreq>daily</changefreq>
-          </url>`;
-    })
-    .join("");
-
   const generatedSitemap = `
     <?xml version="1.0" encoding="UTF-8"?>
     <urlset
@@ -47,7 +36,6 @@ const generateSitemaps = async () => {
       xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
     >
       ${dcaListSitemap}
-      ${lumpSumListSitemap}
     </urlset>
   `;
 
