@@ -3,12 +3,10 @@ import {
   AppContextProvider,
   useAppContext,
 } from "../../components/Context/Context";
-import DataTable from "../../components/DataTable/DataTable";
-import Information from "../../components/Information/Information";
 import {
   getAllCoins,
   getCoinById,
-  getDCAChartData,
+  getCommonChartData,
 } from "../../queries/queries";
 import {
   // CACHE_INVALIDATION_INTERVAL,
@@ -18,34 +16,18 @@ import {
 import Footer from "../../components/Footer/Footer";
 import { generateDefaultInput } from "../../common/generateDefaultInput";
 import { NextSeo } from "next-seo";
-import BreadcrumbDCA from "../../components/Breadcrumb/BreadcrumbDCA";
-import WhatIsDCA from "../../components/LandingPage/WhatIsDCA";
 import dynamic from "next/dynamic";
 import Loading from "../../components/Loading/Loading";
-import NextImage from "next/image";
 import { formatPrice } from "../../components/Currency/Currency";
-import { TweetMessage } from "../../components/TweetMessage/TweetMessage";
 import dayjs from "dayjs";
 import Navigation from "../../components/Navigarion/Navigation";
-import Limit from "../../components/Limit/Limit";
 import { getCookie } from "cookies-next";
 import { FINGERPRING_ID } from "../../common/fingerprinting";
 import { unstable_getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]";
 import ErrorComponent from "../../components/Error/Error";
-
-const DynamicChart = dynamic(() => import("../../components/Chart/Chart"), {
-  ssr: false,
-  loading: () => <Loading withWrapper />,
-});
-
-const DynamicChartBalance = dynamic(
-  () => import("../../components/Chart/ChartBalance"),
-  {
-    ssr: false,
-    loading: () => <Loading withWrapper />,
-  }
-);
+import "@tremor/react/dist/esm/tremor.css";
+import CoinPage from "../../components/CoinPage/CoinPage";
 
 const DynamicAffiliateLinks = dynamic(
   () => import("../../components/AffiliateLinks/AffiliateLinks"),
@@ -71,9 +53,9 @@ export async function getServerSideProps(context) {
     authOptions
   );
 
-  const [availableTokens, chartData, currentCoin] = await Promise.all([
+  const [availableTokens, chart, currentCoin] = await Promise.all([
     getAllCoins(currency), // TODO: REMOVE
-    getDCAChartData({
+    getCommonChartData({
       ...payload,
       session,
       ...(fingerprint ? { fingerprint } : {}),
@@ -81,15 +63,10 @@ export async function getServerSideProps(context) {
     getCoinById(payload.coinId),
   ]);
 
-  // context.res.setHeader(
-  //   "Cache-Control",
-  //   `s-maxage=${CACHE_INVALIDATION_INTERVAL}, stale-while-revalidate`
-  // );
-
   return {
     props: {
       availableTokens,
-      chartData,
+      chart,
       currentCoin,
       ...payload,
     },
@@ -109,29 +86,29 @@ const Coin = () => {
     return <ErrorComponent error={state.chart.error} />;
   }
 
-  if (!state.chart.canProceed.proceed) {
-    return <Limit canProceed={state.chart.canProceed} />;
-  }
+  // if (!state.chart.canProceed.proceed) {
+  //   return <Limit canProceed={state.chart.canProceed} />;
+  // }
 
   return (
     <div className="w-full">
       <NextSeo
         title={`Dollar cost average ${state.currentCoin.name} (${coinSymbol}) calculator`}
         description={`Visualise and calculate historical returns of investing ${formatPrice(
-          state.input.investment
+          state.chart.input.investment
         )} in ${state.currentCoin.name} (${coinSymbol}) every ${
-          state.input.investmentInterval
-        } days from ${dayjs(state.input.dateFrom).format(
+          state.chart.input.investmentInterval
+        } days from ${dayjs(state.chart.input.dateFrom).format(
           "MMM YYYY"
         )} until now. See it on charts!`}
         canonical={`https://${WEBSITE_URL}/dca/${state.currentCoin.id}`}
         openGraph={{
           title: `Dollar cost average ${coinSymbol} calculator`,
           description: `Visualise and calculate historical returns of investing ${formatPrice(
-            state.input.investment
+            state.chart.input.investment
           )} in ${coinSymbol} every ${
-            state.input.investmentInterval
-          } days from ${dayjs(state.input.dateFrom).format(
+            state.chart.input.investmentInterval
+          } days from ${dayjs(state.chart.input.dateFrom).format(
             "MMM YYYY"
           )} until now. See it on charts!`,
           images: [
@@ -145,87 +122,7 @@ const Coin = () => {
         }}
       />
       <main>
-        <div className="grid grid-cols-6 w-full gap-8">
-          <div className="col-span-6">
-            <div className="flex items-center">
-              <h1 className="h1-title">
-                Dollar-cost averaging (DCA) calculator for{" "}
-                <span className="text-indigo-700 dark:text-yellow-500 capitalize">
-                  {state.currentCoin.name} ({coinSymbol})
-                </span>{" "}
-                backtesting
-              </h1>
-              {state.input.isLoading ? null : (
-                <div className="w-8 h-8 ml-2 hidden sm:block relative">
-                  <NextImage
-                    src={state.currentCoin.image}
-                    alt={`${state.currentCoin.name} logo`}
-                    layout="fill"
-                    objectFit="cover"
-                  />
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="col-span-6">
-            <BreadcrumbDCA
-              name={state.currentCoin.name}
-              coinId={state.currentCoin.id}
-            />
-
-            <div className="shadow-xl border bg-white dark:bg-gray-900 dark:border-gray-800 md:rounded-lg md:p-6 mb-8">
-              <div className="py-5 px-4 dark:bg-gray-900">
-                <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white">
-                  Price development of {coinSymbol}
-                </h3>
-                <TweetMessage />
-              </div>
-              <div className="h-96 md:p-4 dark:bg-gray-900 flex items-center">
-                <DynamicChart />
-              </div>
-            </div>
-            <div className="grid gap-8 mt-8 grid-cols-6">
-              <div
-                className={`col-span-6 md:col-span-3 shadow-xl border bg-white dark:bg-gray-900 dark:border-gray-800 md:rounded-lg mb-8 transition ${
-                  state.input.isLoading ? "opacity-10" : ""
-                }`}
-              >
-                <Information />
-              </div>
-              <div
-                className={`col-span-6 md:col-span-3 shadow-xl border bg-white dark:bg-gray-900 dark:border-gray-800 md:rounded-lg mb-8 transition  ${
-                  state.input.isLoading ? "opacity-10" : ""
-                }`}
-              >
-                <div className="px-4 py-5 sm:px-6">
-                  <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white">
-                    Balance of your asset valuation
-                  </h3>
-                  <p className="mt-1 max-w-2xl text-sm text-gray-500 dark:text-white">
-                    Estimate the development of your earnings over time
-                  </p>
-                </div>
-                <div className="h-72 md:p-4 dark:bg-gray-900 flex items-center">
-                  <DynamicChartBalance />
-                </div>
-              </div>
-            </div>
-            <div className="mb-8 block md:hidden">
-              <DynamicAffiliateLinks />
-            </div>
-            <div
-              className={`col-span-6 md:col-span-6 shadow overflow-hidden sm:rounded dark:border-gray-800 transition ${
-                state.input.isLoading ? "opacity-10" : ""
-              }`}
-            >
-              <DataTable />
-            </div>
-
-            <section className="mx-auto mt-8">
-              <WhatIsDCA />
-            </section>
-          </div>
-        </div>
+        <CoinPage currentCoin={state.currentCoin} coinSymbol={coinSymbol} />
       </main>
     </div>
   );
@@ -235,7 +132,7 @@ const CoinWrapper = (props) => {
   return (
     <AppContextProvider
       availableTokens={props.availableTokens}
-      chartData={props.chartData}
+      chart={props.chart}
       currentCoin={props.currentCoin}
     >
       <Navigation />
@@ -248,8 +145,8 @@ const CoinWrapper = (props) => {
             <DynamicAffiliateLinks />
           </div>
         </div>
-        <div className="w-12/12 mt-4 md:mt-0 md:p-8 flex-1">
-          <Coin {...props} />
+        <div className="w-12/12 pt-4 md:mt-0 md:p-6 flex-1">
+          <Coin />
         </div>
       </div>
       <div className="border-t dark:border-gray-700">
