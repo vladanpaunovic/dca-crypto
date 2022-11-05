@@ -53,6 +53,11 @@ const moduleExports = (phase) => ({
         destination: `/dca/bitcoin/?${DEFAULT_QUERYSTRING}`,
         permanent: true,
       },
+      {
+        source: "/lump-sum/:path*",
+        destination: "/dca/:path*",
+        permanent: true,
+      },
     ];
   },
   async rewrites() {
