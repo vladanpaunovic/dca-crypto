@@ -8,19 +8,19 @@
   }
 
   .primary-gradient {
-    @apply bg-gradient-to-br from-indigo-400 dark:from-yellow-400 to-indigo-600 dark:to-yellow-600;
+    @apply bg-gradient-to-br from-indigo-400 to-indigo-600;
   }
 
   .h1-title {
-    @apply text-4xl font-extrabold px-4 sm:px-0 text-gray-900 dark:text-gray-100;
+    @apply text-4xl font-extrabold px-4 sm:px-0 text-gray-900;
   }
 
   .landing-choose-coin-title {
-    @apply text-gray-900 dark:text-gray-400 font-semibold text-3xl md:text-5xl tracking-wide;
+    @apply text-gray-900 font-semibold text-3xl md:text-5xl tracking-wide;
   }
 
   .landing-choose-coin-title__variable {
-    @apply text-indigo-600 dark:text-yellow-500 font-bold inline-flex items-center cursor-pointer;
+    @apply text-indigo-600 font-bold inline-flex items-center cursor-pointer;
   }
 
   .landing-choose-coin-title__icon {
@@ -84,21 +84,16 @@ input[type="number"].no_arrows {
   background-color: #e5e7eb;
 }
 
-.dark
-  .react-select__option--is-focused:not(.react-select__option--is-selected) {
-  background-color: #111827;
-}
-
 /* Change Autocomplete styles in Chrome*/
-.dark input:-webkit-autofill,
-.dark input:-webkit-autofill:hover,
-.dark input:-webkit-autofill:focus,
-.dark textarea:-webkit-autofill,
-.dark textarea:-webkit-autofill:hover,
-.dark textarea:-webkit-autofill:focus,
-.dark select:-webkit-autofill,
-.dark select:-webkit-autofill:hover,
-.dark select:-webkit-autofill:focus {
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
   -webkit-box-shadow: 0 0 0px 1000px #374151 inset;
   transition: background-color 5000s ease-in-out 0s;
 }

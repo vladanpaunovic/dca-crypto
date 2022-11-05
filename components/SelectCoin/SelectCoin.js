@@ -10,100 +10,8 @@ const colorsLight = {
   neutral0: "white",
 };
 
-const colorsDark = {
-  /*
-   * control/backgroundColor
-   * menu/backgroundColor
-   * option/color(selected)
-   */
-  neutral0: "#1F2937",
-
-  /*
-   * control/backgroundColor(disabled)
-   */
-  neutral5: "#6B7280",
-
-  /*
-   * control/borderColor(disabled)
-   * multiValue/backgroundColor
-   * indicators(separator)/backgroundColor(disabled)
-   */
-  neutral10: "#6B7280",
-
-  /*
-   * control/borderColor
-   * option/color(disabled)
-   * indicators/color
-   * indicators(separator)/backgroundColor
-   * indicators(loading)/color
-   */
-  neutral20: "#374151",
-
-  /*
-   * control/borderColor(focused)
-   * control/borderColor:hover
-   */
-  neutral30: "#374151",
-
-  /*
-   * menu(notice)/color
-   * singleValue/color(disabled)
-   * indicators/color:hover
-   */
-  neutral40: "#374151",
-
-  /*
-   * placeholder/color
-   */
-  neutral50: "#F3F4F6",
-
-  /*
-   * indicators/color(focused)
-   * indicators(loading)/color(focused)
-   */
-  neutral60: "#F3F4F6",
-
-  neutral70: "#F3F4F6",
-
-  /*
-   * input/color
-   * multiValue(label)/color
-   * singleValue/color
-   * indicators/color(focused)
-   * indicators/color:hover(focused)
-   */
-  neutral80: "#F3F4F6",
-
-  neutral90: "#F3F4F6",
-
-  /*
-   * control/boxShadow(focused)
-   * control/borderColor(focused)
-   * control/borderColor:hover(focused)
-   * option/backgroundColor(selected)
-   * option/backgroundColor:active(selected)
-   */
-  primary: "#6B7280",
-
-  /*
-   * option/backgroundColor(focused)
-   */
-  primary25: "#374151",
-
-  /*
-   * option/backgroundColor:active
-   */
-  primary50: "#374151",
-
-  primary75: "#374151",
-};
-
-export const getThemeColors = (projectTheme) => {
-  return projectTheme === "light" ? colorsLight : colorsDark;
-};
-
-export const getSelectTheme = (theme, projectTheme) => {
-  const currentColors = getThemeColors(projectTheme);
+export const getSelectTheme = (theme) => {
+  const currentColors = colorsLight;
   const output = {
     ...theme,
     borderRadius: 4,
@@ -125,7 +33,7 @@ const parseOptions = (options) =>
         <span className="text-xs text-gray-300 mr-2">
           #{option.market_cap_rank}
         </span>{" "}
-        {option.name}
+        <span className="text-gray-900 ">{option.name}</span>
       </span>
     ),
   }));
@@ -140,7 +48,7 @@ const SelectCoin = () => {
   const { state, dispatch } = useAppContext();
   const [mounted, setMounted] = useState(false);
   const currentCoin = state.currentCoin;
-  const themeColors = getThemeColors(projectTheme);
+  const themeColors = colorsLight;
 
   // When mounted on client, now we can show the UI
   useEffect(() => setMounted(true), []);
