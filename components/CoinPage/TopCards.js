@@ -154,7 +154,7 @@ const CardCurrentCoin = () => {
         truncate
       >
         <Metric>{options.metric}</Metric>
-        <Text truncate>first order at {options.delta}</Text>
+        <Text truncate>1st order {options.delta}</Text>
       </Flex>
 
       <BarList

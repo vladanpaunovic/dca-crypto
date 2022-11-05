@@ -1,5 +1,4 @@
 import Logo from "../Logo/Logo";
-import { useTheme } from "next-themes";
 import { ColorSwatchIcon } from "@heroicons/react/outline";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { Fragment } from "react";
