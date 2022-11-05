@@ -16,7 +16,6 @@ import BreadcrumbDCA from "../Breadcrumb/BreadcrumbDCA";
 import { useAppContext } from "../Context/Context";
 import CoinChart from "./CoinChart";
 import TopCards from "./TopCards";
-import NextImage from "next/image";
 import { formatPrice } from "../Currency/Currency";
 import dayjs from "dayjs";
 import CoinTable from "./CoinTable";
@@ -50,16 +49,6 @@ export default function CoinPage({ currentCoin, coinSymbol }) {
                 </span>{" "}
                 backtesting
               </h1>
-              {state.input.isLoading ? null : (
-                <div className="w-8 h-8 ml-2 hidden sm:block relative">
-                  <NextImage
-                    src={state.currentCoin.image}
-                    alt={`${state.currentCoin.name} logo`}
-                    layout="fill"
-                    objectFit="cover"
-                  />
-                </div>
-              )}
             </div>
             <Text>{description}</Text>
           </div>

@@ -7,7 +7,7 @@ import {
   BadgeDelta,
 } from "@tremor/react";
 import { useAppContext } from "../Context/Context";
-
+import NextImage from "next/image";
 import Currency, { formatPrice } from "../Currency/Currency";
 
 function isWhatPercentOf(min, max, number) {
@@ -61,8 +61,18 @@ const CardCurrentCoin = () => {
         <Text>
           #{state.currentCoin.market_cap_rank} {coinSymbol} Today Price
         </Text>
-
         <Flex justifyContent="justify-start" alignItems="items-end">
+          {state.input.isLoading ? null : (
+            <div className="w-8 mr-2 h-8 hidden sm:block relative">
+              <NextImage
+                src={state.currentCoin.image}
+                alt={`${state.currentCoin.name} logo`}
+                layout="fill"
+                objectFit="cover"
+              />
+            </div>
+          )}
+
           <Metric>
             <Currency value={state.currentCoin.market_data.current_price.usd} />
           </Metric>
