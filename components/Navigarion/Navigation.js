@@ -1,6 +1,6 @@
 import Logo from "../Logo/Logo";
 import { useTheme } from "next-themes";
-import { MoonIcon, SunIcon, ColorSwatchIcon } from "@heroicons/react/outline";
+import { ColorSwatchIcon } from "@heroicons/react/outline";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
@@ -63,7 +63,6 @@ const PackageLabel = ({ user }) => {
 };
 
 const AuthenticatedMenu = ({ session }) => {
-  const { theme, setTheme } = useTheme();
   const { data } = useSession();
   const router = useRouter();
   const isWeekPass = data.user.subscription?.type === "week_pass";
@@ -200,28 +199,6 @@ const AuthenticatedMenu = ({ session }) => {
               <Menu.Item>
                 {({ active }) => (
                   <button
-                    onClick={() =>
-                      setTheme(theme === "light" ? "dark" : "light")
-                    }
-                    className={classNames(
-                      active ? "bg-gray-100 dark:bg-gray-900" : "",
-                      "block w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-100"
-                    )}
-                  >
-                    <span className="flex items-center">
-                      {theme === "light" ? (
-                        <MoonIcon width={16} height={16} className="mr-1" />
-                      ) : (
-                        <SunIcon width={16} height={16} className="mr-1" />
-                      )}
-                      Change theme
-                    </span>
-                  </button>
-                )}
-              </Menu.Item>
-              <Menu.Item>
-                {({ active }) => (
-                  <button
                     onClick={() => signOut()}
                     className={classNames(
                       active ? "bg-gray-100 dark:bg-gray-900" : "",
@@ -243,8 +220,6 @@ const AuthenticatedMenu = ({ session }) => {
 
 const Navigation = () => {
   const { status, data } = useSession();
-  const { theme, setTheme } = useTheme();
-
   return (
     <header className="text-indigo-700 body-font shadow w-full bg-white dark:bg-gray-900 px-4 py-2 sm:px-4 border-b dark:border-gray-700">
       <div className="mx-auto flex flex-wrap justify-between flex-row items-center ">
@@ -255,16 +230,6 @@ const Navigation = () => {
             <AuthenticatedMenu session={data} />
           ) : (
             <>
-              <button
-                className="transition dark:text-white text-gray hover:text-gray-900 rounded-full p-1 mr-2 focus:outline-none"
-                onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-              >
-                {theme === "light" ? (
-                  <MoonIcon className="w-5 h-5" />
-                ) : (
-                  <SunIcon className="w-5 h-5" />
-                )}
-              </button>
               <UnAuthenticatedMenu />
             </>
           )}

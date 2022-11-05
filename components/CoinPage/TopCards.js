@@ -7,17 +7,26 @@ import {
   ColGrid,
   CategoryBar,
   Legend,
+  BarList,
 } from "@tremor/react";
 import { useAppContext } from "../Context/Context";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import relativeTime from "dayjs/plugin/relativeTime";
 import Currency, { formatPrice } from "../Currency/Currency";
-import getPercentageChange from "../helpers/getPercentageChange";
 import CardTotalInvestment from "./TotalInvestment";
 
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
+
+const valueFormatter = (number) =>
+  Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    currencyDisplay: "narrowSymbol",
+  })
+    .format(number)
+    .toString();
 
 const CardValueInFIAT = () => {
   const { state } = useAppContext();
@@ -124,16 +133,16 @@ const CardCurrentCoin = () => {
     deltaType: isEarning ? "moderateDecrease" : "moderateIncrease",
   };
 
-  const percentageDiff = parseFloat(
-    getPercentageChange(currentPrice, state.chart.dca.insights.costAverage)
-  );
-  const categoryPercentageValues = isEarning
-    ? [100 - (100 - (percentageDiff + 100)), 100 - (percentageDiff + 100)]
-    : [100 - percentageDiff, percentageDiff];
-
-  const categoryBarColor = isEarning ? "pink" : "emerald";
-
-  const percentageValue = categoryPercentageValues[0];
+  const data = [
+    {
+      name: "Average price",
+      value: state.chart.dca.insights.costAverage,
+    },
+    {
+      name: "Selling price",
+      value: currentPrice,
+    },
+  ];
 
   return (
     <Card key={options.title}>
@@ -145,42 +154,14 @@ const CardCurrentCoin = () => {
         truncate
       >
         <Metric>{options.metric}</Metric>
-        <Text truncate>bought at {options.delta}</Text>
-      </Flex>
-      <Flex justifyContent="justify-start" spaceX="space-x-2" marginTop="mt-4">
-        <BadgeDelta
-          tooltip="Average price paid per one coin over time"
-          color={categoryBarColor}
-          isIncreasePositive={false}
-          text={options.metricPrev}
-          deltaType={options.deltaType}
-        />
-        <Flex justifyContent="justify-start" spaceX="space-x-1" truncate={true}>
-          <Text>average price</Text>
-        </Flex>
+        <Text truncate>first order at {options.delta}</Text>
       </Flex>
 
-      <CategoryBar
-        categoryPercentageValues={categoryPercentageValues}
-        percentageValue={percentageValue}
-        colors={["orange", color]}
+      <BarList
+        data={data}
+        color={color}
+        valueFormatter={valueFormatter}
         marginTop="mt-4"
-        showLabels={false}
-        tooltip={
-          isEarning
-            ? `Average price is ${percentageDiff}% cheaper`
-            : `Average price is more expensive by ${percentageDiff}%`
-        }
-      />
-
-      <Legend
-        categories={
-          isEarning
-            ? ["Average price", "Interest"]
-            : ["Selling price", "Average price"]
-        }
-        colors={["orange", color]}
-        marginTop="mt-3"
       />
     </Card>
   );

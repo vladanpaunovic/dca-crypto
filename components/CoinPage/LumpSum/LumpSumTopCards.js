@@ -7,6 +7,7 @@ import {
   ColGrid,
   CategoryBar,
   Legend,
+  BarList,
 } from "@tremor/react";
 import { useAppContext } from "../../Context/Context";
 import dayjs from "dayjs";
@@ -14,12 +15,20 @@ import duration from "dayjs/plugin/duration";
 import relativeTime from "dayjs/plugin/relativeTime";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import Currency from "../../Currency/Currency";
-import getPercentageChange from "../../helpers/getPercentageChange";
 import CardTotalInvestment from "../TotalInvestment";
 
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
 dayjs.extend(localizedFormat);
+
+const valueFormatter = (number) =>
+  Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    currencyDisplay: "narrowSymbol",
+  })
+    .format(number)
+    .toString();
 
 const CardValueInFIAT = ({ chartData }) => {
   const { state } = useAppContext();
@@ -123,63 +132,25 @@ const CardCurrentCoin = ({ chartData }) => {
     deltaType: isEarning ? "moderateDecrease" : "moderateIncrease",
   };
 
-  const percentageDiff = parseFloat(
-    getPercentageChange(currentPrice, chartData.chartData[0].coinPrice)
-  );
-  const categoryPercentageValues = isEarning
-    ? [100 - (100 - (percentageDiff + 100)), 100 - (percentageDiff + 100)]
-    : [100 - percentageDiff, percentageDiff];
-
-  const categoryBarColor = isEarning ? "pink" : "emerald";
-
-  const percentageValue = categoryPercentageValues[0];
+  const data = [
+    { name: "Buying price", value: chartData.chartData[0].coinPrice },
+    {
+      name: "Selling price",
+      value: chartData.chartData[chartData.chartData.length - 1].coinPrice,
+    },
+  ];
 
   return (
     <Card key={options.title}>
       <Text>{options.title}</Text>
-      <Flex
-        justifyContent="justify-start"
-        alignItems="items-baseline"
-        spaceX="space-x-3"
-        truncate
-      >
-        <Metric>{options.metric}</Metric>
-        <Text truncate>bought at {options.delta}</Text>
-      </Flex>
-      <Flex justifyContent="justify-start" spaceX="space-x-2" marginTop="mt-4">
-        <BadgeDelta
-          tooltip="Buying price difference"
-          color={categoryBarColor}
-          isIncreasePositive={false}
-          text={options.metricPrev}
-          deltaType={options.deltaType}
-        />
-        <Flex justifyContent="justify-start" spaceX="space-x-1" truncate={true}>
-          <Text>price difference</Text>
-        </Flex>
-      </Flex>
 
-      <CategoryBar
-        categoryPercentageValues={categoryPercentageValues}
-        percentageValue={percentageValue}
-        colors={["orange", color]}
+      <Metric>{options.metric}</Metric>
+
+      <BarList
+        data={data}
+        color={color}
+        valueFormatter={valueFormatter}
         marginTop="mt-4"
-        showLabels={false}
-        tooltip={
-          isEarning
-            ? `Buying price was ${percentageDiff}% cheaper`
-            : `Buying price was more expensive by ${percentageDiff}%`
-        }
-      />
-
-      <Legend
-        categories={
-          isEarning
-            ? ["Buying price", "Interest"]
-            : ["Selling price", "Buying price"]
-        }
-        colors={["orange", color]}
-        marginTop="mt-3"
       />
     </Card>
   );

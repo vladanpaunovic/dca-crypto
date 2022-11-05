@@ -30,7 +30,9 @@ export default function LumpSumPage() {
 
       <Block marginTop="mt-6">
         <Accordion expanded={false} shadow={true} marginTop="mt-0">
-          <AccordionHeader>Purchase history</AccordionHeader>
+          <AccordionHeader>
+            <span className="text-gray-900">Purchase history</span>
+          </AccordionHeader>
           <LumpSumCoinTable chartData={chartData} />
           <AccordionBody></AccordionBody>
         </Accordion>
