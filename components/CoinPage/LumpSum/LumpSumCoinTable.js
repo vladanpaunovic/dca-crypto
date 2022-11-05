@@ -1,6 +1,5 @@
 import { formatCurrency } from "@coingecko/cryptoformat";
 import {
-  Card,
   Table,
   TableRow,
   TableCell,
@@ -8,7 +7,6 @@ import {
   TableHeaderCell,
   TableBody,
   BadgeDelta,
-  Text,
 } from "@tremor/react";
 import { useAppContext } from "../../Context/Context";
 import Currency from "../../Currency/Currency";
@@ -53,13 +51,13 @@ const TableItem = ({ item }) => {
         <Currency value={item.coinPrice} />
       </TableCell>
       <TableCell textAlignment="text-right">
-        <Currency value={item.costAverage} />
+        <Currency value={item["Buying price"]} />
       </TableCell>
       <TableCell textAlignment="text-right">
-        <Currency value={item.totalFIAT} />
+        <Currency value={item["Total investment"]} />
       </TableCell>
       <TableCell textAlignment="text-right">
-        <Currency value={item.balanceFIAT} />
+        <Currency value={item["Balance in FIAT"]} />
       </TableCell>
       <TableCell textAlignment="text-right">
         {formatCurrency(
@@ -78,8 +76,10 @@ export default function LumpSumCoinTable({ chartData }) {
   const { state } = useAppContext();
 
   return (
-    <Card>
-      <Text>Detail view of all your purchases over the time</Text>
+    <>
+      <p className="pl-6 text-gray-500 text-sm">
+        Detail view of all your purchases over the time
+      </p>
       <Table marginTop="mt-6">
         <TableHead>
           <TableRow>
@@ -111,6 +111,6 @@ export default function LumpSumCoinTable({ chartData }) {
           ))}
         </TableBody>
       </Table>
-    </Card>
+    </>
   );
 }

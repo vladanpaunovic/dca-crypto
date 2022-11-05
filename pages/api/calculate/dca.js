@@ -49,7 +49,7 @@ export const generateDCAResponse = ({ response, payload, canProceed }) => {
 
     const totalFIAT = (index + 1) * payload.investment;
 
-    const costAverage = totalFIAT / balanceCrypto;
+    const costAverage = parseFloat(totalFIAT / balanceCrypto);
 
     const balanceFIAT = parseFloat(balanceCrypto * entry.coinPrice);
 
@@ -57,31 +57,35 @@ export const generateDCAResponse = ({ response, payload, canProceed }) => {
 
     return {
       ...entry,
-      coinPrice,
-      totalFIAT,
+      Price: coinPrice,
+      "Total investment": totalFIAT,
       totalCrypto: cryptoAmountInThisPurchase,
-      costAverage,
-      balanceFIAT,
+      "Average cost": costAverage,
+      "Balance in FIAT": balanceFIAT,
       balanceCrypto,
       percentageChange,
     };
   });
 
   const lastItem = chartData[chartData.length - 1];
-  const { balanceFIAT, balanceCrypto, percentageChange, coinPrice } = lastItem;
+  const { balanceCrypto, percentageChange } = lastItem;
 
   const output = {
     canProceed,
     chartData,
     insights: {
-      totalInvestment: lastItem.totalFIAT || payload.investment,
-      totalValue: { crypto: balanceCrypto.toFixed(6), fiat: balanceFIAT },
+      totalInvestment: lastItem["Total investment"] || payload.investment,
+      totalValue: {
+        crypto: balanceCrypto.toFixed(6),
+        fiat: lastItem["Balance in FIAT"],
+      },
       percentageChange,
       duration: dayjs(payload.dateTo).diff(payload.dateFrom),
-      opportunityCost: chartData[0].balanceCrypto * coinPrice,
-      lumpSum: (payload.investment / chartData[0].coinPrice) * coinPrice,
-      coinPrice,
-      costAverage: lastItem.costAverage,
+      opportunityCost: chartData[0].balanceCrypto * lastItem["Price"],
+      lumpSum:
+        (payload.investment / chartData[0].coinPrice) * lastItem["Price"],
+      coinPrice: lastItem["Price"],
+      costAverage: lastItem["Average cost"],
     },
   };
 

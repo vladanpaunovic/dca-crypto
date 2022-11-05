@@ -1,6 +1,12 @@
 /* eslint-disable react/function-component-definition */
-import { Block } from "@tremor/react";
+import {
+  Accordion,
+  AccordionBody,
+  AccordionHeader,
+  Block,
+} from "@tremor/react";
 import { useAppContext } from "../../Context/Context";
+import CalloutPerformance from "../CalloutPerformance";
 import LumpSumCoinChart from "./LumpSumCoinChart";
 import LumpSumCoinTable from "./LumpSumCoinTable";
 import LumpSumTopCards from "./LumpSumTopCards";
@@ -19,7 +25,15 @@ export default function LumpSumPage() {
       </Block>
 
       <Block marginTop="mt-6">
-        <LumpSumCoinTable chartData={chartData} />
+        <CalloutPerformance chartData={chartData} isLumpSum />
+      </Block>
+
+      <Block marginTop="mt-6">
+        <Accordion expanded={false} shadow={true} marginTop="mt-0">
+          <AccordionHeader>Purchase history</AccordionHeader>
+          <LumpSumCoinTable chartData={chartData} />
+          <AccordionBody></AccordionBody>
+        </Accordion>
       </Block>
     </>
   );

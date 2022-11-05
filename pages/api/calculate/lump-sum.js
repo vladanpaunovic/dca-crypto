@@ -11,7 +11,12 @@ import { FINGERPRING_ID } from "../../../common/fingerprinting";
 const convertDateStringToUnix = (dateString) =>
   Math.round(new Date(dateString).getTime() / 1000);
 
-export const generateLumpSumResponse = ({ response, canProceed, payload }) => {
+export const generateLumpSumResponse = ({
+  response,
+  canProceed,
+  payload,
+  investmentCount,
+}) => {
   const data = response.data.prices.map((entry) => ({
     date: new Date(entry[0]).toLocaleDateString(),
     coinPrice: parseFloat(entry[1]).toFixed(6),
@@ -38,23 +43,22 @@ export const generateLumpSumResponse = ({ response, canProceed, payload }) => {
   const firstInvestment = reduced[0];
 
   const chartData = reduced.map((entry) => {
+    const totalFIAT = payload.investment * investmentCount;
     const coinPrice = parseFloat(firstInvestment.coinPrice);
 
-    const totalCrypto =
-      coinPrice === 0 ? 0 : parseFloat(payload.investment) / coinPrice;
+    const totalCrypto = coinPrice === 0 ? 0 : parseFloat(totalFIAT) / coinPrice;
 
-    const totalFIAT = payload.investment;
     const balanceFIAT = parseFloat(totalCrypto * entry.coinPrice);
 
     const percentageChange = getPercentageChange(totalFIAT, balanceFIAT);
 
     return {
       ...entry,
-      coinPrice: parseFloat(entry.coinPrice),
-      totalFIAT: parseFloat(payload.investment),
+      Price: parseFloat(entry.coinPrice),
+      "Total investment": parseFloat(totalFIAT),
       totalCrypto,
-      costAverage: parseFloat(coinPrice),
-      balanceFIAT,
+      "Buying price": parseFloat(coinPrice),
+      "Balance in FIAT": balanceFIAT,
       balanceCrypto: totalCrypto,
       percentageChange,
     };
@@ -62,8 +66,8 @@ export const generateLumpSumResponse = ({ response, canProceed, payload }) => {
 
   const mostRecentEntry = chartData[chartData.length - 1];
 
-  const totalInvestment = mostRecentEntry.totalFIAT;
-  const totalValueFIAT = mostRecentEntry.balanceFIAT;
+  const totalInvestment = mostRecentEntry["Total investment"];
+  const totalValueFIAT = mostRecentEntry["Balance in FIAT"];
   const percentageChange = mostRecentEntry.percentageChange;
   const totalValueCrypto = mostRecentEntry.balanceCrypto;
 
@@ -75,8 +79,8 @@ export const generateLumpSumResponse = ({ response, canProceed, payload }) => {
       totalValue: { crypto: totalValueCrypto, fiat: totalValueFIAT },
       percentageChange,
       duration: dayjs(payload.dateTo).diff(payload.dateFrom),
-      opportunityCost: chartData[0].balanceCrypto * mostRecentEntry.coinPrice,
-      coinPrice: mostRecentEntry.coinPrice,
+      opportunityCost: chartData[0].balanceCrypto * mostRecentEntry["Price"],
+      coinPrice: mostRecentEntry["Price"],
     },
   };
 

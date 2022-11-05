@@ -20,6 +20,7 @@ export const useTweetMessage = (props) => {
   let chartData = state.chart.dca.chartData;
   let chartInsights = state.chart.dca.insights;
   let investment = state.input.investment || 0;
+  let costAverage = chartData[chartData.length - 1]["Average cost"];
 
   if (props?.isLumpSum) {
     isDca = false;
@@ -33,10 +34,10 @@ export const useTweetMessage = (props) => {
     investment =
       state.chart.dca.chartData.length *
       parseFloat(state.chart.input.investment);
+    costAverage = chartData[0].coinPrice;
   }
 
   const coinSymbol = state.currentCoin.symbol.toUpperCase();
-  const costAverage = chartData[chartData.length - 1]?.costAverage;
 
   const earnings = chartInsights.totalValue?.fiat || 0;
   const currency = state.settings.currency;

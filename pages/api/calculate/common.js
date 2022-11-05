@@ -73,13 +73,11 @@ const handler = async (req, res) => {
     response,
     payload,
     canProceed,
+    investmentCount: dca.chartData.length,
   });
 
   span.finish();
   transaction.finish();
-
-  // TODO - REMOVE!
-  canProceed = { proceed: true };
 
   res.status(200).json({ dca, lumpSum, canProceed, input: payload });
 };

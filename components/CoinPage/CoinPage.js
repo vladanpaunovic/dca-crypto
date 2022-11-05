@@ -2,23 +2,28 @@ import {
   Card,
   ColGrid,
   Text,
-  Metric,
   Tab,
   TabList,
   Block,
   Col,
+  Title,
+  Accordion,
+  AccordionHeader,
+  AccordionBody,
 } from "@tremor/react";
-
 import { useState } from "react";
 import BreadcrumbDCA from "../Breadcrumb/BreadcrumbDCA";
 import { useAppContext } from "../Context/Context";
 import CoinChart from "./CoinChart";
 import TopCards from "./TopCards";
 import NextImage from "next/image";
-import Currency, { formatPrice } from "../Currency/Currency";
+import { formatPrice } from "../Currency/Currency";
 import dayjs from "dayjs";
 import CoinTable from "./CoinTable";
 import LumpSumPage from "./LumpSum/LumpSumPage";
+import CalloutPerformance from "./CalloutPerformance";
+import CardCurrentCoin from "./CardCurrentCoin";
+import CoinTracked from "./CoinTracked";
 
 export default function CoinPage({ currentCoin, coinSymbol }) {
   const [selectedView, setSelectedView] = useState(1);
@@ -61,13 +66,7 @@ export default function CoinPage({ currentCoin, coinSymbol }) {
           <BreadcrumbDCA name={currentCoin.name} coinId={currentCoin.id} />
         </Col>
         <Col>
-          <Card>
-            <Text>Total Investment</Text>
-
-            <Metric>
-              <Currency value={state.chart.dca.insights.totalInvestment} />
-            </Metric>
-          </Card>
+          <CardCurrentCoin />
         </Col>
       </ColGrid>
 
@@ -75,6 +74,7 @@ export default function CoinPage({ currentCoin, coinSymbol }) {
         defaultValue={1}
         handleSelect={(value) => setSelectedView(value)}
         marginTop="mt-2"
+        color="indigo"
       >
         <Tab value={1} text="Dollar Cost Average" />
         <Tab value={2} text="Lump Sum" />
@@ -89,12 +89,36 @@ export default function CoinPage({ currentCoin, coinSymbol }) {
           </Block>
 
           <Block marginTop="mt-6">
-            <CoinTable />
+            <CalloutPerformance />
+          </Block>
+
+          <Block marginTop="mt-6">
+            <Card>
+              <CoinTracked />
+            </Card>
+          </Block>
+
+          <Block marginTop="mt-6">
+            <Accordion expanded={false} shadow={true} marginTop="mt-0">
+              <AccordionHeader>Purchase history</AccordionHeader>
+              <CoinTable />
+              <AccordionBody></AccordionBody>
+            </Accordion>
           </Block>
         </>
       )}
 
       {selectedView === 2 && <LumpSumPage />}
+
+      <Card marginTop="mt-6">
+        <Title>What is {currentCoin.name}?</Title>
+
+        <div className="mt-4 prose prose-sm max-w-none">
+          <div
+            dangerouslySetInnerHTML={{ __html: currentCoin.description.en }}
+          />
+        </div>
+      </Card>
     </main>
   );
 }

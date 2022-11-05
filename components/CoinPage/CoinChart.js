@@ -3,7 +3,13 @@ import { Card, AreaChart, Title, Text, Divider } from "@tremor/react";
 import { useAppContext } from "../Context/Context";
 
 const valueFormatter = (number) =>
-  `$ ${Intl.NumberFormat("us").format(number).toString()}`;
+  Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    currencyDisplay: "narrowSymbol",
+  })
+    .format(number)
+    .toString();
 
 export default function CoinChart() {
   const { state } = useAppContext();
@@ -21,7 +27,7 @@ export default function CoinChart() {
       <AreaChart
         marginTop="mt-4"
         data={state.chart.dca.chartData}
-        categories={["balanceFIAT", "totalFIAT"]}
+        categories={["Balance in FIAT", "Total investment"]}
         dataKey="date"
         colors={[color, "amber"]}
         valueFormatter={valueFormatter}
@@ -37,7 +43,7 @@ export default function CoinChart() {
       <AreaChart
         marginTop="mt-4"
         data={state.chart.dca.chartData}
-        categories={["coinPrice", "costAverage"]}
+        categories={["Price", "Average cost"]}
         dataKey="date"
         colors={["amber", color]}
         valueFormatter={valueFormatter}
