@@ -36,7 +36,7 @@ You can easily change this by adjusting the parameters on the left side. And go 
 
 Value in FIAT, BTC selling price and Total investment cards are easiest to understand. We'll try to explain them a little better though:
 
-**What is DCA _Value in FIAT_ card*?***
+**What is DCA _Value in FIAT_ card?**
 
 This card displays the final value of your investments after the dollar cost averaging period is done. Here you can see the results of your investment over time, and this card will help you better understand how dollar cost averaging affects the value of your investment.
 
