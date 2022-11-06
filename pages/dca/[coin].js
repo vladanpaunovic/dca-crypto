@@ -64,6 +64,12 @@ export async function getServerSideProps(context) {
     getCoinById(payload.coinId),
   ]);
 
+  if (!currentCoin) {
+    return {
+      notFound: true,
+    };
+  }
+
   return {
     props: {
       availableTokens,

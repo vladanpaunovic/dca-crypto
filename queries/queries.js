@@ -38,19 +38,26 @@ export const getCommonChartData = async (payload) => {
 };
 
 export const getCoinById = async (coinId) => {
-  const response = await coinGecko.get(`coins/${coinId}`, {
-    params: {
-      tickers: false,
-      community_data: false,
-      developer_data: false,
-      localization: false,
-    },
-  });
+  let response;
+  let output;
 
-  const output = {
-    ...response.data,
-    image: response.data.image.thumb,
-  };
+  try {
+    response = await coinGecko.get(`coins/${coinId}`, {
+      params: {
+        tickers: false,
+        community_data: false,
+        developer_data: false,
+        localization: false,
+      },
+    });
+
+    output = {
+      ...response.data,
+      image: response.data.image.thumb,
+    };
+  } catch (error) {
+    output = null;
+  }
 
   return output;
 };
