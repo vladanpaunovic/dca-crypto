@@ -43,7 +43,7 @@ async function handler(req, res) {
     });
 
     const tweetInThread = await twitterClient.post("statuses/update", {
-      status: `${posts[1].message} ${posts[1].url}`,
+      status: `${posts[1].message}`,
       in_reply_to_status_id: tweet.id_str,
       auto_populate_reply_metadata: true,
     });
