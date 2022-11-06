@@ -1,11 +1,7 @@
 import { withSentry } from "@sentry/nextjs";
 import { generateDefaultInput } from "../../../common/generateDefaultInput";
 import { defaultCurrency, WEBSITE_URL } from "../../../config";
-import {
-  getAllCoins,
-  getDCAChartData,
-  getLumpSumChartData,
-} from "../../../queries/queries";
+import { getAllCoins, getCommonChartData } from "../../../queries/queries";
 import { formatPrice } from "../../../components/Currency/Currency";
 import dayjs from "dayjs";
 import queryString from "query-string";
@@ -56,10 +52,10 @@ const generateLumpSumTweetMessage = (payload) =>
       : payload.percentageChange
   }`;
 
-const generateSummaryMessage = (dca, lumpSum) => {
+const generateSummaryMessage = (charts) => {
   const totalValue = {
-    DCA: parseInt(dca.insights.totalValue.fiat),
-    LUMPSUM: parseInt(lumpSum.insights.totalValue.fiat),
+    DCA: parseInt(charts.dca.insights.totalValue.fiat),
+    LUMPSUM: parseInt(charts.lumpSum.insights.totalValue.fiat),
   };
 
   if (totalValue.DCA > totalValue.LUMPSUM) {
@@ -97,31 +93,28 @@ async function handler(req, res) {
     dateTo: today,
   });
 
-  const dcaChartData = await getDCAChartData(payload);
+  const dcaChartData = await getCommonChartData(payload);
 
   const tweetMessage = generateDCATweetMessage({
     coinName: randomCoin.name,
     coinSymbol: randomCoin.symbol.toUpperCase(),
     investment: payload.investment,
     intervalLabel: randomInterval.label,
-    totalInvestment: dcaChartData.insights.totalInvestment,
-    totalValueFiat: dcaChartData.insights.totalValue.fiat,
+    totalInvestment: dcaChartData.dca.insights.totalInvestment,
+    totalValueFiat: dcaChartData.dca.insights.totalValue.fiat,
     years: randomYears,
   });
 
-  const lumpSumChartData = await getLumpSumChartData({
-    ...payload,
-    investment: dcaChartData.insights.totalInvestment,
-  });
   const threadMessage = generateLumpSumTweetMessage({
-    investment: lumpSumChartData.insights.totalInvestment,
+    investment: dcaChartData.lumpSum.insights.totalInvestment,
     coinSymbol: randomCoin.symbol.toUpperCase(),
     coinName: randomCoin.name,
-    earnings: lumpSumChartData.insights.totalValue?.fiat || 0,
+    earnings: dcaChartData.lumpSum.insights.totalValue?.fiat || 0,
     startPrice:
-      lumpSumChartData.chartData[lumpSumChartData.chartData.length - 1]
-        ?.costAverage,
-    percentageChange: lumpSumChartData.insights.percentageChange,
+      dcaChartData.lumpSum.chartData[dcaChartData.lumpSum.chartData.length - 1][
+        "Buying price"
+      ],
+    percentageChange: dcaChartData.lumpSum.insights.percentageChange,
     years: randomYears,
   });
 
@@ -133,23 +126,15 @@ async function handler(req, res) {
     currency: defaultCurrency,
   });
 
-  const lumpSumQueryString = queryString.stringify({
-    investment: lumpSumChartData.insights.totalInvestment,
-    investmentInterval: randomInterval.value,
-    dateFrom: beforeNYears,
-    currency: defaultCurrency,
-  });
-
   const dcaChartUrl = `https://${WEBSITE_URL}/dca/${randomCoin.id}/?${dcaQueryString}`;
-  const lumpSumChartUrl = `https://${WEBSITE_URL}/lump-sum/${randomCoin.id}/?${lumpSumQueryString}`;
 
-  const summaryMessage = generateSummaryMessage(dcaChartData, lumpSumChartData);
+  const summaryMessage = generateSummaryMessage(dcaChartData);
   try {
     res.status(200).json({
       status: "ok",
       posts: [
         { message: tweetMessage, url: dcaChartUrl },
-        { message: threadMessage, url: lumpSumChartUrl },
+        { message: threadMessage, url: null },
         {
           message: `${summaryMessage} #${randomCoin.symbol.toUpperCase()}`,
           url: null,
