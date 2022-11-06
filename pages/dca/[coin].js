@@ -64,6 +64,8 @@ export async function getServerSideProps(context) {
     getCoinById(payload.coinId),
   ]);
 
+  const content = require(`../../content/guides/usage-guide.md`);
+
   if (!currentCoin) {
     return {
       notFound: true,
@@ -75,12 +77,13 @@ export async function getServerSideProps(context) {
       availableTokens,
       chart,
       currentCoin,
+      content,
       ...payload,
     },
   };
 }
 
-const Coin = () => {
+const Coin = ({ content }) => {
   const { state } = useAppContext();
 
   if (!state.currentCoin) {
@@ -129,7 +132,11 @@ const Coin = () => {
         }}
       />
       <main>
-        <CoinPage currentCoin={state.currentCoin} coinSymbol={coinSymbol} />
+        <CoinPage
+          content={content}
+          currentCoin={state.currentCoin}
+          coinSymbol={coinSymbol}
+        />
       </main>
     </div>
   );
@@ -153,7 +160,7 @@ const CoinWrapper = (props) => {
           </div>
         </div>
         <div className="w-12/12 pt-4 md:mt-0 md:p-6 flex-1">
-          <Coin />
+          <Coin content={props.content} />
         </div>
       </div>
       <div className="border-t dark:border-gray-700">
