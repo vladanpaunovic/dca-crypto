@@ -26,7 +26,7 @@ const CookieBanner = () => {
           <div className="p-4">
             <div className="flex items-center justify-between flex-wrap">
               <div className="flex items-start">
-                <div className="max-w-xl text-xs">
+                <div className="text-gray-900 max-w-xl text-xs">
                   <p className="font-semibold mb-2">
                     Why do we use cookies for?
                   </p>

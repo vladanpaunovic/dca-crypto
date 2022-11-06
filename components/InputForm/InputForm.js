@@ -145,7 +145,7 @@ const InputForm = () => {
       >
         <div className="md:hidden col-span-2 flex justify-end">
           <button type="button" onClick={() => setIsOpen(false)}>
-            <XIcon className="h-6 w-6" aria-hidden="true" />
+            <XIcon className="text-gray-900 h-6 w-6" aria-hidden="true" />
           </button>
         </div>
         <div className="col-span-2">
