@@ -23,6 +23,7 @@ import CardCurrentCoin from "./CardCurrentCoin";
 import CoinTracked from "./CoinTracked";
 import dynamic from "next/dynamic";
 import Loading from "react-loading";
+import DcaCCGuides from "./DcaCCGuides";
 
 const DynamicLumpSumPage = dynamic(() => import("./LumpSum/LumpSumPage"), {
   ssr: false,
@@ -37,7 +38,7 @@ const DynamicCoinTable = dynamic(() => import("./CoinTable"), {
   ssr: false,
 });
 
-export default function CoinPage({ currentCoin, coinSymbol }) {
+export default function CoinPage({ currentCoin, coinSymbol, content }) {
   const [selectedView, setSelectedView] = useState(1);
   const { state } = useAppContext();
 
@@ -120,6 +121,10 @@ export default function CoinPage({ currentCoin, coinSymbol }) {
           />
         </div>
       </Card>
+
+      <Block marginTop="mt-6">
+        <DcaCCGuides content={content} />
+      </Block>
     </main>
   );
 }
