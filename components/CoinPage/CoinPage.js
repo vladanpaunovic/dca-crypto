@@ -18,11 +18,18 @@ import CoinChart from "./CoinChart";
 import TopCards from "./TopCards";
 import { formatPrice } from "../Currency/Currency";
 import dayjs from "dayjs";
-import CoinTable from "./CoinTable";
-import LumpSumPage from "./LumpSum/LumpSumPage";
 import CalloutPerformance from "./CalloutPerformance";
 import CardCurrentCoin from "./CardCurrentCoin";
 import CoinTracked from "./CoinTracked";
+import dynamic from "next/dynamic";
+
+const DynamicLumpSumPage = dynamic(() => import("./LumpSum/LumpSumPage"), {
+  ssr: false,
+});
+
+const DynamicCoinTable = dynamic(() => import("./CoinTable"), {
+  ssr: false,
+});
 
 export default function CoinPage({ currentCoin, coinSymbol }) {
   const [selectedView, setSelectedView] = useState(1);
@@ -89,14 +96,14 @@ export default function CoinPage({ currentCoin, coinSymbol }) {
               <AccordionHeader>
                 <span className="text-gray-900">Purchase history</span>
               </AccordionHeader>
-              <CoinTable />
+              <DynamicCoinTable />
               <AccordionBody></AccordionBody>
             </Accordion>
           </Block>
         </>
       )}
 
-      {selectedView === 2 && <LumpSumPage />}
+      {selectedView === 2 && <DynamicLumpSumPage />}
 
       <Card marginTop="mt-6">
         <Title>What is {currentCoin.name}?</Title>

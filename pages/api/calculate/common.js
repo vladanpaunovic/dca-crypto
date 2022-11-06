@@ -35,16 +35,31 @@ const handler = async (req, res) => {
     }
   }
 
-  const response = await axios.get(
-    `https://api.coingecko.com/api/v3/coins/${payload.coinId}/market_chart/range`,
-    {
-      params: {
-        from: convertDateStringToUnix(payload.dateFrom),
-        to: convertDateStringToUnix(payload.dateTo),
-        vs_currency: payload.currency,
+  let response;
+
+  try {
+    response = await axios.get(
+      `https://api.coingecko.com/api/v3/coins/${payload.coinId}/market_chart/range`,
+      {
+        params: {
+          from: convertDateStringToUnix(payload.dateFrom),
+          to: convertDateStringToUnix(payload.dateTo),
+          vs_currency: payload.currency,
+        },
+      }
+    );
+  } catch (error) {
+    Sentry.captureException(error);
+
+    res.status(200).json({
+      canProceed,
+      error: {
+        message: error?.response?.data?.error,
+        subheading: "Try changing the coin.",
       },
-    }
-  );
+    });
+    return;
+  }
 
   if (!response.data.prices.length) {
     res.status(200).json({
