@@ -22,9 +22,15 @@ import CalloutPerformance from "./CalloutPerformance";
 import CardCurrentCoin from "./CardCurrentCoin";
 import CoinTracked from "./CoinTracked";
 import dynamic from "next/dynamic";
+import Loading from "react-loading";
 
 const DynamicLumpSumPage = dynamic(() => import("./LumpSum/LumpSumPage"), {
   ssr: false,
+  loading: () => (
+    <div className="h-screen">
+      <Loading withWrapper />
+    </div>
+  ),
 });
 
 const DynamicCoinTable = dynamic(() => import("./CoinTable"), {
