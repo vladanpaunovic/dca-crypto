@@ -1,125 +1,133 @@
 ## What is a DCA-CC Calculator and How to Use it?
 
-If you want to backtest your investment strategy, you should first have an idea of what your strategy is and how it will work.
+If you want to test out your investment strategy, you'll need to understand how it works and what you're hoping to achieve. This is where the DCA-CC calculator comes in - it can help you see if your strategy will generate the return you want.
 
-This calculator is separated in two modes: dollar cost average calculator and lump sum investing calculator.
+The calculator is separated into two modes: the dollar cost average calculator and the lump sum investing calculator. You can use either one to budget for your investments on a regular basis, or to invest all your money at once.
 
-These two calculators allow you to provision budgeting on a regular basis or investing all your money at once.
+To use the DCA-CC, start by entering a DCA or lump sum investment amount. Then, select the time period, interval, and investment you want to use. The calculator will show you how your strategy would perform under those conditions. You can also experiment with different parameters to see how they affect your results.
 
-You can use the DCA-CC to start with a given DCA or lump sum investment amount and see if it will generate the desired return over the time period, interval and investment you selected. You can also change these parameters and see how they affect your strategy.
+And that's not all! The DCA-CC also lets you see how your investment would fare if you used the lump sum strategy. So if you're not sure which approach is right for you, this calculator can help you compare and make the best decision.
 
 ### What is DCA (Dollar Cost Averaging)?
 
-Dollar Cost Averaging, or DCA, is a strategy used to buy more shares of an investment fund over time. This reduces the average price you pay per share, which can help prevent you from buying at too high a price. It basically means dividing your investments equally over a fixed period of time.
+DCA is like buying a little bit of your favorite cryptocurrency each week or month regardless of the price. By buying equal dollar amounts at regular intervals, you're helping to smooth out the bumps of a volatile market.
 
-Dollar Cost Averaging is a technique that is used to reduce the risk of investing in a volatile market. It involves purchasing an equal dollar amount of a cryptocurrency at regular intervals, regardless of the coin price.
+Think of it as when buying a house. When you want to buy a house, you don't just fork over all the cash upfront. You make a down payment, and then you pay the mortgage every month. Over time, the house is yours.
 
-The risk associated with DCA is that it may take more time than other strategies to recover losses incurred by falling prices. This can be mitigated by using DCA when the market is trending upwards, and not when it's trending downwards.
+DCA is like that, but with investments. You spread your investment out over time, so you're less likely to buy when the market is high. And just like with a house, you eventually own more and more of your investment.
+
+By buying a little bit of your favorite cryptocurrency each day, week or month, you're making small, regular payments that will help you get the coin you want without waiting for a price dip.
+
+Of course, there is always the risk that the price of the coin could continue to fall. However, this risk can be mitigated by using DCA when the market is trending upwards.
 
 ### How to use DCA-CC to backtest your dollar cost average strategy?
 
-A backtest is a simulation that tests an investment strategy on past data to see how it performs in the past. It can be used to test whether an investment strategy would have made money or not.
+Do you want to know how effective your dollar cost averaging strategy would have been in the past? The DCA-CC calculator can tell you for sure!
 
-The DCA-CC calculator tool is designed to help you do this.
+This tool is designed to help you backtest your investment strategy, so you can compare it against other strategies and decide which one is best for you.
 
-It will provide you with the results for your specific strategy, so you can compare it against other strategies and choose the best one for yourself.
+When you first use the tool, we'll make some assumptions about your potential investment. For example, we'll assume you're investing $10 in bitcoin every week for the past three years.
 
-When you first start out, we'll make some assumptions here when calculating your potential profit that will help you get the idea of what it might look like if you were investing over the last few years.
-
-The assumption we are making is that you will be investing **10$** buying **bitcoin**, every **week** in the **last 3 years**.
-
-You can easily change this by adjusting the parameters on the left side. And go from there.
+Of course, you can change the parameters at any time to get more accurate results. So why wait? Use the DCA-CC calculator tool now and find out how your investment strategy would have fared in the past.
 
 ## DCA Widgets
 
 ### **Top 3 cards**
 
-Value in FIAT, BTC selling price and Total investment cards are easiest to understand. We'll try to explain them a little better though:
+Value in FIAT, BTC selling price and Total investment cards are the easiest to understand. However, we'll give a little more explanation:
 
 #### **What is DCA _Value in FIAT_ card?**
 
-This card displays the final value of your investments after the dollar cost averaging period is done. Here you can see the results of your investment over time, and this card will help you better understand how dollar cost averaging affects the value of your investment.
+The Value in FIAT card is a great way to see the value of your investments after a dollar cost averaging period. This card can help you understand how DCA affects the value of your investment over time.
 
-The scale on the lower part of this widget displays the investments to interest ratio. In other words: it shows how much of your investment is lost or how much was added to your investment due to the earnings.
+The scale on the lower part of the widget displays the investment to interest ratio. In other words: it shows how much of your investment is lost or how much was added to your investment due to the earnings.
 
-#### **What is a DCA _selling price_ card?**
+#### **What does the DCA _Value in FIAT_ card show?**
 
-This card displays the value of the chosen cryptocurrency at the last day of your investment period - the selling price.
+This card lets you know how much your cryptocurrency is worth in Fiat currency at the end of your investment period. In other words, the price you sell it at.
 
-Together with the selling price it displays the price of your first order so you can put the market volatility into a perspective.
+The card also shows you the price of your first order, so you can see how the market volatility affects your investment over time.
 
-Finally, it displays the ratio of selling price to average price. This is helpful to showcase the value of your investment strategy and it's impact to your selling price over time.
+Lastly, the card shows the ratio of the selling price to the average price. This is helpful in determining the value of your investment strategy and how it impacts the selling price.
 
 #### **What is a DCA _Total Investment_ card?**
 
-The total investment card takes your initial investment and your investment interval, then multiplies it over the time period provided.
+The total investment card calculates how much money you would have invested, given an initial investment and an investment interval, over a specified period of time.
 
-It shows you how much money you invested over the time period of the dollar cost averaging.
+For example, if you invest $100 every month for 3 years, the total investment card would show you how much money you would have invested at the end of those 3 years.
 
 ### Charts
 
-We are showing two charts here: Earnings over time & Price over time. Both charts are helpful to put things in a bigger perspective and allow you to see what would be different if you entered or exited the market at a different time.
+We are presenting two charts here: a chart of earnings over time, and a chart of price over time. These charts can help provide context and perspective, and allow you to see what would be different if you entered or exited the market at a different time.
 
 #### **Earnings over time**
 
-This chart shows a two things 1) your balance in FIAT on a given day and 2) your total investment up to that day.
+This chart shows how much money you've made over time from your investments. It includes your balance in FIAT (the dollar equivalent of cryptocurrencies) as well as your total investment up to that day.
 
 #### **BTC price over time**
 
-This chart shows a two things 1) Price of the give cryptocurrency and 2) the average cost of a cryptocurrency on a given day.
+This chart shows the price of a given cryptocurrency over time, as well as the average cost of a cryptocurrency on any given day.
 
-This chart can help you understand the value of dollar cost averaging as a strategy and how it may may impact your earnings.
+This chart can help you understand the value of dollar cost averaging as a strategy, and how it may impact your earnings.
 
-### **What is Lump sum Fact?**
+### **What is a Fact card?**
 
-The "Fact" is an automated message, tailored to the investment strategy you selected, used to summarise all the information, from all the charts in a short, sharable sentence.
+The Fact card is an automated message that summarises all the information from all the charts in a short, sharable sentence.
 
 ### **What is Profit/Loss card?**
 
-This card is used to help you understand how often you would be making profit. This is a helpful tool to guide your risk management.
+The Profit/Loss card is a tool that can help you to better manage your risks by understanding how often you might be making a profit. As with everyhing else here, this card can provide guidance and clarity in your decision-making process.
 
 ### What is Purchase history?
 
-Here, you can find the table of purchases, with it's supplementing data, such as how much cryptocurrency you would buy on a given day with the money invested, how much would you profit or lose on a given time in history.
+What you'll find here is a table of purchase data, which includes information like how much cryptocurrency you could buy with the money invested on a given day, or how much you would have profited or lost at a given point in history.
 
 ### What is Lump Sum Investing strategy?
 
-A DCA-CC can be used to backtest your lump sum investment strategy. First, you need to set up the parameters for your DCA-CC. Then, you need to find a historical price series that matches the desired asset allocation and time horizon.
+Lump sum investing strategy is a method of investing where you invest a fixed sum of money all at once. This is in contrast to dollar-cost averaging, where you spread your investment into several installments over a period of time.
 
-Next, you need to find the desired investment interval and investment size.
+Lump sum investing has its pros and cons. On the plus side, you only have to make the investment decision once. And, if you’re investing in a volatile asset like cryptocurrency, you may benefit from buying when prices are low and selling when prices are high. On the downside, you could end up buying at the top of a market bubble – and we all know how those end.
 
-Finally, you need to set up the trading rules for your DCA-CC by specifying how much of each asset should be bought when rebalancing occurs.
-
-Lump sum investing is a type of investment strategy that involves investing your entire portfolio in one investment. This is a bold strategy. If the market goes down and you're risking all your money, then you will lose it all; however, if the market goes up and you risk a lot of your money, then there's more potential to get a lot wealthier in return.
-
-This strategy can be used by people with large portfolios to invest their entire savings in one big investment and then retire early.
+So, should you go with lump sum investing or dollar-cost averaging? That depends on your investment goals and your personal risk tolerance. If you’re the type of person who can stomach the ups and downs of the market, and you believe in the long-term potential of the asset you’re investing in, then lump sum investing may be the way to go.
 
 ## How to use DCA-CC to backtest your lump sum investment strategy?
 
-DCA-CC is a powerful and easy to use backtesting tool that can be used to test and optimise your investment strategy.
+DCA-CC is a powerful, easy to use backtesting tool that can be used to test and optimise your investment strategy.
 
-The DCA-CC calculator can help you calculate the performance of your investment strategy across different market conditions.
+The DCA-CC calculator will help you calculate the performance of your investment strategy across different market conditions.
 
 You can also compare your performance against other strategies such as dollar cost averaging.
 
+It's easy to use and only takes a few seconds to set up.
+
+Here's how it works:
+
+1. Enter the amount of money you want to invest.
+
+2. Choose the cryptocurrency you want to invest in.
+
+3. Choose a time range
+
+4. Press the "Calculate" button.
+
+The DCA-CC calculator will then show you how much money you would have made if you had invested that money in the cryptocurrency at that price.
+
 ## Lump Sum Widgets
 
-Both lump sim investment and DCA widgets are very similar, yet because the strategy we employ is different, some data here is presented differently, so we will mention only these differences here.
+Both lump sum investment and DCA widgets are very similar, yet the strategy we employ is different. Some data is presented differently, so we will mention only these differences here.
 
 ### **Top 3 cards**
 
-Same as with DCA strategy, we have three cards here: Value in FIAT, BTC selling price and Total investment.
+As with the DCA strategy, we have three key cards here: Value in FIAT, BTC selling price and Total investment.
 
 #### **What is a Lump sum _selling price_ card?**
 
-This card displays the value of the chosen cryptocurrency - the selling price.
+This card displays the value of the chosen cryptocurrency - the current selling price.
 
-It displays the ratio of selling price to buying price. This is helpful to showcase the value of your investment strategy and it's impact to your selling price over time.
+It also displays the ratio of the current selling price to the buying price. This information is helpful in showcase the value of your investment strategy and its impact on your selling price over time.
 
 #### **What is a Lump sum _Total Investment_ card?**
 
-This number will always differ from the _investment_ parameter you inserted in a calculator and there is a good reason for it.
+The amount on the total investment card will always be different from the _investment_ parameter you entered into the calculator. This is because we calculate the total investment using the DCA strategy. Doing this allows us to show you the impact of investing the same amount of money using two different strategies.
 
-The way we calculate the total investment card here is same as in the DCA strategy. We do this to show you the impact of investing the same amount of money, using two different strategies.
-
-As a reminder, in the DCA strategy, the total investment card takes your initial investment and your investment interval, then multiplies it over the time period provided.
+As a reminder, in the DCA strategy, the total investment card takes your initial investment and your investment interval and multiplies it over the time period provided.
