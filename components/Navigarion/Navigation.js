@@ -27,7 +27,7 @@ const UnAuthenticatedMenu = () => (
   <>
     <div>
       <Link href="/blog">
-        <a className="px-2 block font-medium text-gray-900 dark:text-gray-200">
+        <a className="px-2 block font-medium text-gray-900 dark:text-gray-200 hover:opacity-70 transition">
           Blog
         </a>
       </Link>
@@ -35,7 +35,7 @@ const UnAuthenticatedMenu = () => (
 
     <div>
       <Link href="/pricing">
-        <a className="px-2 block font-medium text-gray-900 dark:text-gray-200">
+        <a className="px-2 block font-medium text-gray-900 dark:text-gray-200 hover:opacity-70 transition">
           Pricing
         </a>
       </Link>
@@ -43,14 +43,14 @@ const UnAuthenticatedMenu = () => (
 
     <div>
       <Link href="/dca/bitcoin">
-        <a className="px-2 block font-medium text-gray-900 dark:text-gray-200">
+        <a className="px-2 block font-medium text-gray-900 dark:text-gray-200 hover:opacity-70 transition">
           DCA Calculator
         </a>
       </Link>
     </div>
     <div>
       <Link href="/blog/the-benefits-of-dollar-cost-averaging-how-a-calculator-can-help-you-invest-smarter">
-        <a className="px-2 block font-medium text-gray-900 dark:text-gray-200">
+        <a className="px-2 block font-medium text-gray-900 dark:text-gray-200 hover:opacity-70 transition">
           How to use a DCA calculator?
         </a>
       </Link>
@@ -58,7 +58,7 @@ const UnAuthenticatedMenu = () => (
     <div>
       <button
         onClick={() => signIn()}
-        className="px-2 block font-medium text-gray-900 dark:text-gray-200"
+        className="px-2 block font-medium text-gray-900 dark:text-gray-200 hover:opacity-70 transition"
       >
         Sign in
       </button>
@@ -292,7 +292,7 @@ const HamburgerMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div>
-      <div className="container flex justify-between py-2 mx-auto bg-white">
+      <div className="flex justify-between py-2 mx-auto bg-white">
         <div>
           <Logo />
         </div>
