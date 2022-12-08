@@ -1,5 +1,9 @@
 import Logo from "../Logo/Logo";
-import { ColorSwatchIcon } from "@heroicons/react/outline";
+import {
+  ColorSwatchIcon,
+  NewspaperIcon,
+  CalculatorIcon,
+} from "@heroicons/react/outline";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
@@ -25,6 +29,20 @@ const UnAuthenticatedMenu = () => (
       <Link href="/pricing">
         <a className="px-2 py-1 font-medium text-gray-900 dark:text-gray-200">
           Pricing
+        </a>
+      </Link>
+    </div>
+    <div>
+      <Link href="/blog">
+        <a className="px-2 py-1 font-medium text-gray-900 dark:text-gray-200">
+          Blog
+        </a>
+      </Link>
+    </div>
+    <div>
+      <Link href="/dca/bitcoin">
+        <a className="px-2 py-1 font-medium text-gray-900 dark:text-gray-200">
+          DCA Calculator
         </a>
       </Link>
     </div>
@@ -194,6 +212,50 @@ const AuthenticatedMenu = ({ session }) => {
                   )}
                 </Menu.Item>
               )}
+
+              <Menu.Item>
+                {({ active }) => (
+                  <div>
+                    <Link href="/blog">
+                      <a
+                        className={classNames(
+                          active ? "bg-gray-100 dark:bg-gray-900" : "",
+                          "flex items-center w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-gray-100 rounded-b-md"
+                        )}
+                      >
+                        <NewspaperIcon
+                          className="mr-1"
+                          width={16}
+                          height={16}
+                        />
+                        Blog
+                      </a>
+                    </Link>
+                  </div>
+                )}
+              </Menu.Item>
+
+              <Menu.Item>
+                {({ active }) => (
+                  <div>
+                    <Link href="/dca/bitcoin">
+                      <a
+                        className={classNames(
+                          active ? "bg-gray-100 dark:bg-gray-900" : "",
+                          "flex items-center w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-gray-100 rounded-b-md"
+                        )}
+                      >
+                        <CalculatorIcon
+                          className="mr-1"
+                          width={16}
+                          height={16}
+                        />
+                        DCA Calculator
+                      </a>
+                    </Link>
+                  </div>
+                )}
+              </Menu.Item>
 
               <Menu.Item>
                 {({ active }) => (
