@@ -1,4 +1,5 @@
 import NextImage from "next/image";
+import NextError from "next/error";
 import Footer from "../../components/Footer/Footer";
 
 import React from "react";
@@ -14,7 +15,7 @@ export async function getStaticPaths() {
   const allPostsData = getSortedPostsData();
 
   const paths = allPostsData.map((post) => ({
-    params: { postId: post.id },
+    params: { id: post.id, postId: post.id },
   }));
 
   return {
@@ -43,6 +44,10 @@ export async function getStaticProps({ params }) {
 }
 
 export default function Page({ availableTokens, content }) {
+  if (!content) {
+    return <NextError statusCode={404} />;
+  }
+
   return (
     <>
       <NextSeo
