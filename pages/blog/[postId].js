@@ -52,7 +52,10 @@ export default function Page({ availableTokens, content }) {
     <>
       <NextSeo
         title={content.title}
-        description={`Dollar cost average calculator for top 100 cryptocurrencies - ${content.title}.`}
+        description={
+          content.description ||
+          `Dollar cost average calculator for top 100 cryptocurrencies - ${content.title}.`
+        }
       />
       <Navigation />
       <div className="w-full h-96 relative mb-4">
