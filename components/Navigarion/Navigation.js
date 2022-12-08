@@ -5,7 +5,7 @@ import {
   CalculatorIcon,
 } from "@heroicons/react/outline";
 import { useSession, signIn, signOut } from "next-auth/react";
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import {
   UserCircleIcon,
@@ -26,30 +26,39 @@ dayjs.extend(relativeTime);
 const UnAuthenticatedMenu = () => (
   <>
     <div>
-      <Link href="/pricing">
-        <a className="px-2 py-1 font-medium text-gray-900 dark:text-gray-200">
-          Pricing
-        </a>
-      </Link>
-    </div>
-    <div>
       <Link href="/blog">
-        <a className="px-2 py-1 font-medium text-gray-900 dark:text-gray-200">
+        <a className="px-2 block font-medium text-gray-900 dark:text-gray-200">
           Blog
         </a>
       </Link>
     </div>
+
+    <div>
+      <Link href="/pricing">
+        <a className="px-2 block font-medium text-gray-900 dark:text-gray-200">
+          Pricing
+        </a>
+      </Link>
+    </div>
+
     <div>
       <Link href="/dca/bitcoin">
-        <a className="px-2 py-1 font-medium text-gray-900 dark:text-gray-200">
+        <a className="px-2 block font-medium text-gray-900 dark:text-gray-200">
           DCA Calculator
+        </a>
+      </Link>
+    </div>
+    <div>
+      <Link href="/blog/the-benefits-of-dollar-cost-averaging-how-a-calculator-can-help-you-invest-smarter">
+        <a className="px-2 block font-medium text-gray-900 dark:text-gray-200">
+          How to use a DCA calculator?
         </a>
       </Link>
     </div>
     <div>
       <button
         onClick={() => signIn()}
-        className="px-2 py-1 font-medium text-gray-900 dark:text-gray-200"
+        className="px-2 block font-medium text-gray-900 dark:text-gray-200"
       >
         Sign in
       </button>
@@ -279,23 +288,55 @@ const AuthenticatedMenu = ({ session }) => {
   );
 };
 
+const HamburgerMenu = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <div>
+      <div className="container flex justify-between py-2 mx-auto bg-white">
+        <div>
+          <Logo />
+        </div>
+        <div className="hidden space-x-2 lg:flex items-center">
+          <UnAuthenticatedMenu />
+        </div>
+        <div className="flex lg:hidden">
+          <button onClick={() => setIsOpen(!isOpen)} className="space-y-2">
+            <span className="block w-8 h-0.5 bg-gray-600 animate-pulse"></span>
+            <span className="block w-8 h-0.5 bg-gray-600 animate-pulse"></span>
+            <span className="block w-8 h-0.5 bg-gray-600 animate-pulse"></span>
+          </button>
+        </div>
+      </div>
+
+      {isOpen && (
+        <div className=" bg-black bg-opacity-50 z-50">
+          <div className={`bg-white z-50`}>
+            <div className="lg:hidden flex flex-col space-y-6 py-4">
+              <UnAuthenticatedMenu />
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
 const Navigation = () => {
   const { status, data } = useSession();
   return (
     <header className="text-indigo-700 body-font shadow w-full bg-white dark:bg-gray-900 px-4 py-2 sm:px-4 border-b dark:border-gray-700">
-      <div className="mx-auto flex flex-wrap justify-between flex-row items-center ">
-        <Logo />
+      {status === "authenticated" ? (
+        <div className="flex lg:justify-end lg:ml-0 items-center">
+          <div className="flex justify-between items-center w-full">
+            <Logo />
 
-        <div className="inline-flex lg:justify-end ml-5 lg:ml-0 items-center">
-          {status === "authenticated" ? (
             <AuthenticatedMenu session={data} />
-          ) : (
-            <>
-              <UnAuthenticatedMenu />
-            </>
-          )}
+          </div>
         </div>
-      </div>
+      ) : (
+        <div>
+          <HamburgerMenu />
+        </div>
+      )}
     </header>
   );
 };
