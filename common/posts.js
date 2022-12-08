@@ -4,23 +4,24 @@ import path from "path";
 
 const postsDirectory = path.join(process.cwd(), "content", "blog");
 
+export const getAllPostPaths = () => {
+  const fileNames = fs.readdirSync(postsDirectory);
+  return fileNames.map((fileName) => fileName.replace(/\.md$/, ""));
+};
+
 export function getSortedPostsData() {
   // Get file names under /posts
-  const fileNames = fs.readdirSync(postsDirectory);
+  const fileNames = getAllPostPaths();
   const allPostsData = fileNames.map((fileName) => {
-    // Remove ".md" from file name to get id
-    const id = fileName.replace(/\.md$/, "");
-
     // Read markdown file as string
-    const fullPath = path.join(postsDirectory, fileName);
+    const fullPath = path.join(postsDirectory, `${fileName}.md`);
     const fileContents = fs.readFileSync(fullPath, "utf8");
 
     const contents = matter(fileContents);
 
     // Combine the data with the id
     return {
-      id,
-      fullPath,
+      id: fileName,
       ...contents.data,
     };
   });
@@ -44,7 +45,6 @@ export function getPostById(postId) {
 
   return {
     id: postId,
-    fullPath,
     ...contents.data,
     content: contents.content,
   };

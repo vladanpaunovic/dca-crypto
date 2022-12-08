@@ -1,23 +1,28 @@
-// import NextImage from "next/image";
-// import Footer from "../../components/Footer/Footer";
+import NextImage from "next/image";
+import Footer from "../../components/Footer/Footer";
 
 import React from "react";
-// import ReactMarkdown from "react-markdown";
-// import dayjs from "dayjs";
+import ReactMarkdown from "react-markdown";
+import dayjs from "dayjs";
 import { getAllCoins } from "../../queries/queries";
 import { defaultCurrency } from "../../config";
-// import { NextSeo } from "next-seo";
-// import Navigation from "../../components/Navigarion/Navigation";
-import { getPostById } from "../../common/posts";
+import { NextSeo } from "next-seo";
+import Navigation from "../../components/Navigarion/Navigation";
+import { getPostById, getSortedPostsData } from "../../common/posts";
 
-export async function getServerSideProps(context) {
-  const availableTokens = await getAllCoins(
-    context.query.currency || defaultCurrency
-  );
+export async function getStaticPaths() {
+  const allPostsData = getSortedPostsData();
 
-  const contentId = context.query.postId || null;
+  return {
+    paths: allPostsData.map((post) => `/blog/${post.id}`),
+    fallback: true,
+  };
+}
 
-  const content = getPostById(contentId);
+export async function getStaticProps({ params }) {
+  const availableTokens = await getAllCoins(params.currency || defaultCurrency);
+
+  const content = getPostById(params.postId);
 
   if (!content) {
     return {
@@ -27,57 +32,48 @@ export async function getServerSideProps(context) {
 
   return {
     props: {
-      contentId,
       availableTokens,
       content,
     },
   };
 }
 
-export default function Page({ content }) {
-  console.log(content);
-
+export default function Page({ availableTokens, content }) {
   return (
     <>
-      <p className="text-gray-900">{content.fullPath}</p>
+      <NextSeo
+        title={content.title}
+        description={`Dollar cost average calculator for top 100 cryptocurrencies - ${content.title}.`}
+      />
+      <Navigation />
+      <div className="w-full h-96 relative mb-4">
+        <NextImage
+          src={`/blog/${content.id}.jpg`}
+          layout="fill"
+          priority
+          objectFit="cover"
+        />
+      </div>
+      <article className="p-8">
+        <h1 className="text-center text-gray-800 dark:text-gray-100 leading-10 font-extrabold text-4xl mb-10">
+          {content.title}
+        </h1>
+
+        <div className="flex justify-center">
+          <div className="max-w-3xl prose dark:prose-dark">
+            <p className="text-xs text-gray-500">
+              Updated at {dayjs(content.date).format("YYYY-MM-DD")}
+            </p>
+            <ReactMarkdown>{content.content}</ReactMarkdown>
+          </div>
+        </div>
+      </article>
+      <div className="flex justify-center">
+        <div className="max-w-7xl px-8 w-full">
+          <hr />
+        </div>
+      </div>
+      <Footer availableTokens={availableTokens} />
     </>
   );
-
-  // return (
-  //   <>
-  //     <NextSeo
-  //       title={content.title}
-  //       description={`Dollar cost average calculator for top 100 cryptocurrencies - ${content.title}.`}
-  //     />
-  //     <Navigation />
-  //     <div className="w-full h-96 relative mb-4">
-  //       <NextImage
-  //         src={`/blog/${content.id}.jpg`}
-  //         layout="fill"
-  //         priority
-  //         objectFit="cover"
-  //       />
-  //     </div>
-  //     <article className="p-8">
-  //       <h1 className="text-center text-gray-800 dark:text-gray-100 leading-10 font-extrabold text-4xl mb-10">
-  //         {content.title}
-  //       </h1>
-
-  //       <div className="flex justify-center">
-  //         <div className="max-w-3xl prose dark:prose-dark">
-  //           <p className="text-xs text-gray-500">
-  //             Updated at {dayjs(content.date).format("YYYY-MM-DD")}
-  //           </p>
-  //           <ReactMarkdown>{content.content}</ReactMarkdown>
-  //         </div>
-  //       </div>
-  //     </article>
-  //     <div className="flex justify-center">
-  //       <div className="max-w-7xl px-8 w-full">
-  //         <hr />
-  //       </div>
-  //     </div>
-  //     <Footer availableTokens={availableTokens} />
-  //   </>
-  // );
 }

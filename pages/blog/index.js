@@ -3,7 +3,7 @@ import NextImage from "next/image";
 import NextLink from "next/link";
 import dayjs from "dayjs";
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   const allPostsData = getSortedPostsData();
   return {
     props: {
@@ -16,7 +16,7 @@ export default function Blog({ allPostsData }) {
   return (
     <div>
       <ul className="grid grid-cols-4 gap-4 w-full">
-        {allPostsData.map(({ id, date, title, fullPath }) => (
+        {allPostsData.map(({ id, date, title }) => (
           <li key={id} className="border">
             <NextLink href={`/blog/${id}`}>
               <a>
@@ -30,7 +30,6 @@ export default function Blog({ allPostsData }) {
                 </div>
                 <div className="prose text-sm p-4">
                   <h2>{title}</h2>
-                  <p>fullPath: {fullPath}</p>
                   <p className="text-xs text-gray-500">
                     {dayjs(date).format("YYYY-MM-DD")}
                   </p>
