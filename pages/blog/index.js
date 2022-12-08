@@ -15,7 +15,7 @@ export async function getStaticProps() {
 export default function Blog({ allPostsData }) {
   return (
     <div>
-      <ul className=" grid grid-cols-4 gap-4 w-full">
+      <ul className="grid grid-cols-4 gap-4 w-full">
         {allPostsData.map(({ id, date, title }) => (
           <li key={id} className="border">
             <NextLink href={`/blog/${id}`}>
@@ -30,6 +30,7 @@ export default function Blog({ allPostsData }) {
                 </div>
                 <div className="prose text-sm p-4">
                   <h2>{title}</h2>
+                  <h2>id {id}</h2>
                   <p className="text-xs text-gray-500">
                     {dayjs(date).format("YYYY-MM-DD")}
                   </p>

@@ -37,7 +37,7 @@ export function getSortedPostsData() {
 }
 
 export function getPostById(postId) {
-  const fullPath = path.join(postsDirectory, `${postId}.md`);
+  const fullPath = path.join(postsDirectory, "../", `${postId}.md`);
   const fileContents = fs.readFileSync(fullPath, "utf8");
   const contents = matter(fileContents);
 
