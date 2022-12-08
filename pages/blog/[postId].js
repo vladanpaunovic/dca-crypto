@@ -13,8 +13,12 @@ import { getPostById, getSortedPostsData } from "../../common/posts";
 export async function getStaticPaths() {
   const allPostsData = getSortedPostsData();
 
+  const paths = allPostsData.map((post) => ({
+    params: { postId: post.id },
+  }));
+
   return {
-    paths: allPostsData.map((post) => `/blog/${post.id}`),
+    paths,
     fallback: true,
   };
 }
