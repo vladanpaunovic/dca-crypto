@@ -35,7 +35,7 @@ const AffiliatePartner = (props) => {
   const { state } = useAppContext();
   const { name, pitch, affiliateLink, icon, value } = props;
   return (
-    <div className="bg-white dark:bg-gray-900 p-2 md:px-4 md:py-5 flex md:col-span-3">
+    <div className="bg-white p-2 md:px-4 md:py-5 flex md:col-span-3">
       <div className="w-10 h-10">
         <div className="w-10 h-10 relative">{icon}</div>
       </div>
@@ -44,7 +44,7 @@ const AffiliatePartner = (props) => {
           href={affiliateLink}
           target="_blank"
           rel="nofollow noreferrer"
-          className="flex items-center dark:text-gray-100 hover:underline"
+          className="flex items-center text-gray-900 hover:underline"
           onClick={() => {
             ga.event({
               action: "support_site",
@@ -54,7 +54,7 @@ const AffiliatePartner = (props) => {
         >
           {name}{" "}
           {value && (
-            <span className="ml-1 rounded-full bg-green-100 dark:bg-green-700 text-green-800 dark:text-green-100 font-medium text-xs px-2 py-1">
+            <span className="ml-1 rounded-full bg-green-100 text-green-800 font-medium text-xs px-2 py-1">
               {value}
             </span>
           )}
