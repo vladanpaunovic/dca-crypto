@@ -94,9 +94,11 @@ export default function CoinPage({ currentCoin, coinSymbol, content }) {
             <CalloutPerformance />
           </Block>
 
-          <Card marginTop="mt-6">
-            <CoinTracked />
-          </Card>
+          <div data-test-id="profit-loss-interval">
+            <Card marginTop="mt-6">
+              <CoinTracked />
+            </Card>
+          </div>
 
           <Block marginTop="mt-6">
             <Accordion expanded={false} shadow={true} marginTop="mt-0">
@@ -112,15 +114,17 @@ export default function CoinPage({ currentCoin, coinSymbol, content }) {
 
       {selectedView === 2 && <DynamicLumpSumPage />}
 
-      <Card marginTop="mt-6">
-        <Title>What is {currentCoin.name}?</Title>
+      <div data-test-id="what-is-this-coin">
+        <Card marginTop="mt-6">
+          <Title>What is {currentCoin.name}?</Title>
 
-        <div className="mt-4 prose prose-sm max-w-none">
-          <div
-            dangerouslySetInnerHTML={{ __html: currentCoin.description.en }}
-          />
-        </div>
-      </Card>
+          <div className="mt-4 prose prose-sm max-w-none">
+            <div
+              dangerouslySetInnerHTML={{ __html: currentCoin.description.en }}
+            />
+          </div>
+        </Card>
+      </div>
 
       <Block marginTop="mt-6">
         <DcaCCGuides content={content} />

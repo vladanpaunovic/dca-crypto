@@ -4,17 +4,23 @@ import Currency from "../Currency/Currency";
 
 const CardTotalInvestment = ({ text, totalInvestment }) => {
   return (
-    <Card>
-      <Text>Total Investment</Text>
+    <div data-test-id="total-investment" className="flex">
+      <Card>
+        <Text>Total Investment</Text>
 
-      <Metric>
-        <Currency value={totalInvestment} />
-      </Metric>
+        <Metric>
+          <Currency value={totalInvestment} />
+        </Metric>
 
-      <Flex justifyContent="justify-start" spaceX="space-x-2" marginTop="mt-4">
-        <Text>{text}</Text>
-      </Flex>
-    </Card>
+        <Flex
+          justifyContent="justify-start"
+          spaceX="space-x-2"
+          marginTop="mt-4"
+        >
+          <Text>{text}</Text>
+        </Flex>
+      </Card>
+    </div>
   );
 };
 

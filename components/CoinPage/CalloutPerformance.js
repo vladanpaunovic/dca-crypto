@@ -13,14 +13,16 @@ const CalloutPerformance = ({ chartData, isLumpSum }) => {
   const icon = isEarning ? TrendingUpIcon : TrendingDownIcon;
 
   return (
-    <Block decoration="left" decorationColor={color}>
-      <Callout
-        icon={icon}
-        title={"Fact"}
-        text={priceChartMessage}
-        color={color}
-      />
-    </Block>
+    <div data-test-id="fact-message">
+      <Block decoration="left" decorationColor={color}>
+        <Callout
+          icon={icon}
+          title={"Fact"}
+          text={priceChartMessage}
+          color={color}
+        />
+      </Block>
+    </div>
   );
 };
 

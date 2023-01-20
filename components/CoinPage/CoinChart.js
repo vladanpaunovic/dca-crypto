@@ -13,35 +13,37 @@ export default function CoinChart() {
   const coinSymbol = state.currentCoin.symbol.toUpperCase();
 
   return (
-    <Card>
-      <Title>Earnings over time</Title>
-      <Text>Estimate the development of your earnings over time</Text>
-      <AreaChart
-        marginTop="mt-4"
-        data={state.chart.dca.chartData}
-        categories={["Balance in FIAT", "Total investment"]}
-        dataKey="date"
-        colors={[color, "amber"]}
-        valueFormatter={valueFormatter}
-        height="h-80"
-        showGridLines
-      />
+    <div data-test-id="earnings-over-time">
+      <Card>
+        <Title>Earnings over time</Title>
+        <Text>Estimate the development of your earnings over time</Text>
+        <AreaChart
+          marginTop="mt-4"
+          data={state.chart.dca.chartData}
+          categories={["Balance in FIAT", "Total investment"]}
+          dataKey="date"
+          colors={[color, "amber"]}
+          valueFormatter={valueFormatter}
+          height="h-80"
+          showGridLines
+        />
 
-      <Divider />
+        <Divider />
 
-      <Title>{coinSymbol} price over time</Title>
-      <Text>Price development vs. average cost</Text>
+        <Title>{coinSymbol} price over time</Title>
+        <Text>Price development vs. average cost</Text>
 
-      <AreaChart
-        marginTop="mt-4"
-        data={state.chart.dca.chartData}
-        categories={["Price", "Average cost"]}
-        dataKey="date"
-        colors={["amber", color]}
-        valueFormatter={valueFormatter}
-        height="h-80"
-        showGridLines
-      />
-    </Card>
+        <AreaChart
+          marginTop="mt-4"
+          data={state.chart.dca.chartData}
+          categories={["Price", "Average cost"]}
+          dataKey="date"
+          colors={["amber", color]}
+          valueFormatter={valueFormatter}
+          height="h-80"
+          showGridLines
+        />
+      </Card>
+    </div>
   );
 }
