@@ -1,15 +1,12 @@
-import axios from "axios";
 import * as Sentry from "@sentry/nextjs";
 import { checkCORS } from "../../../server/cors";
 import { spanStatusfromHttpCode } from "@sentry/tracing";
 import { canUserProceed, storeFingerprint } from "../../../server/redis";
+import apiClient from "../../../server/apiClient";
 import { setCookie } from "cookies-next";
 import { FINGERPRING_ID } from "../../../common/fingerprinting";
 import { generateDCAResponse } from "./dca";
 import { generateLumpSumResponse } from "./lump-sum";
-
-const convertDateStringToUnix = (dateString) =>
-  new Date(dateString).getTime() / 1000;
 
 const handler = async (req, res) => {
   await checkCORS(req, res);
@@ -38,16 +35,14 @@ const handler = async (req, res) => {
   let response;
 
   try {
-    response = await axios.get(
-      `https://api.coingecko.com/api/v3/coins/${payload.coinId}/market_chart/range`,
-      {
-        params: {
-          from: convertDateStringToUnix(payload.dateFrom),
-          to: convertDateStringToUnix(payload.dateTo),
-          vs_currency: payload.currency,
-        },
-      }
-    );
+    response = await apiClient.get(`coins/market_chart`, {
+      params: {
+        from: payload.dateFrom,
+        to: payload.dateTo,
+        vs_currency: payload.currency,
+        coinId: payload.coinId,
+      },
+    });
   } catch (error) {
     Sentry.captureException(error);
 
