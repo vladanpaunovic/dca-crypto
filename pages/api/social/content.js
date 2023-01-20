@@ -43,7 +43,7 @@ const generateHookMessage = (charts, payload) => {
 
   if (totalValue.DCA < totalValue.LUMPSUM) {
     const difference = totalValue.LUMPSUM - totalValue.DCA;
-    return `This is how lump sum could beat DCA with #${payload.coinName}! In this example, lump sum investing could've earned you $${difference} more than a DCA investment in the same time frame. #lump-sum #${payload.coinSymbol}`;
+    return `This is how lump sum could beat DCA with #${payload.coinName}! In this example, lump sum investing could've earned you $${difference} more than a DCA investment in the same time frame. #lumpsum #${payload.coinSymbol}`;
   }
 };
 

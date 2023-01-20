@@ -61,7 +61,7 @@ async function handler(req, res) {
     });
 
     const tweetFinal = await twitterClient.post("statuses/update", {
-      status: `Want to make sure you're maximizing your #crypto profits? Visit ${posts[1].url} to learn about using a #DCA and #Lump-sum strategy and backtest all major currencies`,
+      status: `Want to make sure you're maximizing your #crypto profits? Visit ${posts[1].url} to learn about using a #DCA and #lumpsum strategy and backtest all major currencies`,
       in_reply_to_status_id: tweetSummary.id_str,
       auto_populate_reply_metadata: true,
     });
