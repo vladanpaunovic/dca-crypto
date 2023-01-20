@@ -4,8 +4,10 @@ import { defaultCurrency, WEBSITE_URL } from "../../../config";
 import { getAllCoins, getCommonChartData } from "../../../queries/queries";
 import { formatPrice } from "../../../components/Currency/Currency";
 import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 import queryString from "query-string";
 import { checkCORS } from "../../../server/cors";
+dayjs.extend(relativeTime);
 
 const randomArrayKey = (array) =>
   array[Math.floor(Math.random() * array.length)];
@@ -25,6 +27,25 @@ const randomYears = randomArrayKey([1, 2, 3, 4, 5]);
 const beforeNYears = dayjs(today)
   .subtract(randomYears, "year")
   .format("YYYY-MM-DD");
+
+const generateHookMessage = (charts, payload) => {
+  const totalValue = {
+    DCA: parseInt(charts.dca.insights.totalValue.fiat),
+    LUMPSUM: parseInt(charts.lumpSum.insights.totalValue.fiat),
+  };
+
+  const relativeTimeAgo = dayjs().to(payload.dateFrom);
+
+  if (totalValue.DCA > totalValue.LUMPSUM) {
+    const difference = totalValue.DCA - totalValue.LUMPSUM;
+    return `Are you regretting not investing in #${payload.coinName} ${relativeTimeAgo}? Don't make the same mistake twice. Learn how dollar-cost averaging (DCA) could've earned you $${difference} more than a lump-sum investment in the same time frame. #DCA #${payload.coinSymbol}`;
+  }
+
+  if (totalValue.DCA < totalValue.LUMPSUM) {
+    const difference = totalValue.LUMPSUM - totalValue.DCA;
+    return `This is how lump sum could beat DCA with #${payload.coinName}! In this example, lump sum investing could've earned you $${difference} more than a DCA investment in the same time frame. #lump-sum #${payload.coinSymbol}`;
+  }
+};
 
 const generateDCATweetMessage = (payload) =>
   `If you'd bought ${formatPrice(payload.investment)} of #${
@@ -129,10 +150,17 @@ async function handler(req, res) {
   const dcaChartUrl = `https://${WEBSITE_URL}/dca/${randomCoin.id}/?${dcaQueryString}`;
 
   const summaryMessage = generateSummaryMessage(dcaChartData);
+
+  const hookMessage = generateHookMessage(dcaChartData, {
+    dateFrom: beforeNYears,
+    coinSymbol: randomCoin.symbol.toUpperCase(),
+    coinName: randomCoin.name,
+  });
   try {
     res.status(200).json({
       status: "ok",
       posts: [
+        { message: hookMessage, url: null },
         { message: tweetMessage, url: dcaChartUrl },
         { message: threadMessage, url: null },
         {
@@ -140,6 +168,7 @@ async function handler(req, res) {
           url: null,
         },
       ],
+      coin: randomCoin,
     });
   } catch (error) {
     res.status(200).json({ status: "error", ...error });

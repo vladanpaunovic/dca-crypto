@@ -37,26 +37,38 @@ async function handler(req, res) {
     const response = await apiClient.get("social/content");
     const { posts } = response.data;
 
-    const tweet = await twitterClient.post("statuses/update", {
-      status: `${posts[0].message} ${posts[0].url}`,
+    const hookTweet = await twitterClient.post("statuses/update", {
+      status: `${posts[0].message} ${posts[1].url}`,
       auto_populate_reply_metadata: true,
     });
 
-    const tweetInThread = await twitterClient.post("statuses/update", {
+    const tweet = await twitterClient.post("statuses/update", {
       status: `${posts[1].message}`,
+      auto_populate_reply_metadata: true,
+      in_reply_to_status_id: hookTweet.id_str,
+    });
+
+    const tweetInThread = await twitterClient.post("statuses/update", {
+      status: `${posts[2].message}`,
       in_reply_to_status_id: tweet.id_str,
       auto_populate_reply_metadata: true,
     });
 
     const tweetSummary = await twitterClient.post("statuses/update", {
-      status: `${posts[2].message}`,
+      status: `${posts[3].message}`,
       in_reply_to_status_id: tweetInThread.id_str,
+      auto_populate_reply_metadata: true,
+    });
+
+    const tweetFinal = await twitterClient.post("statuses/update", {
+      status: `Want to make sure you're maximizing your #crypto profits? Visit ${posts[1].url} to learn about using a #DCA and #Lump-sum strategy and backtest all major currencies`,
+      in_reply_to_status_id: tweetSummary.id_str,
       auto_populate_reply_metadata: true,
     });
 
     res.status(200).json({
       status: "ok",
-      tweets: [tweet, tweetInThread, tweetSummary],
+      tweets: [hookTweet, tweet, tweetInThread, tweetSummary, tweetFinal],
     });
   } catch (error) {
     res.status(200).json({ status: "error", ...error });
