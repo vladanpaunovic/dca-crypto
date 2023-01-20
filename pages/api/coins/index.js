@@ -1,6 +1,6 @@
 import * as Sentry from "@sentry/nextjs";
 import { checkCORS } from "../../../server/cors";
-import coinGeckoClient from "../../../server/coinGeckoClient";
+import { fetchCoinGeckoMarkets } from "../../../server/coinGeckoClient";
 
 const handler = async (req, res) => {
   await checkCORS(req, res);
@@ -10,19 +10,9 @@ const handler = async (req, res) => {
 
   Sentry.setContext("Payload", payload);
 
-  const response = await coinGeckoClient.get("coins/markets", {
-    params: {
-      vs_currency: payload.currency || "usd",
-      order: "market_cap_desc",
-      per_page: 100,
-      page: 1,
-      sparkline: false,
-    },
-  });
+  const response = await fetchCoinGeckoMarkets(payload.currency || "USD");
 
-  const allCoins = response.data;
-
-  res.status(200).json(allCoins);
+  res.status(200).json(response);
 };
 
 export default Sentry.withSentry(handler);

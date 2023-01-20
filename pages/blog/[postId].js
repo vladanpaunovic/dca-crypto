@@ -6,12 +6,12 @@ import Footer from "../../components/Footer/Footer";
 import React from "react";
 import ReactMarkdown from "react-markdown";
 import dayjs from "dayjs";
-import { getAllCoins } from "../../queries/queries";
 import { defaultCurrency } from "../../config";
 import { NextSeo } from "next-seo";
 import Navigation from "../../components/Navigarion/Navigation";
 import { getPostById, getSortedPostsData } from "../../common/posts";
 import BreadcrumbBlogPost from "../../components/Breadcrumb/BreadcrumbBlogPost";
+import { fetchCoinGeckoMarkets } from "../../server/coinGeckoClient";
 
 export async function getStaticPaths() {
   const allPostsData = getSortedPostsData();
@@ -27,7 +27,9 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  const availableTokens = await getAllCoins(params.currency || defaultCurrency);
+  const availableTokens = await fetchCoinGeckoMarkets(
+    params.currency || defaultCurrency
+  );
 
   const content = getPostById(params.postId);
 
