@@ -58,52 +58,62 @@ const CardValueInFIAT = () => {
     : [percentageChangeRaw + 100, 100 - (percentageChangeRaw + 100)];
 
   return (
-    <Card key={options.title}>
-      <Text>{options.title}</Text>
-      <Flex
-        justifyContent="justify-start"
-        alignItems="items-baseline"
-        spaceX="space-x-3"
-        truncate={true}
-      >
-        <Metric color={color}>{options.metric}</Metric>
-      </Flex>
-      <Flex justifyContent="justify-start" spaceX="space-x-2" marginTop="mt-4">
-        <BadgeDelta
-          tooltip="Return of investment (ROI) over the dollar cost averaging period"
-          deltaType={options.deltaType}
-          text={options.delta}
-        />
-        <Flex justifyContent="justify-start" spaceX="space-x-1" truncate={true}>
-          <Text color={color}>{percentageChange}</Text>
-          <Text truncate={true}>
-            in {dayjs.duration(state.input.duration, "days").humanize()}
-          </Text>
+    <div data-test-id="value-in-fiat">
+      <Card key={options.title}>
+        <Text>{options.title}</Text>
+        <Flex
+          justifyContent="justify-start"
+          alignItems="items-baseline"
+          spaceX="space-x-3"
+          truncate={true}
+        >
+          <Metric color={color}>{options.metric}</Metric>
         </Flex>
-      </Flex>
+        <Flex
+          justifyContent="justify-start"
+          spaceX="space-x-2"
+          marginTop="mt-4"
+        >
+          <BadgeDelta
+            tooltip="Return of investment (ROI) over the dollar cost averaging period"
+            deltaType={options.deltaType}
+            text={options.delta}
+          />
+          <Flex
+            justifyContent="justify-start"
+            spaceX="space-x-1"
+            truncate={true}
+          >
+            <Text color={color}>{percentageChange}</Text>
+            <Text truncate={true}>
+              in {dayjs.duration(state.input.duration, "days").humanize()}
+            </Text>
+          </Flex>
+        </Flex>
 
-      <CategoryBar
-        categoryPercentageValues={categoryPercentageValues}
-        colors={["orange", color]}
-        marginTop="mt-4"
-        showLabels={false}
-        percentageValue={isEarning ? 100 : categoryPercentageValues[0] + 0.01}
-        tooltip={
-          isEarning
-            ? `Earnings ${percentageChange}`
-            : `Losing ${percentageChange}`
-        }
-      />
-      <Legend
-        categories={
-          isEarning
-            ? ["Investment", "Earnings"]
-            : ["Remaining investment", "Lost value"]
-        }
-        colors={["orange", color]}
-        marginTop="mt-3"
-      />
-    </Card>
+        <CategoryBar
+          categoryPercentageValues={categoryPercentageValues}
+          colors={["orange", color]}
+          marginTop="mt-4"
+          showLabels={false}
+          percentageValue={isEarning ? 100 : categoryPercentageValues[0] + 0.01}
+          tooltip={
+            isEarning
+              ? `Earnings ${percentageChange}`
+              : `Losing ${percentageChange}`
+          }
+        />
+        <Legend
+          categories={
+            isEarning
+              ? ["Investment", "Earnings"]
+              : ["Remaining investment", "Lost value"]
+          }
+          colors={["orange", color]}
+          marginTop="mt-3"
+        />
+      </Card>
+    </div>
   );
 };
 
@@ -137,50 +147,54 @@ const CardCurrentCoin = () => {
   ];
 
   return (
-    <Card key={options.title}>
-      <Text>{options.title}</Text>
-      <Flex
-        justifyContent="justify-start"
-        alignItems="items-baseline"
-        spaceX="space-x-3"
-        truncate
-      >
-        <Metric>{options.metric}</Metric>
-        <Text truncate>1st order {options.delta}</Text>
-      </Flex>
+    <div data-test-id="coin-selling-price">
+      <Card key={options.title}>
+        <Text>{options.title}</Text>
+        <Flex
+          justifyContent="justify-start"
+          alignItems="items-baseline"
+          spaceX="space-x-3"
+          truncate
+        >
+          <Metric>{options.metric}</Metric>
+          <Text truncate>1st order {options.delta}</Text>
+        </Flex>
 
-      <BarList
-        data={data}
-        color={color}
-        valueFormatter={valueFormatter}
-        marginTop="mt-4"
-      />
-    </Card>
+        <BarList
+          data={data}
+          color={color}
+          valueFormatter={valueFormatter}
+          marginTop="mt-4"
+        />
+      </Card>
+    </div>
   );
 };
 
 export default function TopCards() {
   const { state } = useAppContext();
   return (
-    <ColGrid
-      gapX="gap-x-6"
-      gapY="gap-y-6"
-      marginTop="mt-6"
-      numCols={1}
-      numColsSm={2}
-      numColsLg={3}
-    >
-      <CardValueInFIAT />
-      <CardCurrentCoin />
+    <div data-test-id="top-cards">
+      <ColGrid
+        gapX="gap-x-6"
+        gapY="gap-y-6"
+        marginTop="mt-6"
+        numCols={1}
+        numColsSm={2}
+        numColsLg={3}
+      >
+        <CardValueInFIAT />
+        <CardCurrentCoin />
 
-      <CardTotalInvestment
-        totalInvestment={state.chart.dca.insights.totalInvestment}
-        text={`Over ${
-          state.chart.dca.chartData.length
-        } instalments of ${formatPrice(state.chart.input.investment)}, every ${
-          state.chart.input.investmentInterval
-        } days`}
-      />
-    </ColGrid>
+        <CardTotalInvestment
+          totalInvestment={state.chart.dca.insights.totalInvestment}
+          text={`Over ${
+            state.chart.dca.chartData.length
+          } instalments of ${formatPrice(
+            state.chart.input.investment
+          )}, every ${state.chart.input.investmentInterval} days`}
+        />
+      </ColGrid>
+    </div>
   );
 }
