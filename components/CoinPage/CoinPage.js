@@ -94,7 +94,7 @@ export default function CoinPage({ currentCoin, coinSymbol, content }) {
             <CalloutPerformance />
           </Block>
 
-          <div data-test-id="profit-loss-interval">
+          <div data-testid="profit-loss-interval">
             <Card marginTop="mt-6">
               <CoinTracked />
             </Card>
@@ -114,7 +114,7 @@ export default function CoinPage({ currentCoin, coinSymbol, content }) {
 
       {selectedView === 2 && <DynamicLumpSumPage />}
 
-      <div data-test-id="what-is-this-coin">
+      <div data-testid="what-is-this-coin">
         <Card marginTop="mt-6">
           <Title>What is {currentCoin.name}?</Title>
 

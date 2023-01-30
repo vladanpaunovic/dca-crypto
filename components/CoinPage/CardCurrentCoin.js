@@ -56,7 +56,7 @@ const CardCurrentCoin = () => {
   );
 
   return (
-    <div className="p-4 sm:p-0" data-test-id="coin-today-price">
+    <div className="p-4 sm:p-0" data-testid="coin-today-price">
       <Block>
         <Text>
           #{state.currentCoin.market_cap_rank} {coinSymbol} Today Price

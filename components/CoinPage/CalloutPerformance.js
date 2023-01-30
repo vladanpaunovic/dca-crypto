@@ -13,7 +13,7 @@ const CalloutPerformance = ({ chartData, isLumpSum }) => {
   const icon = isEarning ? TrendingUpIcon : TrendingDownIcon;
 
   return (
-    <div data-test-id="fact-message">
+    <div data-testid="fact-message">
       <Block decoration="left" decorationColor={color}>
         <Callout
           icon={icon}

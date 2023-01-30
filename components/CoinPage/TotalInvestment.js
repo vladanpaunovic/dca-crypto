@@ -4,7 +4,7 @@ import Currency from "../Currency/Currency";
 
 const CardTotalInvestment = ({ text, totalInvestment }) => {
   return (
-    <div data-test-id="total-investment" className="flex">
+    <div data-testid="total-investment" className="flex">
       <Card>
         <Text>Total Investment</Text>
 

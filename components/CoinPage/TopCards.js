@@ -58,7 +58,7 @@ const CardValueInFIAT = () => {
     : [percentageChangeRaw + 100, 100 - (percentageChangeRaw + 100)];
 
   return (
-    <div data-test-id="value-in-fiat">
+    <div data-testid="value-in-fiat">
       <Card key={options.title}>
         <Text>{options.title}</Text>
         <Flex
@@ -147,7 +147,7 @@ const CardCurrentCoin = () => {
   ];
 
   return (
-    <div data-test-id="coin-selling-price">
+    <div data-testid="coin-selling-price">
       <Card key={options.title}>
         <Text>{options.title}</Text>
         <Flex
@@ -174,7 +174,7 @@ const CardCurrentCoin = () => {
 export default function TopCards() {
   const { state } = useAppContext();
   return (
-    <div data-test-id="top-cards">
+    <div data-testid="top-cards">
       <ColGrid
         gapX="gap-x-6"
         gapY="gap-y-6"

@@ -13,7 +13,7 @@ export default function CoinChart() {
   const coinSymbol = state.currentCoin.symbol.toUpperCase();
 
   return (
-    <div data-test-id="earnings-over-time">
+    <div data-testid="earnings-over-time">
       <Card>
         <Title>Earnings over time</Title>
         <Text>Estimate the development of your earnings over time</Text>
