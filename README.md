@@ -2,7 +2,7 @@
 
 Advanced, yet easy to use dollar cost averaging (DCA) and lump sum investing calculator.
 
-See it live [https://www.dca-cc.com](https://www.dca-cc.com).
+See it live [https://www.dca-cc.com](https://www.dca-cc.com)
 
 ### Feature proposal
 
