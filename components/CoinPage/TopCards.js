@@ -36,16 +36,21 @@ const CardValueInFIAT = () => {
 
   const options = {
     title: "Value in FIAT",
-    metric: <Currency value={state.chart.dca.insights.totalValue?.fiat || 0} />,
+    metric: (
+      <Currency
+        data-testid="current-coin-value-in-fiat"
+        value={state.chart.dca.insights.totalValue?.fiat || 0}
+      />
+    ),
     metricPrev: (
       <Currency value={state.chart.dca.insights.totalInvestment || 0} />
     ),
     delta: isEarning ? (
       <>
-        <Currency value={fiatEarnings} />
+        <Currency data-testid="current-coin-delta" value={fiatEarnings} />
       </>
     ) : (
-      <Currency value={fiatEarnings} />
+      <Currency data-testid="current-coin-delta" value={fiatEarnings} />
     ),
     deltaType: isEarning ? "moderateIncrease" : "moderateDecrease",
   };

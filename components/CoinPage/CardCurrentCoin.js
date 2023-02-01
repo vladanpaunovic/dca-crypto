@@ -74,7 +74,10 @@ const CardCurrentCoin = () => {
           )}
 
           <Metric>
-            <Currency value={state.currentCoin.market_data.current_price.usd} />
+            <Currency
+              data-testid="current-coin-price"
+              value={state.currentCoin.market_data.current_price.usd}
+            />
           </Metric>
 
           <div className="mr-2" />

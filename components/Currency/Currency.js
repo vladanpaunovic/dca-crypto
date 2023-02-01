@@ -8,13 +8,17 @@ export const formatPrice = (value, currency) =>
     minimumFractionDigits: 0,
   });
 
-const Currency = ({ value }) => {
+const Currency = ({ value, ...props }) => {
   const context = useAppContext();
   if (isNaN(value)) {
     throw new TypeError("The value inserted is not a number");
   }
 
-  return <>{formatPrice(value, context.state.settings.currency)}</>;
+  return (
+    <span {...props}>
+      {formatPrice(value, context.state.settings.currency)}
+    </span>
+  );
 };
 
 export default Currency;

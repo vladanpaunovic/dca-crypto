@@ -9,7 +9,10 @@ const CardTotalInvestment = ({ text, totalInvestment }) => {
         <Text>Total Investment</Text>
 
         <Metric>
-          <Currency value={totalInvestment} />
+          <Currency
+            data-testid="current-coin-total-investment"
+            value={totalInvestment}
+          />
         </Metric>
 
         <Flex

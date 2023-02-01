@@ -1,4 +1,3 @@
-import { withSentry } from "@sentry/nextjs";
 import { generateDefaultInput } from "../../../common/generateDefaultInput";
 import { defaultCurrency, WEBSITE_URL } from "../../../config";
 import { getAllCoins, getCommonChartData } from "../../../queries/queries";
@@ -168,11 +167,25 @@ async function handler(req, res) {
           url: null,
         },
       ],
+      payload,
       coin: randomCoin,
+      rawData: {
+        dca: dcaChartData.dca,
+        lumpSum: dcaChartData.lumpSum,
+        coinName: randomCoin.name,
+        coinSymbol: randomCoin.symbol.toUpperCase(),
+        coinId: randomCoin.id,
+        investment: payload.investment,
+        intervalLabel: randomInterval.label,
+        totalInvestment: dcaChartData.dca.insights.totalInvestment,
+        totalValueFiat: dcaChartData.dca.insights.totalValue.fiat,
+        years: randomYears,
+        dcaPercentageChange: dcaChartData.lumpSum.insights.percentageChange,
+      },
     });
   } catch (error) {
     res.status(200).json({ status: "error", ...error });
   }
 }
 
-export default withSentry(handler);
+export default handler;

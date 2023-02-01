@@ -119,6 +119,7 @@ const InputForm = () => {
         }}
         type="button"
         aria-label="Change parameters"
+        data-testid="button-open-change-params"
       >
         {mutation.isLoading ? (
           <Loading type="spin" width={40} height={40} />
@@ -141,10 +142,15 @@ const InputForm = () => {
         }`}
         onSubmit={onSubmit}
         name="dca-crypto"
+        data-testid="change-params-form"
         id="dca-crypto"
       >
         <div className="md:hidden col-span-2 flex justify-end">
-          <button type="button" onClick={() => setIsOpen(false)}>
+          <button
+            type="button"
+            data-testid="button-close-change-params"
+            onClick={() => setIsOpen(false)}
+          >
             <XIcon className="text-gray-900 h-6 w-6" aria-hidden="true" />
           </button>
         </div>
