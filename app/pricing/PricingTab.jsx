@@ -1,51 +1,11 @@
-import React from "react";
-import { AppContextProvider } from "../components/Context/Context";
-import Footer from "../components/Footer/Footer";
-import { CACHE_INVALIDATION_INTERVAL, defaultCurrency } from "../config";
-import {
-  createStripeSession,
-  getAllCoins,
-  getAllPricingProducts,
-} from "../queries/queries";
-import { NextSeo } from "next-seo";
+"use client";
+
+import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/solid";
+import { classNames } from "../../styles/utils";
 import { useMutation } from "react-query";
 import { signIn, useSession } from "next-auth/react";
-import { useRouter } from "next/router";
-import Navigation from "../components/Navigarion/Navigation";
-import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/solid";
-import { classNames } from "../styles/utils";
-import PaymentMethods from "../components/PaymentMethods/PaymentMethods";
-import FAQ from "../components/FAQ/FAQ";
-
-export async function getServerSideProps(context) {
-  const availableTokens = await getAllCoins(
-    context.query.currency || defaultCurrency
-  );
-
-  const pricing = await getAllPricingProducts();
-
-  context.res.setHeader(
-    "Cache-Control",
-    `s-maxage=${CACHE_INVALIDATION_INTERVAL}, stale-while-revalidate`
-  );
-
-  return {
-    props: {
-      availableTokens,
-      calcType: context.query.type || "dca",
-      pricing,
-    },
-  };
-}
-
-export default function HomeWrapper(props) {
-  return (
-    <AppContextProvider availableTokens={props.availableTokens}>
-      <Navigation />
-      <Pricing {...props} />
-    </AppContextProvider>
-  );
-}
+import { useRouter } from "next/navigation";
+import { createStripeSession } from "../../queries/queries";
 
 const priceFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -153,33 +113,4 @@ function PricingTab(props) {
   );
 }
 
-function Pricing(props) {
-  return (
-    <div className="w-full">
-      <NextSeo
-        title="Pricing &amp; Upgrade - DCA-CC"
-        description="Select a plan that's right for you"
-      />
-      <main className="w-full ">
-        <div className="px-8 py-16">
-          <h1 className="h1-title text-center">
-            Select a plan that is right for you
-          </h1>
-        </div>
-        <div className="w-full p-8 gap-8 flex-col md:flex-row bg-white dark:bg-gray-900 flex justify-center">
-          {props.pricing.map((price) => (
-            <PricingTab key={price.id} {...price} />
-          ))}
-        </div>
-        <div className="w-full flex justify-center pt-16 pb-8">
-          <PaymentMethods />
-        </div>
-        <div className="w-full flex justify-center pt-16 pb-8">
-          <FAQ />
-        </div>
-      </main>
-
-      <Footer availableTokens={props.availableTokens} />
-    </div>
-  );
-}
+export default PricingTab;

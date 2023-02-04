@@ -1,39 +1,11 @@
+"use client";
+
 import React from "react";
-import { AppContextProvider } from "../components/Context/Context";
-import { CACHE_INVALIDATION_INTERVAL, defaultCurrency } from "../config";
-import { getAllCoins } from "../queries/queries";
-import { useRouter } from "next/router";
+import { notFound, useRouter, useSearchParams } from "next/navigation";
 import { CheckCircleIcon } from "@heroicons/react/solid";
 import Link from "next/link";
 import dayjs from "dayjs";
 import Countdown from "react-countdown";
-
-export async function getServerSideProps(context) {
-  const availableTokens = await getAllCoins(
-    context.query.currency || defaultCurrency
-  );
-
-  context.res.setHeader(
-    "Cache-Control",
-    `s-maxage=${CACHE_INVALIDATION_INTERVAL}, stale-while-revalidate`
-  );
-
-  const isSuccessPayment = context.query?.payment === "success";
-
-  if (!isSuccessPayment) {
-    return {
-      notFound: true,
-    };
-  }
-
-  return {
-    props: {
-      availableTokens,
-      calcType: context.query.type || "dca",
-      isSuccessPayment,
-    },
-  };
-}
 
 const renderer = ({ seconds, completed }) => {
   if (completed) {
@@ -64,7 +36,7 @@ const ThankYou = () => {
       </div>
       <p className="text-center mb-8">
         <Countdown
-          date={dayjs().add("5", "seconds")}
+          date={dayjs().add("5", "seconds").toDate()}
           daysInHours={true}
           className="font-bold"
           onComplete={handleOnComplete}
@@ -83,10 +55,15 @@ const ThankYou = () => {
   );
 };
 
-export default function HomeWrapper(props) {
-  return (
-    <AppContextProvider availableTokens={props.availableTokens}>
-      <ThankYou />
-    </AppContextProvider>
-  );
+export default function HomeWrapper() {
+  const searchParams = useSearchParams();
+  const paymentStatus = searchParams.get("payment");
+
+  const isSuccessPayment = paymentStatus === "success";
+
+  if (!isSuccessPayment) {
+    return notFound();
+  }
+
+  return <ThankYou />;
 }
