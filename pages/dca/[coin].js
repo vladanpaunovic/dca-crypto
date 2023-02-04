@@ -23,7 +23,7 @@ import dayjs from "dayjs";
 import Navigation from "../../components/Navigarion/Navigation";
 import { getCookie } from "cookies-next";
 import { FINGERPRING_ID } from "../../common/fingerprinting";
-import { unstable_getServerSession } from "next-auth";
+import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]";
 import ErrorComponent from "../../components/Error/Error";
 import "@tremor/react/dist/esm/tremor.css";
@@ -48,14 +48,10 @@ export async function getServerSideProps(context) {
 
   const payload = generateDefaultInput(context.query);
 
-  const session = await unstable_getServerSession(
-    context.req,
-    context.res,
-    authOptions
-  );
+  const session = await getServerSession(context.req, context.res, authOptions);
 
   const [availableTokens, chart, currentCoin] = await Promise.all([
-    getAllCoins(currency), // TODO: REMOVE
+    getAllCoins(currency),
     getCommonChartData({
       ...payload,
       session,
