@@ -36,8 +36,8 @@ const Limit = ({ canProceed }) => {
               </p>
               <p className="text-gray-900">
                 Please{" "}
-                <Link href="/pricing">
-                  <a className="underline">upgrade</a>
+                <Link href="/pricing" className="underline">
+                  upgrade
                 </Link>{" "}
                 to continue this calculation or break for{" "}
                 <Countdown
@@ -52,10 +52,11 @@ const Limit = ({ canProceed }) => {
           </div>
           <div className="order-3 flex mt-6 md:mt-0 w-full md:w-auto">
             <div className="w-full">
-              <Link href="/pricing">
-                <a className="flex items-center justify-center rounded-md border border-transparent bg-gray-900 px-4 py-2 font-medium leading-6 text-white shadow-sm hover:opacity-80">
-                  Upgrade
-                </a>
+              <Link
+                href="/pricing"
+                className="flex items-center justify-center rounded-md border border-transparent bg-gray-900 px-4 py-2 font-medium leading-6 text-white shadow-sm hover:opacity-80"
+              >
+                Upgrade
               </Link>
             </div>
             {session.status === "unauthenticated" && (

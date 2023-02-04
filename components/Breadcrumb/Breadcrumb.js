@@ -11,13 +11,12 @@ const Breadcrumb = ({ name, icon, item, isLast }) => {
             {name}
           </span>
         ) : (
-          <Link href={item} prefetch={false}>
-            <a
-              aria-label={name}
-              className="no-underline text-indigo text-indigo-500 dark:text-yellow-500 hover:underline"
-            >
-              {icon ? icon : name}
-            </a>
+          <Link
+            href={item}
+            prefetch={false}
+            className="no-underline text-indigo text-indigo-500 dark:text-yellow-500 hover:underline"
+          >
+            {icon ? icon : name}
           </Link>
         )}
       </li>
@@ -33,6 +32,7 @@ const Breadcrumb = ({ name, icon, item, isLast }) => {
 const BreadcrumbWrapper = ({ items }) => (
   <>
     <BreadcrumbJsonLd
+      useAppDir
       itemListElements={items.map((v, i) => ({ ...v, position: i + 1 }))}
     />
     <nav>

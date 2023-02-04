@@ -1,42 +1,38 @@
-import NextError from "next/error";
-import Footer from "../../components/Footer/Footer";
+// import NextError from "next/error";
+import Footer from "../../../components/Footer/Footer";
+import { notFound } from "next/navigation";
 
 import React from "react";
 import ReactMarkdown from "react-markdown";
 import dayjs from "dayjs";
-import { getAllCoins } from "../../queries/queries";
-import { defaultCurrency } from "../../config";
 import { NextSeo } from "next-seo";
-import Navigation from "../../components/Navigarion/Navigation";
+import Navigation from "../../../components/Navigarion/Navigation";
 
 const availablePages = ["cookie-policy", "privacy-policy", "terms-conditions"];
 
-export async function getServerSideProps(context) {
-  const availableTokens = await getAllCoins(
-    context.query.currency || defaultCurrency
-  );
+export const dynamic = "force-static";
 
-  const contentId = context.query.contentId || null;
+const getContent = (contentId) => {
+  return require(`../../../content/legal/${contentId}.md`);
+};
 
-  const content = require(`../../content/legal/${contentId}.md`);
+export async function generateStaticParams() {
+  const paths = availablePages.map((id) => ({ id, contentId: id }));
 
-  return {
-    props: {
-      contentId,
-      availableTokens,
-      content,
-    },
-  };
+  return paths;
 }
 
-export default function Page({ contentId, availableTokens, content }) {
+export default async function Page({ params: { contentId } }) {
   if (!availablePages.includes(contentId)) {
-    return <NextError statusCode={404} />;
+    return notFound();
   }
+
+  const content = getContent(contentId);
 
   return (
     <>
       <NextSeo
+        useAppDir={true}
         title={content.attributes.title}
         description={`Dollar cost average calculator for top 100 cryptocurrencies - ${content.attributes.title}.`}
       />
@@ -59,7 +55,7 @@ export default function Page({ contentId, availableTokens, content }) {
           <hr />
         </div>
       </div>
-      <Footer availableTokens={availableTokens} />
+      <Footer />
     </>
   );
 }
