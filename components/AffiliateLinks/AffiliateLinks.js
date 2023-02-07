@@ -78,7 +78,7 @@ const AffiliateLinks = () => {
             <SupportIcon /> Support this site
           </h5>
           <p className="hidden md:block mt-1 max-w-2xl text-xs text-gray-400">
-            Likes below are affiliate links, meaning, at no additional cost to
+            Links below are affiliate links, meaning, at no additional cost to
             you, I will earn a commision if you click trough and make a purchase
           </p>
         </div>
