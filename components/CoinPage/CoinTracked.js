@@ -1,5 +1,5 @@
 import { Text, Title, Tracking, TrackingBlock } from "@tremor/react";
-import { useAppContext } from "../Context/Context";
+import { useStore } from "../../src/store/store";
 import getPercentageChange from "../helpers/getPercentageChange";
 
 const getDeltaType = (item) => {
@@ -21,7 +21,8 @@ const getDeltaType = (item) => {
 };
 
 const CoinTracked = () => {
-  const { state } = useAppContext();
+  const state = useStore();
+
   const statusStyles = {
     moderateIncrease: "emerald",
     moderateDecrease: "rose",

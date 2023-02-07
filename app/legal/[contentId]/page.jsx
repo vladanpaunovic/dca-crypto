@@ -55,7 +55,7 @@ export default async function Page({ params: { contentId } }) {
           <hr />
         </div>
       </div>
-      <Footer />
+      <Footer availableTokens={[]} />
     </>
   );
 }

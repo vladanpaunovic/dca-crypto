@@ -7,11 +7,11 @@ import CookieBanner from "../components/CookieBanner/CookieBanner";
 import { useState } from "react";
 import DefaultSeo from "../components/Seo/DefaultSeo";
 
-function Providers({ children }) {
+function Providers({ children, session }) {
   const [queryClient] = useState(() => new QueryClient());
 
   return (
-    <SessionProvider>
+    <SessionProvider session={session}>
       <QueryClientProvider client={queryClient}>
         <CookieBanner />
         <DefaultSeo />

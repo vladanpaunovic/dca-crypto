@@ -1,18 +1,21 @@
 import Countdown from "react-countdown";
 import dayjs from "dayjs";
-import { useAppContext } from "../Context/Context";
 import { ACTIONS } from "../Context/mainReducer";
 import { FREE_TIER_CALCULATION_LIMIT } from "../../config";
 import { ExclamationIcon } from "@heroicons/react/solid";
 import Link from "next/link";
 import { useSession, signIn } from "next-auth/react";
+import { useStore } from "../../src/store/store";
 
 const Limit = ({ canProceed }) => {
-  const { dispatch } = useAppContext();
+  const state = useStore();
   const session = useSession();
 
   const handleOnComplete = () => {
-    dispatch({ type: ACTIONS.UPDATE_CAN_PROCEED, payload: { proceed: true } });
+    state.dispatch({
+      type: ACTIONS.UPDATE_CAN_PROCEED,
+      payload: { proceed: true },
+    });
   };
 
   return (
@@ -41,7 +44,7 @@ const Limit = ({ canProceed }) => {
                 </Link>{" "}
                 to continue this calculation or break for{" "}
                 <Countdown
-                  date={dayjs().add(canProceed.ttl, "seconds")}
+                  date={dayjs().add(canProceed.ttl, "seconds").toDate()}
                   daysInHours={true}
                   className="font-bold"
                   onComplete={handleOnComplete}

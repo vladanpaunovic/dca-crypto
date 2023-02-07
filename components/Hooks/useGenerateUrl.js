@@ -1,10 +1,10 @@
-import { useAppContext } from "../Context/Context";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
+import { useStore } from "../../src/store/store";
 
 const useGenerateUrl = () => {
-  const { state } = useAppContext();
-  const router = useRouter();
+  const state = useStore();
 
+  const router = useRouter();
   const payload = {
     investment: state.input.investment,
     investmentInterval: state.input.investmentInterval,

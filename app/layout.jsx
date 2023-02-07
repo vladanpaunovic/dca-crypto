@@ -4,7 +4,7 @@ import Head from "./head";
 import "../styles/globals.css";
 import Providers from "./providers";
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children, session }) {
   return (
     <html lang="en">
       <Head>
@@ -27,7 +27,7 @@ export default function RootLayout({ children }) {
         />
       </Head>
       <body className="bg-white dark:bg-gray-900">
-        <Providers>{children}</Providers>
+        <Providers session={session}>{children}</Providers>
       </body>
     </html>
   );

@@ -165,9 +165,9 @@ const AuthenticatedMenu = ({ session }) => {
                   <p className="my-1">{session.user.email}</p>
                   {session.user.hasActivePackage && (
                     <>
-                      <p className="my-1">
+                      <div className="my-1">
                         <PackageLabel user={session.user} />
-                      </p>
+                      </div>
                     </>
                   )}
                 </div>

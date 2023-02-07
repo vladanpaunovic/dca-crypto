@@ -1,11 +1,11 @@
 import apiClient from "../server/apiClient";
 
-export const getAllCoins = async (currency) => {
-  const response = await apiClient.get("coins", {
-    params: { currency },
-  });
+export const getAllCoins = async () => {
+  console.count("getAllCoins");
 
-  return response.data;
+  const allCoins = require("../content/availableTokens_light.json");
+
+  return allCoins;
 };
 
 export const getDCAChartData = async (payload) => {
@@ -20,12 +20,14 @@ export const getLumpSumChartData = async (payload) => {
   return response.data;
 };
 
+// @deprecated
 export const getCommonChartData = async (payload) => {
   const response = await apiClient.post("calculate/common", payload);
 
   return response.data;
 };
 
+// @deprecated
 export const getCoinById = async (coinId) => {
   const response = await apiClient.get(`coins/${coinId}`);
 
@@ -48,10 +50,11 @@ export const getCoinPrice = async (coinId) => {
   return output;
 };
 
-export const getAllPricingProducts = async (payload) => {
-  const response = await apiClient.post("billing/products", payload);
+export const getAllPricingProducts = async () => {
+  const response = await fetch("/api/billing/products");
+  const data = await response.json();
 
-  return response.data;
+  return data;
 };
 
 export const createStripeSession = async (payload) => {

@@ -1,47 +1,48 @@
+"use client";
 import { useMutation } from "react-query";
-import { useAppContext } from "../Context/Context";
 import { XIcon, CalculatorIcon } from "@heroicons/react/outline";
 import { ACTIONS } from "../Context/mainReducer";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import dayjs from "dayjs";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import { availableCurrencies } from "../../config";
 import Loading from "react-loading";
 import * as ga from "../helpers/GoogleAnalytics";
-import useEffectOnlyOnUpdate from "../Hooks/useEffectOnlyOnUpdate";
 import {
   availableInvestmentIntervals,
   calculateDateRangeDifference,
 } from "../../common/generateDefaultInput";
-import useGenerateUrl from "../Hooks/useGenerateUrl";
 import SelectCoin from "../SelectCoin/SelectCoin";
 import apiClient from "../../server/apiClient";
 import { getFingerprint } from "../../common/fingerprinting";
 import { useSession } from "next-auth/react";
+import { useStore } from "../../src/store/store";
 
 dayjs.extend(isSameOrBefore);
 
 const before90Days = dayjs().subtract(91, "days").format("YYYY-MM-DD");
 
-const InputForm = () => {
+const InputForm = ({ availableTokens }) => {
   const session = useSession();
-  const appContext = useAppContext();
-  const generateUrl = useGenerateUrl();
-  const { state, dispatch } = appContext;
-  const currentCoin = state.currentCoin;
+
+  const state = useStore();
+  const dispatch = state.dispatch;
+
   const [isOpen, setIsOpen] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
 
-  const canProceed = state.chart.canProceed;
+  const canProceed = state.chart?.canProceed || { proceed: false };
   const freeTierLimitReached = !canProceed.proceed;
+
   // Due to the constrains of the CoinGecko API, we enable calculations only
-  // agter the perod of 90 days
+  // after the perod of 90 days
   const isSubmitDisabled = state.input.duration < 90 || !state.input.investment;
 
   const mutation = useMutation(
     (payload) => apiClient.post("calculate/common", payload),
     {
       onSuccess: (data) => {
+        console.log(data);
         dispatch({
           type: ACTIONS.SET_CHART_DATA,
           payload: data.data,
@@ -79,30 +80,16 @@ const InputForm = () => {
 
     const fingerprint = await getFingerprint();
 
-    generateUrl();
-
     mutation.mutate({ ...payload, session: session.data, fingerprint });
 
     setIsOpen(false);
   };
+
   const onSubmit = (event) => {
     event.preventDefault();
 
     submitForm();
   };
-
-  useEffectOnlyOnUpdate(() => {
-    submitForm();
-  }, [
-    state.input.coinId,
-    state.input.investmentInterval,
-    state.settings.currency,
-  ]);
-
-  useEffect(() => {
-    generateUrl();
-    // eslint-disable-next-line
-  }, []);
 
   return (
     <>
@@ -114,7 +101,7 @@ const InputForm = () => {
 
           ga.event({
             action: "mobile_change_params",
-            params: { calculator: "dca", token: currentCoin.name },
+            params: { calculator: "dca" },
           });
         }}
         type="button"
@@ -158,7 +145,7 @@ const InputForm = () => {
           <label className="block">
             <span className="font-medium text-gray-700">Coin</span>
             <div className="mt-1 flex rounded-md shadow-sm">
-              <SelectCoin />
+              <SelectCoin availableTokens={availableTokens} />
             </div>
           </label>
         </div>
@@ -265,7 +252,7 @@ const InputForm = () => {
           </label>
         </div>
         <div className="col-span-2">
-          <button
+          {/* <button
             type="submit"
             className="px-4 py-2 w-full disabled:opacity-50 rounded bg-gray-900 hover:bg-gray-800 text-base text-white font-bold shadow"
             disabled={
@@ -273,7 +260,7 @@ const InputForm = () => {
             }
           >
             {mutation.isLoading ? "Loading..." : "Calculate"}
-          </button>
+          </button> */}
           {isSubmitDisabled ? (
             <>
               <p className="text-sm p-2 text-red-500">

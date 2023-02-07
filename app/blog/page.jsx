@@ -1,5 +1,5 @@
 import { getSortedPostsData } from "../../common/posts";
-import NextImage from "next/image";
+import NextImage from "next/legacy/image";
 import NextLink from "next/link";
 import dayjs from "dayjs";
 import Navigation from "../../components/Navigarion/Navigation";
@@ -52,7 +52,7 @@ export default function Blog() {
           </ul>
         </div>
       </div>
-      <Footer />
+      <Footer availableTokens={[]} />
     </div>
   );
 }

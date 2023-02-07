@@ -1,9 +1,4 @@
-import { useReducer } from "react";
-import { useRouter } from "next/router";
-import {
-  generateDefaultInput,
-  calculateDateRangeDifference,
-} from "../../common/generateDefaultInput";
+import { calculateDateRangeDifference } from "../../common/generateDefaultInput";
 
 export const ACTIONS = {
   // Input actions
@@ -25,7 +20,7 @@ export const ACTIONS = {
   UPDATE_LIST_OF_TOKENS: "UPDATE_LIST_OF_TOKENS",
 };
 
-const reducer = (state, action) => {
+export const reducer = (state, action) => {
   switch (action.type) {
     // Input
     case ACTIONS.UPDATE_COIN_ID: {
@@ -137,20 +132,6 @@ const reducer = (state, action) => {
   }
 };
 
-export const useMainReducer = ({ availableTokens, chart, currentCoin }) => {
-  const router = useRouter();
-  const DEFAULT_INPUT = generateDefaultInput(router.query);
-
-  const initialState = {
-    input: DEFAULT_INPUT,
-    chart,
-    settings: {
-      currency: "usd",
-      darkMode: false,
-      availableTokens,
-    },
-    currentCoin,
-  };
-
-  return useReducer(reducer, initialState);
+export const useMainReducer = () => {
+  return null;
 };

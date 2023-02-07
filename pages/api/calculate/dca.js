@@ -12,7 +12,7 @@ const convertDateStringToUnix = (dateString) =>
   new Date(dateString).getTime() / 1000;
 
 export const generateDCAResponse = ({ response, payload, canProceed }) => {
-  const data = response.data.prices.map((entry) => ({
+  const data = response.prices.map((entry) => ({
     date: new Date(entry[0]).toLocaleDateString(),
     coinPrice: parseFloat(entry[1]).toFixed(6),
   }));

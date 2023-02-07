@@ -9,19 +9,19 @@ import {
   Legend,
   BarList,
 } from "@tremor/react";
-import { useAppContext } from "../Context/Context";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import relativeTime from "dayjs/plugin/relativeTime";
 import Currency, { formatPrice } from "../Currency/Currency";
 import CardTotalInvestment from "./TotalInvestment";
 import { valueFormatter } from "../Chart/helpers";
+import { useStore } from "../../src/store/store";
 
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
 
 const CardValueInFIAT = () => {
-  const { state } = useAppContext();
+  const state = useStore();
 
   const isEarning = state.chart.dca.insights.percentageChange > 0;
   const color = isEarning ? "emerald" : "pink";
@@ -123,7 +123,7 @@ const CardValueInFIAT = () => {
 };
 
 const CardCurrentCoin = () => {
-  const { state } = useAppContext();
+  const state = useStore();
   const coinSymbol = state.currentCoin.symbol.toUpperCase();
 
   const currentPrice =
@@ -177,7 +177,8 @@ const CardCurrentCoin = () => {
 };
 
 export default function TopCards() {
-  const { state } = useAppContext();
+  const state = useStore();
+
   return (
     <div data-testid="top-cards">
       <ColGrid

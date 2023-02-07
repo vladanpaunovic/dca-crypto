@@ -1,15 +1,39 @@
 import React from "react";
 import Footer from "../../components/Footer/Footer";
-import { getAllPricingProducts } from "../../queries/queries";
 import { NextSeo } from "next-seo";
 
 import Navigation from "../../components/Navigarion/Navigation";
 import PaymentMethods from "../../components/PaymentMethods/PaymentMethods";
 import FAQ from "../../components/FAQ/FAQ";
-import PricingTab from "./PricingTab";
+import PricingTab from "../../components/PricingTab/PricingTab";
+import stripe from "../../server/stripe";
 
-export default async function Pricing() {
-  const pricing = await getAllPricingProducts();
+async function getData() {
+  const prices = await stripe.prices.list({
+    expand: ["data.product"],
+    active: true,
+  });
+
+  const stripNonActiveProducts = prices.data
+    .filter((prices) => prices.product.active)
+    // Ordering prices from lowest to highest
+    .sort((a, b) => {
+      if (a.unit_amount < b.unit_amount) {
+        return -1;
+      }
+
+      if (a.unit_amount > b.unit_amount) {
+        return 1;
+      }
+
+      return 0;
+    });
+
+  return stripNonActiveProducts;
+}
+
+export default async function Page() {
+  const pricing = await getData();
 
   return (
     <div className="w-full">
@@ -38,7 +62,7 @@ export default async function Pricing() {
         </div>
       </main>
 
-      <Footer />
+      <Footer availableTokens={[]} />
     </div>
   );
 }

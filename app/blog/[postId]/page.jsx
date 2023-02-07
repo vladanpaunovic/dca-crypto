@@ -1,5 +1,5 @@
 import NextLink from "next/link";
-import NextImage from "next/image";
+import NextImage from "next/legacy/image";
 import Footer from "../../../components/Footer/Footer";
 
 import { getAllCoins } from "../../../queries/queries";
@@ -125,7 +125,7 @@ export default async function Page({ params: { postId } }) {
           <hr />
         </div>
       </div>
-      <Footer />
+      <Footer availableTokens={[]} />
     </>
   );
 }

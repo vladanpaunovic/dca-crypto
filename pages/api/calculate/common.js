@@ -92,4 +92,5 @@ const handler = async (req, res) => {
   res.status(200).json({ dca, lumpSum, canProceed, input: payload });
 };
 
-export default Sentry.withSentry(handler);
+// export default Sentry.withSentry(handler);
+export default handler;

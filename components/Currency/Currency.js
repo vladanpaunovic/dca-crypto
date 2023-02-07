@@ -1,5 +1,5 @@
 import { defaultCurrency } from "../../config";
-import { useAppContext } from "../Context/Context";
+import { useStore } from "../../src/store/store";
 
 export const formatPrice = (value, currency) =>
   parseFloat(value).toLocaleString("en-US", {
@@ -9,16 +9,13 @@ export const formatPrice = (value, currency) =>
   });
 
 const Currency = ({ value, ...props }) => {
-  const context = useAppContext();
+  const state = useStore();
+
   if (isNaN(value)) {
     throw new TypeError("The value inserted is not a number");
   }
 
-  return (
-    <span {...props}>
-      {formatPrice(value, context.state.settings.currency)}
-    </span>
-  );
+  return <span {...props}>{formatPrice(value, state.settings.currency)}</span>;
 };
 
 export default Currency;

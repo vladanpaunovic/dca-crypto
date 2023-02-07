@@ -1,6 +1,11 @@
 module.exports = {
-  purge: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
-  // darkMode: "class", // or 'media' or 'class'
+  mode: "jit",
+  content: [
+    "./pages/**/*.{js,ts,jsx,tsx}",
+    "./app/**/*.{js,ts,jsx,tsx}",
+    "./components/**/*.{js,ts,jsx,tsx}",
+  ],
+  darkMode: "class", // or 'media' or 'class'
   theme: {
     extend: {
       width: {
@@ -40,12 +45,6 @@ module.exports = {
           },
         };
       },
-    },
-  },
-  variants: {
-    opacity: ({ after }) => after(["disabled"]),
-    extend: {
-      typography: ["dark"],
     },
   },
   plugins: [require("@tailwindcss/forms"), require("@tailwindcss/typography")],

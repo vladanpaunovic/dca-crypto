@@ -3,12 +3,10 @@
 import { SwitchHorizontalIcon } from "@heroicons/react/outline";
 import Link from "next/link";
 import dayjs from "dayjs";
-import { getAllCoins } from "../../queries/queries";
-import { defaultCurrency } from "../../config";
 
-const Footer = async () => {
-  const availableTokens = await getAllCoins(defaultCurrency);
+export const dynamic = "force-static";
 
+const Footer = async ({ availableTokens }) => {
   const tokens = availableTokens.slice(0, 20);
   const dcaAllTokens = tokens.map((coin) => (
     <li key={coin.id}>

@@ -1,9 +1,10 @@
+"use client";
+
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import Select from "react-select/async";
-import { getCoinById, searchCoin } from "../../queries/queries";
-import { useAppContext } from "../Context/Context";
-import { ACTIONS } from "../Context/mainReducer";
+import { searchCoin } from "../../queries/queries";
+import { useStore } from "../../src/store/store";
 
 const colorsLight = {
   primary50: "#D1D5DB",
@@ -45,32 +46,30 @@ const promiseOptions = async (inputValue) => {
 
 const SelectCoin = () => {
   const { theme: projectTheme } = useTheme();
-  const { state, dispatch } = useAppContext();
-  const [mounted, setMounted] = useState(false);
-  const currentCoin = state.currentCoin;
+  const availableTokens = useStore((state) => state.availableTokens);
+  const searchParams = useSearchParams();
+  // const currentCoin = state.currentCoin;
   const themeColors = colorsLight;
-
-  // When mounted on client, now we can show the UI
-  useEffect(() => setMounted(true), []);
+  const router = useRouter();
 
   const handleOnChange = async (e) => {
-    const currentCoin = await getCoinById(e.value);
-
-    dispatch({
-      type: ACTIONS.UPDATE_COIN_ID,
-      payload: currentCoin,
-    });
+    const url = `/dca/${e.value}?${searchParams.toString()}`;
+    console.log("Navigating to:", url);
+    return router.push(url);
   };
 
-  if (!mounted) return null;
-
-  if (!state.settings.availableTokens) {
+  if (!availableTokens) {
     return null;
   }
 
-  const options = parseOptions(state.settings.availableTokens);
+  const options = parseOptions(availableTokens);
 
-  const defaultValue = parseOptions([currentCoin])[0];
+  // const currentCoin = availableTokens.find(
+  //   (token) => token.id === state.input.coinId
+  // );
+
+  // const defaultValue = parseOptions([currentCoin])[0];
+  const defaultValue = null;
 
   return (
     <Select

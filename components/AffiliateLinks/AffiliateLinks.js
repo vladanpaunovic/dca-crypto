@@ -1,8 +1,9 @@
+"use client";
+
 import ExternalLinkIcon from "../Icons/ExternalLink";
 import SupportIcon from "../Icons/SupportIcon";
 import Image from "next/image";
 import * as ga from "../helpers/GoogleAnalytics";
-import { useAppContext } from "../Context/Context";
 
 const affiliatePartners = [
   {
@@ -32,7 +33,6 @@ const affiliatePartners = [
 ];
 
 const AffiliatePartner = (props) => {
-  const { state } = useAppContext();
   const { name, pitch, affiliateLink, icon, value } = props;
   return (
     <div className="bg-white p-2 md:px-4 md:py-5 flex md:col-span-3">
@@ -48,7 +48,7 @@ const AffiliatePartner = (props) => {
           onClick={() => {
             ga.event({
               action: "support_site",
-              params: { affiliate: name, token: state.currentCoin.name },
+              params: { affiliate: name },
             });
           }}
         >
@@ -78,7 +78,7 @@ const AffiliateLinks = () => {
             <SupportIcon /> Support this site
           </h5>
           <p className="hidden md:block mt-1 max-w-2xl text-xs text-gray-400">
-            Likes below are affiliate links, meaning, at no additional cost to
+            Links below are affiliate links, meaning, at no additional cost to
             you, I will earn a commision if you click trough and make a purchase
           </p>
         </div>

@@ -7,7 +7,6 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prebuild": "node scripts/generate-sitemap.js",
     "find:unused": "next-unused",
     "test": "jest",
     "test:ci": "jest --ci"
@@ -15,13 +14,13 @@
   "dependencies": {
     "@coingecko/cryptoformat": "^0.4.4",
     "@fingerprintjs/fingerprintjs": "^3.3.6",
-    "@headlessui/react": "^1.4.0",
+    "@headlessui/react": "^1.7.9",
     "@heroicons/react": "^1.0.3",
     "@next-auth/upstash-redis-adapter": "^3.0.1",
     "@prisma/client": "^4.5.0",
-    "@sentry/nextjs": "7.17.3",
-    "@tailwindcss/forms": "^0.3.3",
-    "@tailwindcss/typography": "^0.4.1",
+    "@sentry/nextjs": "7.36.0",
+    "@tailwindcss/forms": "^0.5.3",
+    "@tailwindcss/typography": "^0.5.9",
     "@tremor/react": "^1.7.0",
     "@upstash/redis": "^1.13.1",
     "axios": "^0.21.1",
@@ -44,17 +43,19 @@
     "react-dom": "18.2.0",
     "react-input-autosize": "^3.0.0",
     "react-loading": "^2.0.3",
-    "react-markdown": "^6.0.2",
+    "react-markdown": "^8.0.5",
     "react-payment-icons": "^1.2.6",
     "react-query": "3.34.7",
     "react-responsive": "^8.2.0",
     "react-select": "^4.3.1",
     "recharts": "^2.1.0",
+    "sharp": "^0.31.3",
     "store": "^2.0.12",
     "stripe": "^10.8.0",
     "twitter-lite": "^1.1.0",
     "url": "^0.11.0",
-    "usehooks-ts": "^2.9.1"
+    "usehooks-ts": "^2.9.1",
+    "zustand": "^4.3.2"
   },
   "devDependencies": {
     "autoprefixer": "^10.2.5",
@@ -69,7 +70,7 @@
     "postcss": "^8.2.10",
     "prettier": "^2.2.1",
     "prisma": "^4.5.0",
-    "tailwindcss": "^2.1.1"
+    "tailwindcss": "^3.2.4"
   },
   "next-unused": {
     "alias": {},

@@ -17,7 +17,7 @@ export const generateLumpSumResponse = ({
   payload,
   investmentCount,
 }) => {
-  const data = response.data.prices.map((entry) => ({
+  const data = response.prices.map((entry) => ({
     date: new Date(entry[0]).toLocaleDateString(),
     coinPrice: parseFloat(entry[1]).toFixed(6),
   }));
