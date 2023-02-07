@@ -1,9 +1,5 @@
 import InputFormWrapper from "../../components/InputForm/InputForm";
 import {
-  AppContextProvider,
-  useAppContext,
-} from "../../components/Context/Context";
-import {
   getAllCoins,
   getCoinById,
   getCommonChartData,
@@ -29,6 +25,8 @@ import ErrorComponent from "../../components/Error/Error";
 import "@tremor/react/dist/esm/tremor.css";
 import CoinPage from "../../components/CoinPage/CoinPage";
 import Limit from "../../components/Limit/Limit";
+import StoreInitializer from "../../src/store/StoreInitializer";
+import { useAppState } from "../../src/store/store";
 
 const DynamicAffiliateLinks = dynamic(
   () => import("../../components/AffiliateLinks/AffiliateLinks"),
@@ -54,6 +52,7 @@ export async function getServerSideProps(context) {
     authOptions
   );
 
+  console.log("payload", payload);
   const [availableTokens, chart, currentCoin] = await Promise.all([
     getAllCoins(currency), // TODO: REMOVE
     getCommonChartData({
@@ -64,6 +63,7 @@ export async function getServerSideProps(context) {
     getCoinById(payload.coinId),
   ]);
 
+  console.log("currentCoin", currentCoin.name);
   const content = require(`../../content/guides/usage-guide.md`);
 
   if (!currentCoin) {
@@ -84,7 +84,7 @@ export async function getServerSideProps(context) {
 }
 
 const Coin = ({ content }) => {
-  const { state } = useAppContext();
+  const state = useAppState();
 
   if (!state.currentCoin) {
     return null;
@@ -144,11 +144,12 @@ const Coin = ({ content }) => {
 
 const CoinWrapper = (props) => {
   return (
-    <AppContextProvider
-      availableTokens={props.availableTokens}
-      chart={props.chart}
-      currentCoin={props.currentCoin}
-    >
+    <>
+      <StoreInitializer
+        availableTokens={props.availableTokens}
+        chart={props.chart}
+        currentCoin={props.currentCoin}
+      />
       <Navigation />
       <div className="lg:flex bg-gray-100 dark:bg-gray-800">
         <div className="w-12/12 lg:w-330 md:border-r dark:border-gray-700 bg-white dark:bg-gray-900">
@@ -166,7 +167,7 @@ const CoinWrapper = (props) => {
       <div className="border-t dark:border-gray-700">
         <Footer availableTokens={props.availableTokens} />
       </div>
-    </AppContextProvider>
+    </>
   );
 };
 

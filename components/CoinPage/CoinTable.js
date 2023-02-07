@@ -8,7 +8,7 @@ import {
   TableBody,
   BadgeDelta,
 } from "@tremor/react";
-import { useAppContext } from "../Context/Context";
+import { useAppState } from "../../src/store/store";
 import Currency from "../Currency/Currency";
 
 const getDeltaType = (item) => {
@@ -30,7 +30,7 @@ const getDeltaType = (item) => {
 };
 
 const TableItem = ({ item }) => {
-  const { state } = useAppContext();
+  const state = useAppState();
 
   const Badge = () => {
     let deltaType = getDeltaType(item);
@@ -73,7 +73,7 @@ const TableItem = ({ item }) => {
 };
 
 export default function CoinTable() {
-  const { state } = useAppContext();
+  const state = useAppState();
 
   return (
     <>

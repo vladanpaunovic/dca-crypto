@@ -1,8 +1,9 @@
 import { useTheme } from "next-themes";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Select from "react-select/async";
 import { getCoinById, searchCoin } from "../../queries/queries";
-import { useAppContext } from "../Context/Context";
+import { useAppState } from "../../src/store/store";
 import { ACTIONS } from "../Context/mainReducer";
 
 const colorsLight = {
@@ -45,7 +46,8 @@ const promiseOptions = async (inputValue) => {
 
 const SelectCoin = () => {
   const { theme: projectTheme } = useTheme();
-  const { state, dispatch } = useAppContext();
+  const state = useAppState();
+  const router = useRouter();
   const [mounted, setMounted] = useState(false);
   const currentCoin = state.currentCoin;
   const themeColors = colorsLight;
@@ -54,12 +56,14 @@ const SelectCoin = () => {
   useEffect(() => setMounted(true), []);
 
   const handleOnChange = async (e) => {
-    const currentCoin = await getCoinById(e.value);
+    // const currentCoin = await getCoinById(e.value);
 
-    dispatch({
-      type: ACTIONS.UPDATE_COIN_ID,
-      payload: currentCoin,
-    });
+    // dispatch({
+    //   type: ACTIONS.UPDATE_COIN_ID,
+    //   payload: currentCoin,
+    // });
+
+    router.push(`/dca/${e.value}`);
   };
 
   if (!mounted) return null;

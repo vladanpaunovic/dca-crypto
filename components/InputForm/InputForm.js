@@ -18,6 +18,7 @@ import SelectCoin from "../SelectCoin/SelectCoin";
 import apiClient from "../../server/apiClient";
 import { getFingerprint } from "../../common/fingerprinting";
 import { useSession } from "next-auth/react";
+import { useAppState } from "../../src/store/store";
 
 dayjs.extend(isSameOrBefore);
 
@@ -26,17 +27,16 @@ const before90Days = dayjs().subtract(91, "days").format("YYYY-MM-DD");
 const InputForm = () => {
   const session = useSession();
   const appContext = useAppContext();
-  const generateUrl = useGenerateUrl();
-  const { state, dispatch } = appContext;
-  const currentCoin = state.currentCoin;
+  const store = useAppState();
+  const currentCoin = store.currentCoin;
   const [isOpen, setIsOpen] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
 
-  const canProceed = state.chart.canProceed;
+  const canProceed = store.chart.canProceed;
   const freeTierLimitReached = !canProceed.proceed;
   // Due to the constrains of the CoinGecko API, we enable calculations only
   // agter the perod of 90 days
-  const isSubmitDisabled = state.input.duration < 90 || !state.input.investment;
+  const isSubmitDisabled = store.input.duration < 90 || !store.input.investment;
 
   const mutation = useMutation(
     (payload) => apiClient.post("calculate/common", payload),
@@ -55,15 +55,16 @@ const InputForm = () => {
   );
 
   const payload = {
-    coinId: state.input.coinId,
-    investmentInterval: state.input.investmentInterval,
-    investment: state.input.investment,
-    dateFrom: state.input.dateFrom,
-    dateTo: state.input.dateTo,
-    currency: state.settings.currency,
+    coinId: store.input.coinId,
+    investmentInterval: store.input.investmentInterval,
+    investment: store.input.investment,
+    dateFrom: store.input.dateFrom,
+    dateTo: store.input.dateTo,
+    currency: store.settings.currency,
   };
 
   const submitForm = async () => {
+    return;
     if (isSubmitDisabled) {
       return null;
     }
@@ -73,13 +74,13 @@ const InputForm = () => {
       payload: true,
     });
 
-    if (!state.input.coinId) {
+    if (!store.input.coinId) {
       return null;
     }
 
     const fingerprint = await getFingerprint();
 
-    generateUrl();
+    // generateUrl();
 
     mutation.mutate({ ...payload, session: session.data, fingerprint });
 
@@ -94,13 +95,13 @@ const InputForm = () => {
   useEffectOnlyOnUpdate(() => {
     submitForm();
   }, [
-    state.input.coinId,
-    state.input.investmentInterval,
-    state.settings.currency,
+    store.input.coinId,
+    store.input.investmentInterval,
+    store.settings.currency,
   ]);
 
   useEffect(() => {
-    generateUrl();
+    // generateUrl();
     // eslint-disable-next-line
   }, []);
 
@@ -174,7 +175,7 @@ const InputForm = () => {
                   })
                 }
                 className="no_arrows inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm"
-                value={state.settings.currency}
+                value={store.settings.currency}
               >
                 {availableCurrencies.map((c) => (
                   <option key={c.value} value={c.value}>
@@ -188,7 +189,7 @@ const InputForm = () => {
                 min="1"
                 max="1000000000"
                 step="any"
-                value={state.input.investment}
+                value={store.input.investment}
                 onChange={(e) =>
                   dispatch({
                     type: ACTIONS.UPDATE_INVESTMENT,
@@ -214,7 +215,7 @@ const InputForm = () => {
                 })
               }
               name="investmentInterval"
-              value={state.input.investmentInterval || ""}
+              value={store.input.investmentInterval || ""}
               className="text-gray-900 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
             >
               {availableInvestmentIntervals.map((interval) => (
@@ -233,7 +234,7 @@ const InputForm = () => {
               style={{ colorScheme: "light" }}
               className="text-gray-900 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
               type="date"
-              value={state.input.dateFrom}
+              value={store.input.dateFrom}
               max={before90Days}
               onChange={(e) =>
                 dispatch({
@@ -252,7 +253,7 @@ const InputForm = () => {
               style={{ colorScheme: "light" }}
               className="text-gray-900 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
               type="date"
-              value={state.input.dateTo}
+              value={store.input.dateTo}
               onChange={(e) =>
                 dispatch({
                   type: ACTIONS.UPDATE_DATE_TO,
@@ -282,8 +283,8 @@ const InputForm = () => {
               <p className="text-sm p-2 text-red-500">
                 Your current range is{" "}
                 {calculateDateRangeDifference(
-                  state.input.dateFrom,
-                  state.input.dateTo
+                  store.input.dateFrom,
+                  store.input.dateTo
                 )}{" "}
                 days
               </p>

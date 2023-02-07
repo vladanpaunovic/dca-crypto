@@ -54,7 +54,8 @@
     "stripe": "^10.8.0",
     "twitter-lite": "^1.1.0",
     "url": "^0.11.0",
-    "usehooks-ts": "^2.9.1"
+    "usehooks-ts": "^2.9.1",
+    "zustand": "^4.3.2"
   },
   "devDependencies": {
     "autoprefixer": "^10.2.5",

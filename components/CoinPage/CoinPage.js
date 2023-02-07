@@ -13,7 +13,6 @@ import {
 } from "@tremor/react";
 import { useState } from "react";
 import BreadcrumbDCA from "../Breadcrumb/BreadcrumbDCA";
-import { useAppContext } from "../Context/Context";
 import CoinChart from "./CoinChart";
 import TopCards from "./TopCards";
 import { formatPrice } from "../Currency/Currency";
@@ -24,6 +23,7 @@ import CoinTracked from "./CoinTracked";
 import dynamic from "next/dynamic";
 import Loading from "react-loading";
 import DcaCCGuides from "./DcaCCGuides";
+import { useAppState } from "../../src/store/store";
 
 const DynamicLumpSumPage = dynamic(() => import("./LumpSum/LumpSumPage"), {
   ssr: false,
@@ -40,7 +40,7 @@ const DynamicCoinTable = dynamic(() => import("./CoinTable"), {
 
 export default function CoinPage({ currentCoin, coinSymbol, content }) {
   const [selectedView, setSelectedView] = useState(1);
-  const { state } = useAppContext();
+  const state = useAppState();
 
   const description = `Visualise and calculate historical returns of investing ${formatPrice(
     state.chart.input.investment
