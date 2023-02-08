@@ -45,9 +45,19 @@ export const reducer = (state, action) => {
       };
     }
     case ACTIONS.UPDATE_INVESTMENT: {
+      let investment = action.payload;
+
+      if (investment < 0) {
+        investment = 1;
+      }
+
+      if (investment === "") {
+        investment = 1;
+      }
+
       return {
         ...state,
-        input: { ...state.input, investment: action.payload },
+        input: { ...state.input, investment },
       };
     }
     case ACTIONS.UPDATE_INVESTMENT_INTERVAL: {
