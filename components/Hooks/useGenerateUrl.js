@@ -1,8 +1,8 @@
-import { useAppContext } from "../Context/Context";
 import { useRouter } from "next/router";
+import { useAppState } from "../../src/store/store";
 
 const useGenerateUrl = () => {
-  const { state } = useAppContext();
+  const state = useAppState();
   const router = useRouter();
 
   const payload = {

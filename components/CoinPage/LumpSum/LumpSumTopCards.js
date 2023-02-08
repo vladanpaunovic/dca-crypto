@@ -9,7 +9,6 @@ import {
   Legend,
   BarList,
 } from "@tremor/react";
-import { useAppContext } from "../../Context/Context";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -17,13 +16,14 @@ import localizedFormat from "dayjs/plugin/localizedFormat";
 import Currency from "../../Currency/Currency";
 import CardTotalInvestment from "../TotalInvestment";
 import { valueFormatter } from "../../Chart/helpers";
+import { useAppState } from "../../../src/store/store";
 
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
 dayjs.extend(localizedFormat);
 
 const CardValueInFIAT = ({ chartData }) => {
-  const { state } = useAppContext();
+  const state = useAppState();
 
   const isEarning = chartData.insights.percentageChange > 0;
   const color = isEarning ? "emerald" : "pink";
@@ -105,7 +105,7 @@ const CardValueInFIAT = ({ chartData }) => {
 };
 
 const CardCurrentCoin = ({ chartData }) => {
-  const { state } = useAppContext();
+  const state = useAppState();
   const coinSymbol = state.currentCoin.symbol.toUpperCase();
 
   const currentPrice = state.chart.lumpSum.insights.coinPrice;
@@ -149,7 +149,7 @@ const CardCurrentCoin = ({ chartData }) => {
 };
 
 export default function LumpSumTopCards({ chartData }) {
-  const { state } = useAppContext();
+  const state = useAppState();
   return (
     <ColGrid
       gapX="gap-x-6"

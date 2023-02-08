@@ -2,9 +2,8 @@ import { useTheme } from "next-themes";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Select from "react-select/async";
-import { getCoinById, searchCoin } from "../../queries/queries";
+import { searchCoin } from "../../queries/queries";
 import { useAppState } from "../../src/store/store";
-import { ACTIONS } from "../Context/mainReducer";
 
 const colorsLight = {
   primary50: "#D1D5DB",
@@ -56,23 +55,16 @@ const SelectCoin = () => {
   useEffect(() => setMounted(true), []);
 
   const handleOnChange = async (e) => {
-    // const currentCoin = await getCoinById(e.value);
-
-    // dispatch({
-    //   type: ACTIONS.UPDATE_COIN_ID,
-    //   payload: currentCoin,
-    // });
-
     router.push(`/dca/${e.value}`);
   };
 
   if (!mounted) return null;
 
-  if (!state.settings.availableTokens) {
+  if (!state.availableTokens) {
     return null;
   }
 
-  const options = parseOptions(state.settings.availableTokens);
+  const options = parseOptions(state.availableTokens);
 
   const defaultValue = parseOptions([currentCoin])[0];
 

@@ -1,14 +1,14 @@
 import Countdown from "react-countdown";
 import dayjs from "dayjs";
-import { useAppContext } from "../Context/Context";
 import { ACTIONS } from "../Context/mainReducer";
 import { FREE_TIER_CALCULATION_LIMIT } from "../../config";
 import { ExclamationIcon } from "@heroicons/react/solid";
 import Link from "next/link";
 import { useSession, signIn } from "next-auth/react";
+import { useAppState } from "../../src/store/store";
 
 const Limit = ({ canProceed }) => {
-  const { dispatch } = useAppContext();
+  const dispatch = useAppState((state) => state.dispatch);
   const session = useSession();
 
   const handleOnComplete = () => {

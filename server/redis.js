@@ -30,7 +30,7 @@ export const storeFingerprint = (fingerprint) => {
 
 export const canUserProceed = async (fingerprint, session) => {
   if (session?.user?.hasActivePackage) {
-    return { proceed: true, package: session.user.subscription };
+    return { proceed: true, package: session.user.subscription.subId };
   }
 
   const redisKey = generateFingerprintString(fingerprint);

@@ -3,7 +3,7 @@ import {
   getAllCoins,
   getCoinById,
   getCommonChartData,
-} from "../../queries/queries";
+} from "../../server/serverQueries";
 import {
   // CACHE_INVALIDATION_INTERVAL,
   defaultCurrency,
@@ -27,6 +27,7 @@ import CoinPage from "../../components/CoinPage/CoinPage";
 import Limit from "../../components/Limit/Limit";
 import StoreInitializer from "../../src/store/StoreInitializer";
 import { useAppState } from "../../src/store/store";
+import { getGeneratedChartData } from "../../src/calculations/utils";
 
 const DynamicAffiliateLinks = dynamic(
   () => import("../../components/AffiliateLinks/AffiliateLinks"),
@@ -52,8 +53,7 @@ export async function getServerSideProps(context) {
     authOptions
   );
 
-  console.log("payload", payload);
-  const [availableTokens, chart, currentCoin] = await Promise.all([
+  const [availableTokens, rawMarketData, currentCoin] = await Promise.all([
     getAllCoins(currency), // TODO: REMOVE
     getCommonChartData({
       ...payload,
@@ -63,7 +63,6 @@ export async function getServerSideProps(context) {
     getCoinById(payload.coinId),
   ]);
 
-  console.log("currentCoin", currentCoin.name);
   const content = require(`../../content/guides/usage-guide.md`);
 
   if (!currentCoin) {
@@ -72,13 +71,20 @@ export async function getServerSideProps(context) {
     };
   }
 
+  const chart = getGeneratedChartData({
+    data: rawMarketData.prices,
+    input: payload,
+  });
+
   return {
     props: {
+      rawMarketData,
       availableTokens,
       chart,
       currentCoin,
       content,
       ...payload,
+      payload,
     },
   };
 }
@@ -148,7 +154,9 @@ const CoinWrapper = (props) => {
       <StoreInitializer
         availableTokens={props.availableTokens}
         chart={props.chart}
+        rawMarketData={props.rawMarketData}
         currentCoin={props.currentCoin}
+        input={props.payload}
       />
       <Navigation />
       <div className="lg:flex bg-gray-100 dark:bg-gray-800">

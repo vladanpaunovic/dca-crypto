@@ -6,7 +6,7 @@ import { WEBSITE_PATHNAME } from "../../config";
 import queryString from "query-string";
 import { useTweetMessage } from "../TweetMessage/TweetMessage";
 import * as ga from "../helpers/GoogleAnalytics";
-import { useAppContext } from "../Context/Context";
+import { useAppState } from "../../src/store/store";
 
 const SharingButtons = ({ currentCoin }) => {
   const router = useRouter();
@@ -134,7 +134,7 @@ const SharingButtons = ({ currentCoin }) => {
 };
 
 const ShareChart = () => {
-  const { state } = useAppContext();
+  const state = useAppState();
   const currentCoin = state.currentCoin;
   const router = useRouter();
   const isDca = router.pathname.includes("dca");

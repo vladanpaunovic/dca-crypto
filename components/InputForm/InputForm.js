@@ -26,7 +26,6 @@ const before90Days = dayjs().subtract(91, "days").format("YYYY-MM-DD");
 
 const InputForm = () => {
   const session = useSession();
-  const appContext = useAppContext();
   const store = useAppState();
   const currentCoin = store.currentCoin;
   const [isOpen, setIsOpen] = useState(false);
