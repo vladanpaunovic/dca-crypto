@@ -35,7 +35,7 @@ export const canUserProceed = async (fingerprint, session) => {
 
   const redisKey = generateFingerprintString(fingerprint);
 
-  const sessionUserCount = await rawRedis.get(redisKey);
+  const sessionUserCount = (await rawRedis.get(redisKey)) || 1;
 
   if (sessionUserCount > FREE_TIER_CALCULATION_LIMIT) {
     const ttl = await rawRedis.ttl(redisKey);

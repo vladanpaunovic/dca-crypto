@@ -28,6 +28,7 @@ import Limit from "../../components/Limit/Limit";
 import StoreInitializer from "../../src/store/StoreInitializer";
 import { useAppState } from "../../src/store/store";
 import { getGeneratedChartData } from "../../src/calculations/utils";
+import { canUserProceed, storeFingerprint } from "../../server/redis";
 
 const DynamicAffiliateLinks = dynamic(
   () => import("../../components/AffiliateLinks/AffiliateLinks"),
@@ -53,15 +54,21 @@ export async function getServerSideProps(context) {
     authOptions
   );
 
-  const [availableTokens, rawMarketData, currentCoin] = await Promise.all([
-    getAllCoins(currency), // TODO: REMOVE
-    getCommonChartData({
-      ...payload,
-      session,
-      ...(fingerprint ? { fingerprint } : {}),
-    }),
-    getCoinById(payload.coinId),
-  ]);
+  const [availableTokens, rawMarketData, currentCoin, canProceed] =
+    await Promise.all([
+      getAllCoins(currency), // TODO: REMOVE
+      getCommonChartData({
+        ...payload,
+        session,
+        ...(fingerprint ? { fingerprint } : {}),
+      }),
+      getCoinById(payload.coinId),
+      canUserProceed(fingerprint, session),
+    ]);
+
+  if (canProceed.proceed) {
+    storeFingerprint(fingerprint);
+  }
 
   const content = require(`../../content/guides/usage-guide.md`);
 
@@ -85,6 +92,7 @@ export async function getServerSideProps(context) {
       content,
       ...payload,
       payload,
+      canProceed,
     },
   };
 }
@@ -102,8 +110,8 @@ const Coin = ({ content }) => {
     return <ErrorComponent error={state.chart.error} />;
   }
 
-  if (!state.chart.canProceed.proceed) {
-    return <Limit canProceed={state.chart.canProceed} />;
+  if (!state.canProceed.proceed) {
+    return <Limit canProceed={state.canProceed} />;
   }
 
   return (
@@ -157,6 +165,7 @@ const CoinWrapper = (props) => {
         rawMarketData={props.rawMarketData}
         currentCoin={props.currentCoin}
         input={props.payload}
+        canProceed={props.canProceed}
       />
       <Navigation />
       <div className="lg:flex bg-gray-100 dark:bg-gray-800">

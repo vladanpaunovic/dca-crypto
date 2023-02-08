@@ -27,5 +27,5 @@ export const getGeneratedChartData = ({ data, input }) => {
     investmentCount: dca.chartData.length,
   });
 
-  return { dca, lumpSum, canProceed: { proceed: true }, input: innn };
+  return { dca, lumpSum, input: innn };
 };
