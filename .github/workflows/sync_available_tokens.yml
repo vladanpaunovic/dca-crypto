@@ -25,4 +25,4 @@ jobs:
         env:
           UPSTASH_REDIS_URL: ${{ secrets.UPSTASH_REDIS_URL }}
           UPSTASH_REDIS_TOKEN: ${{ secrets.UPSTASH_REDIS_TOKEN }}
-        run: node scripts/store-available-coins.js
+        run: node scripts/sync-available-coins.js
