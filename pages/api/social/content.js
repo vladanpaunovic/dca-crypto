@@ -7,6 +7,7 @@ import queryString from "query-string";
 import { checkCORS } from "../../../server/cors";
 import { getCommonChartData } from "../../../server/serverQueries";
 import { getAllAvailableCoins } from "../../../server/redis";
+import { getGeneratedChartData } from "../../../src/calculations/utils";
 dayjs.extend(relativeTime);
 
 const randomArrayKey = (array) =>
@@ -114,7 +115,15 @@ async function handler(req, res) {
     dateTo: today,
   });
 
-  const dcaChartData = await getCommonChartData(payload);
+  const response = await getCommonChartData({
+    ...payload,
+    coinId: randomCoin.id,
+  });
+
+  const dcaChartData = getGeneratedChartData({
+    data: response.prices,
+    input: payload,
+  });
 
   const tweetMessage = generateDCATweetMessage({
     coinName: randomCoin.name,
