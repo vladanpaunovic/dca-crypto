@@ -4,18 +4,27 @@ import Footer from "../../components/Footer/Footer";
 import React from "react";
 import ReactMarkdown from "react-markdown";
 import dayjs from "dayjs";
-import { defaultCurrency } from "../../config";
 import { NextSeo } from "next-seo";
 import Navigation from "../../components/Navigarion/Navigation";
 import { getAllAvailableCoins } from "../../server/redis";
+
 const availablePages = ["cookie-policy", "privacy-policy", "terms-conditions"];
 
-export async function getServerSideProps(context) {
-  const availableTokens = await getAllAvailableCoins(
-    context.query.currency || defaultCurrency
-  );
+export async function getStaticPaths() {
+  const paths = availablePages.map((post) => ({
+    params: { id: post, contentId: post },
+  }));
 
-  const contentId = context.query.contentId || null;
+  return {
+    paths,
+    fallback: true,
+  };
+}
+
+export async function getStaticProps({ params }) {
+  const availableTokens = await getAllAvailableCoins();
+
+  const contentId = params.contentId || null;
 
   const content = require(`../../content/legal/${contentId}.md`);
 
