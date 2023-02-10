@@ -9,8 +9,8 @@ import dayjs from "dayjs";
 import AllCoinsTable from "../components/AllCoinsTable/AllCoinsTable";
 import { unstable_getServerSession } from "next-auth";
 import { authOptions } from "../pages/api/auth/[...nextauth]";
-import { getAllCoins } from "../server/serverQueries";
 import { getDCAChartData } from "../queries/queries";
+import { getAllAvailableCoins } from "../server/redis";
 
 export async function getServerSideProps(context) {
   const today = dayjs().format("YYYY-MM-DD");
@@ -29,7 +29,7 @@ export async function getServerSideProps(context) {
   );
 
   const [availableTokens, chartData] = await Promise.all([
-    getAllCoins(payload.currency),
+    getAllAvailableCoins(),
     getDCAChartData({ ...payload, session }),
   ]);
 

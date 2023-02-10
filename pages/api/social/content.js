@@ -5,7 +5,8 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import queryString from "query-string";
 import { checkCORS } from "../../../server/cors";
-import { getAllCoins, getCommonChartData } from "../../../server/serverQueries";
+import { getCommonChartData } from "../../../server/serverQueries";
+import { getAllAvailableCoins } from "../../../server/redis";
 dayjs.extend(relativeTime);
 
 const randomArrayKey = (array) =>
@@ -97,7 +98,7 @@ const generateSummaryMessage = (charts) => {
 
 async function handler(req, res) {
   await checkCORS(req, res);
-  const availableTokens = await getAllCoins(defaultCurrency);
+  const availableTokens = await getAllAvailableCoins();
 
   const filteredAvailableTokens = availableTokens.filter(
     (token) => !stableCoins.includes(token.symbol)

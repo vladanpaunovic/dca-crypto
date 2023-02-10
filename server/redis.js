@@ -1,6 +1,5 @@
 // src/lib/redis.ts
 
-import "dotenv/config";
 import { Redis } from "@upstash/redis";
 import { UpstashRedisAdapter } from "@next-auth/upstash-redis-adapter";
 import { FREE_TIER_CALCULATION_LIMIT, FREE_TIER_REDIS_TTL } from "../config";
@@ -47,6 +46,16 @@ export const canUserProceed = async (fingerprint, session) => {
     sessionUserCount,
     available: FREE_TIER_CALCULATION_LIMIT,
   };
+};
+
+export const getAllAvailableCoins = async () => {
+  const availableCoins = await rawRedis.get("available-coins");
+
+  if (availableCoins) {
+    return availableCoins;
+  }
+
+  return [];
 };
 
 export default rawRedis;

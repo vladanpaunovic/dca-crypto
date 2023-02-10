@@ -1,7 +1,7 @@
 import React from "react";
 import { AppContextProvider } from "../components/Context/Context";
 import Footer from "../components/Footer/Footer";
-import { CACHE_INVALIDATION_INTERVAL, defaultCurrency } from "../config";
+import { CACHE_INVALIDATION_INTERVAL } from "../config";
 import { createStripeSession, getAllPricingProducts } from "../queries/queries";
 import { NextSeo } from "next-seo";
 import { useMutation } from "react-query";
@@ -12,12 +12,10 @@ import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/solid";
 import { classNames } from "../styles/utils";
 import PaymentMethods from "../components/PaymentMethods/PaymentMethods";
 import FAQ from "../components/FAQ/FAQ";
-import { getAllCoins } from "../server/serverQueries";
+import { getAllAvailableCoins } from "../server/redis";
 
 export async function getServerSideProps(context) {
-  const availableTokens = await getAllCoins(
-    context.query.currency || defaultCurrency
-  );
+  const availableTokens = await getAllAvailableCoins();
 
   const pricing = await getAllPricingProducts();
 
