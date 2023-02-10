@@ -39,7 +39,7 @@ export const canUserProceed = async (fingerprint, session) => {
 
   if (sessionUserCount > FREE_TIER_CALCULATION_LIMIT) {
     const ttl = await rawRedis.ttl(redisKey);
-    return { proceed: false, ttl, error: "limit reached", sessionUserCount };
+    return { proceed: false, ttl, error: "limit reached" };
   }
 
   return {
