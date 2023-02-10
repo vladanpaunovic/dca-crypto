@@ -60,8 +60,6 @@ export const getCommonChartData = async (payload) => {
         },
       }
     );
-
-    console.log("---------- Status", response.status);
   } catch (error) {
     return {
       canProceed,
