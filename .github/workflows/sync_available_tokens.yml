@@ -19,7 +19,7 @@ jobs:
           node-version: 18
 
       - name: Install modules
-        run: yarn
+        run: yarn --ignore-engines
 
       - name: Run sync-available-coins.js
         env:
