@@ -1,11 +1,11 @@
 import { generateDefaultInput } from "../../../common/generateDefaultInput";
 import { defaultCurrency, WEBSITE_URL } from "../../../config";
-import { getAllCoins, getCommonChartData } from "../../../queries/queries";
 import { formatPrice } from "../../../components/Currency/Currency";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import queryString from "query-string";
 import { checkCORS } from "../../../server/cors";
+import { getAllCoins, getCommonChartData } from "../../../server/serverQueries";
 dayjs.extend(relativeTime);
 
 const randomArrayKey = (array) =>

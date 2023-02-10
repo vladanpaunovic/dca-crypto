@@ -6,9 +6,9 @@ import {
   ProgressBar,
   BadgeDelta,
 } from "@tremor/react";
-import { useAppContext } from "../Context/Context";
 import NextImage from "next/image";
 import Currency, { formatPrice } from "../Currency/Currency";
+import { useAppState } from "../../src/store/store";
 
 function isWhatPercentOf(min, max, number) {
   return ((number - min) / (max - min)) * 100;
@@ -33,7 +33,7 @@ const getDeltaType = (percentageChange) => {
 };
 
 const CardCurrentCoin = () => {
-  const { state } = useAppContext();
+  const state = useAppState();
 
   const coinSymbol = state.currentCoin.symbol.toUpperCase();
 

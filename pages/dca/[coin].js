@@ -1,13 +1,9 @@
 import InputFormWrapper from "../../components/InputForm/InputForm";
 import {
-  AppContextProvider,
-  useAppContext,
-} from "../../components/Context/Context";
-import {
   getAllCoins,
   getCoinById,
   getCommonChartData,
-} from "../../queries/queries";
+} from "../../server/serverQueries";
 import {
   // CACHE_INVALIDATION_INTERVAL,
   defaultCurrency,
@@ -29,6 +25,11 @@ import ErrorComponent from "../../components/Error/Error";
 import "@tremor/react/dist/esm/tremor.css";
 import CoinPage from "../../components/CoinPage/CoinPage";
 import Limit from "../../components/Limit/Limit";
+import StoreInitializer from "../../src/store/StoreInitializer";
+import { useAppState } from "../../src/store/store";
+import { getGeneratedChartData } from "../../src/calculations/utils";
+import { canUserProceed, storeFingerprint } from "../../server/redis";
+import ShareChart from "../../components/ShareChart/ShareChart";
 
 const DynamicAffiliateLinks = dynamic(
   () => import("../../components/AffiliateLinks/AffiliateLinks"),
@@ -40,6 +41,7 @@ const DynamicAffiliateLinks = dynamic(
 
 export async function getServerSideProps(context) {
   const currency = context.query.currency || defaultCurrency;
+  const coinId = context.query.coin || "bitcoin";
 
   const fingerprint = getCookie(FINGERPRING_ID, {
     req: context.req,
@@ -54,15 +56,22 @@ export async function getServerSideProps(context) {
     authOptions
   );
 
-  const [availableTokens, chart, currentCoin] = await Promise.all([
-    getAllCoins(currency), // TODO: REMOVE
-    getCommonChartData({
-      ...payload,
-      session,
-      ...(fingerprint ? { fingerprint } : {}),
-    }),
-    getCoinById(payload.coinId),
-  ]);
+  const [availableTokens, rawMarketData, currentCoin, canProceed] =
+    await Promise.all([
+      getAllCoins(currency), // TODO: REMOVE
+      getCommonChartData({
+        ...payload,
+        session,
+        coinId,
+        ...(fingerprint ? { fingerprint } : {}),
+      }),
+      getCoinById(coinId),
+      canUserProceed(fingerprint, session),
+    ]);
+
+  if (canProceed.proceed) {
+    storeFingerprint(fingerprint);
+  }
 
   const content = require(`../../content/guides/usage-guide.md`);
 
@@ -72,19 +81,27 @@ export async function getServerSideProps(context) {
     };
   }
 
+  const chart = getGeneratedChartData({
+    data: rawMarketData.prices,
+    input: payload,
+  });
+
   return {
     props: {
+      rawMarketData,
       availableTokens,
       chart,
       currentCoin,
       content,
       ...payload,
+      payload,
+      canProceed,
     },
   };
 }
 
 const Coin = ({ content }) => {
-  const { state } = useAppContext();
+  const state = useAppState();
 
   if (!state.currentCoin) {
     return null;
@@ -96,8 +113,8 @@ const Coin = ({ content }) => {
     return <ErrorComponent error={state.chart.error} />;
   }
 
-  if (!state.chart.canProceed.proceed) {
-    return <Limit canProceed={state.chart.canProceed} />;
+  if (!state.canProceed.proceed) {
+    return <Limit canProceed={state.canProceed} />;
   }
 
   return (
@@ -144,16 +161,23 @@ const Coin = ({ content }) => {
 
 const CoinWrapper = (props) => {
   return (
-    <AppContextProvider
-      availableTokens={props.availableTokens}
-      chart={props.chart}
-      currentCoin={props.currentCoin}
-    >
+    <>
+      <StoreInitializer
+        availableTokens={props.availableTokens}
+        chart={props.chart}
+        rawMarketData={props.rawMarketData}
+        currentCoin={props.currentCoin}
+        input={props.payload}
+        canProceed={props.canProceed}
+      />
       <Navigation />
       <div className="lg:flex bg-gray-100 dark:bg-gray-800">
         <div className="w-12/12 lg:w-330 md:border-r dark:border-gray-700 bg-white dark:bg-gray-900">
-          <div>
+          <div className="px-4 pt-2">
             <InputFormWrapper {...props} pathname="/dca/" />
+          </div>
+          <div className="mt-0 md:block px-4">
+            <ShareChart />
           </div>
           <div className="mt-0 md:mt-8 hidden md:block">
             <DynamicAffiliateLinks />
@@ -166,7 +190,7 @@ const CoinWrapper = (props) => {
       <div className="border-t dark:border-gray-700">
         <Footer availableTokens={props.availableTokens} />
       </div>
-    </AppContextProvider>
+    </>
   );
 };
 

@@ -1,17 +1,17 @@
-import { useAppContext } from "../Context/Context";
 import Currency from "../Currency/Currency";
 import Link from "next/link";
 import { useState } from "react";
 import { ChevronRightIcon, SearchIcon } from "@heroicons/react/outline";
 import NextImage from "next/image";
+import { useAppState } from "../../src/store/store";
 
 const AllCoinsTable = ({ showOnlyNTokens, showSearch }) => {
-  const { state } = useAppContext();
+  const state = useAppState();
   const [searchQuery, setSearchQuery] = useState("");
 
   const tokenList = showOnlyNTokens
-    ? state.settings.availableTokens.slice(0, showOnlyNTokens)
-    : state.settings.availableTokens;
+    ? state.availableTokens.slice(0, showOnlyNTokens)
+    : state.availableTokens;
 
   return (
     <div className="flex flex-col">

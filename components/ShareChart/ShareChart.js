@@ -1,25 +1,26 @@
 import { Popover } from "@headlessui/react";
-import { CodeIcon, ShareIcon } from "@heroicons/react/outline";
+import { ShareIcon } from "@heroicons/react/outline";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
 import { WEBSITE_PATHNAME } from "../../config";
 import queryString from "query-string";
 import { useTweetMessage } from "../TweetMessage/TweetMessage";
 import * as ga from "../helpers/GoogleAnalytics";
-import { useAppContext } from "../Context/Context";
+import { useAppState } from "../../src/store/store";
+import { useCopyToClipboard } from "usehooks-ts";
 
 const SharingButtons = ({ currentCoin }) => {
   const router = useRouter();
   const pathname = "dca";
   const coinSymbol = currentCoin.symbol.toUpperCase();
+  const state = useAppState();
 
   const queryWithoutCoin = {
-    investment: router.query.investment,
-    investmentInterval: router.query.investmentInterval,
-    dateFrom: router.query.dateFrom,
-    dateTo: router.query.dateTo,
-    duration: router.query.duration,
-    currency: router.query.currency,
+    investment: state.input.investment,
+    investmentInterval: state.input.investmentInterval,
+    dateFrom: state.input.dateFrom,
+    dateTo: state.input.dateTo,
+    duration: state.input.duration,
   };
 
   const readyQueryString = queryString.stringify(queryWithoutCoin);
@@ -133,22 +134,50 @@ const SharingButtons = ({ currentCoin }) => {
   );
 };
 
+const CurrentUrl = ({ currentCoin }) => {
+  const state = useAppState();
+  const readyQueryString = queryString.stringify(state.input);
+
+  const [copiedUrl, setCopiedUrl] = useState(null);
+
+  const [_, copy] = useCopyToClipboard();
+
+  const handleCopy = () => {
+    copy(currentUrl);
+    setCopiedUrl(currentCoin);
+
+    setTimeout(() => {
+      setCopiedUrl(null);
+    }, 800);
+  };
+
+  const currentUrl = `${WEBSITE_PATHNAME}/dca/${currentCoin.id}?${readyQueryString}`;
+  return (
+    <div>
+      <p
+        className="bg-gray-50 text-gray-900 dark:bg-gray-800 p-2 text-normal text-xs mb-4 rounded relative"
+        onClick={handleCopy}
+      >
+        <span className="hover:bg-gray-300 cursor-text">{currentUrl}</span>
+        {copiedUrl && (
+          <div className="bg-green-100  dark:bg-green-800 p-2 text-normal text-xs mb-4 rounded absolute left-0 top-0 w-full h-full items-center justify-center flex font-medium opacity-80">
+            Copied to clipboard!
+          </div>
+        )}
+      </p>
+    </div>
+  );
+};
+
 const ShareChart = () => {
-  const { state } = useAppContext();
+  const state = useAppState();
   const currentCoin = state.currentCoin;
-  const router = useRouter();
-  const isDca = router.pathname.includes("dca");
-  const pathname = isDca ? "dca" : "lump-sum";
-  const coinSymbol = currentCoin.symbol.toUpperCase();
 
-  const readyQueryString = queryString.stringify({
-    ...router.query,
-    type: pathname,
-  });
-  const locationHref = `${WEBSITE_PATHNAME}/widget?${readyQueryString}`;
-
-  const embedScript = `<iframe src="${locationHref}" title="DCA Crypto - Dollar cost average ${currentCoin.name} (${coinSymbol})
-  calculator" width="800" height="600"></iframe>`;
+  // const router = useRouter();
+  // const coinSymbol = currentCoin.symbol.toUpperCase();
+  // const locationHref = `${WEBSITE_PATHNAME}/widget?${readyQueryString}`;
+  // const embedScript = `<iframe src="${locationHref}" title="DCA Crypto - Dollar cost average ${currentCoin.name} (${coinSymbol})
+  // calculator" width="800" height="600"></iframe>`;
 
   return (
     <Popover className="relative">
@@ -156,15 +185,15 @@ const ShareChart = () => {
         <>
           <Popover.Button
             title="Share this board with your friends."
-            className=""
+            className="w-full"
           >
             <div
-              className="py-1 px-2 flex items-center justify-between transition rounded bg-white hover:bg-indigo-50 dark:bg-gray-900 dark:hover:bg-gray-800 text-indigo-700 dark:text-yellow-500 font-medium border shadow border-transparent"
+              className="py-1 px-2 flex w-full items-center justify-center transition rounded bg-gray-900 hover:bg-gray-800 text-white font-semibold border shadow border-transparent"
               onClick={() => {
                 if (!open) {
                   ga.event({
                     action: "share_attempt",
-                    params: { calculator: pathname, token: currentCoin.name },
+                    params: { calculator: "dca", token: currentCoin.name },
                   });
                 }
               }}
@@ -176,19 +205,22 @@ const ShareChart = () => {
             </div>
           </Popover.Button>
 
-          <Popover.Panel className="fixed md:absolute z-10 w-screen transform -translate-x-2/2 bottom-0 md:bottom-auto right-0 md:right-1/2 md:max-w-sm">
-            <div className="p-4 bg-white dark:bg-gray-900 rounded border dark:border-gray-700 shadow md:max-w-sm">
+          <Popover.Panel className="fixed md:absolute z-10 w-screen transform -translate-x-2/2 bottom-0 md:bottom-auto left-0 md:left-1/2 md:max-w-sm">
+            <div className="p-4 bg-white dark:bg-gray-900 rounded border dark:border-gray-700 text-gray-900 shadow md:max-w-sm">
               <h4 className="text-normal font-medium mb-2">Share this chart</h4>
+              <div className="mb-2">
+                <CurrentUrl currentCoin={currentCoin} />
+              </div>
               <div className="mb-2">
                 <SharingButtons currentCoin={currentCoin} />
               </div>
 
-              <p className="mb-2 mt-4 text-gray-600 dark:text-gray-300 flex items-center">
+              {/* <p className="mb-2 mt-4 text-gray-600 flex items-center">
                 Embedded code <CodeIcon className="w-5 h-5 ml-1" />
               </p>
-              <p className="bg-gray-200 dark:bg-gray-800 dark:text-gray-100 p-2 text-normal text-xs mb-4 rounded select-all	">
+              <p className="bg-gray-200 text-gray-900 dark:bg-gray-800 p-2 text-normal text-xs mb-4 rounded select-all	">
                 {embedScript}
-              </p>
+              </p> */}
             </div>
           </Popover.Panel>
         </>

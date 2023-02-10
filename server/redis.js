@@ -30,12 +30,12 @@ export const storeFingerprint = (fingerprint) => {
 
 export const canUserProceed = async (fingerprint, session) => {
   if (session?.user?.hasActivePackage) {
-    return { proceed: true, package: session.user.subscription };
+    return { proceed: true, package: session.user.subscription.subId };
   }
 
   const redisKey = generateFingerprintString(fingerprint);
 
-  const sessionUserCount = await rawRedis.get(redisKey);
+  const sessionUserCount = (await rawRedis.get(redisKey)) || 0;
 
   if (sessionUserCount > FREE_TIER_CALCULATION_LIMIT) {
     const ttl = await rawRedis.ttl(redisKey);

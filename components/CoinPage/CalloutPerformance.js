@@ -1,10 +1,10 @@
 import { TrendingUpIcon, TrendingDownIcon } from "@heroicons/react/solid";
 import { Block, Callout } from "@tremor/react";
-import { useAppContext } from "../Context/Context";
+import { useAppState } from "../../src/store/store";
 import { useTweetMessage } from "../TweetMessage/TweetMessage";
 
 const CalloutPerformance = ({ chartData, isLumpSum }) => {
-  const { state } = useAppContext();
+  const state = useAppState();
   const priceChartMessage = useTweetMessage({ isLumpSum, chartData });
 
   const type = isLumpSum ? "lumpSum" : "dca";

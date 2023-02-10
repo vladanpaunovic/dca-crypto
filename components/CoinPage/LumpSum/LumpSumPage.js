@@ -5,14 +5,14 @@ import {
   AccordionHeader,
   Block,
 } from "@tremor/react";
-import { useAppContext } from "../../Context/Context";
+import { useAppState } from "../../../src/store/store";
 import CalloutPerformance from "../CalloutPerformance";
 import LumpSumCoinChart from "./LumpSumCoinChart";
 import LumpSumCoinTable from "./LumpSumCoinTable";
 import LumpSumTopCards from "./LumpSumTopCards";
 
 export default function LumpSumPage() {
-  const { state } = useAppContext();
+  const state = useAppState();
 
   const chartData = state.chart.lumpSum;
 

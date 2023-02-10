@@ -1,13 +1,5 @@
 import apiClient from "../server/apiClient";
 
-export const getAllCoins = async (currency) => {
-  const response = await apiClient.get("coins", {
-    params: { currency },
-  });
-
-  return response.data;
-};
-
 export const getDCAChartData = async (payload) => {
   const response = await apiClient.post("calculate/dca", payload);
 
@@ -16,18 +8,6 @@ export const getDCAChartData = async (payload) => {
 
 export const getLumpSumChartData = async (payload) => {
   const response = await apiClient.post("calculate/lump-sum", payload);
-
-  return response.data;
-};
-
-export const getCommonChartData = async (payload) => {
-  const response = await apiClient.post("calculate/common", payload);
-
-  return response.data;
-};
-
-export const getCoinById = async (coinId) => {
-  const response = await apiClient.get(`coins/${coinId}`);
 
   return response.data;
 };

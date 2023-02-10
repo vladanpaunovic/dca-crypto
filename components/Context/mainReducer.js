@@ -4,6 +4,7 @@ import {
   generateDefaultInput,
   calculateDateRangeDifference,
 } from "../../common/generateDefaultInput";
+import { getGeneratedChartData } from "../../src/calculations/utils";
 
 export const ACTIONS = {
   // Input actions
@@ -13,6 +14,9 @@ export const ACTIONS = {
   UPDATE_DATE_FROM: "DATE_FROM",
   UPDATE_DATE_TO: "DATE_TO",
   SET_COIN_LOADING: "SET_COIN_LOADING",
+
+  // Calculate
+  CALCULATE_CHART_DATA: "CALCULATE_CHART_DATA",
 
   // Chart actions
   SET_CHART_DATA: "SET_CHART_DATA",
@@ -25,7 +29,7 @@ export const ACTIONS = {
   UPDATE_LIST_OF_TOKENS: "UPDATE_LIST_OF_TOKENS",
 };
 
-const reducer = (state, action) => {
+export const reducer = (state, action) => {
   switch (action.type) {
     // Input
     case ACTIONS.UPDATE_COIN_ID: {
@@ -33,17 +37,23 @@ const reducer = (state, action) => {
 
       return {
         ...state,
-        input: {
-          ...state.input,
-          coinId: currentCoin.id,
-        },
         currentCoin,
       };
     }
     case ACTIONS.UPDATE_INVESTMENT: {
+      let investment = action.payload;
+
+      if (investment < 0) {
+        investment = 1;
+      }
+
+      if (investment === "") {
+        investment = 1;
+      }
+
       return {
         ...state,
-        input: { ...state.input, investment: action.payload },
+        input: { ...state.input, investment },
       };
     }
     case ACTIONS.UPDATE_INVESTMENT_INTERVAL: {
@@ -128,6 +138,18 @@ const reducer = (state, action) => {
       return {
         ...state,
         settings: { ...state.settings, availableTokens: action.payload },
+      };
+    }
+
+    case ACTIONS.CALCULATE_CHART_DATA: {
+      const chartData = getGeneratedChartData({
+        data: state.rawMarketData.prices,
+        input: state.input,
+      });
+
+      return {
+        ...state,
+        chart: chartData,
       };
     }
 

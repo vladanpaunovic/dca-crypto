@@ -1,4 +1,3 @@
-import { useAppContext } from "../Context/Context";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -7,13 +6,14 @@ import { formatPrice } from "../Currency/Currency";
 import React from "react";
 import ShareChart from "../ShareChart/ShareChart";
 import { useRouter } from "next/router";
+import { useAppState } from "../../src/store/store";
 
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
 dayjs.extend(localizedFormat);
 
 export const useTweetMessage = (props) => {
-  const { state } = useAppContext();
+  const state = useAppState();
   const router = useRouter();
 
   let isDca = router.pathname.includes("dca");

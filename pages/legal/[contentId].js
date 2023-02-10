@@ -4,11 +4,10 @@ import Footer from "../../components/Footer/Footer";
 import React from "react";
 import ReactMarkdown from "react-markdown";
 import dayjs from "dayjs";
-import { getAllCoins } from "../../queries/queries";
 import { defaultCurrency } from "../../config";
 import { NextSeo } from "next-seo";
 import Navigation from "../../components/Navigarion/Navigation";
-
+import { getAllCoins } from "../../server/serverQueries";
 const availablePages = ["cookie-policy", "privacy-policy", "terms-conditions"];
 
 export async function getServerSideProps(context) {

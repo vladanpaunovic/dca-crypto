@@ -1,5 +1,8 @@
 {
   "extends": ["eslint:recommended", "next"],
   "env": { "es6": true, "jest": true },
-  "rules": { "no-case-declarations": "off" }
+  "rules": {
+    "no-case-declarations": "off",
+    "no-unused-vars": ["error", { "destructuredArrayIgnorePattern": "^_" }]
+  }
 }

@@ -1,9 +1,9 @@
 import { Card, AreaChart, Title, Text, Divider } from "@tremor/react";
+import { useAppState } from "../../../src/store/store";
 import { valueFormatter } from "../../Chart/helpers";
-import { useAppContext } from "../../Context/Context";
 
 export default function LumpSumCoinChart({ chartData }) {
-  const { state } = useAppContext();
+  const state = useAppState();
 
   const isEarning = chartData.insights.percentageChange > 0;
 

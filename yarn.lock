@@ -1143,6 +1143,11 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-16.11.59.tgz#823f238b9063ccc3b3b7f13186f143a57926c4f6"
   integrity sha512-6u+36Dj3aDzhfBVUf/mfmc92OEdzQ2kx2jcXGdigfl70E/neV21ZHE6UCz4MDzTRcVqGAM27fk+DLXvyDsn3Jw==
 
+"@types/nprogress@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@types/nprogress/-/nprogress-0.2.0.tgz#86c593682d4199212a0509cc3c4d562bbbd6e45f"
+  integrity sha512-1cYJrqq9GezNFPsWTZpFut/d4CjpZqA0vhqDUPFWYKF1oIyBz5qnoYMzR+0C/T96t3ebLAC1SSnwrVOm5/j74A==
+
 "@types/parse-json@^4.0.0":
   version "4.0.0"
   resolved "https://registry.npmjs.org/@types/parse-json/-/parse-json-4.0.0.tgz"
@@ -4732,6 +4737,15 @@ next@12.2.4:
     "@next/swc-win32-ia32-msvc" "12.2.4"
     "@next/swc-win32-x64-msvc" "12.2.4"
 
+nextjs-progressbar@^0.0.16:
+  version "0.0.16"
+  resolved "https://registry.yarnpkg.com/nextjs-progressbar/-/nextjs-progressbar-0.0.16.tgz#d2c1e54ffc2c6d52b64282c0d764a44241fbc36e"
+  integrity sha512-GV0fD38EMD3vSDCmkq+tObmoup6QA91a6a9MxGuhJZuRk/9TNsrHGnIQQQ/sggkMkXuT4fBgF6jRjFwScDT3zA==
+  dependencies:
+    "@types/nprogress" "^0.2.0"
+    nprogress "^0.2.0"
+    prop-types "^15.8.1"
+
 node-emoji@^1.8.1:
   version "1.10.0"
   resolved "https://registry.npmjs.org/node-emoji/-/node-emoji-1.10.0.tgz"
@@ -4799,6 +4813,11 @@ npmlog@^4.1.2:
     console-control-strings "~1.1.0"
     gauge "~2.7.3"
     set-blocking "~2.0.0"
+
+nprogress@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/nprogress/-/nprogress-0.2.0.tgz#cb8f34c53213d895723fcbab907e9422adbcafb1"
+  integrity sha512-I19aIingLgR1fmhftnbWWO3dXc0hSxqHQHQb3H8m+K3TnEn/iSeTZZOyvKXWqQESMwuUVnatlCnZdLBZZt2VSA==
 
 number-is-nan@^1.0.0:
   version "1.0.1"
@@ -5301,6 +5320,15 @@ prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, 
     object-assign "^4.1.1"
     react-is "^16.8.1"
 
+prop-types@^15.8.1:
+  version "15.8.1"
+  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
+  integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
+  dependencies:
+    loose-envify "^1.4.0"
+    object-assign "^4.1.1"
+    react-is "^16.13.1"
+
 property-information@^5.0.0:
   version "5.6.0"
   resolved "https://registry.npmjs.org/property-information/-/property-information-5.6.0.tgz"
@@ -5440,7 +5468,7 @@ react-is@16.10.2:
   resolved "https://registry.npmjs.org/react-is/-/react-is-16.10.2.tgz"
   integrity sha512-INBT1QEgtcCCgvccr5/86CfD71fw9EPmDxgiJX4I2Ddr6ZsV6iFXsuby+qWJPtmNuMY0zByTsG4468P7nHuNWA==
 
-react-is@^16.10.2, react-is@^16.7.0, react-is@^16.8.1:
+react-is@^16.10.2, react-is@^16.13.1, react-is@^16.7.0, react-is@^16.8.1:
   version "16.13.1"
   resolved "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
@@ -6867,3 +6895,10 @@ yargs@^16.2.0:
     string-width "^4.2.0"
     y18n "^5.0.5"
     yargs-parser "^20.2.2"
+
+zustand@^4.3.2:
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/zustand/-/zustand-4.3.2.tgz#bb121fcad84c5a569e94bd1a2695e1a93ba85d39"
+  integrity sha512-rd4haDmlwMTVWVqwvgy00ny8rtti/klRoZjFbL/MAcDnmD5qSw/RZc+Vddstdv90M5Lv6RPgWvm1Hivyn0QgJw==
+  dependencies:
+    use-sync-external-store "1.2.0"

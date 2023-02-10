@@ -12,6 +12,7 @@ import { WEBSITE_PATHNAME } from "../config";
 import { SessionProvider } from "next-auth/react";
 import * as Sentry from "@sentry/nextjs";
 import { setFingerprintCookie } from "../common/fingerprinting";
+import NextNProgress from "nextjs-progressbar";
 
 function App({ Component, pageProps: { session, ...pageProps } }) {
   const router = useRouter();
@@ -43,6 +44,8 @@ function App({ Component, pageProps: { session, ...pageProps } }) {
           <Hydrate state={pageProps.dehydratedState}>
             <CookieBanner />
             <DefaultSeo />
+            <NextNProgress height={5} color="#4338CA" />
+
             <Component {...pageProps} />
             <ReactQueryDevtools />
           </Hydrate>

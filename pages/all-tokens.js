@@ -4,9 +4,9 @@ import { AppContextProvider } from "../components/Context/Context";
 import Footer from "../components/Footer/Footer";
 import AllTokensHero from "../components/Hero/AllTokensHero";
 import { CACHE_INVALIDATION_INTERVAL, defaultCurrency } from "../config";
-import { getAllCoins } from "../queries/queries";
 import { NextSeo } from "next-seo";
 import Navigation from "../components/Navigarion/Navigation";
+import { getAllCoins } from "../server/serverQueries";
 
 export async function getServerSideProps(context) {
   const availableTokens = await getAllCoins(
