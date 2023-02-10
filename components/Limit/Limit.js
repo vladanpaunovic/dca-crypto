@@ -41,7 +41,7 @@ const Limit = ({ canProceed }) => {
                 </Link>{" "}
                 to continue this calculation or break for{" "}
                 <Countdown
-                  date={dayjs().add(canProceed.ttl, "seconds")}
+                  date={dayjs().add(canProceed.ttl, "seconds").toDate()}
                   daysInHours={true}
                   className="font-bold"
                   onComplete={handleOnComplete}

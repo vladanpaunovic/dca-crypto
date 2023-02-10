@@ -29,6 +29,7 @@ import StoreInitializer from "../../src/store/StoreInitializer";
 import { useAppState } from "../../src/store/store";
 import { getGeneratedChartData } from "../../src/calculations/utils";
 import { canUserProceed, storeFingerprint } from "../../server/redis";
+import ShareChart from "../../components/ShareChart/ShareChart";
 
 const DynamicAffiliateLinks = dynamic(
   () => import("../../components/AffiliateLinks/AffiliateLinks"),
@@ -40,6 +41,7 @@ const DynamicAffiliateLinks = dynamic(
 
 export async function getServerSideProps(context) {
   const currency = context.query.currency || defaultCurrency;
+  const coinId = context.query.coin || "bitcoin";
 
   const fingerprint = getCookie(FINGERPRING_ID, {
     req: context.req,
@@ -60,9 +62,10 @@ export async function getServerSideProps(context) {
       getCommonChartData({
         ...payload,
         session,
+        coinId,
         ...(fingerprint ? { fingerprint } : {}),
       }),
-      getCoinById(payload.coinId),
+      getCoinById(coinId),
       canUserProceed(fingerprint, session),
     ]);
 
@@ -170,8 +173,11 @@ const CoinWrapper = (props) => {
       <Navigation />
       <div className="lg:flex bg-gray-100 dark:bg-gray-800">
         <div className="w-12/12 lg:w-330 md:border-r dark:border-gray-700 bg-white dark:bg-gray-900">
-          <div>
+          <div className="px-4 pt-2">
             <InputFormWrapper {...props} pathname="/dca/" />
+          </div>
+          <div className="mt-0 md:block px-4">
+            <ShareChart />
           </div>
           <div className="mt-0 md:mt-8 hidden md:block">
             <DynamicAffiliateLinks />

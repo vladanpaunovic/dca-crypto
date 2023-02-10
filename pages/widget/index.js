@@ -1,5 +1,4 @@
 import Head from "next/head";
-import { getAllCoins } from "../../queries/queries";
 import { CACHE_INVALIDATION_INTERVAL, defaultCurrency } from "../../config";
 import React from "react";
 import dayjs from "dayjs";
@@ -20,6 +19,7 @@ import useChartLegend from "../../components/Chart/useChartLegend";
 import { formatCurrency } from "@coingecko/cryptoformat";
 import apiClient from "../../server/apiClient";
 import NextImage from "next/image";
+import { getAllCoins } from "../../server/serverQueries";
 
 dayjs.extend(localizedFormat);
 dayjs.extend(duration);

@@ -2,7 +2,6 @@ import React from "react";
 import { AppContextProvider } from "../components/Context/Context";
 import Footer from "../components/Footer/Footer";
 import { CACHE_INVALIDATION_INTERVAL } from "../config";
-import { getAllCoins, getDCAChartData } from "../queries/queries";
 import { NextSeo } from "next-seo";
 import NavigationMenu from "../components/Menu/Menu";
 import { generateDefaultInput } from "../common/generateDefaultInput";
@@ -10,6 +9,8 @@ import dayjs from "dayjs";
 import AllCoinsTable from "../components/AllCoinsTable/AllCoinsTable";
 import { unstable_getServerSession } from "next-auth";
 import { authOptions } from "../pages/api/auth/[...nextauth]";
+import { getAllCoins } from "../server/serverQueries";
+import { getDCAChartData } from "../queries/queries";
 
 export async function getServerSideProps(context) {
   const today = dayjs().format("YYYY-MM-DD");

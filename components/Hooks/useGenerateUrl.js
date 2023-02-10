@@ -17,7 +17,7 @@ const useGenerateUrl = () => {
   const generateUrl = () =>
     router.replace(
       {
-        pathname: state.input.coinId,
+        pathname: router.query.coin,
         query: payload,
       },
       undefined,

@@ -1,23 +1,16 @@
-import { useMutation } from "react-query";
-import { useAppContext } from "../Context/Context";
 import { XIcon, CalculatorIcon } from "@heroicons/react/outline";
 import { ACTIONS } from "../Context/mainReducer";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import dayjs from "dayjs";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import { availableCurrencies } from "../../config";
-import Loading from "react-loading";
 import * as ga from "../helpers/GoogleAnalytics";
 import useEffectOnlyOnUpdate from "../Hooks/useEffectOnlyOnUpdate";
 import {
   availableInvestmentIntervals,
   calculateDateRangeDifference,
 } from "../../common/generateDefaultInput";
-import useGenerateUrl from "../Hooks/useGenerateUrl";
 import SelectCoin from "../SelectCoin/SelectCoin";
-import apiClient from "../../server/apiClient";
-import { getFingerprint } from "../../common/fingerprinting";
-import { useSession } from "next-auth/react";
 import { useAppState } from "../../src/store/store";
 
 dayjs.extend(isSameOrBefore);
@@ -25,66 +18,25 @@ dayjs.extend(isSameOrBefore);
 const before90Days = dayjs().subtract(91, "days").format("YYYY-MM-DD");
 
 const InputForm = () => {
-  const session = useSession();
   const store = useAppState();
   const currentCoin = store.currentCoin;
   const [isOpen, setIsOpen] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
 
-  const canProceed = store.chart.canProceed;
+  const canProceed = store.canProceed;
   const freeTierLimitReached = !canProceed.proceed;
   // Due to the constrains of the CoinGecko API, we enable calculations only
   // agter the perod of 90 days
   const isSubmitDisabled = store.input.duration < 90 || !store.input.investment;
 
-  const mutation = useMutation(
-    (payload) => apiClient.post("calculate/common", payload),
-    {
-      onSuccess: (data) => {
-        dispatch({
-          type: ACTIONS.SET_CHART_DATA,
-          payload: data.data,
-        });
-        dispatch({
-          type: ACTIONS.SET_COIN_LOADING,
-          payload: false,
-        });
-      },
-    }
-  );
-
-  const payload = {
-    coinId: store.input.coinId,
-    investmentInterval: store.input.investmentInterval,
-    investment: store.input.investment,
-    dateFrom: store.input.dateFrom,
-    dateTo: store.input.dateTo,
-    currency: store.settings.currency,
-  };
-
   const submitForm = async () => {
-    return;
-    if (isSubmitDisabled) {
-      return null;
-    }
-
-    dispatch({
-      type: ACTIONS.SET_COIN_LOADING,
-      payload: true,
+    store.dispatch({
+      type: ACTIONS.CALCULATE_CHART_DATA,
     });
 
-    if (!store.input.coinId) {
-      return null;
-    }
-
-    const fingerprint = await getFingerprint();
-
-    // generateUrl();
-
-    mutation.mutate({ ...payload, session: session.data, fingerprint });
-
-    setIsOpen(false);
+    return;
   };
+
   const onSubmit = (event) => {
     event.preventDefault();
 
@@ -93,16 +45,7 @@ const InputForm = () => {
 
   useEffectOnlyOnUpdate(() => {
     submitForm();
-  }, [
-    store.input.coinId,
-    store.input.investmentInterval,
-    store.settings.currency,
-  ]);
-
-  useEffect(() => {
-    // generateUrl();
-    // eslint-disable-next-line
-  }, []);
+  }, [store.input, store.settings.currency]);
 
   return (
     <>
@@ -121,23 +64,19 @@ const InputForm = () => {
         aria-label="Change parameters"
         data-testid="button-open-change-params"
       >
-        {mutation.isLoading ? (
-          <Loading type="spin" width={40} height={40} />
-        ) : (
-          <span className="flex h-10 w-10">
-            <span
-              className={` ${
-                isClicked ? "animate-none" : "animate-ping"
-              } absolute inline-flex h-10 z-0 w-10 rounded-full bg-indigo-500 opacity-40`}
-            />
-            <span className="relative z-10 inline-flex rounded-full h-10 w-10 bg-indigo-500">
-              <CalculatorIcon className="h-10 w-10" aria-hidden="true" />
-            </span>
+        <span className="flex h-10 w-10">
+          <span
+            className={` ${
+              isClicked ? "animate-none" : "animate-ping"
+            } absolute inline-flex h-10 z-0 w-10 rounded-full bg-indigo-500 opacity-40`}
+          />
+          <span className="relative z-10 inline-flex rounded-full h-10 w-10 bg-indigo-500">
+            <CalculatorIcon className="h-10 w-10" aria-hidden="true" />
           </span>
-        )}
+        </span>
       </button>
       <form
-        className={`flex flex-col md:grid grid-cols-2 gap-4 overflow-y-auto p-4 ${
+        className={`px-4 md:px-0 flex flex-col md:grid grid-cols-2 gap-4 overflow-y-auto ${
           isOpen ? "fixed md:static z-10 inset-0 bg-white" : "hidden md:grid"
         }`}
         onSubmit={onSubmit}
@@ -145,7 +84,7 @@ const InputForm = () => {
         data-testid="change-params-form"
         id="dca-crypto"
       >
-        <div className="md:hidden col-span-2 flex justify-end">
+        <div className="md:hidden pt-4 col-span-2 flex justify-end">
           <button
             type="button"
             data-testid="button-close-change-params"
@@ -168,7 +107,7 @@ const InputForm = () => {
             <div className="mt-1 flex rounded-md shadow-sm">
               <select
                 onChange={(e) =>
-                  dispatch({
+                  store.dispatch({
                     type: ACTIONS.UPDATE_CURRENCY,
                     payload: e.target.value,
                   })
@@ -190,7 +129,7 @@ const InputForm = () => {
                 step="any"
                 value={store.input.investment}
                 onChange={(e) =>
-                  dispatch({
+                  store.dispatch({
                     type: ACTIONS.UPDATE_INVESTMENT,
                     payload: e.target.value,
                   })
@@ -208,7 +147,7 @@ const InputForm = () => {
             </span>
             <select
               onChange={(opt) =>
-                dispatch({
+                store.dispatch({
                   type: ACTIONS.UPDATE_INVESTMENT_INTERVAL,
                   payload: opt.target.value,
                 })
@@ -236,7 +175,7 @@ const InputForm = () => {
               value={store.input.dateFrom}
               max={before90Days}
               onChange={(e) =>
-                dispatch({
+                store.dispatch({
                   type: ACTIONS.UPDATE_DATE_FROM,
                   payload: e.target.value,
                 })
@@ -254,7 +193,7 @@ const InputForm = () => {
               type="date"
               value={store.input.dateTo}
               onChange={(e) =>
-                dispatch({
+                store.dispatch({
                   type: ACTIONS.UPDATE_DATE_TO,
                   payload: e.target.value,
                 })
@@ -265,15 +204,6 @@ const InputForm = () => {
           </label>
         </div>
         <div className="col-span-2">
-          <button
-            type="submit"
-            className="px-4 py-2 w-full disabled:opacity-50 rounded bg-gray-900 hover:bg-gray-800 text-base text-white font-bold shadow"
-            disabled={
-              isSubmitDisabled || mutation.isLoading || freeTierLimitReached
-            }
-          >
-            {mutation.isLoading ? "Loading..." : "Calculate"}
-          </button>
           {isSubmitDisabled ? (
             <>
               <p className="text-sm p-2 text-red-500">

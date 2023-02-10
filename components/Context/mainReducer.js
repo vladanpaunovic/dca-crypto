@@ -37,10 +37,6 @@ export const reducer = (state, action) => {
 
       return {
         ...state,
-        input: {
-          ...state.input,
-          coinId: currentCoin.id,
-        },
         currentCoin,
       };
     }

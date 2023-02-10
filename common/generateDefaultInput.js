@@ -20,14 +20,11 @@ export const generateDefaultInput = (query) => {
     query.dateFrom || dayjs(dateTo).subtract(91, "day").format("YYYY-MM-DD");
 
   const DEFAULT_INPUT = {
-    coinId: query.coin || null,
     investment: query.investment || 100,
     investmentInterval:
       query.investmentInterval || availableInvestmentIntervals[1].value,
     dateFrom,
     dateTo,
-    duration: calculateDateRangeDifference(dateFrom, dateTo),
-    isLoading: false,
     currency: query.currency || defaultCurrency,
   };
 
