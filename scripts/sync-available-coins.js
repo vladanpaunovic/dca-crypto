@@ -30,6 +30,7 @@ const mapCoinGeckoResponseToRedis = (coins) => {
     name: coin.name,
     image: coin.image,
     current_price: coin.current_price,
+    market_cap_rank: coin.market_cap_rank,
   }));
 
   return redisCoins;

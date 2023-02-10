@@ -43,7 +43,7 @@ function AllTokens(props) {
         <AllTokensHero />
 
         <div className="container lg:px-6 max-w-7xl mx-auto max-w-80 bg-white dark:bg-gray-900 mt-10">
-          <AllCoinsTable showSearch />
+          <AllCoinsTable showSearch availableTokens={props.availableTokens} />
         </div>
       </main>
 

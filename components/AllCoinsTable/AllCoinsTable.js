@@ -3,15 +3,13 @@ import Link from "next/link";
 import { useState } from "react";
 import { ChevronRightIcon, SearchIcon } from "@heroicons/react/outline";
 import NextImage from "next/image";
-import { useAppState } from "../../src/store/store";
 
-const AllCoinsTable = ({ showOnlyNTokens, showSearch }) => {
-  const state = useAppState();
+const AllCoinsTable = ({ showOnlyNTokens, showSearch, availableTokens }) => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const tokenList = showOnlyNTokens
-    ? state.availableTokens.slice(0, showOnlyNTokens)
-    : state.availableTokens;
+    ? availableTokens.slice(0, showOnlyNTokens)
+    : availableTokens;
 
   return (
     <div className="flex flex-col">
@@ -56,18 +54,6 @@ const AllCoinsTable = ({ showOnlyNTokens, showSearch }) => {
                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-100"
                   >
                     Name
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-100"
-                  >
-                    Price
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-100"
-                  >
-                    Market cap
                   </th>
                 </tr>
               </thead>
@@ -114,12 +100,6 @@ const AllCoinsTable = ({ showOnlyNTokens, showSearch }) => {
                               </span>
                             </a>
                           </Link>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm">
-                          <Currency value={entry.current_price} />
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm">
-                          <Currency value={entry.market_cap} />
                         </td>
                       </tr>
                     );
