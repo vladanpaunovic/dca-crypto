@@ -15,7 +15,7 @@ import FAQ from "../components/FAQ/FAQ";
 import { getAllAvailableCoins } from "../server/redis";
 import stripe from "../server/stripe";
 
-export async function getServerSideProps(context) {
+export async function getStaticProps(context) {
   const availableTokens = await getAllAvailableCoins();
 
   const prices = await stripe.prices.list({
@@ -46,7 +46,6 @@ export async function getServerSideProps(context) {
   return {
     props: {
       availableTokens,
-      calcType: context.query.type || "dca",
       pricing: stripNonActiveProducts,
     },
   };
