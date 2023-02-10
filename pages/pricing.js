@@ -40,7 +40,7 @@ export async function getServerSideProps(context) {
 
   context.res.setHeader(
     "Cache-Control",
-    `s-maxage=${CACHE_INVALIDATION_INTERVAL}, stale-while-revalidate`
+    `s-maxage=${CACHE_INVALIDATION_INTERVAL * 24}, stale-while-revalidate`
   );
 
   return {
