@@ -101,7 +101,7 @@ export default function SignInPage(props) {
       </div>
       <div className="col-span-2 hidden md:block relative">
         <Image
-          src="/images/sign-in-background.jpg"
+          src="/images/sign-in-background.jpeg"
           layout="fill"
           alt="sign in background"
         />
