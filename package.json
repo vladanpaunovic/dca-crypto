@@ -34,7 +34,7 @@
     "just-detect-adblock": "^1.1.0",
     "micro": "^9.4.1",
     "next": "12.2.4",
-    "next-auth": "^4.18.0",
+    "next-auth": "^4.19.2",
     "next-seo": "5.1.0",
     "next-themes": "^0.0.15",
     "nextjs-progressbar": "^0.0.16",
