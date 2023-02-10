@@ -19,7 +19,7 @@ import useChartLegend from "../../components/Chart/useChartLegend";
 import { formatCurrency } from "@coingecko/cryptoformat";
 import apiClient from "../../server/apiClient";
 import NextImage from "next/image";
-import { getAllCoins } from "../../server/serverQueries";
+import { getAllAvailableCoins } from "../../server/redis";
 
 dayjs.extend(localizedFormat);
 dayjs.extend(duration);
@@ -93,7 +93,9 @@ export async function getServerSideProps(context) {
     type,
   } = context.query;
 
-  const availableTokens = await getAllCoins(currency || defaultCurrency);
+  const availableTokens = await getAllAvailableCoins(
+    currency || defaultCurrency
+  );
 
   const payload = {
     coinId: coin,

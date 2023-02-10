@@ -1,17 +1,15 @@
 import React from "react";
 import { AppContextProvider } from "../components/Context/Context";
-import { CACHE_INVALIDATION_INTERVAL, defaultCurrency } from "../config";
+import { CACHE_INVALIDATION_INTERVAL } from "../config";
 import { useRouter } from "next/router";
 import { CheckCircleIcon } from "@heroicons/react/solid";
 import Link from "next/link";
 import dayjs from "dayjs";
 import Countdown from "react-countdown";
-import { getAllCoins } from "../server/serverQueries";
+import { getAllAvailableCoins } from "../server/redis";
 
 export async function getServerSideProps(context) {
-  const availableTokens = await getAllCoins(
-    context.query.currency || defaultCurrency
-  );
+  const availableTokens = await getAllAvailableCoins();
 
   context.res.setHeader(
     "Cache-Control",

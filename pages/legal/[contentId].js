@@ -7,11 +7,11 @@ import dayjs from "dayjs";
 import { defaultCurrency } from "../../config";
 import { NextSeo } from "next-seo";
 import Navigation from "../../components/Navigarion/Navigation";
-import { getAllCoins } from "../../server/serverQueries";
+import { getAllAvailableCoins } from "../../server/redis";
 const availablePages = ["cookie-policy", "privacy-policy", "terms-conditions"];
 
 export async function getServerSideProps(context) {
-  const availableTokens = await getAllCoins(
+  const availableTokens = await getAllAvailableCoins(
     context.query.currency || defaultCurrency
   );
 

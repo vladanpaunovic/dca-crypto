@@ -1,9 +1,5 @@
 import InputFormWrapper from "../../components/InputForm/InputForm";
-import {
-  getAllCoins,
-  getCoinById,
-  getCommonChartData,
-} from "../../server/serverQueries";
+import { getCoinById, getCommonChartData } from "../../server/serverQueries";
 import {
   // CACHE_INVALIDATION_INTERVAL,
   defaultCurrency,
@@ -28,7 +24,11 @@ import Limit from "../../components/Limit/Limit";
 import StoreInitializer from "../../src/store/StoreInitializer";
 import { useAppState } from "../../src/store/store";
 import { getGeneratedChartData } from "../../src/calculations/utils";
-import { canUserProceed, storeFingerprint } from "../../server/redis";
+import {
+  canUserProceed,
+  getAllAvailableCoins,
+  storeFingerprint,
+} from "../../server/redis";
 import ShareChart from "../../components/ShareChart/ShareChart";
 
 const DynamicAffiliateLinks = dynamic(
@@ -58,7 +58,7 @@ export async function getServerSideProps(context) {
 
   const [availableTokens, rawMarketData, currentCoin, canProceed] =
     await Promise.all([
-      getAllCoins(currency), // TODO: REMOVE
+      getAllAvailableCoins(),
       getCommonChartData({
         ...payload,
         session,

@@ -82,17 +82,3 @@ export const getCommonChartData = async (payload) => {
 
   return response.data;
 };
-
-export const getAllCoins = async (currency) => {
-  const response = await coinGeckoClient.get("coins/markets", {
-    params: {
-      vs_currency: currency || "usd",
-      order: "market_cap_desc",
-      per_page: 20,
-      page: 1,
-      sparkline: false,
-    },
-  });
-
-  return response.data;
-};
