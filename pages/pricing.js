@@ -2,7 +2,7 @@ import React from "react";
 import { AppContextProvider } from "../components/Context/Context";
 import Footer from "../components/Footer/Footer";
 import { CACHE_INVALIDATION_INTERVAL } from "../config";
-import { createStripeSession, getAllPricingProducts } from "../queries/queries";
+import { createStripeSession } from "../queries/queries";
 import { NextSeo } from "next-seo";
 import { useMutation } from "react-query";
 import { signIn, useSession } from "next-auth/react";
@@ -13,11 +13,30 @@ import { classNames } from "../styles/utils";
 import PaymentMethods from "../components/PaymentMethods/PaymentMethods";
 import FAQ from "../components/FAQ/FAQ";
 import { getAllAvailableCoins } from "../server/redis";
+import stripe from "../server/stripe";
 
 export async function getServerSideProps(context) {
   const availableTokens = await getAllAvailableCoins();
 
-  const pricing = await getAllPricingProducts();
+  const prices = await stripe.prices.list({
+    expand: ["data.product"],
+    active: true,
+  });
+
+  const stripNonActiveProducts = prices.data
+    .filter((prices) => prices.product.active)
+    // Ordering prices from lowest to highest
+    .sort((a, b) => {
+      if (a.unit_amount < b.unit_amount) {
+        return -1;
+      }
+
+      if (a.unit_amount > b.unit_amount) {
+        return 1;
+      }
+
+      return 0;
+    });
 
   context.res.setHeader(
     "Cache-Control",
@@ -28,7 +47,7 @@ export async function getServerSideProps(context) {
     props: {
       availableTokens,
       calcType: context.query.type || "dca",
-      pricing,
+      pricing: stripNonActiveProducts,
     },
   };
 }
