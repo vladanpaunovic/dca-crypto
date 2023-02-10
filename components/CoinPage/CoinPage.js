@@ -29,7 +29,7 @@ const DynamicLumpSumPage = dynamic(() => import("./LumpSum/LumpSumPage"), {
   ssr: false,
   loading: () => (
     <div className="h-screen">
-      <Loading withWrapper />
+      <Loading />
     </div>
   ),
 });

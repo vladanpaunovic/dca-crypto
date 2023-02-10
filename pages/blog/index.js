@@ -2,15 +2,14 @@ import { getSortedPostsData } from "../../common/posts";
 import NextImage from "next/image";
 import NextLink from "next/link";
 import dayjs from "dayjs";
-import { defaultCurrency } from "../../config";
 import Navigation from "../../components/Navigarion/Navigation";
 import Footer from "../../components/Footer/Footer";
 import BreadcrumbBlogPost from "../../components/Breadcrumb/BreadcrumbBlogPost";
-import { fetchCoinGeckoMarkets } from "../../server/coinGeckoClient";
+import { getAllAvailableCoins } from "../../server/redis";
 
 export async function getStaticProps() {
   const allPostsData = getSortedPostsData();
-  const availableTokens = await fetchCoinGeckoMarkets(defaultCurrency);
+  const availableTokens = await getAllAvailableCoins();
 
   return {
     props: {

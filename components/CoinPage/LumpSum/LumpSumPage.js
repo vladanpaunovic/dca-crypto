@@ -29,7 +29,7 @@ export default function LumpSumPage() {
       </Block>
 
       <Block marginTop="mt-6">
-        <Accordion expanded={false} shadow={true} marginTop="mt-0">
+        <Accordion expanded={true} shadow={true} marginTop="mt-0">
           <AccordionHeader>
             <span className="text-gray-900">Purchase history</span>
           </AccordionHeader>
