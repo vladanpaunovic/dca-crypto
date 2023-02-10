@@ -16,6 +16,7 @@ import Currency, { formatPrice } from "../Currency/Currency";
 import CardTotalInvestment from "./TotalInvestment";
 import { valueFormatter } from "../Chart/helpers";
 import { useAppState } from "../../src/store/store";
+import { calculateDateRangeDifference } from "../../common/generateDefaultInput";
 
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
@@ -23,6 +24,10 @@ dayjs.extend(relativeTime);
 const CardValueInFIAT = () => {
   const state = useAppState();
 
+  const investmentDuration = calculateDateRangeDifference(
+    state.input.dateFrom,
+    state.input.dateTo
+  );
   const isEarning = state.chart.dca.insights.percentageChange > 0;
   const color = isEarning ? "emerald" : "pink";
 
@@ -91,7 +96,7 @@ const CardValueInFIAT = () => {
           >
             <Text color={color}>{percentageChange}</Text>
             <Text truncate={true}>
-              in {dayjs.duration(state.input.duration, "days").humanize()}
+              in {dayjs.duration(investmentDuration, "days").humanize()}
             </Text>
           </Flex>
         </Flex>

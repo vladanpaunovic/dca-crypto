@@ -20,7 +20,6 @@ const SharingButtons = ({ currentCoin }) => {
     investmentInterval: state.input.investmentInterval,
     dateFrom: state.input.dateFrom,
     dateTo: state.input.dateTo,
-    duration: state.input.duration,
   };
 
   const readyQueryString = queryString.stringify(queryWithoutCoin);

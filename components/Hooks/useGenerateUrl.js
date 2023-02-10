@@ -5,12 +5,17 @@ const useGenerateUrl = () => {
   const state = useAppState();
   const router = useRouter();
 
+  const investmentDuration = calculateDateRangeDifference(
+    state.input.dateFrom,
+    state.input.dateTo
+  );
+
   const payload = {
     investment: state.input.investment,
     investmentInterval: state.input.investmentInterval,
     dateFrom: state.input.dateFrom,
     dateTo: state.input.dateTo,
-    duration: state.input.duration,
+    duration: investmentDuration,
     currency: state.input.currency,
   };
 
