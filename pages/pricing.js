@@ -1,7 +1,7 @@
 import React from "react";
 import { AppContextProvider } from "../components/Context/Context";
 import Footer from "../components/Footer/Footer";
-import { CACHE_INVALIDATION_INTERVAL } from "../config";
+// import { CACHE_INVALIDATION_INTERVAL } from "../config";
 import { createStripeSession } from "../queries/queries";
 import { NextSeo } from "next-seo";
 import { useMutation } from "react-query";
@@ -38,10 +38,10 @@ export async function getServerSideProps(context) {
       return 0;
     });
 
-  context.res.setHeader(
-    "Cache-Control",
-    `s-maxage=${CACHE_INVALIDATION_INTERVAL * 24}, stale-while-revalidate`
-  );
+  // context.res.setHeader(
+  //   "Cache-Control",
+  //   `s-maxage=${CACHE_INVALIDATION_INTERVAL * 24}, stale-while-revalidate`
+  // );
 
   return {
     props: {
