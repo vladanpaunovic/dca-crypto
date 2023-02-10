@@ -228,7 +228,7 @@ const InputForm = () => {
             </p>
           ) : null}
           {freeTierLimitReached ? (
-            <p className="text-sm py-2 text-red-500">Limit reached.</p>
+            <p className="text-sm mb-4 text-red-500">Limit reached.</p>
           ) : null}
         </div>
       </form>
