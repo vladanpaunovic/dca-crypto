@@ -26,6 +26,7 @@ export const generateDefaultInput = (query) => {
     dateFrom,
     dateTo,
     currency: query.currency || defaultCurrency,
+    coinId: query.coin || "bitcoin",
   };
 
   return DEFAULT_INPUT;

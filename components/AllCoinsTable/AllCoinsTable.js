@@ -7,6 +7,10 @@ import NextImage from "next/image";
 const AllCoinsTable = ({ showOnlyNTokens, showSearch, availableTokens }) => {
   const [searchQuery, setSearchQuery] = useState("");
 
+  if (!availableTokens) {
+    return null;
+  }
+
   const tokenList = showOnlyNTokens
     ? availableTokens.slice(0, showOnlyNTokens)
     : availableTokens;

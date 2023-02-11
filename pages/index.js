@@ -9,8 +9,9 @@ import dayjs from "dayjs";
 import AllCoinsTable from "../components/AllCoinsTable/AllCoinsTable";
 import { unstable_getServerSession } from "next-auth";
 import { authOptions } from "../pages/api/auth/[...nextauth]";
-import { getDCAChartData } from "../queries/queries";
 import { getAllAvailableCoins } from "../server/redis";
+import { getCommonChartData } from "../server/serverQueries";
+import { getGeneratedChartData } from "../src/calculations/utils";
 
 export async function getServerSideProps(context) {
   const today = dayjs().format("YYYY-MM-DD");
@@ -30,8 +31,16 @@ export async function getServerSideProps(context) {
 
   const [availableTokens, chartData] = await Promise.all([
     getAllAvailableCoins(),
-    getDCAChartData({ ...payload, session }),
+    getCommonChartData({
+      ...payload,
+      session,
+    }),
   ]);
+
+  const generatedChartData = getGeneratedChartData({
+    data: chartData.prices,
+    input: payload,
+  });
 
   context.res.setHeader(
     "Cache-Control",
@@ -41,7 +50,7 @@ export async function getServerSideProps(context) {
   return {
     props: {
       availableTokens,
-      chartData,
+      chartData: generatedChartData.dca,
     },
   };
 }
@@ -88,7 +97,12 @@ function Home(props) {
             </p>
           </div>
           <div className=" dark:text-white">
-            <AllCoinsTable showOnlyNTokens={10} showSearch={false} type="dca" />
+            <AllCoinsTable
+              showOnlyNTokens={10}
+              showSearch={false}
+              type="dca"
+              availableTokens={props.availableTokens}
+            />
           </div>
         </div>
 
