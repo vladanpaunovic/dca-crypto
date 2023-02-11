@@ -7,7 +7,6 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prebuild": "node scripts/generate-sitemap.js",
     "find:unused": "next-unused",
     "test": "jest",
     "test:ci": "jest --ci"
@@ -19,7 +18,7 @@
     "@heroicons/react": "^1.0.3",
     "@next-auth/upstash-redis-adapter": "^3.0.1",
     "@prisma/client": "^4.5.0",
-    "@sentry/nextjs": "7.17.3",
+    "@sentry/nextjs": "7.37.1",
     "@tailwindcss/forms": "^0.3.3",
     "@tailwindcss/typography": "^0.4.1",
     "@tremor/react": "^1.2.2",

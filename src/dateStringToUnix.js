@@ -1,3 +1,3 @@
 export default function convertDateStringToUnix(dateString) {
-  return new Date(dateString).getTime() / 1000;
+  return Math.round(new Date(dateString).getTime() / 1000);
 }

@@ -1,29 +1,9 @@
 import apiClient from "../server/apiClient";
 
-export const getDCAChartData = async (payload) => {
-  const response = await apiClient.post("calculate/dca", payload);
-
-  return response.data;
-};
-
-export const getLumpSumChartData = async (payload) => {
-  const response = await apiClient.post("calculate/lump-sum", payload);
-
-  return response.data;
-};
-
 export const searchCoin = async (query = "") => {
   const response = await apiClient.get(`coins/search?query=${query}`);
 
   const output = response.data.coins;
-
-  return output;
-};
-
-export const getCoinPrice = async (coinId) => {
-  const response = await apiClient.get(`coins/price/${coinId}`);
-
-  const output = response.data[coinId]?.usd;
 
   return output;
 };
