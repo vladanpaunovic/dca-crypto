@@ -51,6 +51,7 @@
     "react-responsive": "^8.2.0",
     "react-select": "^4.3.1",
     "recharts": "^2.1.0",
+    "sharp": "^0.31.3",
     "store": "^2.0.12",
     "stripe": "^10.8.0",
     "twitter-lite": "^1.1.0",
