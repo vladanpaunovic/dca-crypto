@@ -23,7 +23,7 @@ function EmailSignIn({ csrfToken, callbackUrl }) {
           id="email"
           name="email"
           placeholder="email@website.com"
-          className="w-full mt-1 mb-2 focus:ring-indigo-500 focus:border-indigo-500 flex-1 block rounded-md sm:text-sm border-gray-300 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200"
+          className="w-full mt-1 mb-2 focus:ring-indigo-500 focus:border-indigo-500 flex-1 block rounded-md sm:text-sm border-gray-300 dark:bg-gray-800 text-gray-900"
         />
       </label>
       <button
