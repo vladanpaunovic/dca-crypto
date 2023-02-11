@@ -58,4 +58,14 @@ export const getAllAvailableCoins = async () => {
   return [];
 };
 
+export const getSitemaps = async () => {
+  const sitemaps = await rawRedis.get("sitemaps");
+
+  if (sitemaps) {
+    return sitemaps;
+  }
+
+  return [];
+};
+
 export default rawRedis;

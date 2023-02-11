@@ -1,12 +1,12 @@
-name: Run node script every 6 hours
+name: Sync sitemaps once a day
 
 on:
   schedule:
-    - cron: "0 */6 * * *"
+    - cron: "0 */24 * * *"
   workflow_dispatch:
 
 jobs:
-  sync_available_coins:
+  sync_sitemaps:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,8 +21,8 @@ jobs:
       - name: Install modules
         run: yarn --ignore-engines
 
-      - name: Run sync_available_coins.js
+      - name: Run sync_sitemaps.js
         env:
           UPSTASH_REDIS_URL: ${{ secrets.UPSTASH_REDIS_URL }}
           UPSTASH_REDIS_TOKEN: ${{ secrets.UPSTASH_REDIS_TOKEN }}
-        run: node scripts/sync_available_coins.js
+        run: node scripts/sync_sitemaps.js.js
