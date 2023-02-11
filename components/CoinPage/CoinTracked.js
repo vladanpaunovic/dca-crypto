@@ -54,7 +54,7 @@ const CoinTracked = () => {
           <TrackingBlock
             key={item.date}
             color={statusStyles[getDeltaType(item)]}
-            tooltip={item.percentageChange}
+            tooltip={`${item.percentageChange}% difference`}
           />
         ))}
       </Tracking>
