@@ -71,7 +71,7 @@ export const authOptions = {
       return baseUrl;
     },
   },
-  secret: "fancy-secret",
+  secret: process.env.STRIPE_ENCRYPTION_SECRET,
   pages: {
     signIn: "/auth/signin",
   },
