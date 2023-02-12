@@ -1,6 +1,3 @@
-import { setCookie } from "cookies-next";
-import { FINGERPRING_ID } from "../common/fingerprinting";
-import { canUserProceed, storeFingerprint } from "../server/redis";
 import coinGeckoClient from "./coinGeckoClient";
 
 const convertDateStringToUnix = (dateString) =>

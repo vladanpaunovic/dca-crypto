@@ -45,9 +45,11 @@ const CalculationCounter = () => {
   );
 
   useEffect(() => {
-    mutation.mutate();
+    if (fingerprint) {
+      mutation.mutate();
+    }
     // eslint-disable-next-line
-  }, [debouncedInput]);
+  }, [debouncedInput, fingerprint]);
 
   if (calculationCounter.isLoading || session.isLoading) {
     return null;

@@ -13,8 +13,6 @@ import Loading from "../../components/Loading/Loading";
 import { formatPrice } from "../../components/Currency/Currency";
 import dayjs from "dayjs";
 import Navigation from "../../components/Navigarion/Navigation";
-import { getCookie } from "cookies-next";
-import { FINGERPRING_ID } from "../../common/fingerprinting";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]";
 import ErrorComponent from "../../components/Error/Error";
@@ -38,11 +36,6 @@ const DynamicAffiliateLinks = dynamic(
 export async function getServerSideProps(context) {
   const coinId = context.query.coin || "bitcoin";
 
-  const fingerprint = getCookie(FINGERPRING_ID, {
-    req: context.req,
-    res: context.res,
-  });
-
   const payload = generateDefaultInput(context.query);
 
   const session = await getServerSession(context.req, context.res, authOptions);
@@ -53,7 +46,6 @@ export async function getServerSideProps(context) {
       ...payload,
       session,
       coinId,
-      ...(fingerprint ? { fingerprint } : {}),
     }),
     getCoinById(coinId),
   ]);
