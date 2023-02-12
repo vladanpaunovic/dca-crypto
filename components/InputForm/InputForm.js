@@ -27,6 +27,11 @@ const InputForm = () => {
   // agter the perod of 90 days
   const isSubmitDisabled = store.input.duration < 90 || !store.input.investment;
 
+  const dateOfFirstMarketData = dayjs(store.rawMarketData.prices[0][0]);
+  const isDateBeforeFirstMarketData = dayjs(store.input.dateFrom).isBefore(
+    dateOfFirstMarketData
+  );
+
   const submitForm = async () => {
     store.dispatch({
       type: ACTIONS.CALCULATE_CHART_DATA,
@@ -171,6 +176,7 @@ const InputForm = () => {
               className="text-gray-900 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
               type="date"
               value={store.input.dateFrom}
+              min={dateOfFirstMarketData.format("YYYY-MM-DD")}
               max={before90Days}
               onChange={(e) =>
                 store.dispatch({
@@ -181,6 +187,13 @@ const InputForm = () => {
               name="dateFrom"
             />
           </label>
+          {isDateBeforeFirstMarketData && (
+            <p className="text-yellow-700 text-xs mt-2">
+              Sorry, we only have {currentCoin.name} market data starting from{" "}
+              {dateOfFirstMarketData.format("MM-DD-YYYY")}. We&apos;ve adjusted
+              the date you entered to match.
+            </p>
+          )}
         </div>
         <div className="col-span-2">
           <label className="block">
@@ -197,6 +210,7 @@ const InputForm = () => {
                 })
               }
               name="dateTo"
+              min={dateOfFirstMarketData.format("YYYY-MM-DD")}
               max={dayjs().format("YYYY-MM-DD")}
             />
           </label>
