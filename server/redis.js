@@ -13,18 +13,18 @@ export const upstashAdopter = UpstashRedisAdapter(rawRedis);
 
 const generateFingerprintString = (fingerprint) => `fingerprint:${fingerprint}`;
 
-export const storeFingerprint = (fingerprint) => {
+export const storeFingerprint = async (fingerprint) => {
   const redisKey = generateFingerprintString(fingerprint);
 
-  rawRedis.get(redisKey).then((isStored) => {
-    if (isStored) {
-      rawRedis
-        .incr(redisKey)
-        .then(() => rawRedis.expire(redisKey, FREE_TIER_REDIS_TTL));
-    } else {
-      rawRedis.set(redisKey, 1, { ex: FREE_TIER_REDIS_TTL });
-    }
-  });
+  const currentRedisKey = await rawRedis.get(redisKey);
+
+  if (currentRedisKey) {
+    await rawRedis.set(redisKey, currentRedisKey + 1, {
+      ex: FREE_TIER_REDIS_TTL,
+    });
+  } else {
+    await rawRedis.set(redisKey, 1, { ex: FREE_TIER_REDIS_TTL });
+  }
 };
 
 export const canUserProceed = async (fingerprint, session) => {
@@ -34,11 +34,16 @@ export const canUserProceed = async (fingerprint, session) => {
 
   const redisKey = generateFingerprintString(fingerprint);
 
-  const sessionUserCount = (await rawRedis.get(redisKey)) || 0;
+  const redisResponse = await rawRedis.get(redisKey);
+  const sessionUserCount = redisResponse || 1;
 
   if (sessionUserCount > FREE_TIER_CALCULATION_LIMIT) {
     const ttl = await rawRedis.ttl(redisKey);
     return { proceed: false, ttl, error: "limit reached" };
+  }
+
+  if (!redisResponse) {
+    rawRedis.set(redisKey, 1, { ex: FREE_TIER_REDIS_TTL });
   }
 
   return {

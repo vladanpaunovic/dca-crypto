@@ -1,4 +1,3 @@
-import Currency from "../Currency/Currency";
 import Link from "next/link";
 import { useState } from "react";
 import { ChevronRightIcon, SearchIcon } from "@heroicons/react/outline";

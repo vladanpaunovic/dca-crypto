@@ -1,6 +1,3 @@
-import { setCookie } from "cookies-next";
-import { FINGERPRING_ID } from "../common/fingerprinting";
-import { canUserProceed, storeFingerprint } from "../server/redis";
 import coinGeckoClient from "./coinGeckoClient";
 
 const convertDateStringToUnix = (dateString) =>
@@ -32,21 +29,6 @@ export const getCoinById = async (coinId) => {
 };
 
 export const getCommonChartData = async (payload) => {
-  let canProceed = { proceed: true };
-
-  if (payload.fingerprint) {
-    setCookie(FINGERPRING_ID, payload.fingerprint, {
-      secure: true,
-      maxAge: 3600 * 24,
-      sameSite: "lax",
-    });
-
-    canProceed = await canUserProceed(payload.fingerprint, payload.session);
-    if (canProceed.proceed) {
-      storeFingerprint(payload.fingerprint);
-    }
-  }
-
   let response;
 
   try {
@@ -62,7 +44,6 @@ export const getCommonChartData = async (payload) => {
     );
   } catch (error) {
     return {
-      canProceed,
       error: {
         message: error?.response?.data?.error,
         subheading: "Try changing the coin.",
@@ -72,7 +53,6 @@ export const getCommonChartData = async (payload) => {
 
   if (!response.data.prices.length) {
     return {
-      canProceed,
       error: {
         message: `No market data yet for ${payload.coinId} yet`,
         subheading: "Try changing the coin or extending the investment period",

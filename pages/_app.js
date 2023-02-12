@@ -1,11 +1,11 @@
 import "../styles/globals.css";
-import { QueryClientProvider, QueryClient } from "react-query";
+import { QueryClientProvider } from "react-query";
 import { ThemeProvider } from "next-themes";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { Hydrate } from "react-query/hydration";
 import CookieBanner from "../components/CookieBanner/CookieBanner";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import * as ga from "../components/helpers/GoogleAnalytics";
 import DefaultSeo from "../components/Seo/DefaultSeo";
 import { WEBSITE_PATHNAME } from "../config";
@@ -13,10 +13,10 @@ import { SessionProvider } from "next-auth/react";
 import * as Sentry from "@sentry/nextjs";
 import { setFingerprintCookie } from "../common/fingerprinting";
 import NextNProgress from "nextjs-progressbar";
+import queryClient from "../common/queryClient";
 
 function App({ Component, pageProps: { session, ...pageProps } }) {
   const router = useRouter();
-  const [queryClient] = useState(() => new QueryClient());
 
   useEffect(() => {
     const handleRouteChange = (url) => {

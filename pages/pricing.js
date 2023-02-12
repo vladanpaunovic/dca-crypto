@@ -15,7 +15,7 @@ import FAQ from "../components/FAQ/FAQ";
 import { getAllAvailableCoins } from "../server/redis";
 import stripe from "../server/stripe";
 
-export async function getStaticProps(context) {
+export async function getStaticProps() {
   const availableTokens = await getAllAvailableCoins();
 
   const prices = await stripe.prices.list({

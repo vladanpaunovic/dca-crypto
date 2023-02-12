@@ -6,13 +6,7 @@ function StoreInitializer(props) {
 
   const propsAsString = JSON.stringify(props);
 
-  if (!initialized.current) {
-    useAppState.setState(props);
-    initialized.current = propsAsString;
-    return null;
-  }
-
-  if (initialized.current !== propsAsString) {
+  if (!initialized.current || initialized.current !== propsAsString) {
     useAppState.setState(props);
     initialized.current = propsAsString;
     return null;

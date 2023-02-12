@@ -7,7 +7,7 @@ import NavigationMenu from "../components/Menu/Menu";
 import { generateDefaultInput } from "../common/generateDefaultInput";
 import dayjs from "dayjs";
 import AllCoinsTable from "../components/AllCoinsTable/AllCoinsTable";
-import { unstable_getServerSession } from "next-auth";
+import { getServerSession } from "next-auth";
 import { authOptions } from "../pages/api/auth/[...nextauth]";
 import { getAllAvailableCoins } from "../server/redis";
 import { getCommonChartData } from "../server/serverQueries";
@@ -23,11 +23,7 @@ export async function getServerSideProps(context) {
     investment: 10,
   });
 
-  const session = await unstable_getServerSession(
-    context.req,
-    context.res,
-    authOptions
-  );
+  const session = await getServerSession(context.req, context.res, authOptions);
 
   const [availableTokens, chartData] = await Promise.all([
     getAllAvailableCoins(),

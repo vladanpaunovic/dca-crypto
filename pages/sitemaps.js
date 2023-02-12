@@ -1,4 +1,3 @@
-import React from "react";
 import { CACHE_INVALIDATION_INTERVAL } from "../config";
 import { getSitemaps } from "../server/redis";
 
@@ -40,6 +39,6 @@ export async function getServerSideProps(context) {
   return {};
 }
 
-export default function Sitemaps(props) {
+export default function Sitemaps() {
   return;
 }

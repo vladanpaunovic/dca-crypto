@@ -14,7 +14,7 @@ export const useAppState = create((set) => ({
     currency: defaultCurrency,
     darkMode: false,
   },
-  canProceed: null,
+  canProceed: { proceed: true },
   currentCoin: null,
   dispatch: (args) => set((state) => reducer(state, args)),
 }));
