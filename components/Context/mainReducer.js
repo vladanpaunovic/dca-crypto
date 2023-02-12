@@ -110,10 +110,7 @@ export const reducer = (state, action) => {
     case ACTIONS.UPDATE_CAN_PROCEED: {
       return {
         ...state,
-        chart: {
-          ...state.chart,
-          canProceed: action.payload,
-        },
+        canProceed: action.payload,
       };
     }
 

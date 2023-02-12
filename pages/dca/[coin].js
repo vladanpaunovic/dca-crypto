@@ -2,7 +2,6 @@ import InputFormWrapper from "../../components/InputForm/InputForm";
 import { getCoinById, getCommonChartData } from "../../server/serverQueries";
 import {
   // CACHE_INVALIDATION_INTERVAL,
-  defaultCurrency,
   WEBSITE_URL,
 } from "../../config";
 import Footer from "../../components/Footer/Footer";
@@ -15,7 +14,7 @@ import dayjs from "dayjs";
 import Navigation from "../../components/Navigarion/Navigation";
 import { getCookie } from "cookies-next";
 import { FINGERPRING_ID } from "../../common/fingerprinting";
-import { unstable_getServerSession } from "next-auth";
+import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]";
 import ErrorComponent from "../../components/Error/Error";
 import "@tremor/react/dist/esm/tremor.css";
@@ -24,11 +23,7 @@ import Limit from "../../components/Limit/Limit";
 import StoreInitializer from "../../src/store/StoreInitializer";
 import { useAppState } from "../../src/store/store";
 import { getGeneratedChartData } from "../../src/calculations/utils";
-import {
-  canUserProceed,
-  getAllAvailableCoins,
-  storeFingerprint,
-} from "../../server/redis";
+import { getAllAvailableCoins } from "../../server/redis";
 import ShareChart from "../../components/ShareChart/ShareChart";
 
 const DynamicAffiliateLinks = dynamic(
@@ -40,7 +35,6 @@ const DynamicAffiliateLinks = dynamic(
 );
 
 export async function getServerSideProps(context) {
-  const currency = context.query.currency || defaultCurrency;
   const coinId = context.query.coin || "bitcoin";
 
   const fingerprint = getCookie(FINGERPRING_ID, {
@@ -50,28 +44,18 @@ export async function getServerSideProps(context) {
 
   const payload = generateDefaultInput(context.query);
 
-  const session = await unstable_getServerSession(
-    context.req,
-    context.res,
-    authOptions
-  );
+  const session = await getServerSession(context.req, context.res, authOptions);
 
-  const [availableTokens, rawMarketData, currentCoin, canProceed] =
-    await Promise.all([
-      getAllAvailableCoins(),
-      getCommonChartData({
-        ...payload,
-        session,
-        coinId,
-        ...(fingerprint ? { fingerprint } : {}),
-      }),
-      getCoinById(coinId),
-      canUserProceed(fingerprint, session),
-    ]);
-
-  if (canProceed.proceed) {
-    storeFingerprint(fingerprint);
-  }
+  const [availableTokens, rawMarketData, currentCoin] = await Promise.all([
+    getAllAvailableCoins(),
+    getCommonChartData({
+      ...payload,
+      session,
+      coinId,
+      ...(fingerprint ? { fingerprint } : {}),
+    }),
+    getCoinById(coinId),
+  ]);
 
   const content = require(`../../content/guides/usage-guide.md`);
 
@@ -95,7 +79,6 @@ export async function getServerSideProps(context) {
       content,
       ...payload,
       payload,
-      canProceed,
     },
   };
 }
@@ -168,7 +151,6 @@ const CoinWrapper = (props) => {
         rawMarketData={props.rawMarketData}
         currentCoin={props.currentCoin}
         input={props.payload}
-        canProceed={props.canProceed}
       />
       <Navigation />
       <div className="lg:flex bg-gray-100 dark:bg-gray-800">

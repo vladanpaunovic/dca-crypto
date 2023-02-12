@@ -12,6 +12,7 @@ import {
 } from "../../common/generateDefaultInput";
 import SelectCoin from "../SelectCoin/SelectCoin";
 import { useAppState } from "../../src/store/store";
+import CalculationCounter from "../Limit/CalculationCounter";
 
 dayjs.extend(isSameOrBefore);
 
@@ -22,9 +23,6 @@ const InputForm = () => {
   const currentCoin = store.currentCoin;
   const [isOpen, setIsOpen] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
-
-  const canProceed = store.canProceed;
-  const freeTierLimitReached = !canProceed.proceed;
   // Due to the constrains of the CoinGecko API, we enable calculations only
   // agter the perod of 90 days
   const isSubmitDisabled = store.input.duration < 90 || !store.input.investment;
@@ -219,17 +217,7 @@ const InputForm = () => {
               </p>
             </>
           ) : null}
-          {canProceed.sessionUserCount ? (
-            <p className="text-gray-900 text-xs p-2 bg-gray-100 mb-4 rounded-lg">
-              Used free calculations:{" "}
-              <b>
-                {canProceed.sessionUserCount} out of {canProceed.available}
-              </b>
-            </p>
-          ) : null}
-          {freeTierLimitReached ? (
-            <p className="text-sm mb-4 text-red-500">Limit reached.</p>
-          ) : null}
+          <CalculationCounter />
         </div>
       </form>
     </>
