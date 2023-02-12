@@ -1,6 +1,7 @@
 import InputFormWrapper from "../../components/InputForm/InputForm";
 import { getCoinById, getCommonChartData } from "../../server/serverQueries";
 import {
+  CACHE_INVALIDATION_INTERVAL,
   // CACHE_INVALIDATION_INTERVAL,
   WEBSITE_URL,
 } from "../../config";
@@ -69,6 +70,11 @@ export async function getServerSideProps(context) {
     data: rawMarketData.prices,
     input: payload,
   });
+
+  context.res.setHeader(
+    "Cache-Control",
+    `s-maxage=${CACHE_INVALIDATION_INTERVAL * 24}, stale-while-revalidate`
+  );
 
   return {
     props: {
