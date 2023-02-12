@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import { calculateDateRangeDifference } from "../../common/generateDefaultInput";
 import { useAppState } from "../../src/store/store";
 
 const useGenerateUrl = () => {

@@ -1,6 +1,5 @@
 import { Popover } from "@headlessui/react";
 import { ShareIcon } from "@heroicons/react/outline";
-import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { WEBSITE_PATHNAME } from "../../config";
 import queryString from "query-string";
