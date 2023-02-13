@@ -171,7 +171,7 @@ const ShareChart = () => {
   // calculator" width="800" height="600"></iframe>`;
 
   return (
-    <Popover className="relative">
+    <Popover className="relative hidden md:block">
       {({ open }) => (
         <>
           <Popover.Button
