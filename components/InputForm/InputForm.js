@@ -46,6 +46,16 @@ const InputForm = () => {
     submitForm();
   };
 
+  const handleMobilePopupCloseButton = () => {
+    setIsOpen(!isOpen);
+    setIsClicked(true);
+
+    ga.event({
+      action: "mobile_change_params",
+      params: { calculator: "dca", token: currentCoin.name },
+    });
+  };
+
   useEffectOnlyOnUpdate(() => {
     submitForm();
   }, [store.input, store.settings.currency]);
@@ -54,15 +64,7 @@ const InputForm = () => {
     <>
       <button
         className={`fixed right-8 bottom-8 z-10 md:hidden p-2 bg-indigo-500 rounded-full shadow-xl text-white`}
-        onClick={() => {
-          setIsOpen(!isOpen);
-          setIsClicked(true);
-
-          ga.event({
-            action: "mobile_change_params",
-            params: { calculator: "dca", token: currentCoin.name },
-          });
-        }}
+        onClick={handleMobilePopupCloseButton}
         type="button"
         aria-label="Change parameters"
         data-testid="button-open-change-params"
@@ -71,7 +73,7 @@ const InputForm = () => {
           <span
             className={` ${
               isClicked ? "animate-none" : "animate-ping"
-            } absolute inline-flex h-10 z-0 w-10 rounded-full bg-indigo-500 opacity-40`}
+            } absolute inline-flex h-10 z-0 w-10 rounded-full bg-indigo-500`}
           />
           <span className="relative z-10 inline-flex rounded-full h-10 w-10 bg-indigo-500">
             <CalculatorIcon className="h-10 w-10" aria-hidden="true" />
@@ -232,6 +234,14 @@ const InputForm = () => {
             </>
           ) : null}
           <CalculationCounter />
+          <div>
+            <button
+              onClick={handleMobilePopupCloseButton}
+              className="md:hidden w-full mt-2 bg-gray-900 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded"
+            >
+              Back
+            </button>
+          </div>
         </div>
       </form>
     </>
