@@ -6,7 +6,7 @@ import AllTokensHero from "../components/Hero/AllTokensHero";
 import { CACHE_INVALIDATION_INTERVAL } from "../config";
 import { NextSeo } from "next-seo";
 import Navigation from "../components/Navigarion/Navigation";
-import { getAllAvailableCoins } from "../server/redis";
+import { getAllAvailableCoins } from "../src/vercelEdgeConfig/vercelEdgeConfig";
 
 export async function getServerSideProps(context) {
   const availableTokens = await getAllAvailableCoins();

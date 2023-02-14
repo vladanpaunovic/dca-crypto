@@ -23,6 +23,7 @@
     "@tailwindcss/typography": "^0.4.1",
     "@tremor/react": "^1.8.0",
     "@upstash/redis": "^1.13.1",
+    "@vercel/edge-config": "^0.1.1",
     "axios": "^0.21.1",
     "cookies-next": "^2.1.1",
     "cors": "^2.8.5",

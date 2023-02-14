@@ -53,16 +53,6 @@ export const canUserProceed = async (fingerprint, session) => {
   };
 };
 
-export const getAllAvailableCoins = async () => {
-  const availableCoins = await rawRedis.get("available-coins");
-
-  if (availableCoins) {
-    return availableCoins;
-  }
-
-  return [];
-};
-
 export const getSitemaps = async () => {
   const sitemaps = await rawRedis.get("sitemaps");
 
