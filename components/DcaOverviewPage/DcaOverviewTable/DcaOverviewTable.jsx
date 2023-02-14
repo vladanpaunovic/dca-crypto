@@ -109,27 +109,36 @@ export default function DcaOverviewTable(props) {
 const TableCellPrepped = (props) => {
   const barColor = props.value > 0 ? "bg-green-500" : "bg-red-500";
   const bgColor = props.value > 0 ? "bg-green-100" : "bg-red-100";
-  if (props.value === 0) {
-    return null;
-  }
+
+  const buttonColor = () => {
+    let color = props.value > 0 ? "text-green-500" : "text-red-500";
+    if (props.width > 80) {
+      color = props.value > 0 ? "text-green-100" : "text-red-100";
+    }
+
+    return color;
+  };
 
   return (
     <TableCell textAlignment="text-right">
       <Link href={props.url}>
         <a className="flex items-center justify-between group">
-          <div className={`${bgColor} w-full rounded`}>
-            <div
+          <div className={`${bgColor} relative w-full rounded`}>
+            <div className="h-6 flex justify-between w-full items-center px-1 z-50 relative">
+              <span className="pl-1 text-gray-900 text-xs">{props.value}%</span>
+              <span className="pl-2">
+                <ChartBarIcon
+                  className={`h-4 w-4 ${buttonColor()} group-hover:text-gray-900`}
+                />
+              </span>
+            </div>
+            <span
               style={{
                 width: `${props.width}%`,
               }}
-              className={`h-6 rounded flex items-center ${barColor}`}
-            >
-              <span className="pl-1 text-gray-900 text-xs">{props.value}%</span>
-            </div>
+              className={`h-6 ${barColor} absolute inset-0 rounded`}
+            />
           </div>
-          <span className="pl-2">
-            <ChartBarIcon className="h-4 w-4 text-gray-200 group-hover:text-gray-900" />
-          </span>
         </a>
       </Link>
     </TableCell>
