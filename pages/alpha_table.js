@@ -87,7 +87,6 @@ export const getStaticProps = async () => {
 
   return {
     props: {
-      title: "My page",
       tableData: responses,
       years,
       bestPerformingAssetPerYear,

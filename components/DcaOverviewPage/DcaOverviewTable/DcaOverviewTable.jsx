@@ -8,7 +8,6 @@ import {
   TableBody,
   MultiSelectBox,
   MultiSelectBoxItem,
-  DonutChart,
 } from "@tremor/react";
 import { useState } from "react";
 import { ChartBarIcon } from "@heroicons/react/solid";
@@ -19,27 +18,6 @@ export default function DcaOverviewTable(props) {
 
   const isCryptoSelected = (crypto) =>
     selectedNames.includes(crypto.coinLabel) || selectedNames.length === 0;
-
-  const valueFormatter = (number) =>
-    `${number} out of ${props.years.length + 1} years top performing asset`;
-
-  const mapAssetPerformanceToPieChart = props.bestPerformingAssetPerYear
-    .filter((item) => isCryptoSelected(item))
-    .map((coin) => {
-      return {
-        name: coin.coinLabel,
-        value: 1,
-      };
-    })
-    .reduce((acc, curr) => {
-      const index = acc.findIndex((item) => item.name === curr.name);
-      if (index === -1) {
-        acc.push(curr);
-      } else {
-        acc[index].value += curr.value;
-      }
-      return acc;
-    }, []);
 
   return (
     <Card>
@@ -56,14 +34,6 @@ export default function DcaOverviewTable(props) {
           />
         ))}
       </MultiSelectBox>
-
-      <DonutChart
-        data={mapAssetPerformanceToPieChart}
-        category="value"
-        dataKey="name"
-        label="Performance"
-        valueFormatter={valueFormatter}
-      />
 
       <Table marginTop="mt-6">
         <TableHead>
