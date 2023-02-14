@@ -6,7 +6,7 @@ import ReactMarkdown from "react-markdown";
 import dayjs from "dayjs";
 import { NextSeo } from "next-seo";
 import Navigation from "../../components/Navigarion/Navigation";
-import { getAllAvailableCoins } from "../../server/redis";
+import { getAllAvailableCoins } from "../../src/vercelEdgeConfig/vercelEdgeConfig";
 
 const availablePages = ["cookie-policy", "privacy-policy", "terms-conditions"];
 

@@ -12,7 +12,7 @@ import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/solid";
 import { classNames } from "../styles/utils";
 import PaymentMethods from "../components/PaymentMethods/PaymentMethods";
 import FAQ from "../components/FAQ/FAQ";
-import { getAllAvailableCoins } from "../server/redis";
+import { getAllAvailableCoins } from "../src/vercelEdgeConfig/vercelEdgeConfig";
 import stripe from "../server/stripe";
 
 export async function getStaticProps() {

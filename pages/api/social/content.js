@@ -6,8 +6,8 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import queryString from "query-string";
 import { checkCORS } from "../../../server/cors";
 import { getCommonChartData } from "../../../server/serverQueries";
-import { getAllAvailableCoins } from "../../../server/redis";
 import { getGeneratedChartData } from "../../../src/calculations/utils";
+import { getAllAvailableCoins } from "../../../src/vercelEdgeConfig/vercelEdgeConfig";
 dayjs.extend(relativeTime);
 
 const randomArrayKey = (array) =>
