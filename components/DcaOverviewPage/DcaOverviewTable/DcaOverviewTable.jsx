@@ -119,6 +119,9 @@ const TableCellPrepped = (props) => {
     return color;
   };
 
+  if (props.value === 0)
+    return <TableCell textAlignment="text-right">-</TableCell>;
+
   return (
     <TableCell textAlignment="text-right">
       <Link href={props.url}>
