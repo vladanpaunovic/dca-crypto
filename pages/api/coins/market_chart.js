@@ -7,6 +7,7 @@ const convertDateStringToUnix = (dateString) =>
 
 const handler = async (req, res) => {
   await checkCORS(req, res);
+
   res.setHeader("Cache-Control", "s-maxage=864000"); // 10 days
 
   const payload = req.query;
@@ -17,8 +18,8 @@ const handler = async (req, res) => {
     `https://api.coingecko.com/api/v3/coins/${payload.coinId}/market_chart/range`,
     {
       params: {
-        from: convertDateStringToUnix(payload.from),
-        to: convertDateStringToUnix(payload.to),
+        from: convertDateStringToUnix(new Date("01-01-2010")),
+        to: convertDateStringToUnix(new Date()),
         vs_currency: payload.vs_currency,
       },
     }
@@ -27,4 +28,4 @@ const handler = async (req, res) => {
   res.status(200).json(response.data);
 };
 
-export default Sentry.withSentry(handler);
+export default handler;
