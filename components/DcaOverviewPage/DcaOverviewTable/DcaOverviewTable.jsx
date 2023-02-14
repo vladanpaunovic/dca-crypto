@@ -117,7 +117,7 @@ const TableCellPrepped = (props) => {
     <TableCell textAlignment="text-right">
       <Link href={props.url}>
         <a className="flex items-center justify-between group">
-          <div className={`${bgColor} w-full rounded p-1`}>
+          <div className={`${bgColor} w-full rounded`}>
             <div
               style={{
                 width: `${props.width}%`,
