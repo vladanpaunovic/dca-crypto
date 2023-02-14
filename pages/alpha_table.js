@@ -4,6 +4,8 @@ import ethResponse from "../src/dca_table/eth_response.json";
 import solResponse from "../src/dca_table/sol_response.json";
 import { getTableChartDataOverYears } from "../src/calculations/utils";
 import DcaOverviewTable from "../components/DcaOverviewPage/DcaOverviewTable/DcaOverviewTable";
+import { Subtitle, Title } from "@tremor/react";
+import ReactMarkdown from "react-markdown";
 
 const getWidthsFromValues = (dataValues) => {
   let maxValue = -Infinity;
@@ -81,12 +83,15 @@ export const getStaticProps = async () => {
     (_, i) => coinWithHighestDeltaValue(i)
   );
 
+  const content = require(`../content/guides/dca-overview-table.md`);
+
   return {
     props: {
       title: "My page",
       tableData: responses,
       years,
       bestPerformingAssetPerYear,
+      content,
     },
   };
 };
@@ -94,8 +99,18 @@ export const getStaticProps = async () => {
 const Page = (props) => {
   return (
     <div className="container mx-auto p-8 text-gray-900 ">
-      <div className="">
+      <Title>Dollar Cost Averaging (DCA) Returns</Title>
+      <Subtitle>
+        How much would you have earned if you purchased $100 every week since
+        2016, 2017, 2018, 2019, or 2020?
+      </Subtitle>
+      <div className="mt-8">
         <DcaOverviewTable {...props} />
+      </div>
+      <div className="mt-8 flex justify-center">
+        <div className="mt-4 max-w-3xl  prose prose-sm">
+          <ReactMarkdown>{props.content.body}</ReactMarkdown>
+        </div>
       </div>
     </div>
   );

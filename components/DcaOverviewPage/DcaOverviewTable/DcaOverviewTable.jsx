@@ -98,7 +98,7 @@ export default function DcaOverviewTable(props) {
 
         <TableBody>
           <TableRow>
-            <TableCell>Best Performing Asset</TableCell>
+            <TableCell>Top Performing Asset</TableCell>
             {props.bestPerformingAssetPerYear.map((asset, index) => {
               return (
                 <TableCell
