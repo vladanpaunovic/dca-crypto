@@ -22,8 +22,8 @@ import Limit from "../../components/Limit/Limit";
 import StoreInitializer from "../../src/store/StoreInitializer";
 import { useAppState } from "../../src/store/store";
 import { getGeneratedChartData } from "../../src/calculations/utils";
-import { getAllAvailableCoins } from "../../server/redis";
 import ShareChart from "../../components/ShareChart/ShareChart";
+import { getAllAvailableCoins } from "../../src/vercelEdgeConfig/vercelEdgeConfig";
 
 const DynamicAffiliateLinks = dynamic(
   () => import("../../components/AffiliateLinks/AffiliateLinks"),

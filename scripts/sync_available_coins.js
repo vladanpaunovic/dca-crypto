@@ -1,11 +1,6 @@
 require("dotenv").config();
-const { Redis } = require("@upstash/redis");
 const qs = require("qs");
-
-const rawRedis = new Redis({
-  url: process.env.UPSTASH_REDIS_URL,
-  token: process.env.UPSTASH_REDIS_TOKEN,
-});
+const updateVercelEdgeConfig = require("./vercelEdgeConfig");
 
 const getAllCoins = async () => {
   const params = qs.stringify({
@@ -40,7 +35,7 @@ async function main() {
   const allCoins = await getAllCoins();
   const mappedCoins = mapCoinGeckoResponseToRedis(allCoins);
 
-  rawRedis.set("available-coins", JSON.stringify(mappedCoins));
+  updateVercelEdgeConfig("available-coins", mappedCoins);
 }
 
 main();

@@ -9,9 +9,9 @@ import dayjs from "dayjs";
 import AllCoinsTable from "../components/AllCoinsTable/AllCoinsTable";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../pages/api/auth/[...nextauth]";
-import { getAllAvailableCoins } from "../server/redis";
 import { getCommonChartData } from "../server/serverQueries";
 import { getGeneratedChartData } from "../src/calculations/utils";
+import { getAllAvailableCoins } from "../src/vercelEdgeConfig/vercelEdgeConfig";
 
 export async function getServerSideProps(context) {
   const today = dayjs().format("YYYY-MM-DD");

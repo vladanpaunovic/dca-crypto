@@ -6,7 +6,7 @@ import { CheckCircleIcon } from "@heroicons/react/solid";
 import Link from "next/link";
 import dayjs from "dayjs";
 import Countdown from "react-countdown";
-import { getAllAvailableCoins } from "../server/redis";
+import { getAllAvailableCoins } from "../src/vercelEdgeConfig/vercelEdgeConfig";
 
 export async function getServerSideProps(context) {
   const availableTokens = await getAllAvailableCoins();

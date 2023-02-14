@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 import Navigation from "../../components/Navigarion/Navigation";
 import Footer from "../../components/Footer/Footer";
 import BreadcrumbBlogPost from "../../components/Breadcrumb/BreadcrumbBlogPost";
-import { getAllAvailableCoins } from "../../server/redis";
+import { getAllAvailableCoins } from "../../src/vercelEdgeConfig/vercelEdgeConfig";
 
 export async function getStaticProps() {
   const allPostsData = getSortedPostsData();

@@ -19,7 +19,7 @@ import useChartLegend from "../../components/Chart/useChartLegend";
 import { formatCurrency } from "@coingecko/cryptoformat";
 import apiClient from "../../server/apiClient";
 import NextImage from "next/image";
-import { getAllAvailableCoins } from "../../server/redis";
+import { getAllAvailableCoins } from "../../src/vercelEdgeConfig/vercelEdgeConfig";
 
 dayjs.extend(localizedFormat);
 dayjs.extend(duration);

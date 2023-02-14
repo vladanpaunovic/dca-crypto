@@ -10,7 +10,7 @@ import { NextSeo } from "next-seo";
 import Navigation from "../../components/Navigarion/Navigation";
 import { getPostById, getSortedPostsData } from "../../common/posts";
 import BreadcrumbBlogPost from "../../components/Breadcrumb/BreadcrumbBlogPost";
-import { getAllAvailableCoins } from "../../server/redis";
+import { getAllAvailableCoins } from "../../src/vercelEdgeConfig/vercelEdgeConfig";
 
 export async function getStaticPaths() {
   const allPostsData = getSortedPostsData();
