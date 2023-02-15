@@ -40,6 +40,11 @@ async function main() {
       await fetch(`${CG_API_URL}/coins/${coin.id}`)
     ).json();
 
+    // if fields in coinData are missing, skip it
+    if (!coinData.name || !coinData.symbol || !coinData.id) {
+      continue;
+    }
+
     const payload = {
       name: coinData.name,
       symbol: coinData.symbol,
@@ -65,11 +70,10 @@ async function main() {
 
     payload.prices = coinPrices.prices || [];
 
+    // store cryptocurrencies in the database
     console.log(
       `Storing #${index + 1}/${availableCoins.length} ${coinData.name}`
     );
-
-    // store cryptocurrencies in the database
     await prismaClient.cryptocurrency.upsert({
       where: {
         coinId: coinData.id,
