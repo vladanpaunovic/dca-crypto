@@ -59,7 +59,6 @@ async function main() {
       ASSET_DESCRIPTION,
       ASSET_DESCRIPTION_SUMMARY,
       WEBSITE_URL,
-      LOGO_URL,
       NAME,
       SYMBOL,
     } = coin;
@@ -91,7 +90,6 @@ async function main() {
         description: ASSET_DESCRIPTION,
         descriptionSummary: ASSET_DESCRIPTION_SUMMARY,
         websiteUrl: WEBSITE_URL,
-        image: LOGO_URL,
       },
     });
 
