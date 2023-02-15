@@ -51,6 +51,7 @@ const getAllAvailableTokens = async () => {
 async function main() {
   const availableCoins = await getAllAvailableTokens();
 
+  let discovered = 0;
   for (let index = 0; index < availableCoins.length; index++) {
     const coin = availableCoins[index];
 
@@ -91,7 +92,17 @@ async function main() {
         image: LOGO_URL,
       },
     });
+
+    discovered += 1;
   }
+
+  // calculate the percentage of found tokens
+  const percentage = (discovered / availableCoins.length) * 100;
+  console.log(
+    `Discovered ${discovered}/${
+      availableCoins.length
+    } tokens (${percentage.toFixed(2)}%)`
+  );
 }
 
 main();
