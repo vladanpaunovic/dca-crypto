@@ -74,3 +74,15 @@ enum SubscriptionType {
     subscription
     week_pass
 }
+
+model Cryptocurrency {
+    id            String @id @default(auto()) @map("_id") @db.ObjectId
+    coinId        String @unique
+    name          String
+    symbol        String
+    image         String
+    currentPrice  Float?
+    marketCapRank Int?
+    description   String
+    prices        Json
+}

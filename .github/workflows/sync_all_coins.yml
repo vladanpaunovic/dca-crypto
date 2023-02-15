@@ -1,12 +1,12 @@
-name: Run node script every 6 hours
+name: Sync all coins once a day
 
 on:
   schedule:
-    - cron: "0 1 * * *"
+    - cron: "0 4 * * *"
   workflow_dispatch:
 
 jobs:
-  sync_available_coins:
+  sync_sitemaps:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,7 +21,7 @@ jobs:
       - name: Install modules
         run: yarn --ignore-engines
 
-      - name: Run sync_available_coins.js
+      - name: Run sync_all_coins.js
         env:
-          VERCEL_API_TOKEN: ${{ secrets.VERCEL_API_TOKEN }}
-        run: node scripts/sync_available_coins.js
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+        run: node scripts/sync_all_coins.js
