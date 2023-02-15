@@ -1,4 +1,4 @@
-name: Sync all coins once a day
+name: Sync all coins metadata once a month
 
 on:
   schedule:
