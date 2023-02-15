@@ -116,6 +116,7 @@ async function main() {
       coinId: coin.id,
       currentPrice: parseFloat(coin.priceUsd || 0),
       marketCapRank: parseInt(coin.rank),
+      image: `https://assets.coincap.io/assets/icons/${coin.symbol.toLowerCase()}@2x.png`,
     };
 
     payload.prices = coinPrices || [];

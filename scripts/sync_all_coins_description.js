@@ -38,13 +38,13 @@ const getAllAvailableTokens = async () => {
 
   tokens.push(...firstPageTokens.Data.LIST);
 
-  for (let page = 2; page <= totalTokens / 100; page++) {
+  for (let page = 2; page <= totalTokens / 100 + 1; page++) {
     // for (let page = 2; page <= 3; page++) {
     const pageTokens = await getTokensPage(page);
     tokens.push(...pageTokens.Data.LIST);
   }
 
-  console.log(`availableTokens: ${tokens.length}`);
+  console.log(`availableTokens: ${tokens.length}, totalTokens: ${totalTokens}`);
   return tokens;
 };
 
@@ -59,13 +59,16 @@ async function main() {
       ASSET_DESCRIPTION,
       ASSET_DESCRIPTION_SUMMARY,
       WEBSITE_URL,
-      NAME,
       LOGO_URL,
+      NAME,
+      URI,
       SYMBOL,
     } = coin;
 
-    const findCoin = await prismaClient.cryptocurrency.findUnique({
-      where: { symbol: SYMBOL },
+    const findCoin = await prismaClient.cryptocurrency.findFirst({
+      where: {
+        symbol: SYMBOL,
+      },
     });
 
     if (!findCoin) {
