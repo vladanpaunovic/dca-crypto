@@ -1,0 +1,29 @@
+name: Sync all coins once a day
+
+on:
+  schedule:
+    - cron: "0 7 1 * *"
+  workflow_dispatch:
+
+jobs:
+  sync_all_coins_description:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install modules
+        run: yarn --ignore-engines
+
+      - name: Run sync_all_coins_description.js
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          CRYPTOCOMPARE_API_KEY: ${{ secrets.CRYPTOCOMPARE_API_KEY }}
+          COINCAP_API_KEY: ${{ secrets.COINCAP_API_KEY }}
+        run: node scripts/sync_all_coins_description.js

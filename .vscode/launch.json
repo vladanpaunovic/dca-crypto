@@ -28,7 +28,7 @@
       "name": "Node.js debug script",
       "type": "node-terminal",
       "request": "launch",
-      "command": "node scripts/sync_all_coins.js"
+      "command": "node scripts/sync_all_coins_description.js"
     }
   ]
 }
