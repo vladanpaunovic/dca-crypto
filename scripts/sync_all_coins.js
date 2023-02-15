@@ -63,7 +63,7 @@ const getCoinPrice = async (coinSymbol) => {
   }
 
   const mapDataToPrices = (prices) =>
-    prices.map((price) => [price.time, parseFloat(price.close)]);
+    prices.map((price) => [price.time * 1000, parseFloat(price.close)]);
 
   if (!coinData.Data?.Data || !coinData.Data?.Data?.length) {
     return [];
