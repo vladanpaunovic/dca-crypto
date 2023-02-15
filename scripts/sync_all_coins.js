@@ -46,8 +46,8 @@ async function main() {
       coinId: coinData.id,
       currentPrice: coinData.market_data?.current_price?.usd || null,
       marketCapRank: coinData.market_cap_rank || null,
-      image: coinData.image.small,
-      description: coinData.description.en,
+      image: coinData.image?.small,
+      description: coinData.description?.en || "",
     };
 
     // get coin prices
