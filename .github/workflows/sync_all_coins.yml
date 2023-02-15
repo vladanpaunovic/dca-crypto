@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  sync_sitemaps:
+  sync_all_coins:
     runs-on: ubuntu-latest
 
     steps:
