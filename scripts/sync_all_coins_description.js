@@ -61,7 +61,6 @@ async function main() {
       WEBSITE_URL,
       LOGO_URL,
       NAME,
-      URI,
       SYMBOL,
     } = coin;
 
