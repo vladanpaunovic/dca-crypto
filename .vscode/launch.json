@@ -23,6 +23,12 @@
         "uriFormat": "%s",
         "action": "debugWithChrome"
       }
+    },
+    {
+      "name": "Node.js debug script",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "node scripts/sync_all_coins.js"
     }
   ]
 }
