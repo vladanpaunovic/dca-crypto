@@ -79,9 +79,9 @@ model Cryptocurrency {
     id                 String  @id @default(auto()) @map("_id") @db.ObjectId
     coinId             String  @unique
     name               String
-    symbol             String
+    symbol             String  @unique
     currentPrice       Float
-    marketCapRank      Int
+    marketCapRank      Int?
     prices             Json
     image              String?
     description        String?

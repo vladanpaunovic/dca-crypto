@@ -87,6 +87,15 @@ async function main() {
   // for each coin in availableCoins fetch the coin data from the external APIs
   // and store it in the database
   for (let index = 0; index < availableCoins.length; index++) {
+    // sleep every 10 requests to avoid rate limits
+    if (index % 10 === 0) {
+      const SLEEP_TIMEOUT_10_SEC = 10000;
+      console.log(
+        `Sleeping for ${SLEEP_TIMEOUT_10_SEC / 1000}s to avoid rate limits`
+      );
+      await sleep(SLEEP_TIMEOUT_10_SEC);
+    }
+
     const coin = availableCoins[index];
 
     const coinPrices = await getCoinPrice(coin.symbol);
@@ -105,7 +114,7 @@ async function main() {
       name: coin.name,
       symbol: coin.symbol,
       coinId: coin.id,
-      currentPrice: parseFloat(coin.priceUsd),
+      currentPrice: parseFloat(coin.priceUsd || 0),
       marketCapRank: parseInt(coin.rank),
     };
 
