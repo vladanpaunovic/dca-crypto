@@ -88,7 +88,7 @@ async function main() {
   // and store it in the database
   for (let index = 0; index < availableCoins.length; index++) {
     // sleep every 10 requests to avoid rate limits
-    if (index % 10 === 0) {
+    if (index % 100 === 0) {
       const SLEEP_TIMEOUT_10_SEC = 10000;
       console.log(
         `Sleeping for ${SLEEP_TIMEOUT_10_SEC / 1000}s to avoid rate limits`
