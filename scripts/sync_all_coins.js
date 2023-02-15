@@ -4,23 +4,76 @@ const qs = require("qs");
 /** @type {import('@prisma/client').PrismaClient} */
 const prismaClient = global.prisma || new PrismaClient();
 
-const convertDateStringToUnix = (dateString) =>
-  new Date(dateString).getTime() / 1000;
-
-const CG_API_URL = "https://api.coingecko.com/api/v3";
-
-const SLEEP_TIMEOUT = 3000;
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+const CRYPTOCOMPARE_API_KEY = process.env.CRYPTOCOMPARE_API_KEY;
+const COINCAP_API_KEY = process.env.COINCAP_API_KEY;
+
+const cryptoCompareFetchOptions = {
+  method: "GET",
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${CRYPTOCOMPARE_API_KEY}`,
+  },
+};
+
+const getAllAvailableTokens = async () => {
+  const coinCapFetchOptions = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${COINCAP_API_KEY}`,
+    },
+  };
+
+  const availableCoinsResponse = await fetch(
+    `https://api.coincap.io/v2/assets?limit=2000`,
+    coinCapFetchOptions
+  );
+  const availableCoins = await availableCoinsResponse.json();
+
+  console.log(`availableCoins: ${availableCoins.data.length}`);
+
+  return availableCoins.data;
+};
+
+const getCoinPrice = async (coinSymbol) => {
+  const params = qs.stringify({
+    fsym: coinSymbol,
+    tsym: "USD",
+    allData: true,
+  });
+
+  const coinDataResponse = await fetch(
+    `https://min-api.cryptocompare.com/data/v2/histoday?${params}`,
+    cryptoCompareFetchOptions
+  );
+
+  const coinData = await coinDataResponse.json();
+
+  if (coinDataResponse.status === 429) {
+    const SLEEP_TIMEOUT_70_SEC = 79000;
+    console.log(
+      `CoinGecko API Rate limit exceeded, sleeping for ${
+        SLEEP_TIMEOUT_70_SEC / 1000
+      }s and retrying`
+    );
+    await sleep(SLEEP_TIMEOUT_70_SEC);
+    return getCoinPrice(coinSymbol);
+  }
+
+  const mapDataToPrices = (prices) =>
+    prices.map((price) => [price.time, parseFloat(price.close)]);
+
+  if (!coinData.Data?.Data || !coinData.Data?.Data?.length) {
+    return [];
+  }
+
+  return mapDataToPrices(coinData.Data.Data);
+};
+
 async function main() {
-  // delete all coins from the database
-  //   await prismaClient.cryptocurrency.deleteMany();
-
-  //   return;
-  // 1. fetch all availableCoins from the coingecko API
-  const availableCoins = await (await fetch(`${CG_API_URL}/coins/list`)).json();
-
-  console.log(`availableCoins: ${availableCoins.length}`);
+  const availableCoins = await getAllAvailableTokens();
 
   // delete all coins from the database that are not in the availableCoins list
   await prismaClient.cryptocurrency.deleteMany({
@@ -31,58 +84,43 @@ async function main() {
     },
   });
 
-  // for each coin in availableCoins fetch the coin data from the coingecko API
+  // for each coin in availableCoins fetch the coin data from the external APIs
   // and store it in the database
   for (let index = 0; index < availableCoins.length; index++) {
     const coin = availableCoins[index];
 
-    const coinData = await (
-      await fetch(`${CG_API_URL}/coins/${coin.id}`)
-    ).json();
+    const coinPrices = await getCoinPrice(coin.symbol);
 
     // if fields in coinData are missing, skip it
-    if (!coinData.name || !coinData.symbol || !coinData.id) {
+    if (!coin.name || !coin.symbol || !coin.id) {
+      console.log(
+        `Skipping #${index + 1}/${availableCoins.length} ${
+          coin.id
+        } due to missing fields`
+      );
       continue;
     }
 
     const payload = {
-      name: coinData.name,
-      symbol: coinData.symbol,
-      coinId: coinData.id,
-      currentPrice: coinData.market_data?.current_price?.usd || null,
-      marketCapRank: coinData.market_cap_rank || null,
-      image: coinData.image?.small,
-      description: coinData.description?.en || "",
+      name: coin.name,
+      symbol: coin.symbol,
+      coinId: coin.id,
+      currentPrice: parseFloat(coin.priceUsd),
+      marketCapRank: parseInt(coin.rank),
     };
 
-    // get coin prices
-    const priceParams = qs.stringify({
-      vs_currency: "usd",
-      from: convertDateStringToUnix(new Date("01-01-2010")),
-      to: convertDateStringToUnix(new Date()),
-    });
-
-    const coinPrices = await (
-      await fetch(
-        `${CG_API_URL}/coins/${coin.id}/market_chart/range?${priceParams}`
-      )
-    ).json();
-
-    payload.prices = coinPrices.prices || [];
+    payload.prices = coinPrices || [];
 
     // store cryptocurrencies in the database
-    console.log(
-      `Storing #${index + 1}/${availableCoins.length} ${coinData.name}`
-    );
+    console.log(`Storing #${index + 1}/${availableCoins.length} ${coin.id}`);
+
     await prismaClient.cryptocurrency.upsert({
       where: {
-        coinId: coinData.id,
+        coinId: coin.id,
       },
       update: payload,
       create: payload,
     });
-
-    await sleep(SLEEP_TIMEOUT);
   }
 }
 

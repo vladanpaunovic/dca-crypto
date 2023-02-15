@@ -76,13 +76,15 @@ enum SubscriptionType {
 }
 
 model Cryptocurrency {
-    id            String @id @default(auto()) @map("_id") @db.ObjectId
-    coinId        String @unique
-    name          String
-    symbol        String
-    image         String
-    currentPrice  Float?
-    marketCapRank Int?
-    description   String
-    prices        Json
+    id                 String  @id @default(auto()) @map("_id") @db.ObjectId
+    coinId             String  @unique
+    name               String
+    symbol             String
+    currentPrice       Float
+    marketCapRank      Int
+    prices             Json
+    image              String?
+    description        String?
+    descriptionSummary String?
+    websiteUrl         String?
 }

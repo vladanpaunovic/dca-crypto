@@ -24,4 +24,6 @@ jobs:
       - name: Run sync_all_coins.js
         env:
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          CRYPTOCOMPARE_API_KEY: ${{ secrets.CRYPTOCOMPARE_API_KEY }}
+          COINCAP_API_KEY: ${{ secrets.COINCAP_API_KEY }}
         run: node scripts/sync_all_coins.js
