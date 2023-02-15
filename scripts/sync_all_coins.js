@@ -44,7 +44,7 @@ async function main() {
       name: coinData.name,
       symbol: coinData.symbol,
       coinId: coinData.id,
-      currentPrice: coinData.market_data.current_price.usd || null,
+      currentPrice: coinData.market_data?.current_price?.usd || null,
       marketCapRank: coinData.market_cap_rank || null,
       image: coinData.image.small,
       description: coinData.description.en,
