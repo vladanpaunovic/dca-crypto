@@ -82,24 +82,25 @@ const AllCoinsTable = ({ showOnlyNTokens, showSearch, availableTokens }) => {
                           #{entry.marketCapRank}
                         </td>
                         <td className="px-6 whitespace-nowrap text-sm">
-                          <Link href={`/dca/${entry.id}`}>
-                            <a className="flex items-center py-4">
-                              <div className="relative w-7 h-7 mr-2">
-                                <NextImage
-                                  layout="fill"
-                                  objectFit="cover"
-                                  src={`https://assets.coincap.io/assets/icons/${entry.symbol.toLowerCase()}@2x.png`}
-                                  alt={`${entry.name} logo`}
-                                />
-                              </div>
-                              <span className="font-medium">
-                                <span className="uppercase">DCA</span>{" "}
-                                {entry.name}
-                              </span>{" "}
-                              <span className="ml-1 text-gray-400">
-                                {entry.symbol.toUpperCase()}
-                              </span>
-                            </a>
+                          <Link
+                            href={`/dca/${entry.id}`}
+                            className="flex items-center py-4"
+                          >
+                            <div className="relative w-7 h-7 mr-2">
+                              <NextImage
+                                layout="fill"
+                                objectFit="cover"
+                                src={`https://assets.coincap.io/assets/icons/${entry.symbol.toLowerCase()}@2x.png`}
+                                alt={`${entry.name} logo`}
+                              />
+                            </div>
+                            <span className="font-medium">
+                              <span className="uppercase">DCA</span>{" "}
+                              {entry.name}
+                            </span>{" "}
+                            <span className="ml-1 text-gray-400">
+                              {entry.symbol.toUpperCase()}
+                            </span>
                           </Link>
                         </td>
                       </tr>
@@ -112,13 +113,14 @@ const AllCoinsTable = ({ showOnlyNTokens, showSearch, availableTokens }) => {
                       scope="col"
                       className="px-6 py-3 w-10 text-center text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-100"
                     >
-                      <Link href={`/all-tokens`}>
-                        <a className="flex items-center justify-start sm:justify-center hover:underline py-2">
-                          More tokens{" "}
-                          <span className="ml-1">
-                            <ChevronRightIcon className="w-5 h-5" />
-                          </span>
-                        </a>
+                      <Link
+                        href={`/all-tokens`}
+                        className="flex items-center justify-start sm:justify-center hover:underline py-2"
+                      >
+                        More tokens{" "}
+                        <span className="ml-1">
+                          <ChevronRightIcon className="w-5 h-5" />
+                        </span>
                       </Link>
                     </th>
                   </tr>

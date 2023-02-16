@@ -34,10 +34,12 @@ const CookieBanner = () => {
                     We use cookies and similar methods to recognize visitors,
                     remember their preferences and analyze site traffic and
                     performance. To learn more about these methods, view our{" "}
-                    <Link href="/legal/cookie-policy">
-                      <a target="_blank" className="underline">
-                        Cookie Policy
-                      </a>
+                    <Link
+                      href="/legal/cookie-policy"
+                      target="_blank"
+                      className="underline"
+                    >
+                      Cookie Policy
                     </Link>
                     .
                   </p>

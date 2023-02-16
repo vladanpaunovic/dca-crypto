@@ -26,33 +26,37 @@ dayjs.extend(relativeTime);
 const UnAuthenticatedMenu = () => (
   <>
     <div>
-      <Link href="/blog">
-        <a className="px-2 block font-medium text-gray-900 dark:text-gray-200 hover:opacity-70 transition">
-          Blog
-        </a>
+      <Link
+        href="/blog"
+        className="px-2 block font-medium text-gray-900 dark:text-gray-200 hover:opacity-70 transition"
+      >
+        Blog
       </Link>
     </div>
 
     <div>
-      <Link href="/pricing">
-        <a className="px-2 block font-medium text-gray-900 dark:text-gray-200 hover:opacity-70 transition">
-          Pricing
-        </a>
+      <Link
+        href="/pricing"
+        className="px-2 block font-medium text-gray-900 dark:text-gray-200 hover:opacity-70 transition"
+      >
+        Pricing
       </Link>
     </div>
 
     <div>
-      <Link href="/dca/bitcoin">
-        <a className="px-2 block font-medium text-gray-900 dark:text-gray-200 hover:opacity-70 transition">
-          DCA Calculator
-        </a>
+      <Link
+        href="/dca/bitcoin"
+        className="px-2 block font-medium text-gray-900 dark:text-gray-200 hover:opacity-70 transition"
+      >
+        DCA Calculator
       </Link>
     </div>
     <div>
-      <Link href="/blog/the-benefits-of-dollar-cost-averaging-how-a-calculator-can-help-you-invest-smarter">
-        <a className="px-2 block font-medium text-gray-900 dark:text-gray-200 hover:opacity-70 transition">
-          How to use a DCA calculator?
-        </a>
+      <Link
+        href="/blog/the-benefits-of-dollar-cost-averaging-how-a-calculator-can-help-you-invest-smarter"
+        className="px-2 block font-medium text-gray-900 dark:text-gray-200 hover:opacity-70 transition"
+      >
+        How to use a DCA calculator?
       </Link>
     </div>
     <div>
@@ -202,20 +206,19 @@ const AuthenticatedMenu = ({ session }) => {
                 <Menu.Item>
                   {({ active }) => (
                     <div>
-                      <Link href="/pricing">
-                        <a
-                          className={classNames(
-                            active ? "bg-gray-100 dark:bg-gray-900" : "",
-                            "flex items-center w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-gray-100 rounded-b-md"
-                          )}
-                        >
-                          <ColorSwatchIcon
-                            className="mr-1"
-                            width={16}
-                            height={16}
-                          />
-                          Pricing
-                        </a>
+                      <Link
+                        href="/pricing"
+                        className={classNames(
+                          active ? "bg-gray-100 dark:bg-gray-900" : "",
+                          "flex items-center w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-gray-100 rounded-b-md"
+                        )}
+                      >
+                        <ColorSwatchIcon
+                          className="mr-1"
+                          width={16}
+                          height={16}
+                        />
+                        Pricing
                       </Link>
                     </div>
                   )}
@@ -225,20 +228,15 @@ const AuthenticatedMenu = ({ session }) => {
               <Menu.Item>
                 {({ active }) => (
                   <div>
-                    <Link href="/blog">
-                      <a
-                        className={classNames(
-                          active ? "bg-gray-100 dark:bg-gray-900" : "",
-                          "flex items-center w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-gray-100 rounded-b-md"
-                        )}
-                      >
-                        <NewspaperIcon
-                          className="mr-1"
-                          width={16}
-                          height={16}
-                        />
-                        Blog
-                      </a>
+                    <Link
+                      href="/blog"
+                      className={classNames(
+                        active ? "bg-gray-100 dark:bg-gray-900" : "",
+                        "flex items-center w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-gray-100 rounded-b-md"
+                      )}
+                    >
+                      <NewspaperIcon className="mr-1" width={16} height={16} />
+                      Blog
                     </Link>
                   </div>
                 )}
@@ -247,20 +245,15 @@ const AuthenticatedMenu = ({ session }) => {
               <Menu.Item>
                 {({ active }) => (
                   <div>
-                    <Link href="/dca/bitcoin">
-                      <a
-                        className={classNames(
-                          active ? "bg-gray-100 dark:bg-gray-900" : "",
-                          "flex items-center w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-gray-100 rounded-b-md"
-                        )}
-                      >
-                        <CalculatorIcon
-                          className="mr-1"
-                          width={16}
-                          height={16}
-                        />
-                        DCA Calculator
-                      </a>
+                    <Link
+                      href="/dca/bitcoin"
+                      className={classNames(
+                        active ? "bg-gray-100 dark:bg-gray-900" : "",
+                        "flex items-center w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-gray-100 rounded-b-md"
+                      )}
+                    >
+                      <CalculatorIcon className="mr-1" width={16} height={16} />
+                      DCA Calculator
                     </Link>
                   </div>
                 )}

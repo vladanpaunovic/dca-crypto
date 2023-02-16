@@ -36,25 +36,27 @@ export default function Blog({ allPostsData, availableTokens }) {
           <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 w-full mb-16">
             {allPostsData.map(({ id, date, title }) => (
               <li key={id} className="border">
-                <NextLink href={`/blog/${id}`}>
-                  <a className="shadow hover:shadow-lg hover:opacity-80 transition">
-                    <div className="w-full h-72 relative">
-                      <NextImage
-                        src={`/blog/${id}.jpg`}
-                        priority
-                        fill
-                        sizes="100vw"
-                        style={{
-                          objectFit: "cover"
-                        }} />
-                    </div>
-                    <div className="prose text-sm p-4">
-                      <p className="text-xs text-gray-500">
-                        {dayjs(date).format("YYYY-MM-DD")}
-                      </p>
-                      <h2 className="mt-4">{title}</h2>
-                    </div>
-                  </a>
+                <NextLink
+                  href={`/blog/${id}`}
+                  className="shadow hover:shadow-lg hover:opacity-80 transition"
+                >
+                  <div className="w-full h-72 relative">
+                    <NextImage
+                      src={`/blog/${id}.jpg`}
+                      priority
+                      fill
+                      sizes="100vw"
+                      style={{
+                        objectFit: "cover",
+                      }}
+                    />
+                  </div>
+                  <div className="prose text-sm p-4">
+                    <p className="text-xs text-gray-500">
+                      {dayjs(date).format("YYYY-MM-DD")}
+                    </p>
+                    <h2 className="mt-4">{title}</h2>
+                  </div>
                 </NextLink>
               </li>
             ))}
