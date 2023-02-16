@@ -41,10 +41,12 @@ export default function Blog({ allPostsData, availableTokens }) {
                     <div className="w-full h-72 relative">
                       <NextImage
                         src={`/blog/${id}.jpg`}
-                        layout="fill"
                         priority
-                        objectFit="cover"
-                      />
+                        fill
+                        sizes="100vw"
+                        style={{
+                          objectFit: "cover"
+                        }} />
                     </div>
                     <div className="prose text-sm p-4">
                       <p className="text-xs text-gray-500">

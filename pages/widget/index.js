@@ -366,11 +366,13 @@ const Coin = (props) => {
             </h2>
             <div className="relative w-8 h-8 ml-2 hidden sm:block">
               <NextImage
-                layout="fill"
-                objectFit="cover"
                 src={props.currentCoin.image}
                 alt={`${props.currentCoin.name} logo`}
-              />
+                fill
+                sizes="100vw"
+                style={{
+                  objectFit: "cover"
+                }} />
             </div>
           </div>
           <div className="md:flex">

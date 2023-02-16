@@ -50,11 +50,7 @@ function GoogleSignIn({ provider, callbackUrl }) {
         onClick={() => signIn(provider.id, { callbackUrl })}
       >
         <div className=" relative w-6 h-6 mr-2">
-          <Image
-            src="/images/google-logo.svg"
-            layout="fill"
-            alt="Google logo"
-          />
+          <Image src="/images/google-logo.svg" alt="Google logo" fill sizes="100vw" />
         </div>
         Sign in with {provider.name}
       </button>
@@ -102,9 +98,9 @@ export default function SignInPage(props) {
       <div className="col-span-2 hidden md:block relative">
         <Image
           src="/images/sign-in-background.jpeg"
-          layout="fill"
           alt="sign in background"
-        />
+          fill
+          sizes="100vw" />
       </div>
     </div>
   );
