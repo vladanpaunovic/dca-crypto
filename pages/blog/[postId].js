@@ -58,9 +58,7 @@ export const RelatedPosts = ({ posts }) => {
 
   return (
     <div className="flex flex-col">
-      <h3 className="text-gray-800 dark:text-gray-100 text-xl font-bold mb-4">
-        More posts
-      </h3>
+      <h3 className="text-gray-800 text-xl font-bold mb-4">More posts</h3>
       <div className="grid grid-cols-3 gap-4">
         {posts.map((post) => (
           <NextLink
@@ -125,8 +123,8 @@ export default function Page({ availableTokens, content, posts }) {
       </div>
       <article className="p-8">
         <div className="flex justify-center">
-          <div className="max-w-3xl prose dark:prose-dark">
-            <h1 className="text-center text-gray-800 dark:text-gray-100 leading-10 font-extrabold text-4xl mb-10 pb-8">
+          <div className="max-w-3xl prose">
+            <h1 className="text-center text-gray-800 leading-10 font-extrabold text-4xl mb-10 pb-8">
               {content.title}
             </h1>
             <p className="text-xs text-gray-500">

@@ -29,7 +29,7 @@ class MyDocument extends Document {
             }}
           />
         </Head>
-        <body className="bg-white dark:bg-gray-900">
+        <body className="bg-white">
           <Main />
           <NextScript />
         </body>

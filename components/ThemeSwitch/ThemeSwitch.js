@@ -13,7 +13,7 @@ const ThemeSwitch = ({ label }) => {
 
   return (
     <button
-      className="transition dark:text-white text-gray hover:text-gray-900 rounded-full focus:outline-none flex items-center"
+      className="transition text-gray hover:text-gray-900 rounded-full focus:outline-none flex items-center"
       onClick={() => setTheme(theme === "light" ? "dark" : "light")}
       aria-label="Change theme"
     >

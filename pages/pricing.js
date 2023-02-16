@@ -99,24 +99,22 @@ function PricingTab(props) {
   const isFavorable = isRecurring && props.recurring.interval === "month";
   const isAnnual = isRecurring && props.recurring.interval === "year";
   const featureClasses = classNames(
-    isFavorable
-      ? "text-white dark:text-gray-900"
-      : "text-gray-900 dark:text-gray-300",
+    isFavorable ? "text-white" : "text-gray-900",
     "h-6 w-6 mr-2"
   );
   return (
     <div
       className={classNames(
         isFavorable
-          ? "primary-gradient transform md:scale-105 text-white dark:text-gray-900 hover:scale-110"
-          : "bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-300 hover:scale-105",
+          ? "primary-gradient transform md:scale-105 text-white hover:scale-110"
+          : "bg-gray-50 text-gray-900 hover:scale-105",
         "shadow-lg rounded-2xl w-full md:w-64 p-4 transform transition-all"
       )}
     >
       <div className="relative">
         <p className="text-xl font-bold mb-4">{props.product.name}</p>
         {isAnnual ? (
-          <p className="absolute -bottom-4 left-0 text-xs font-normal text-indigo-600 dark:text-yellow-600">
+          <p className="absolute -bottom-4 left-0 text-xs font-normal text-indigo-600">
             Get one month for free
           </p>
         ) : null}
@@ -159,7 +157,7 @@ function PricingTab(props) {
           type="button"
           disabled={status === "loading"}
           onClick={handleOnSelect}
-          className="bg-gray-900 dark:bg-white rounded-md text-white dark:text-gray-900 p-2 w-full hover:opacity-80 transition"
+          className="bg-gray-900 rounded-md text-white p-2 w-full hover:opacity-80 transition"
         >
           Choose plan
         </button>
@@ -181,7 +179,7 @@ function Pricing(props) {
             Select a plan that is right for you
           </h1>
         </div>
-        <div className="w-full p-8 gap-8 flex-col md:flex-row bg-white dark:bg-gray-900 flex justify-center">
+        <div className="w-full p-8 gap-8 flex-col md:flex-row bg-white flex justify-center">
           {props.pricing.map((price) => (
             <PricingTab key={price.id} {...price} />
           ))}

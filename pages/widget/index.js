@@ -62,10 +62,8 @@ const CustomTooltip = (props) => {
   if (active && payload && payload.length) {
     const dateLabel = dayjs(label).format("LLL");
     return (
-      <div className="p-4 transition-shadow border rounded shadow-sm bg-white dark:bg-gray-800 dark:border-gray-800">
-        <p className="text-sm text-gray-500 dark:text-gray-200 mb-2">
-          {dateLabel}
-        </p>
+      <div className="p-4 transition-shadow border rounded shadow-sm bg-white">
+        <p className="text-sm text-gray-500 mb-2">{dateLabel}</p>
         {payload.map((e, index) => (
           <p
             key={`${e.value}-${index}`}
@@ -268,7 +266,7 @@ const Information = (props) => {
               props.currency
             )}{" "}
             <span
-              className={`inline-block px-2 text-sm text-white dark:text-gray-900 ${
+              className={`inline-block px-2 text-sm text-white ${
                 props.dcaData.insights.percentageChange > 0
                   ? "bg-green-400"
                   : "bg-red-400"
@@ -296,9 +294,9 @@ const Information = (props) => {
 
   const allInformation = () => {
     const oddClass =
-      "bg-white dark:bg-gray-900 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6";
+      "bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6";
     const evenClass =
-      "bg-gray-50 dark:bg-gray-800 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6";
+      "bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6";
     return information.map((i, index) => (
       <div
         key={i.label}
@@ -306,10 +304,8 @@ const Information = (props) => {
           index === information.length - 1 && "rounded-b-lg"
         }`}
       >
-        <dt className="text-sm font-medium text-gray-500 dark:text-white flex">
-          {i.label}{" "}
-        </dt>
-        <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 dark:text-white">
+        <dt className="text-sm font-medium text-gray-500 flex">{i.label} </dt>
+        <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
           {i.value}
         </dd>
       </div>
@@ -319,14 +315,14 @@ const Information = (props) => {
   return (
     <>
       <div className="px-4 py-5 sm:px-6">
-        <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white">
+        <h3 className="text-lg leading-6 font-medium text-gray-900">
           Information
         </h3>
-        <p className="mt-1 max-w-2xl text-sm text-gray-500 dark:text-white">
+        <p className="mt-1 max-w-2xl text-sm text-gray-500">
           Summarised data regarding your investment.
         </p>
       </div>
-      <div className="border-t border-gray-200 dark:border-gray-900">
+      <div className="border-t border-gray-200">
         <dl>{allInformation()} </dl>
       </div>
     </>
@@ -356,10 +352,10 @@ const Coin = (props) => {
       <main>
         <div className="mt-2">
           <div className="flex items-center  mb-4">
-            <h2 className="text-2xl px-4 sm:px-0 text-gray-900 dark:text-gray-100">
+            <h2 className="text-2xl px-4 sm:px-0 text-gray-900">
               {isDca ? "Dollar-cost averaging (DCA)" : "Lump sum investing"}{" "}
               calculator for{" "}
-              <span className="text-indigo-700 dark:text-yellow-500 capitalize">
+              <span className="text-indigo-700 capitalize">
                 {props.currentCoin.name} ({coinSymbol})
               </span>{" "}
               backtesting
@@ -371,8 +367,9 @@ const Coin = (props) => {
                 fill
                 sizes="100vw"
                 style={{
-                  objectFit: "cover"
-                }} />
+                  objectFit: "cover",
+                }}
+              />
             </div>
           </div>
           <div className="md:flex">

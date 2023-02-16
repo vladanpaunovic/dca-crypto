@@ -90,7 +90,7 @@ const SharingButtons = ({ currentCoin, currentUrl }) => {
     <div className="grid grid-cols-2 gap-2">
       {socialNetworks.map((social) => (
         <a
-          className="text-white dark:text-gray-900 rounded"
+          className="text-white rounded"
           key={social.label}
           href={social.href}
           target="_blank"
@@ -137,12 +137,12 @@ const CurrentUrl = ({ currentCoin, currentUrl }) => {
   return (
     <div>
       <div
-        className="bg-gray-50 text-gray-900 dark:bg-gray-800 p-2 text-normal text-xs mb-4 rounded relative"
+        className="bg-gray-50 text-gray-900 p-2 text-normal text-xs mb-4 rounded relative"
         onClick={handleCopy}
       >
         <span className="hover:bg-gray-300 cursor-text">{currentUrl}</span>
         {copiedUrl && (
-          <div className="bg-green-100  dark:bg-green-800 p-2 text-normal text-xs mb-4 rounded absolute left-0 top-0 w-full h-full items-center justify-center flex font-medium opacity-80">
+          <div className="bg-green-100 p-2 text-normal text-xs mb-4 rounded absolute left-0 top-0 w-full h-full items-center justify-center flex font-medium opacity-80">
             Copied to clipboard!
           </div>
         )}
@@ -197,7 +197,7 @@ const ShareChart = () => {
           </Popover.Button>
 
           <Popover.Panel className="fixed md:absolute z-10 w-screen transform -translate-x-2/2 bottom-0 md:bottom-auto left-0 md:left-1/2 md:max-w-sm">
-            <div className="p-4 bg-white dark:bg-gray-900 rounded border dark:border-gray-700 text-gray-900 shadow md:max-w-sm">
+            <div className="p-4 bg-white rounded border text-gray-900 shadow md:max-w-sm">
               <h4 className="text-normal font-medium mb-2">Share this chart</h4>
               <div className="mb-2">
                 <CurrentUrl currentCoin={currentCoin} currentUrl={currentUrl} />
@@ -212,7 +212,7 @@ const ShareChart = () => {
               {/* <p className="mb-2 mt-4 text-gray-600 flex items-center">
                 Embedded code <CodeIcon className="w-5 h-5 ml-1" />
               </p>
-              <p className="bg-gray-200 text-gray-900 dark:bg-gray-800 p-2 text-normal text-xs mb-4 rounded select-all	">
+              <p className="bg-gray-200 text-gray-900 p-2 text-normal text-xs mb-4 rounded select-all	">
                 {embedScript}
               </p> */}
             </div>

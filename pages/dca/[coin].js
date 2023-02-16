@@ -150,8 +150,8 @@ const CoinWrapper = (props) => {
   return (
     <>
       <Navigation />
-      <div className="lg:flex bg-gray-100 dark:bg-gray-800">
-        <div className="w-12/12 lg:w-330 md:border-r dark:border-gray-700 bg-white dark:bg-gray-900">
+      <div className="lg:flex bg-gray-100">
+        <div className="w-12/12 lg:w-330 md:border-r bg-white ">
           <div className="px-4 pt-2">
             <InputFormWrapper {...props} pathname="/dca/" />
           </div>
@@ -166,7 +166,7 @@ const CoinWrapper = (props) => {
           <Coin content={props.content} />
         </div>
       </div>
-      <div className="border-t dark:border-gray-700">
+      <div className="border-t">
         <Footer availableTokens={props.availableTokens} />
       </div>
     </>

@@ -16,13 +16,13 @@ const Limit = ({ canProceed }) => {
   };
 
   return (
-    <div className="bg-yellow-200 dark:bg-yellow-600 rounded-lg">
+    <div className="bg-yellow-200 rounded-lg">
       <div className="py-6 px-3 sm:px-6 lg:px-6 ">
         <div className="flex flex-wrap flex-col md:flex-row items-center justify-between">
           <div className="flex md:w-0 flex-1 items-center">
-            <span className="flex rounded-lg bg-yellow-400 dark:bg-yellow-900 p-2">
+            <span className="flex rounded-lg bg-yellow-400 p-2">
               <ExclamationIcon
-                className="h-6 w-6 text-yellow-900 dark:text-yellow-400"
+                className="h-6 w-6 text-yellow-900"
                 aria-hidden="true"
               />
             </span>
@@ -62,7 +62,7 @@ const Limit = ({ canProceed }) => {
             {session.status === "unauthenticated" && (
               <div className="ml-4 w-full">
                 <button
-                  className="flex w-full items-center justify-center rounded-md border border-transparent bg-yellow-400 dark:bg-yellow-900 px-4 py-2 font-medium leading-6 text-yellow-900 dark:text-yellow-400 shadow-sm hover:opacity-80"
+                  className="flex w-full items-center justify-center rounded-md border border-transparent bg-yellow-400 px-4 py-2 font-medium leading-6 text-yellow-900 shadow-sm hover:opacity-80"
                   onClick={() => signIn()}
                 >
                   Login

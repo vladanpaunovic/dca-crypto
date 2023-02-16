@@ -17,7 +17,7 @@ export default function NavigationMenu({ availableTokens }) {
   ];
 
   return (
-    <Disclosure as="nav" className="bg-white dark:bg-gray-900">
+    <Disclosure as="nav" className="bg-white">
       {({ open }) => (
         <>
           <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
@@ -43,7 +43,7 @@ export default function NavigationMenu({ availableTokens }) {
                       <a
                         key={item.id}
                         href={item.href}
-                        className="text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-800 px-3 py-2 rounded-md text-sm font-medium"
+                        className="text-gray-900 hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium"
                       >
                         {item.name}
                       </a>
