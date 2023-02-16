@@ -15,18 +15,18 @@ export const availableInvestmentIntervals = [
 ];
 
 export const generateDefaultInput = (query) => {
-  const dateTo = query.dateTo || dayjs().format("YYYY-MM-DD");
+  const dateTo = query?.dateTo || dayjs().format("YYYY-MM-DD");
   const dateFrom =
-    query.dateFrom || dayjs(dateTo).subtract(91, "day").format("YYYY-MM-DD");
+    query?.dateFrom || dayjs(dateTo).subtract(91, "day").format("YYYY-MM-DD");
 
   const DEFAULT_INPUT = {
-    investment: query.investment || 100,
+    investment: query?.investment || 100,
     investmentInterval:
-      query.investmentInterval || availableInvestmentIntervals[1].value,
+      query?.investmentInterval || availableInvestmentIntervals[1].value,
     dateFrom,
     dateTo,
-    currency: query.currency || defaultCurrency,
-    coinId: query.coin || "bitcoin",
+    currency: query?.currency || defaultCurrency,
+    coinId: query?.coin || "bitcoin",
   };
 
   return DEFAULT_INPUT;

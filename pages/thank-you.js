@@ -6,10 +6,12 @@ import { CheckCircleIcon } from "@heroicons/react/solid";
 import Link from "next/link";
 import dayjs from "dayjs";
 import Countdown from "react-countdown";
-import { getAllAvailableCoins } from "../src/vercelEdgeConfig/vercelEdgeConfig";
+import prismaClient from "../server/prisma/prismadb";
 
 export async function getServerSideProps(context) {
-  const availableTokens = await getAllAvailableCoins();
+  const bigKeyValueStore = await prismaClient.bigKeyValueStore.findUnique({
+    where: { key: "availableTokens" },
+  });
 
   context.res.setHeader(
     "Cache-Control",
@@ -26,7 +28,7 @@ export async function getServerSideProps(context) {
 
   return {
     props: {
-      availableTokens,
+      availableTokens: bigKeyValueStore.value,
       calcType: context.query.type || "dca",
       isSuccessPayment,
     },

@@ -52,7 +52,11 @@ const CalculationCounter = () => {
   }, [debouncedInput, fingerprint]);
 
   if (calculationCounter.isLoading || session.isLoading) {
-    return null;
+    return (
+      <p className="text-gray-900 text-xs p-2 bg-gray-100 mb-4 rounded-lg">
+        <b>Loading...</b>
+      </p>
+    );
   }
 
   const freeTierLimitReached = !state.canProceed.proceed;

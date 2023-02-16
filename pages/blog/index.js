@@ -5,16 +5,18 @@ import dayjs from "dayjs";
 import Navigation from "../../components/Navigarion/Navigation";
 import Footer from "../../components/Footer/Footer";
 import BreadcrumbBlogPost from "../../components/Breadcrumb/BreadcrumbBlogPost";
-import { getAllAvailableCoins } from "../../src/vercelEdgeConfig/vercelEdgeConfig";
+import prismaClient from "../../server/prisma/prismadb";
 
 export async function getStaticProps() {
   const allPostsData = getSortedPostsData();
-  const availableTokens = await getAllAvailableCoins();
+  const bigKeyValueStore = await prismaClient.bigKeyValueStore.findUnique({
+    where: { key: "availableTokens" },
+  });
 
   return {
     props: {
       allPostsData,
-      availableTokens,
+      availableTokens: bigKeyValueStore.value,
     },
   };
 }

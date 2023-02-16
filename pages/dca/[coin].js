@@ -1,10 +1,5 @@
 import InputFormWrapper from "../../components/InputForm/InputForm";
-import { getCoinById, getCommonChartData } from "../../server/serverQueries";
-import {
-  CACHE_INVALIDATION_INTERVAL,
-  // CACHE_INVALIDATION_INTERVAL,
-  WEBSITE_URL,
-} from "../../config";
+import { WEBSITE_URL } from "../../config";
 import Footer from "../../components/Footer/Footer";
 import { generateDefaultInput } from "../../common/generateDefaultInput";
 import { NextSeo } from "next-seo";
@@ -13,8 +8,6 @@ import Loading from "../../components/Loading/Loading";
 import { formatPrice } from "../../components/Currency/Currency";
 import dayjs from "dayjs";
 import Navigation from "../../components/Navigarion/Navigation";
-import { getServerSession } from "next-auth";
-import { authOptions } from "../api/auth/[...nextauth]";
 import ErrorComponent from "../../components/Error/Error";
 import "@tremor/react/dist/esm/tremor.css";
 import CoinPage from "../../components/CoinPage/CoinPage";
@@ -23,7 +16,7 @@ import StoreInitializer from "../../src/store/StoreInitializer";
 import { useAppState } from "../../src/store/store";
 import { getGeneratedChartData } from "../../src/calculations/utils";
 import ShareChart from "../../components/ShareChart/ShareChart";
-import { getAllAvailableCoins } from "../../src/vercelEdgeConfig/vercelEdgeConfig";
+import prismaClient from "../../server/prisma/prismadb";
 
 const DynamicAffiliateLinks = dynamic(
   () => import("../../components/AffiliateLinks/AffiliateLinks"),
@@ -33,51 +26,59 @@ const DynamicAffiliateLinks = dynamic(
   }
 );
 
-export async function getServerSideProps(context) {
-  const coinId = context.query.coin || "bitcoin";
+export async function getStaticPaths() {
+  const bigKeyValueStore = await prismaClient.bigKeyValueStore.findUnique({
+    where: { key: "availableTokens" },
+  });
+
+  const paths = bigKeyValueStore.value.map((token) => ({
+    params: { coin: token.id },
+  }));
+
+  return {
+    paths,
+    fallback: true,
+  };
+}
+
+export async function getStaticProps(context) {
+  const coinId = context.params.coin || "bitcoin";
 
   const payload = generateDefaultInput(context.query);
 
-  const session = await getServerSession(context.req, context.res, authOptions);
-
-  const [availableTokens, rawMarketData, currentCoin] = await Promise.all([
-    getAllAvailableCoins(),
-    getCommonChartData({
-      ...payload,
-      session,
-      coinId,
+  const [availableTokens, coinData] = await Promise.all([
+    prismaClient.bigKeyValueStore.findUnique({
+      where: { key: "availableTokens" },
     }),
-    getCoinById(coinId),
+    prismaClient.cryptocurrency.findUnique({
+      where: { coinId },
+    }),
   ]);
 
   const content = require(`../../content/guides/usage-guide.md`);
 
-  if (!currentCoin) {
+  if (!coinData) {
     return {
       notFound: true,
     };
   }
 
   const chart = getGeneratedChartData({
-    data: rawMarketData.prices,
+    data: [...coinData.prices],
     input: payload,
   });
 
-  context.res.setHeader(
-    "Cache-Control",
-    `s-maxage=${CACHE_INVALIDATION_INTERVAL * 24}, stale-while-revalidate`
-  );
+  const output = {
+    rawMarketData: [...coinData.prices],
+    availableTokens: availableTokens.value,
+    chart,
+    currentCoin: { ...coinData, id: coinData.coinId },
+    content,
+    payload,
+  };
 
   return {
-    props: {
-      rawMarketData,
-      availableTokens,
-      chart,
-      currentCoin,
-      content,
-      ...payload,
-      payload,
-    },
+    props: output,
   };
 }
 
@@ -143,13 +144,6 @@ const Coin = ({ content }) => {
 const CoinWrapper = (props) => {
   return (
     <>
-      <StoreInitializer
-        availableTokens={props.availableTokens}
-        chart={props.chart}
-        rawMarketData={props.rawMarketData}
-        currentCoin={props.currentCoin}
-        input={props.payload}
-      />
       <Navigation />
       <div className="lg:flex bg-gray-100 dark:bg-gray-800">
         <div className="w-12/12 lg:w-330 md:border-r dark:border-gray-700 bg-white dark:bg-gray-900">
@@ -174,4 +168,19 @@ const CoinWrapper = (props) => {
   );
 };
 
-export default CoinWrapper;
+const PageWrapper = (props) => {
+  return (
+    <>
+      <StoreInitializer
+        availableTokens={props.availableTokens}
+        chart={props.chart}
+        rawMarketData={props.rawMarketData}
+        currentCoin={props.currentCoin}
+        input={props.payload}
+      />
+      <CoinWrapper {...props} />
+    </>
+  );
+};
+
+export default PageWrapper;

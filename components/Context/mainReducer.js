@@ -140,7 +140,7 @@ export const reducer = (state, action) => {
 
     case ACTIONS.CALCULATE_CHART_DATA: {
       const chartData = getGeneratedChartData({
-        data: state.rawMarketData.prices,
+        data: state.rawMarketData,
         input: state.input,
       });
 

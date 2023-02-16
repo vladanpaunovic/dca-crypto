@@ -24,19 +24,20 @@ export const getSelectTheme = (theme) => {
   return output;
 };
 
-const parseOptions = (options) =>
-  options.map((option) => ({
+const parseOptions = (options) => {
+  return options.map((option) => ({
     ...option,
-    value: option.id,
+    value: option.coinId,
     label: (
       <span className="flex items-center">
         <span className="text-xs text-gray-300 mr-2">
-          #{option.market_cap_rank}
+          #{option.marketCapRank}
         </span>{" "}
         <span className="text-gray-900 ">{option.name}</span>
       </span>
     ),
   }));
+};
 
 const promiseOptions = async (inputValue) => {
   const coins = await searchCoin(inputValue);
@@ -50,6 +51,10 @@ const SelectCoin = () => {
   const [mounted, setMounted] = useState(false);
   const currentCoin = state.currentCoin;
   const themeColors = colorsLight;
+  const availableTokens = useAppState((state) => state.availableTokens)?.slice(
+    0,
+    20
+  );
 
   // When mounted on client, now we can show the UI
   useEffect(() => setMounted(true), []);
@@ -60,11 +65,11 @@ const SelectCoin = () => {
 
   if (!mounted) return null;
 
-  if (!state.availableTokens) {
+  if (!availableTokens) {
     return null;
   }
 
-  const options = parseOptions(state.availableTokens);
+  const options = parseOptions(availableTokens);
 
   const defaultValue = parseOptions([currentCoin])[0];
 

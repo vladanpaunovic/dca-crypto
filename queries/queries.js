@@ -3,7 +3,7 @@ import apiClient from "../server/apiClient";
 export const searchCoin = async (query = "") => {
   const response = await apiClient.get(`coins/search?query=${query}`);
 
-  const output = response.data.coins;
+  const output = response.data;
 
   return output;
 };

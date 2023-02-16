@@ -28,6 +28,4 @@ async function updateVercelEdgeConfig(key, value) {
   console.log(result);
 }
 
-// storeToVercelEdgeConfig("item_1", "pera detlic");
-
 module.exports = updateVercelEdgeConfig;

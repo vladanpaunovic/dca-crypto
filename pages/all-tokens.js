@@ -6,10 +6,13 @@ import AllTokensHero from "../components/Hero/AllTokensHero";
 import { CACHE_INVALIDATION_INTERVAL } from "../config";
 import { NextSeo } from "next-seo";
 import Navigation from "../components/Navigarion/Navigation";
-import { getAllAvailableCoins } from "../src/vercelEdgeConfig/vercelEdgeConfig";
+
+import prismaClient from "../server/prisma/prismadb";
 
 export async function getServerSideProps(context) {
-  const availableTokens = await getAllAvailableCoins();
+  const bigKeyValueStore = await prismaClient.bigKeyValueStore.findUnique({
+    where: { key: "availableTokens" },
+  });
 
   context.res.setHeader(
     "Cache-Control",
@@ -18,7 +21,7 @@ export async function getServerSideProps(context) {
 
   return {
     props: {
-      availableTokens,
+      availableTokens: bigKeyValueStore.value,
     },
   };
 }

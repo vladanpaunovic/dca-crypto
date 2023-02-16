@@ -19,7 +19,7 @@ import useChartLegend from "../../components/Chart/useChartLegend";
 import { formatCurrency } from "@coingecko/cryptoformat";
 import apiClient from "../../server/apiClient";
 import NextImage from "next/image";
-import { getAllAvailableCoins } from "../../src/vercelEdgeConfig/vercelEdgeConfig";
+import prismaClient from "../../server/prisma/prismadb";
 
 dayjs.extend(localizedFormat);
 dayjs.extend(duration);
@@ -93,9 +93,11 @@ export async function getServerSideProps(context) {
     type,
   } = context.query;
 
-  const availableTokens = await getAllAvailableCoins(
-    currency || defaultCurrency
-  );
+  const bigKeyValueStore = await prismaClient.bigKeyValueStore.findUnique({
+    where: {
+      key: "availableTokens",
+    },
+  });
 
   const payload = {
     coinId: coin,
@@ -122,7 +124,7 @@ export async function getServerSideProps(context) {
 
   return {
     props: {
-      availableTokens,
+      availableTokens: bigKeyValueStore.value,
       dcaData: dcaData || null,
       coinId: coin || null,
       investment: investment || null,

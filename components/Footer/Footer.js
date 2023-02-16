@@ -4,8 +4,8 @@ import dayjs from "dayjs";
 import * as ga from "../helpers/GoogleAnalytics";
 
 const Footer = ({ availableTokens }) => {
-  const tokens = availableTokens.slice(0, 20);
-  const dcaAllTokens = tokens.map((coin) => (
+  const tokens = availableTokens?.slice(0, 20);
+  const dcaAllTokens = tokens?.map((coin) => (
     <li key={coin.id}>
       <Link href={`/dca/${coin.id}`}>
         <a
@@ -29,8 +29,8 @@ const Footer = ({ availableTokens }) => {
     </li>
   ));
 
-  const first10Tokens = dcaAllTokens.slice(0, 10);
-  const second10Tokens = dcaAllTokens.slice(10, 20);
+  const first10Tokens = dcaAllTokens?.slice(0, 10);
+  const second10Tokens = dcaAllTokens?.slice(10, 20);
 
   return (
     <footer className="m-8">

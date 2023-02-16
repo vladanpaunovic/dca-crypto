@@ -6,7 +6,7 @@ import ReactMarkdown from "react-markdown";
 import dayjs from "dayjs";
 import { NextSeo } from "next-seo";
 import Navigation from "../../components/Navigarion/Navigation";
-import { getAllAvailableCoins } from "../../src/vercelEdgeConfig/vercelEdgeConfig";
+import prismaClient from "../../server/prisma/prismadb";
 
 const availablePages = ["cookie-policy", "privacy-policy", "terms-conditions"];
 
@@ -22,7 +22,11 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  const availableTokens = await getAllAvailableCoins();
+  const bigKeyValueStore = await prismaClient.bigKeyValueStore.findUnique({
+    where: {
+      key: "availableTokens",
+    },
+  });
 
   const contentId = params.contentId || null;
 
@@ -31,7 +35,7 @@ export async function getStaticProps({ params }) {
   return {
     props: {
       contentId,
-      availableTokens,
+      availableTokens: bigKeyValueStore.value,
       content,
     },
   };

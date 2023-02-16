@@ -6,7 +6,6 @@ import {
   TabList,
   Block,
   Col,
-  Title,
   Accordion,
   AccordionHeader,
   AccordionBody,
@@ -24,6 +23,7 @@ import dynamic from "next/dynamic";
 import Loading from "react-loading";
 import DcaCCGuides from "./DcaCCGuides";
 import { useAppState } from "../../src/store/store";
+import ReactMarkdown from "react-markdown";
 
 const DynamicLumpSumPage = dynamic(() => import("./LumpSum/LumpSumPage"), {
   ssr: false,
@@ -74,7 +74,7 @@ export default function CoinPage({ currentCoin, coinSymbol, content }) {
       </ColGrid>
       <TabList
         defaultValue={1}
-        handleSelect={(value) => setSelectedView(value)}
+        onValueChange={(value) => setSelectedView(value)}
         marginTop="mt-2"
         color="indigo"
       >
@@ -116,12 +116,8 @@ export default function CoinPage({ currentCoin, coinSymbol, content }) {
 
       <div data-testid="what-is-this-coin">
         <Card marginTop="mt-6">
-          <Title>What is {currentCoin.name}?</Title>
-
-          <div className="mt-4 prose prose-sm max-w-none">
-            <div
-              dangerouslySetInnerHTML={{ __html: currentCoin.description.en }}
-            />
+          <div className="prose prose-sm max-w-none ">
+            <ReactMarkdown>{currentCoin.description}</ReactMarkdown>
           </div>
         </Card>
       </div>

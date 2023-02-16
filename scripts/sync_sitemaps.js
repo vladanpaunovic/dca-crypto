@@ -79,9 +79,3 @@ async function main() {
 }
 
 main();
-
-//TODO: 1. Store to Redis
-
-//TODO: 2. Create a route to serve the sitemap
-
-//TODO: 3. Create a Github action to regenerate the sitemap every day

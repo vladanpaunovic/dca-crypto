@@ -12,11 +12,13 @@ import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/solid";
 import { classNames } from "../styles/utils";
 import PaymentMethods from "../components/PaymentMethods/PaymentMethods";
 import FAQ from "../components/FAQ/FAQ";
-import { getAllAvailableCoins } from "../src/vercelEdgeConfig/vercelEdgeConfig";
 import stripe from "../server/stripe";
+import prismaClient from "../server/prisma/prismadb";
 
 export async function getStaticProps() {
-  const availableTokens = await getAllAvailableCoins();
+  const bigKeyValueStore = await prismaClient.bigKeyValueStore.findUnique({
+    where: { key: "availableTokens" },
+  });
 
   const prices = await stripe.prices.list({
     expand: ["data.product"],
@@ -45,7 +47,7 @@ export async function getStaticProps() {
 
   return {
     props: {
-      availableTokens,
+      availableTokens: bigKeyValueStore.value,
       pricing: stripNonActiveProducts,
     },
   };
