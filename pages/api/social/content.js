@@ -7,7 +7,7 @@ import queryString from "query-string";
 import { checkCORS } from "../../../server/cors";
 import { getCommonChartData } from "../../../server/serverQueries";
 import { getGeneratedChartData } from "../../../src/calculations/utils";
-import { getAllAvailableCoins } from "../../../src/vercelEdgeConfig/vercelEdgeConfig";
+import prismaClient from "../../../server/prisma/prismadb";
 dayjs.extend(relativeTime);
 
 const randomArrayKey = (array) =>
@@ -99,9 +99,13 @@ const generateSummaryMessage = (charts) => {
 
 async function handler(req, res) {
   await checkCORS(req, res);
-  const availableTokens = await getAllAvailableCoins();
+  const bigKeyValueStore = await prismaClient.bigKeyValueStore.findUnique({
+    where: {
+      key: "availableTokens",
+    },
+  });
 
-  const filteredAvailableTokens = availableTokens.filter(
+  const filteredAvailableTokens = bigKeyValueStore.value.filter(
     (token) => !stableCoins.includes(token.symbol)
   );
   const topTenCoins = filteredAvailableTokens.slice(0, 9);

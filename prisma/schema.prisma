@@ -88,3 +88,9 @@ model Cryptocurrency {
     descriptionSummary String?
     websiteUrl         String?
 }
+
+model BigKeyValueStore {
+    id    String @id @default(auto()) @map("_id") @db.ObjectId
+    key   String @unique
+    value Json
+}

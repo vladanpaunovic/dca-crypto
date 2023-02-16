@@ -335,10 +335,10 @@
   resolved "https://registry.npmjs.org/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@coingecko/cryptoformat@^0.4.4":
-  version "0.4.4"
-  resolved "https://registry.npmjs.org/@coingecko/cryptoformat/-/cryptoformat-0.4.4.tgz"
-  integrity sha512-AF4rgGY+BmSiks+ZjD4nVX+04a5CEriP3a/WA6xQicR+MHu+TSrAfHwts+IwsRsBTJ4wZAPEaPVyOzPo6zW98w==
+"@coingecko/cryptoformat@^0.5.4":
+  version "0.5.4"
+  resolved "https://registry.yarnpkg.com/@coingecko/cryptoformat/-/cryptoformat-0.5.4.tgz#b105b44e48466f480ef72b720c40618c723752b9"
+  integrity sha512-qAHbG/TjKbyPE0hRCeET1+8qBs4dtpXVyXDeSj0xhENLPBFW9tNTY2OOYr9Fw5fAylHJkCdhdn7Htk18ZSyxFw==
 
 "@emotion/cache@^11.4.0":
   version "11.4.0"

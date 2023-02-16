@@ -79,7 +79,7 @@ const AllCoinsTable = ({ showOnlyNTokens, showSearch, availableTokens }) => {
                         className="hover:bg-gray-50 dark:hover:bg-gray-900 text-gray-500 dark:text-gray-100"
                       >
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-center">
-                          #{entry.market_cap_rank}
+                          #{entry.marketCapRank}
                         </td>
                         <td className="px-6 whitespace-nowrap text-sm">
                           <Link href={`/dca/${entry.id}`}>
@@ -88,10 +88,8 @@ const AllCoinsTable = ({ showOnlyNTokens, showSearch, availableTokens }) => {
                                 <NextImage
                                   layout="fill"
                                   objectFit="cover"
-                                  src={entry.image}
+                                  src={`https://assets.coincap.io/assets/icons/${entry.symbol.toLowerCase()}@2x.png`}
                                   alt={`${entry.name} logo`}
-                                  // width={28}
-                                  // height={28}
                                 />
                               </div>
                               <span className="font-medium">

@@ -10,7 +10,7 @@ import { NextSeo } from "next-seo";
 import Navigation from "../../components/Navigarion/Navigation";
 import { getPostById, getSortedPostsData } from "../../common/posts";
 import BreadcrumbBlogPost from "../../components/Breadcrumb/BreadcrumbBlogPost";
-import { getAllAvailableCoins } from "../../src/vercelEdgeConfig/vercelEdgeConfig";
+import prismaClient from "../../server/prisma/prismadb";
 
 export async function getStaticPaths() {
   const allPostsData = getSortedPostsData();
@@ -26,7 +26,9 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  const availableTokens = await getAllAvailableCoins();
+  const bigKeyValueStore = await prismaClient.bigKeyValueStore.findUnique({
+    where: { key: "availableTokens" },
+  });
 
   const content = getPostById(params.postId);
 
@@ -42,7 +44,7 @@ export async function getStaticProps({ params }) {
 
   return {
     props: {
-      availableTokens,
+      availableTokens: bigKeyValueStore.value,
       content,
       posts: otherPosts,
     },

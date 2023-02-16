@@ -1,41 +1,36 @@
 require("dotenv").config();
-const qs = require("qs");
-const updateVercelEdgeConfig = require("./vercelEdgeConfig");
+const { PrismaClient } = require("@prisma/client");
 
-const getAllCoins = async () => {
-  const params = qs.stringify({
-    vs_currency: "usd",
-    order: "market_cap_desc",
-    per_page: 20,
-    page: 1,
-    sparkline: false,
-  });
-
-  const response = await fetch(
-    `https://api.coingecko.com/api/v3/coins/markets?${params}`
-  );
-
-  return response.json();
-};
+/** @type {import('@prisma/client').PrismaClient} */
+const prismaClient = global.prisma || new PrismaClient();
 
 const mapCoinGeckoResponseToRedis = (coins) => {
   const redisCoins = coins.map((coin) => ({
-    id: coin.id,
+    id: coin.coinId,
+    coinId: coin.coinId,
     symbol: coin.symbol,
     name: coin.name,
-    image: coin.image,
-    current_price: coin.current_price,
-    market_cap_rank: coin.market_cap_rank,
+    marketCapRank: coin.marketCapRank,
   }));
 
   return redisCoins;
 };
 
 async function main() {
-  const allCoins = await getAllCoins();
+  console.log("Fetching all available coins...");
+  const allCoins = await prismaClient.cryptocurrency.findMany();
+
+  console.log("Mapping coins to redis format...");
   const mappedCoins = mapCoinGeckoResponseToRedis(allCoins);
 
-  updateVercelEdgeConfig("available-coins", mappedCoins);
+  console.log("Upserting coins to Prisma...");
+  const key = "availableTokens";
+  const value = mappedCoins;
+  await prismaClient.bigKeyValueStore.upsert({
+    where: { key },
+    update: { value, key },
+    create: { value, key },
+  });
 }
 
 main();

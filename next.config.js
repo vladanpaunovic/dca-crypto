@@ -32,6 +32,7 @@ const moduleExports = (phase) => ({
     domains: [
       "img.clankapp.com",
       "assets.coingecko.com",
+      "assets.coincap.io",
 
       // Google storage
       "storage.googleapis.com",

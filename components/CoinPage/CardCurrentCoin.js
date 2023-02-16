@@ -1,18 +1,8 @@
-import {
-  Flex,
-  Metric,
-  Block,
-  Text,
-  ProgressBar,
-  BadgeDelta,
-} from "@tremor/react";
+import { Flex, Metric, Block, Text, BadgeDelta } from "@tremor/react";
 import NextImage from "next/image";
-import Currency, { formatPrice } from "../Currency/Currency";
 import { useAppState } from "../../src/store/store";
-
-function isWhatPercentOf(min, max, number) {
-  return ((number - min) / (max - min)) * 100;
-}
+import { useQuery } from "react-query";
+import { formatPrice } from "../Currency/Currency";
 
 const getDeltaType = (percentageChange) => {
   let deltaType = "unchanged";
@@ -34,32 +24,40 @@ const getDeltaType = (percentageChange) => {
 
 const CardCurrentCoin = () => {
   const state = useAppState();
+  const { isLoading, data, error } = useQuery(
+    `currentCoin-${state.currentCoin.coinId}`,
+    () => {
+      return fetch(`/api/coins/${state.currentCoin.coinId}`).then((res) =>
+        res.json()
+      );
+    }
+  );
+
+  if (isLoading) {
+    return "Loading...";
+  }
+
+  if (error || !data) {
+    return null;
+  }
 
   const coinSymbol = state.currentCoin.symbol.toUpperCase();
 
-  const prices = {
-    current: state.currentCoin.market_data.current_price.usd,
-    highest: state.currentCoin.market_data.high_24h.usd,
-    lowest: state.currentCoin.market_data.low_24h.usd,
-  };
+  const priceAtMidnight =
+    state.currentCoin.prices[state.currentCoin.prices.length - 1][1];
 
-  const averagePrice = (prices.highest + prices.lowest) / 2;
+  const percentageChange = (
+    ((priceAtMidnight - parseFloat(data.rateUsd)) / priceAtMidnight) *
+    100
+  ).toFixed(2);
 
-  const percentageDiff = isWhatPercentOf(
-    prices.lowest,
-    prices.highest,
-    prices.current
-  );
-
-  const deltaType = getDeltaType(
-    state.currentCoin.market_data.price_change_percentage_24h
-  );
+  const deltaType = getDeltaType(percentageChange);
 
   return (
     <div className="p-4 sm:p-0" data-testid="coin-today-price">
       <Block>
         <Text>
-          #{state.currentCoin.market_cap_rank} {coinSymbol} Today Price
+          #{data.market_cap_rank} {coinSymbol} Today Price
         </Text>
         <Flex justifyContent="justify-start" alignItems="items-end">
           {state.input.isLoading ? null : (
@@ -73,43 +71,17 @@ const CardCurrentCoin = () => {
             </div>
           )}
 
-          <Metric>
-            <Currency
-              data-testid="current-coin-price"
-              value={state.currentCoin.market_data.current_price.usd}
-            />
-          </Metric>
+          <Metric>{formatPrice(parseFloat(data.rateUsd))}</Metric>
 
           <div className="mr-2" />
 
           <BadgeDelta
-            tooltip={`${parseFloat(
-              state.currentCoin.market_data.price_change_percentage_24h
-            ).toFixed(2)}% within the last 24h`}
+            tooltip={`${percentageChange}% within the last 24h`}
             size="xs"
-            text={`${parseFloat(
-              state.currentCoin.market_data.price_change_percentage_24h
-            ).toFixed(2)}%`}
+            text={`${percentageChange}%`}
             deltaType={deltaType}
           />
         </Flex>
-
-        <Text marginTop="mt-4">24H Range</Text>
-
-        <Flex marginTop="mt-1">
-          <Text>{formatPrice(prices.lowest)}</Text>
-          <Text>avg {formatPrice(averagePrice)}</Text>
-          <Text>{formatPrice(prices.highest)}</Text>
-        </Flex>
-
-        <ProgressBar
-          percentageValue={percentageDiff}
-          marginTop="mt-2"
-          color={"indigo"}
-          tooltip={`${parseFloat(
-            state.currentCoin.market_data.price_change_percentage_24h
-          ).toFixed(2)}% in the last 24h`}
-        />
       </Block>
     </div>
   );

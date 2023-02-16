@@ -136,7 +136,7 @@ const CurrentUrl = ({ currentCoin, currentUrl }) => {
 
   return (
     <div>
-      <p
+      <div
         className="bg-gray-50 text-gray-900 dark:bg-gray-800 p-2 text-normal text-xs mb-4 rounded relative"
         onClick={handleCopy}
       >
@@ -146,7 +146,7 @@ const CurrentUrl = ({ currentCoin, currentUrl }) => {
             Copied to clipboard!
           </div>
         )}
-      </p>
+      </div>
     </div>
   );
 };
@@ -156,14 +156,14 @@ const ShareChart = () => {
   const currentCoin = state.currentCoin;
 
   const queryWithoutCoin = {
-    investment: state.input.investment,
-    investmentInterval: state.input.investmentInterval,
-    dateFrom: state.input.dateFrom,
-    dateTo: state.input.dateTo,
+    investment: state.input?.investment,
+    investmentInterval: state.input?.investmentInterval,
+    dateFrom: state.input?.dateFrom,
+    dateTo: state.input?.dateTo,
   };
 
   const readyQueryString = queryString.stringify(queryWithoutCoin);
-  const currentUrl = `${WEBSITE_PATHNAME}/dca/${currentCoin.id}?${readyQueryString}`;
+  const currentUrl = `${WEBSITE_PATHNAME}/dca/${currentCoin?.id}?${readyQueryString}`;
   // const router = useRouter();
   // const coinSymbol = currentCoin.symbol.toUpperCase();
   // const locationHref = `${WEBSITE_PATHNAME}/widget?${readyQueryString}`;

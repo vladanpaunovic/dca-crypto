@@ -12,9 +12,20 @@ import {
 } from "../../common/generateDefaultInput";
 import SelectCoin from "../SelectCoin/SelectCoin";
 import { useAppState } from "../../src/store/store";
-import CalculationCounter from "../Limit/CalculationCounter";
-
+import dynamic from "next/dynamic";
 dayjs.extend(isSameOrBefore);
+
+const DynamicCalculationCounter = dynamic(
+  () => import("../Limit/CalculationCounter"),
+  {
+    ssr: false,
+    loading: () => (
+      <p className="text-gray-900 text-xs p-2 bg-gray-100 mb-4 rounded-lg">
+        <b>Loading...</b>
+      </p>
+    ),
+  }
+);
 
 const before90Days = dayjs().subtract(91, "days").format("YYYY-MM-DD");
 
@@ -25,10 +36,11 @@ const InputForm = () => {
   const [isClicked, setIsClicked] = useState(false);
   // Due to the constrains of the CoinGecko API, we enable calculations only
   // agter the perod of 90 days
-  const isSubmitDisabled = store.input.duration < 90 || !store.input.investment;
+  const isSubmitDisabled =
+    store.input?.duration < 90 || !store.input?.investment;
 
-  const dateOfFirstMarketData = dayjs(store.rawMarketData.prices[0][0]);
-  const isDateBeforeFirstMarketData = dayjs(store.input.dateFrom).isBefore(
+  const dateOfFirstMarketData = dayjs(store.rawMarketData?.[0]?.[0]);
+  const isDateBeforeFirstMarketData = dayjs(store.input?.dateFrom).isBefore(
     dateOfFirstMarketData
   );
 
@@ -132,7 +144,7 @@ const InputForm = () => {
                 min="1"
                 max="1000000000"
                 step="any"
-                value={store.input.investment}
+                value={store.input?.investment}
                 onChange={(e) =>
                   store.dispatch({
                     type: ACTIONS.UPDATE_INVESTMENT,
@@ -158,7 +170,7 @@ const InputForm = () => {
                 })
               }
               name="investmentInterval"
-              value={store.input.investmentInterval || ""}
+              value={store.input?.investmentInterval || ""}
               className="text-gray-900 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
             >
               {availableInvestmentIntervals.map((interval) => (
@@ -177,7 +189,7 @@ const InputForm = () => {
               style={{ colorScheme: "light" }}
               className="text-gray-900 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
               type="date"
-              value={store.input.dateFrom}
+              value={store.input?.dateFrom}
               min={dateOfFirstMarketData.format("YYYY-MM-DD")}
               max={before90Days}
               onChange={(e) =>
@@ -204,7 +216,7 @@ const InputForm = () => {
               style={{ colorScheme: "light" }}
               className="text-gray-900 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
               type="date"
-              value={store.input.dateTo}
+              value={store.input?.dateTo}
               onChange={(e) =>
                 store.dispatch({
                   type: ACTIONS.UPDATE_DATE_TO,
@@ -226,14 +238,14 @@ const InputForm = () => {
               <p className="text-sm p-2 text-red-500">
                 Your current range is{" "}
                 {calculateDateRangeDifference(
-                  store.input.dateFrom,
-                  store.input.dateTo
+                  store.input?.dateFrom,
+                  store.input?.dateTo
                 )}{" "}
                 days
               </p>
             </>
           ) : null}
-          <CalculationCounter />
+          <DynamicCalculationCounter />
           <div>
             <button
               onClick={handleMobilePopupCloseButton}

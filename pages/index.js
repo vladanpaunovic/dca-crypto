@@ -11,7 +11,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../pages/api/auth/[...nextauth]";
 import { getCommonChartData } from "../server/serverQueries";
 import { getGeneratedChartData } from "../src/calculations/utils";
-import { getAllAvailableCoins } from "../src/vercelEdgeConfig/vercelEdgeConfig";
+import prismaClient from "../server/prisma/prismadb";
 
 export async function getServerSideProps(context) {
   const today = dayjs().format("YYYY-MM-DD");
@@ -25,8 +25,10 @@ export async function getServerSideProps(context) {
 
   const session = await getServerSession(context.req, context.res, authOptions);
 
-  const [availableTokens, chartData] = await Promise.all([
-    getAllAvailableCoins(),
+  const [bigKeyValueStore, chartData] = await Promise.all([
+    prismaClient.bigKeyValueStore.findUnique({
+      where: { key: "availableTokens" },
+    }),
     getCommonChartData({
       ...payload,
       session,
@@ -45,7 +47,7 @@ export async function getServerSideProps(context) {
 
   return {
     props: {
-      availableTokens,
+      availableTokens: bigKeyValueStore.value,
       chartData: generatedChartData.dca,
     },
   };

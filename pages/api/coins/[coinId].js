@@ -1,6 +1,5 @@
 import * as Sentry from "@sentry/nextjs";
 import { checkCORS } from "../../../server/cors";
-import coinGeckoClient from "../../../server/coinGeckoClient";
 
 const handler = async (req, res) => {
   await checkCORS(req, res);
@@ -14,21 +13,35 @@ const handler = async (req, res) => {
   let output;
 
   try {
-    response = await coinGeckoClient.get(`coins/${req.query.coinId}`, {
-      params: {
-        tickers: false,
-        community_data: false,
-        developer_data: false,
-        localization: false,
-      },
-    });
+    response = await fetch(
+      `https://api.coincap.io/v2/rates/${req.query.coinId}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${process.env.COINCAP_API_KEY}`,
+        },
+      }
+    );
 
-    output = {
-      ...response.data,
-      image: response.data.image.thumb,
-    };
+    const price = await response.json();
+    output = { rateUsd: price.data.rateUsd };
   } catch (error) {
     output = null;
+  }
+
+  if (!output) {
+    try {
+      response = await fetch(
+        `https://api.coingecko.com/api/v3/coins/${req.query.coinId}`
+      );
+
+      const price = await response.json();
+      output = {
+        rateUsd: String(price.market_data.current_price.usd),
+      };
+    } catch (error) {
+      output = null;
+    }
   }
 
   res.status(200).json(output);
