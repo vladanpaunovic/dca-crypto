@@ -36,7 +36,7 @@ const AffiliatePartner = (props) => {
 
   const { name, pitch, affiliateLink, icon, value } = props;
   return (
-    <div className="bg-white p-2 md:px-4 md:py-5 flex md:col-span-3">
+    <div className="bg-white p-2 md:px-4 flex md:col-span-3">
       <div className="w-10 h-10">
         <div className="w-10 h-10 relative">{icon}</div>
       </div>

@@ -18,11 +18,27 @@ import { getGeneratedChartData } from "../../src/calculations/utils";
 import ShareChart from "../../components/ShareChart/ShareChart";
 import prismaClient from "../../server/prisma/prismadb";
 
+const DynamicCalculationCounter = dynamic(
+  () => import("../../components/Limit/CalculationCounter"),
+  {
+    ssr: false,
+    loading: () => (
+      <p className="text-gray-900 text-xs p-2 bg-gray-100 mb-4 rounded-lg">
+        <b>Loading...</b>
+      </p>
+    ),
+  }
+);
+
 const DynamicAffiliateLinks = dynamic(
   () => import("../../components/AffiliateLinks/AffiliateLinks"),
   {
     ssr: false,
-    loading: () => <Loading withWrapper />,
+    loading: () => (
+      <div className="h-80">
+        <Loading withWrapper width={20} />
+      </div>
+    ),
   }
 );
 
@@ -158,7 +174,12 @@ const CoinWrapper = (props) => {
           <div className="mt-0 md:block px-4">
             <ShareChart />
           </div>
-          <div className="mt-0 md:mt-8 hidden md:block">
+          <div className="mt-4 px-4">
+            <div className="pb-2 md:pb-0">
+              <DynamicCalculationCounter />
+            </div>
+          </div>
+          <div className="m-0 hidden md:block">
             <DynamicAffiliateLinks />
           </div>
         </div>

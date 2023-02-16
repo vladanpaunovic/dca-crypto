@@ -44,6 +44,18 @@ const promiseOptions = async (inputValue) => {
   return parseOptions(coins);
 };
 
+const EmptySpace = () => {
+  return (
+    <div className="w-full">
+      <input
+        style={{ colorScheme: "light" }}
+        className="text-gray-900 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+        type="text"
+      />
+    </div>
+  );
+};
+
 const SelectCoin = () => {
   const { theme: projectTheme } = useTheme();
   const state = useAppState();
@@ -63,10 +75,8 @@ const SelectCoin = () => {
     router.push(`/dca/${e.value}`);
   };
 
-  if (!mounted) return null;
-
-  if (!availableTokens) {
-    return null;
+  if (!mounted || !availableTokens) {
+    return <EmptySpace />;
   }
 
   const options = parseOptions(availableTokens);

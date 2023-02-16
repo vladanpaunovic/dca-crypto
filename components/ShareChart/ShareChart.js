@@ -137,10 +137,10 @@ const CurrentUrl = ({ currentCoin, currentUrl }) => {
   return (
     <div>
       <div
-        className="bg-gray-50 text-gray-900 p-2 text-normal text-xs mb-4 rounded relative"
+        className="bg-gray-50 text-gray-900 p-2 text-normal text-xs mb-4 rounded relative group cursor-text"
         onClick={handleCopy}
       >
-        <span className="hover:bg-gray-300 cursor-text">{currentUrl}</span>
+        <span className="group-hover:bg-gray-300">{currentUrl}</span>
         {copiedUrl && (
           <div className="bg-green-100 p-2 text-normal text-xs mb-4 rounded absolute left-0 top-0 w-full h-full items-center justify-center flex font-medium opacity-80">
             Copied to clipboard!
