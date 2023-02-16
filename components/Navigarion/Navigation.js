@@ -285,7 +285,7 @@ const HamburgerMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div>
-      <div className="flex justify-between py-2 mx-auto bg-white">
+      <div className="flex justify-between mx-auto bg-white">
         <div>
           <Logo />
         </div>
@@ -313,6 +313,7 @@ const HamburgerMenu = () => {
     </div>
   );
 };
+
 const Navigation = () => {
   const { status, data } = useSession();
   return (
