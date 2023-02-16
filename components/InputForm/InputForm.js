@@ -12,20 +12,7 @@ import {
 } from "../../common/generateDefaultInput";
 import SelectCoin from "../SelectCoin/SelectCoin";
 import { useAppState } from "../../src/store/store";
-import dynamic from "next/dynamic";
 dayjs.extend(isSameOrBefore);
-
-const DynamicCalculationCounter = dynamic(
-  () => import("../Limit/CalculationCounter"),
-  {
-    ssr: false,
-    loading: () => (
-      <p className="text-gray-900 text-xs p-2 bg-gray-100 mb-4 rounded-lg">
-        <b>Loading...</b>
-      </p>
-    ),
-  }
-);
 
 const before90Days = dayjs().subtract(91, "days").format("YYYY-MM-DD");
 
@@ -245,7 +232,6 @@ const InputForm = () => {
               </p>
             </>
           ) : null}
-          <DynamicCalculationCounter />
           <div>
             <button
               onClick={handleMobilePopupCloseButton}

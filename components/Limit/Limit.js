@@ -17,7 +17,7 @@ const Limit = ({ canProceed }) => {
 
   return (
     <div className="bg-yellow-200 rounded-lg">
-      <div className="py-6 px-3 sm:px-6 lg:px-6 ">
+      <div className="py-44 md:py-6 px-3 sm:px-6 lg:px-6 ">
         <div className="flex flex-wrap flex-col md:flex-row items-center justify-between">
           <div className="flex md:w-0 flex-1 items-center">
             <span className="flex rounded-lg bg-yellow-400 p-2">
@@ -50,8 +50,8 @@ const Limit = ({ canProceed }) => {
               </p>
             </div>
           </div>
-          <div className="order-3 flex mt-6 md:mt-0 w-full md:w-auto">
-            <div className="w-full">
+          <div className="order-3 grid grid-cols-2 gap-4 mt-6 md:mt-0 w-full md:w-auto">
+            <div className="col-span-2 md:col-span-1">
               <Link
                 href="/pricing"
                 className="flex items-center justify-center rounded-md border border-transparent bg-gray-900 px-4 py-2 font-medium leading-6 text-white shadow-sm hover:opacity-80"
@@ -60,7 +60,7 @@ const Limit = ({ canProceed }) => {
               </Link>
             </div>
             {session.status === "unauthenticated" && (
-              <div className="ml-4 w-full">
+              <div className="col-span-2 md:col-span-1">
                 <button
                   className="flex w-full items-center justify-center rounded-md border border-transparent bg-yellow-400 px-4 py-2 font-medium leading-6 text-yellow-900 shadow-sm hover:opacity-80"
                   onClick={() => signIn()}
