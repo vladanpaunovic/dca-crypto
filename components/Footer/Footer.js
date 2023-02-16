@@ -7,24 +7,20 @@ const Footer = ({ availableTokens }) => {
   const tokens = availableTokens?.slice(0, 20);
   const dcaAllTokens = tokens?.map((coin) => (
     <li key={coin.id}>
-      <Link href={`/dca/${coin.id}`}>
-        <a
-          className="text-gray-600 dark:text-gray-400 hover:underline"
-          onClick={() => {
-            ga.event({
-              action: "footer_link",
-              params: { calculator: "dca", token: coin.name },
-            });
-          }}
-        >
-          <span className="text-gray-600 dark:text-gray-400 font-medium">
-            DCA
-          </span>{" "}
-          {coin.name}
-          <span className="sr-only">
-            Dollar cost average {coin.name} calculator
-          </span>
-        </a>
+      <Link
+        href={`/dca/${coin.id}`}
+        className="text-gray-600 hover:underline"
+        onClick={() => {
+          ga.event({
+            action: "footer_link",
+            params: { calculator: "dca", token: coin.name },
+          });
+        }}
+      >
+        <span className="text-gray-600 font-medium">DCA</span> {coin.name}
+        <span className="sr-only">
+          Dollar cost average {coin.name} calculator
+        </span>
       </Link>
     </li>
   ));
@@ -37,24 +33,23 @@ const Footer = ({ availableTokens }) => {
       <div className="mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl ">
         <div className="grid gap-16 row-gap-10 mb-8 lg:grid-cols-4">
           <div className="md:max-w-md lg:col-span-1">
-            <Link href="/">
-              <a
-                aria-label="Go home"
-                title="Company"
-                className="inline-flex items-center"
-              >
-                <SwitchHorizontalIcon className="w-8 transform rotate-45 text-indigo-500 dark:text-yellow-500" />
-                <span className="ml-2 text-xl font-bold tracking-wide text-indigo-500 dark:text-yellow-500 uppercase">
-                  DCA-CC
-                </span>
-              </a>
+            <Link
+              href="/"
+              aria-label="Go home"
+              title="Company"
+              className="inline-flex items-center"
+            >
+              <SwitchHorizontalIcon className="w-8 transform rotate-45 text-indigo-500" />
+              <span className="ml-2 text-xl font-bold tracking-wide text-indigo-500 uppercase">
+                DCA-CC
+              </span>
             </Link>
             <div className="mt-4 lg:max-w-sm">
-              <p className="text-sm text-gray-800 dark:text-gray-400">
+              <p className="text-sm text-gray-800">
                 Open-source calculator for Dollar Cost Averaging and lump sum
                 investing in cryptocurrency.
               </p>
-              <p className="mt-4 text-sm text-gray-800 dark:text-gray-400">
+              <p className="mt-4 text-sm text-gray-800">
                 DCA-CC helps you remove emotions from your investing by giving
                 you tools for stressless investing.
               </p>
@@ -62,95 +57,98 @@ const Footer = ({ availableTokens }) => {
           </div>
           <div className="grid grid-cols-1 gap-5 row-gap-8 lg:col-span-3 md:grid-cols-3">
             <div>
-              <p className="font-semibold tracking-wide text-gray-800 dark:text-gray-300">
+              <p className="font-semibold tracking-wide text-gray-800">
                 DCA Calculator
               </p>
               <ul className="mt-2 space-y-2">{first10Tokens}</ul>
             </div>
 
             <div>
-              <div className="font-semibold tracking-wide text-gray-800 dark:text-gray-300 sm:h-6" />
+              <div className="font-semibold tracking-wide text-gray-800 sm:h-6" />
               <ul className="mt-2 space-y-2">{second10Tokens}</ul>
             </div>
 
             <div>
-              <p className="font-semibold tracking-wide text-gray-800 dark:text-gray-300">
+              <p className="font-semibold tracking-wide text-gray-800">
                 DCA-CC
               </p>
               <ul className="mt-2 space-y-2">
                 <li>
-                  <Link href="/all-tokens">
-                    <a className="text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:underline">
-                      All tokens list calculator
-                    </a>
+                  <Link
+                    href="/all-tokens"
+                    className="text-gray-600 transition-colors duration-300 hover:underline"
+                  >
+                    All tokens list calculator
                   </Link>
                 </li>
                 <li>
-                  <Link href="/pricing">
-                    <a className="text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:underline">
-                      Pricing
-                    </a>
+                  <Link
+                    href="/pricing"
+                    className="text-gray-600 transition-colors duration-300 hover:underline"
+                  >
+                    Pricing
                   </Link>
                 </li>
                 <li>
-                  <Link href="/blog">
-                    <a className="text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:underline">
-                      Blog
-                    </a>
+                  <Link
+                    href="/blog"
+                    className="text-gray-600 transition-colors duration-300 hover:underline"
+                  >
+                    Blog
                   </Link>
                 </li>
                 <li>
-                  <Link href="/legal/terms-conditions">
-                    <a className="text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:underline">
-                      Terms & Conditions
-                    </a>
+                  <Link
+                    href="/legal/terms-conditions"
+                    className="text-gray-600 transition-colors duration-300 hover:underline"
+                  >
+                    Terms & Conditions
                   </Link>
                 </li>
                 <li>
-                  <Link href="/legal/privacy-policy">
-                    <a className="text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:underline">
-                      Privacy policy
-                    </a>
+                  <Link
+                    href="/legal/privacy-policy"
+                    className="text-gray-600 transition-colors duration-300 hover:underline"
+                  >
+                    Privacy policy
                   </Link>
                 </li>
                 <li>
-                  <Link href="/legal/cookie-policy">
-                    <a className="text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:underline">
-                      Cookie policy
-                    </a>
+                  <Link
+                    href="/legal/cookie-policy"
+                    className="text-gray-600 transition-colors duration-300 hover:underline"
+                  >
+                    Cookie policy
                   </Link>
                 </li>
                 <li>
-                  <Link href="https://twitter.com/dca_cc">
-                    <a
-                      target="_blank"
-                      rel="nofollow noreferrer"
-                      className="text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:underline"
-                    >
-                      DCA-CC on Twitter
-                    </a>
+                  <Link
+                    href="https://twitter.com/dca_cc"
+                    target="_blank"
+                    rel="nofollow noreferrer"
+                    className="text-gray-600 transition-colors duration-300 hover:underline"
+                  >
+                    DCA-CC on Twitter
                   </Link>
                 </li>
                 <li>
-                  <Link href="https://github.com/vladanpaunovic/dca-crypto/issues/new?template=feature.yml">
-                    <a
-                      rel="nofollow noreferrer"
-                      className="text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:underline"
-                      target="_blank"
-                    >
-                      Submit a feature request
-                    </a>
+                  <Link
+                    href="https://github.com/vladanpaunovic/dca-crypto/issues/new?template=feature.yml"
+                    rel="nofollow noreferrer"
+                    className="text-gray-600 transition-colors duration-300 hover:underline"
+                    target="_blank"
+                  >
+                    Submit a feature request
                   </Link>
                 </li>
                 <li>
-                  <Link href="https://github.com/vladanpaunovic/dca-crypto/issues/new?template=bug.yml">
-                    <a
-                      rel="nofollow noreferrer"
-                      className="text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:underline"
-                      target="_blank"
-                    >
-                      Report bug
-                    </a>
+                  <Link
+                    href="https://github.com/vladanpaunovic/dca-crypto/issues/new?template=bug.yml"
+                    rel="nofollow noreferrer"
+                    className="text-gray-600 transition-colors duration-300 hover:underline"
+                    target="_blank"
+                  >
+                    Report bug
                   </Link>
                 </li>
               </ul>
@@ -158,7 +156,7 @@ const Footer = ({ availableTokens }) => {
           </div>
         </div>
 
-        <div className="flex flex-col justify-between pt-5 pb-10 border-t dark:border-gray-700 sm:flex-row">
+        <div className="flex flex-col justify-between pt-5 pb-10 border-t sm:flex-row">
           <p className="text-sm text-gray-600">
             © Copyright {dayjs().format("YYYY")} DCA CC. All rights reserved.
           </p>

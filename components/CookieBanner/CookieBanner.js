@@ -22,7 +22,7 @@ const CookieBanner = () => {
   return (
     isShown && (
       <>
-        <div className="border-t sm:border shadow-xl dark:border-gray-700 bg-white dark:bg-gray-900 fixed bottom-0 left-0 sm:bottom-6 sm:left-6 sm:rounded-lg sm:max-w-md z-20">
+        <div className="border-t sm:border shadow-xl bg-white fixed bottom-0 left-0 sm:bottom-6 sm:left-6 sm:rounded-lg sm:max-w-md z-20">
           <div className="p-4">
             <div className="flex items-center justify-between flex-wrap">
               <div className="flex items-start">
@@ -34,10 +34,12 @@ const CookieBanner = () => {
                     We use cookies and similar methods to recognize visitors,
                     remember their preferences and analyze site traffic and
                     performance. To learn more about these methods, view our{" "}
-                    <Link href="/legal/cookie-policy">
-                      <a target="_blank" className="underline">
-                        Cookie Policy
-                      </a>
+                    <Link
+                      href="/legal/cookie-policy"
+                      target="_blank"
+                      className="underline"
+                    >
+                      Cookie Policy
                     </Link>
                     .
                   </p>
@@ -53,9 +55,9 @@ const CookieBanner = () => {
               <div className="flex mt-4 w-full justify-start">
                 <button
                   onClick={handleOnAccept}
-                  className="group flex w-full sm:w-auto items-center justify-center px-4 py-2 border border-indigo-500 dark:border-yellow-500 rounded-md shadow-sm text-sm font-medium text-indigo-600 dark:text-yellow-500 hover:bg-indigo-500 hover:text-white dark:hover:bg-yellow-500 dark:hover:text-gray-900"
+                  className="group flex w-full sm:w-auto items-center justify-center px-4 py-2 border border-indigo-500 rounded-md shadow-sm text-sm font-medium text-indigo-600 hover:bg-indigo-500 hover:text-white"
                 >
-                  <span className="hidden sm:flex rounded-lg  fill-current text-indigo-500 group-hover:text-white dark:text-yellow-500 dark:group-hover:text-gray-900 mr-2">
+                  <span className="hidden sm:flex rounded-lg  fill-current text-indigo-500 group-hover:text-white mr-2">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="16"

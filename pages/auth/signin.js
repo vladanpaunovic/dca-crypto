@@ -5,7 +5,7 @@ import { classNames } from "../../styles/utils";
 import { useRouter } from "next/router";
 
 const buttonStyle =
-  "p-2 w-full border dark:border-gray-700 rounded-md flex items-center justify-center transition";
+  "p-2 w-full border rounded-md flex items-center justify-center transition";
 
 function EmailSignIn({ csrfToken, callbackUrl }) {
   return (
@@ -15,22 +15,20 @@ function EmailSignIn({ csrfToken, callbackUrl }) {
     >
       <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
       <label>
-        <span className="font-medium text-gray-600 text-sm dark:text-gray-200">
-          Email address
-        </span>
+        <span className="font-medium text-gray-600 text-sm">Email address</span>
         <input
           type="email"
           id="email"
           name="email"
           placeholder="email@website.com"
-          className="w-full mt-1 mb-2 focus:ring-indigo-500 focus:border-indigo-500 flex-1 block rounded-md sm:text-sm border-gray-300 dark:bg-gray-800 text-gray-900"
+          className="w-full mt-1 mb-2 focus:ring-indigo-500 focus:border-indigo-500 flex-1 block rounded-md sm:text-sm border-gray-300 text-gray-900"
         />
       </label>
       <button
         type="submit"
         className={classNames(
           buttonStyle,
-          "bg-gray-900 text-white hover:bg-gray-700 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-300"
+          "bg-gray-900 text-white hover:bg-gray-700"
         )}
       >
         Sign in with Email
@@ -43,17 +41,15 @@ function GoogleSignIn({ provider, callbackUrl }) {
   return (
     <div key={provider.name}>
       <button
-        className={classNames(
-          buttonStyle,
-          "text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700"
-        )}
+        className={classNames(buttonStyle, "text-gray-900 hover:bg-gray-100")}
         onClick={() => signIn(provider.id, { callbackUrl })}
       >
         <div className=" relative w-6 h-6 mr-2">
           <Image
             src="/images/google-logo.svg"
-            layout="fill"
             alt="Google logo"
+            fill
+            sizes="100vw"
           />
         </div>
         Sign in with {provider.name}
@@ -74,13 +70,13 @@ export function SignIn({ providers, csrfToken, callbackUrl }) {
       <div className="py-4">
         <div className="grid grid-cols-3 items-center mt-6">
           <div>
-            <hr className="dark:border-gray-600" />
+            <hr />
           </div>
           <div className=" text-gray-500 text-center text-sm">
             Or continue with
           </div>
           <div>
-            <hr className="dark:border-gray-600" />
+            <hr />
           </div>
         </div>
       </div>
@@ -102,8 +98,9 @@ export default function SignInPage(props) {
       <div className="col-span-2 hidden md:block relative">
         <Image
           src="/images/sign-in-background.jpeg"
-          layout="fill"
           alt="sign in background"
+          fill
+          sizes="100vw"
         />
       </div>
     </div>

@@ -7,22 +7,20 @@ const Breadcrumb = ({ name, icon, item, isLast }) => {
     <>
       <li className="flex items-center text-xs">
         {isLast ? (
-          <span className="no-underline text-indigo text-gray-900 dark:text-gray-100">
-            {name}
-          </span>
+          <span className="no-underline text-indigo text-gray-900">{name}</span>
         ) : (
-          <Link href={item} prefetch={false}>
-            <a
-              aria-label={name}
-              className="no-underline text-indigo text-indigo-500 dark:text-yellow-500 hover:underline"
-            >
-              {icon ? icon : name}
-            </a>
+          <Link
+            href={item}
+            prefetch={false}
+            aria-label={name}
+            className="no-underline text-indigo text-indigo-500 hover:underline"
+          >
+            {icon ? icon : name}
           </Link>
         )}
       </li>
       {!isLast && (
-        <li className="px-1 flex items-center text-indigo-400 dark:text-yellow-400">
+        <li className="px-1 flex items-center text-indigo-400">
           <ChevronRightIcon className="w-3 h-3" />
         </li>
       )}

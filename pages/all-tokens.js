@@ -41,11 +41,11 @@ function AllTokens(props) {
         title={`Dollar cost average cryptocurrency`}
         description={`List of all cryptocurrencies available for calculating dollar cost average. Visualise and examine the impact of your investments in top 100 cryptocurrencies.`}
       />
-      <main className="w-full bg-white dark:bg-gray-900">
+      <main className="w-full bg-white">
         <Navigation />
         <AllTokensHero />
 
-        <div className="container lg:px-6 max-w-7xl mx-auto max-w-80 bg-white dark:bg-gray-900 mt-10">
+        <div className="container lg:px-6 max-w-7xl mx-auto max-w-80 bg-white mt-10">
           <AllCoinsTable showSearch availableTokens={props.availableTokens} />
         </div>
       </main>

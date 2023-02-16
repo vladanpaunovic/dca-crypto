@@ -54,11 +54,11 @@ export default function Page({ contentId, availableTokens, content }) {
       />
       <Navigation />
       <article className="p-8">
-        <h1 className="text-center text-gray-800 dark:text-gray-100 leading-10 font-extrabold text-4xl mb-10">
+        <h1 className="text-center text-gray-800 leading-10 font-extrabold text-4xl mb-10">
           {content.attributes.title}
         </h1>
         <div className="flex justify-center">
-          <div className="max-w-3xl prose dark:prose-dark">
+          <div className="max-w-3xl prose">
             <p>
               Updated at {dayjs(content.attributes.date).format("YYYY-MM-DD")}
             </p>

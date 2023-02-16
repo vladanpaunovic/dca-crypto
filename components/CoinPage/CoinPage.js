@@ -58,7 +58,7 @@ export default function CoinPage({ currentCoin, coinSymbol, content }) {
             <div className="flex items-center">
               <h1 className="text-gray-900 text-lg font-medium ">
                 Dollar-cost averaging (DCA) calculator for{" "}
-                <span className="text-indigo-700 dark:text-yellow-500 capitalize">
+                <span className="text-indigo-700 capitalize">
                   {currentCoin.name} ({coinSymbol})
                 </span>{" "}
                 backtesting

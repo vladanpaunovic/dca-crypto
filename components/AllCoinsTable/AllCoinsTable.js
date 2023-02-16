@@ -18,14 +18,14 @@ const AllCoinsTable = ({ showOnlyNTokens, showSearch, availableTokens }) => {
     <div className="flex flex-col">
       <div className="overflow-x-auto">
         <div className="py-2 align-middle inline-block min-w-full md:px-2">
-          <div className="shadow overflow-hidden lg:rounded-lg dark:border-gray-700 border xl:border rounded-none">
-            <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-900">
-              <thead className="bg-gray-50 dark:bg-gray-900">
+          <div className="shadow overflow-hidden lg:rounded-lg border xl:border rounded-none">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
                 {showSearch && (
                   <tr>
                     <th
                       colSpan={4}
-                      className="px-6 py-3 text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-100"
+                      className="px-6 py-3 text-xs font-medium uppercase tracking-wider text-gray-500 "
                     >
                       <div className="flex shadow max-w-sm rounded">
                         <input
@@ -35,11 +35,11 @@ const AllCoinsTable = ({ showOnlyNTokens, showSearch, availableTokens }) => {
                           autoFocus
                           name="search"
                           id="search"
-                          className="focus:outline-none dark:bg-gray-900 dark:border-gray-700 flex-1 rounded sm:text-sm border-gray-300 rounded-r-none "
+                          className="focus:outline-none flex-1 rounded sm:text-sm border-gray-300 rounded-r-none "
                           placeholder="Search coin name"
                         />
-                        <span className="inline-flex items-center px-3 rounded-r-md border border-l-0 border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900">
-                          <SearchIcon className="w-4 h-4 text-gray-500 dark:text-gray-500" />
+                        <span className="inline-flex items-center px-3 rounded-r-md border border-l-0 border-gray-300  bg-white">
+                          <SearchIcon className="w-4 h-4 text-gray-500 " />
                         </span>
                       </div>
                     </th>
@@ -48,19 +48,19 @@ const AllCoinsTable = ({ showOnlyNTokens, showSearch, availableTokens }) => {
                 <tr>
                   <th
                     scope="col"
-                    className="px-6 py-3 w-10 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-100"
+                    className="px-6 py-3 w-10 text-left text-xs font-medium text-gray-500 uppercase tracking-wider "
                   >
                     Rank
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-100"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider "
                   >
                     Name
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-900">
+              <tbody className="bg-white divide-y divide-gray-200">
                 {tokenList
                   .filter((e) => {
                     if (searchQuery) {
@@ -76,30 +76,31 @@ const AllCoinsTable = ({ showOnlyNTokens, showSearch, availableTokens }) => {
                     return (
                       <tr
                         key={entry.id}
-                        className="hover:bg-gray-50 dark:hover:bg-gray-900 text-gray-500 dark:text-gray-100"
+                        className="hover:bg-gray-50 text-gray-500 "
                       >
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-center">
                           #{entry.marketCapRank}
                         </td>
                         <td className="px-6 whitespace-nowrap text-sm">
-                          <Link href={`/dca/${entry.id}`}>
-                            <a className="flex items-center py-4">
-                              <div className="relative w-7 h-7 mr-2">
-                                <NextImage
-                                  layout="fill"
-                                  objectFit="cover"
-                                  src={`https://assets.coincap.io/assets/icons/${entry.symbol.toLowerCase()}@2x.png`}
-                                  alt={`${entry.name} logo`}
-                                />
-                              </div>
-                              <span className="font-medium">
-                                <span className="uppercase">DCA</span>{" "}
-                                {entry.name}
-                              </span>{" "}
-                              <span className="ml-1 text-gray-400">
-                                {entry.symbol.toUpperCase()}
-                              </span>
-                            </a>
+                          <Link
+                            href={`/dca/${entry.id}`}
+                            className="flex items-center py-4"
+                          >
+                            <div className="relative w-7 h-7 mr-2">
+                              <NextImage
+                                layout="fill"
+                                objectFit="cover"
+                                src={`https://assets.coincap.io/assets/icons/${entry.symbol.toLowerCase()}@2x.png`}
+                                alt={`${entry.name} logo`}
+                              />
+                            </div>
+                            <span className="font-medium">
+                              <span className="uppercase">DCA</span>{" "}
+                              {entry.name}
+                            </span>{" "}
+                            <span className="ml-1 text-gray-400">
+                              {entry.symbol.toUpperCase()}
+                            </span>
                           </Link>
                         </td>
                       </tr>
@@ -110,15 +111,16 @@ const AllCoinsTable = ({ showOnlyNTokens, showSearch, availableTokens }) => {
                     <th
                       colSpan={4}
                       scope="col"
-                      className="px-6 py-3 w-10 text-center text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-100"
+                      className="px-6 py-3 w-10 text-center text-xs font-medium text-gray-500 uppercase tracking-wider "
                     >
-                      <Link href={`/all-tokens`}>
-                        <a className="flex items-center justify-start sm:justify-center hover:underline py-2">
-                          More tokens{" "}
-                          <span className="ml-1">
-                            <ChevronRightIcon className="w-5 h-5" />
-                          </span>
-                        </a>
+                      <Link
+                        href={`/all-tokens`}
+                        className="flex items-center justify-start sm:justify-center hover:underline py-2"
+                      >
+                        More tokens{" "}
+                        <span className="ml-1">
+                          <ChevronRightIcon className="w-5 h-5" />
+                        </span>
                       </Link>
                     </th>
                   </tr>

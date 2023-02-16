@@ -72,10 +72,11 @@ const ThankYou = () => {
         />
       </p>
       <div className="text-center">
-        <Link href={`/dca/bitcoin`}>
-          <a className="bg-gray-900 font-medium text-white dark:bg-white dark:text-gray-900 py-2 px-4 rounded-md hover:opacity-70">
-            Go to DCA Calculator
-          </a>
+        <Link
+          href={`/dca/bitcoin`}
+          className="bg-gray-900 font-medium text-white py-2 px-4 rounded-md hover:opacity-70"
+        >
+          Go to DCA Calculator
         </Link>
       </div>
     </div>

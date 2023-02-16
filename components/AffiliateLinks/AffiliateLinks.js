@@ -72,10 +72,10 @@ const AffiliatePartner = (props) => {
 
 const AffiliateLinks = () => {
   return (
-    <div className="p-4 md:p-0 bg-gray-100 md:bg-white dark:bg-gray-800 dark:md:bg-gray-900">
-      <div className="col-span-6 md:col-span-3 overflow-hidden border md:border-none rounded-lg dark:border-gray-700 shadow-lg md:shadow-none">
-        <div className="p-2 md:p-4 dark:bg-gray-900">
-          <h5 className="flex md:text-lg font-medium text-gray-900 dark:text-white">
+    <div className="p-4 md:p-0 bg-gray-100 md:bg-white">
+      <div className="col-span-6 md:col-span-3 overflow-hidden border md:border-none rounded-lg  shadow-lg md:shadow-none">
+        <div className="p-2 md:p-4">
+          <h5 className="flex md:text-lg font-medium text-gray-900 ">
             <SupportIcon /> Support this site
           </h5>
           <p className="hidden md:block mt-1 max-w-2xl text-xs text-gray-400">
@@ -83,7 +83,7 @@ const AffiliateLinks = () => {
             you, I will earn a commision if you click trough and make a purchase
           </p>
         </div>
-        <div className="grid grid-cols-1 border-t border-gray-200 dark:border-gray-800 divide-y dark:divide-gray-800">
+        <div className="grid grid-cols-1 border-t border-gray-200 divide-y">
           {affiliatePartners.map((partner, index) => (
             <AffiliatePartner
               key={partner.affiliateLink}

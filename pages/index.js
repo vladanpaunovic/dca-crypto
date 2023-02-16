@@ -68,33 +68,33 @@ function Home(props) {
         title=" DCA and Lump Sum Investment Calculator"
         description="Calculate your returns with dollar cost averaging or lump sum investing, the perfect tool for cryptocurrency investors"
       />
-      <main className="w-full bg-white dark:bg-gray-900">
+      <main className="w-full bg-white">
         <NavigationMenu availableTokens={props.availableTokens} />
-        <section className="mx-auto p-8 primary-gradient dark:bg-gray-800 text-center">
+        <section className="mx-auto p-8 primary-gradient text-center">
           <div className="container max-w-4xl mx-auto">
-            <p className="text-center text-xl md:text-3xl text-gray-200 dark:text-yellow-900">
+            <p className="text-center text-xl md:text-3xl text-gray-200">
               Invest smarter with our tools
             </p>
-            <h1 className="h1-title text-4xl md:text-7xl text-center mb-4 text-white dark:text-gray-900">
+            <h1 className="h1-title text-4xl md:text-7xl text-center mb-4 text-white">
               Automatic DCA Calculator and Lump Sum Investment Calculator
             </h1>
-            <p className="text-center text-xl md:text-3xl text-gray-200 dark:text-yellow-900">
+            <p className="text-center text-xl md:text-3xl text-gray-200">
               Calculate your returns with dollar cost averaging or lump sum
               investing, the perfect tool for cryptocurrency investors.
             </p>
           </div>
         </section>
 
-        <div className="container mx-auto max-w-3xl bg-white dark:bg-gray-900 mt-16 mb-8 md:p-8">
+        <div className="container mx-auto max-w-3xl bg-white mt-16 mb-8 md:p-8">
           <div className="mb-16 px-6 md:px-0">
-            <h2 className="text-base text-indigo-500 text-center dark:text-yellow-500 font-semibold tracking-wide uppercase">
+            <h2 className="text-base text-indigo-500 text-center font-semibold tracking-wide uppercase">
               DCA Calculator
             </h2>
-            <p className="mt-2 text-3xl text-center leading-8 font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
+            <p className="mt-2 text-3xl text-center leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
               Calculate DCA for your favorite coins
             </p>
           </div>
-          <div className=" dark:text-white">
+          <div className="">
             <AllCoinsTable
               showOnlyNTokens={10}
               showSearch={false}
@@ -104,16 +104,16 @@ function Home(props) {
           </div>
         </div>
 
-        <div className="container mx-auto max-w-3xl bg-white dark:bg-gray-900 mt-16 mb-8 md:p-8">
+        <div className="container mx-auto max-w-3xl bg-white mt-16 mb-8 md:p-8">
           <div className="mb-16 px-6 md:px-0">
-            <h2 className="text-base text-center text-indigo-500 dark:text-yellow-500 font-semibold tracking-wide uppercase">
+            <h2 className="text-base text-center text-indigo-500 font-semibold tracking-wide uppercase">
               Lump Sum Calculator
             </h2>
-            <p className="mt-2 text-center text-3xl leading-8 font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
+            <p className="mt-2 text-center text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
               Calculate Lump Sum investments for your favorite coins
             </p>
           </div>
-          <div className="pr-4 dark:text-white">
+          <div className="pr-4">
             <AllCoinsTable showOnlyNTokens={10} showSearch={false} />
           </div>
         </div>

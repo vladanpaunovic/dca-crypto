@@ -88,9 +88,7 @@ export const TweetMessage = () => {
 
   return (
     <div className="">
-      <p className="mt-1 text-sm text-gray-500 dark:text-white">
-        {priceChartMessage}
-      </p>
+      <p className="mt-1 text-sm text-gray-500">{priceChartMessage}</p>
       <div className="flex justify-end mt-2 py-4 md:py-0">
         <ShareChart />
       </div>

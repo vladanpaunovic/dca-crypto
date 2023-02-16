@@ -58,28 +58,31 @@ export const RelatedPosts = ({ posts }) => {
 
   return (
     <div className="flex flex-col">
-      <h3 className="text-gray-800 dark:text-gray-100 text-xl font-bold mb-4">
-        More posts
-      </h3>
+      <h3 className="text-gray-800 text-xl font-bold mb-4">More posts</h3>
       <div className="grid grid-cols-3 gap-4">
         {posts.map((post) => (
-          <NextLink href={`/blog/${post.id}`} key={post.id}>
-            <a className="border shadow hover:shadow-lg">
-              <div className="w-full h-36 relative">
-                <NextImage
-                  src={`/blog/${post.id}.jpg`}
-                  layout="fill"
-                  priority
-                  objectFit="cover"
-                />
-              </div>
-              <div className="prose text-xs p-4">
-                <h2>{post.title}</h2>
-                <p className="text-xs text-gray-500">
-                  {dayjs(post.date).format("YYYY-MM-DD")}
-                </p>
-              </div>
-            </a>
+          <NextLink
+            href={`/blog/${post.id}`}
+            key={post.id}
+            className="border shadow hover:shadow-lg"
+          >
+            <div className="w-full h-36 relative">
+              <NextImage
+                src={`/blog/${post.id}.jpg`}
+                priority
+                fill
+                sizes="100vw"
+                style={{
+                  objectFit: "cover",
+                }}
+              />
+            </div>
+            <div className="prose text-xs p-4">
+              <h2>{post.title}</h2>
+              <p className="text-xs text-gray-500">
+                {dayjs(post.date).format("YYYY-MM-DD")}
+              </p>
+            </div>
           </NextLink>
         ))}
       </div>
@@ -105,9 +108,12 @@ export default function Page({ availableTokens, content, posts }) {
       <div className="w-full h-96 relative mb-4">
         <NextImage
           src={`/blog/${content.id}.jpg`}
-          layout="fill"
           priority
-          objectFit="cover"
+          fill
+          sizes="100vw"
+          style={{
+            objectFit: "cover",
+          }}
         />
       </div>
       <div className="px-4">
@@ -117,8 +123,8 @@ export default function Page({ availableTokens, content, posts }) {
       </div>
       <article className="p-8">
         <div className="flex justify-center">
-          <div className="max-w-3xl prose dark:prose-dark">
-            <h1 className="text-center text-gray-800 dark:text-gray-100 leading-10 font-extrabold text-4xl mb-10 pb-8">
+          <div className="max-w-3xl prose">
+            <h1 className="text-center text-gray-800 leading-10 font-extrabold text-4xl mb-10 pb-8">
               {content.title}
             </h1>
             <p className="text-xs text-gray-500">
