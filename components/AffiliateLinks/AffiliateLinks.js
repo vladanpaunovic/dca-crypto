@@ -6,6 +6,16 @@ import { useAppState } from "../../src/store/store";
 
 const affiliatePartners = [
   {
+    name: "Deltabadger",
+    icon: (
+      <Image src="/images/deltabadger_icon.jpeg" alt="Ledger" layout="fill" />
+    ),
+    pitch:
+      "Automate dollar-cost averaging with popular exchanges. Five-minute setup.",
+    affiliateLink: "https://app.deltabadger.com/en/ref/DCACC",
+    value: "10% discount",
+  },
+  {
     name: "Crypto.com",
     icon: (
       <Image
@@ -18,16 +28,6 @@ const affiliatePartners = [
       "Use my referral link 6mn8gxz6tn to sign up for Crypto.com and we both get $25 USD",
     affiliateLink: "https://crypto.com/app/6mn8gxz6tn",
     value: "$25 USD",
-  },
-  {
-    name: "Deltabadger",
-    icon: (
-      <Image src="/images/deltabadger_icon.jpeg" alt="Ledger" layout="fill" />
-    ),
-    pitch:
-      "Automate dollar-cost averaging with popular exchanges. Five-minute setup.",
-    affiliateLink: "https://app.deltabadger.com/en/ref/DCACC",
-    value: "10% discount",
   },
 ];
 
