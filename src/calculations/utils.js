@@ -2,6 +2,9 @@ import { generateDCAResponse } from "./dca";
 import { generateLumpSumResponse } from "./lumpsum";
 import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
+import { WEBSITE_PATHNAME } from "../../config";
+import qs from "qs";
+
 dayjs.extend(isBetween);
 
 export const stripDataBeforeAndAfter = (data, dateFrom, dateTo) => {
@@ -28,4 +31,61 @@ export const getGeneratedChartData = ({ data, input }) => {
   });
 
   return { dca, lumpSum, input: innn };
+};
+
+export const getTableChartDataOverYears = (coinData, years) => {
+  const payload = {
+    investment: 100,
+    investmentInterval: 7,
+    currency: "usd",
+    coinId: coinData.coinId,
+  };
+
+  const percentualDifferences = [];
+
+  const response = years.map((year) => {
+    const strippedData = stripDataBeforeAndAfter(
+      coinData.prices,
+      `${year}-01-01`,
+      `${year}-12-31`
+    );
+
+    payload.dateFrom = `${year}-01-01`;
+    payload.dateTo = `${year}-12-31`;
+
+    if (!strippedData.length) {
+      return {
+        year,
+        coin: coinData,
+        input: payload,
+        url: `${WEBSITE_PATHNAME}/dca/${coinData.coinId}?${qs.stringify(
+          payload
+        )}`,
+        insights: {
+          percentageChange: 0,
+        },
+      };
+    }
+
+    const dcaResponse = generateDCAResponse({
+      response: [...strippedData],
+      payload,
+    });
+
+    delete dcaResponse.chartData;
+
+    const query = qs.stringify(payload);
+
+    percentualDifferences.push(dcaResponse.insights.percentageChange);
+
+    return {
+      year,
+      coin: coinData,
+      input: payload,
+      url: `${WEBSITE_PATHNAME}/dca/${coinData.coinId}?${query}`,
+      insights: dcaResponse.insights,
+    };
+  });
+
+  return response;
 };
