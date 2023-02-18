@@ -4,6 +4,7 @@ import DcaOverviewTable from "../components/DcaOverviewPage/DcaOverviewTable/Dca
 import { Subtitle, Title } from "@tremor/react";
 import ReactMarkdown from "react-markdown";
 import prismaClient from "../server/prisma/prismadb";
+import DcaOverviewChart from "../components/DcaOverviewPage/DcaOverviewChart/DcaOverviewChart";
 
 const getWidthsFromValues = (dataValues) => {
   let maxValue = -Infinity;
@@ -25,7 +26,7 @@ export const getStaticProps = async () => {
   });
 
   const top5coins = bigKeyValueStore.value
-    .slice(0, 5)
+    .slice(0, 10)
     .map((coin) => coin.coinId);
 
   const coinPrices = await prismaClient.cryptocurrency.findMany({
@@ -115,6 +116,9 @@ const Page = (props) => {
         How much would you have earned if you purchased $100 every week since
         2016, 2017, 2018, 2019, or 2020?
       </Subtitle>
+      <div className="mt-8">
+        <DcaOverviewChart {...props} />
+      </div>
       <div className="mt-8">
         <DcaOverviewTable {...props} />
       </div>
