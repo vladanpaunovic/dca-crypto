@@ -13,7 +13,7 @@ import { SessionProvider } from "next-auth/react";
 import * as Sentry from "@sentry/nextjs";
 import { setFingerprintCookie } from "../common/fingerprinting";
 import NextNProgress from "nextjs-progressbar";
-import queryClient from "../common/queryClient";
+import queryClient from "../src/queryClient";
 
 function App({ Component, pageProps: { session, ...pageProps } }) {
   const router = useRouter();
