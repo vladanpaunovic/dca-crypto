@@ -3,14 +3,14 @@ const fs = require("fs");
 const path = require("path");
 const axios = require("axios");
 const matter = require("gray-matter");
-const { Redis } = require("@upstash/redis");
+const { PrismaClient } = require("@prisma/client");
+const initSentry = require("./initSentry");
+initSentry();
+
+/** @type {import('@prisma/client').PrismaClient} */
+const prismaClient = global.prisma || new PrismaClient();
 
 const getDate = new Date().toISOString();
-
-const rawRedis = new Redis({
-  url: process.env.UPSTASH_REDIS_URL,
-  token: process.env.UPSTASH_REDIS_TOKEN,
-});
 
 const WEBSITE_DOMAIN = "https://www.dca-cc.com";
 
@@ -67,15 +67,19 @@ const generateSitemaps = async () => {
   return [...dcaListSitemap, ...blogSitemap];
 };
 
-async function storeSitemapsToRedis(sitemaps) {
-  console.log("[SITEMAPS] Storing sitemaps to Redis...");
-  await rawRedis.set("sitemaps", sitemaps);
+async function storeSitemaps(sitemaps) {
+  console.log("[SITEMAPS] Storing sitemaps to MongoDb...");
+  await prismaClient.bigKeyValueStore.upsert({
+    where: { key: "sitemaps" },
+    update: { value: sitemaps },
+    create: { key: "sitemaps", value: sitemaps },
+  });
 }
 
 async function main() {
   const sitemaps = await generateSitemaps();
 
-  await storeSitemapsToRedis(sitemaps);
+  await storeSitemaps(sitemaps);
 }
 
 main();

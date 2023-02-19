@@ -1,5 +1,5 @@
 import { CACHE_INVALIDATION_INTERVAL } from "../config";
-import { getSitemaps } from "../server/redis";
+import prismaClient from "../server/prisma/prismadb";
 
 function generateSiteMap(entries) {
   return `<?xml version="1.0" encoding="UTF-8"?>
@@ -23,9 +23,13 @@ function generateSiteMap(entries) {
 }
 
 export async function getServerSideProps(context) {
-  const sitemapsData = await getSitemaps();
+  const bigKeyValueStore = await prismaClient.bigKeyValueStore.findUnique({
+    where: {
+      key: "sitemaps",
+    },
+  });
 
-  const sitemaps = generateSiteMap(sitemapsData);
+  const sitemaps = generateSiteMap(bigKeyValueStore.value);
 
   context.res.setHeader(
     "Cache-Control",
@@ -36,7 +40,9 @@ export async function getServerSideProps(context) {
   context.res.write(sitemaps);
   context.res.end();
 
-  return {};
+  return {
+    props: {},
+  };
 }
 
 export default function Sitemaps() {
