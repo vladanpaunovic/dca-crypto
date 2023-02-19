@@ -7,7 +7,17 @@ import Link from "next/link";
 import { useSession, signIn } from "next-auth/react";
 import { useAppState } from "../../src/store/store";
 import { useQuery } from "react-query";
-import Pricing from "../Pricing/Pricing";
+import dynamic from "next/dynamic";
+import Loading from "react-loading";
+
+const DynamicPricing = dynamic(() => import("../Pricing/Pricing"), {
+  ssr: false,
+  loading: () => (
+    <div className="h-96">
+      <Loading withWrapper width={20} />
+    </div>
+  ),
+});
 
 const Limit = ({ canProceed }) => {
   const dispatch = useAppState((state) => state.dispatch);
@@ -79,9 +89,11 @@ const Limit = ({ canProceed }) => {
           </div>
         </div>
       </div>
-      <div className="bg-white mt-8 rounded-lg pb-3">
-        <Pricing pricing={pricing.data} />
-      </div>
+      {pricing.isSuccess && (
+        <div className="bg-white mt-8 rounded-lg pb-3">
+          <DynamicPricing pricing={pricing.data} />
+        </div>
+      )}
     </div>
   );
 };
