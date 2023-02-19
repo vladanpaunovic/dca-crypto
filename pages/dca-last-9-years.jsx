@@ -113,6 +113,7 @@ export const getStaticProps = async () => {
 
 const Page = (props) => {
   const subtitleYears = [...props.years]
+    .reverse()
     .slice(0, props.years.length - 1)
     .join(", ");
 
@@ -123,7 +124,7 @@ const Page = (props) => {
         <Title>Dollar Cost Averaging (DCA) Returns</Title>
         <Subtitle>
           How much would you have earned if you purchased $100 every week since{" "}
-          {subtitleYears}, or {props.years[props.years.length - 1]}?
+          {subtitleYears}, or {props.years[0]}?
         </Subtitle>
         <div className="mt-8">
           <DcaOverviewTable {...props} />
