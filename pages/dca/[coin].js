@@ -1,5 +1,5 @@
 import InputFormWrapper from "../../components/InputForm/InputForm";
-import { WEBSITE_URL } from "../../config";
+import { WEBSITE_PATHNAME, WEBSITE_URL } from "../../config";
 import Footer from "../../components/Footer/Footer";
 import { generateDefaultInput } from "../../common/generateDefaultInput";
 import { NextSeo } from "next-seo";
@@ -17,6 +17,8 @@ import { useAppState } from "../../src/store/store";
 import { getGeneratedChartData } from "../../src/calculations/utils";
 import ShareChart from "../../components/ShareChart/ShareChart";
 import prismaClient from "../../server/prisma/prismadb";
+import * as Sentry from "@sentry/nextjs";
+import qs from "qs";
 
 const DynamicCalculationCounter = dynamic(
   () => import("../../components/Limit/CalculationCounter"),
@@ -61,6 +63,12 @@ export async function getStaticProps(context) {
   const coinId = context.params.coin || "bitcoin";
 
   const payload = generateDefaultInput(context.query);
+
+  const queryString = qs.stringify(payload);
+
+  const url = `${WEBSITE_PATHNAME}/dca/${coinId}?${queryString}`;
+
+  Sentry.setContext("Reproducable URL", url);
 
   const [availableTokens, coinData] = await Promise.all([
     prismaClient.bigKeyValueStore.findUnique({
