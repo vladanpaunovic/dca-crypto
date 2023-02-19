@@ -17,8 +17,8 @@ const handler = async (req, res) => {
     `https://api.coingecko.com/api/v3/coins/${payload.coinId}/market_chart/range`,
     {
       params: {
-        from: convertDateStringToUnix(payload.from),
-        to: convertDateStringToUnix(payload.to),
+        from: convertDateStringToUnix(new Date("01-01-2010")),
+        to: convertDateStringToUnix(new Date()),
         vs_currency: payload.vs_currency,
       },
     }
