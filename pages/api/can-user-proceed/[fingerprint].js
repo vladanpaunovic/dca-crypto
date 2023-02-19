@@ -2,7 +2,7 @@ import { canUserProceed, storeFingerprint } from "../../../server/redis";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]";
 import { setCookie } from "cookies-next";
-import { FINGERPRING_ID } from "../../../common/fingerprinting";
+import { FINGERPRING_ID } from "../../../src/fingerprinting";
 
 async function handler(req, res) {
   const session = await getServerSession(req, res, authOptions);

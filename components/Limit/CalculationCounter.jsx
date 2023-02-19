@@ -1,7 +1,7 @@
 import { getCookie } from "cookies-next";
 import { useSession } from "next-auth/react";
 import { useQuery, useMutation } from "react-query";
-import { FINGERPRING_ID } from "../../common/fingerprinting";
+import { FINGERPRING_ID } from "../../src/fingerprinting";
 import { useAppState } from "../../src/store/store";
 import { ACTIONS } from "../Context/mainReducer";
 import { useDebounce } from "usehooks-ts";

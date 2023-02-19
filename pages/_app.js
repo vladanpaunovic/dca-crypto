@@ -11,7 +11,7 @@ import DefaultSeo from "../components/Seo/DefaultSeo";
 import { WEBSITE_PATHNAME } from "../config";
 import { SessionProvider } from "next-auth/react";
 import * as Sentry from "@sentry/nextjs";
-import { setFingerprintCookie } from "../common/fingerprinting";
+import { setFingerprintCookie } from "../src/fingerprinting";
 import NextNProgress from "nextjs-progressbar";
 import queryClient from "../src/queryClient";
 
