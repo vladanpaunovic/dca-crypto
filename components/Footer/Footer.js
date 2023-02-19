@@ -97,14 +97,14 @@ const Footer = ({ availableTokens }) => {
                     Blog
                   </Link>
                 </li>
-                {/* <li>
+                <li>
                   <Link
                     href="/dca-last-9-years"
                     className="text-gray-600 transition-colors duration-300 hover:underline"
                   >
                     DCA in the last 9 years
                   </Link>
-                </li> */}
+                </li>
                 <li>
                   <Link
                     href="/legal/terms-conditions"
