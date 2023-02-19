@@ -4,7 +4,7 @@ import Footer from "../components/Footer/Footer";
 import { CACHE_INVALIDATION_INTERVAL } from "../config";
 import { NextSeo } from "next-seo";
 import NavigationMenu from "../components/Menu/Menu";
-import { generateDefaultInput } from "../common/generateDefaultInput";
+import { generateDefaultInput } from "../src/generateDefaultInput";
 import dayjs from "dayjs";
 import AllCoinsTable from "../components/AllCoinsTable/AllCoinsTable";
 import { getServerSession } from "next-auth";

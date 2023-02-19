@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import {
   generateDefaultInput,
   calculateDateRangeDifference,
-} from "../../common/generateDefaultInput";
+} from "../../src/generateDefaultInput";
 import { getGeneratedChartData } from "../../src/calculations/utils";
 
 export const ACTIONS = {

@@ -16,7 +16,7 @@ import Currency, { formatPrice } from "../Currency/Currency";
 import CardTotalInvestment from "./TotalInvestment";
 import { valueFormatter } from "../Chart/helpers";
 import { useAppState } from "../../src/store/store";
-import { calculateDateRangeDifference } from "../../common/generateDefaultInput";
+import { calculateDateRangeDifference } from "../../src/generateDefaultInput";
 
 dayjs.extend(duration);
 dayjs.extend(relativeTime);

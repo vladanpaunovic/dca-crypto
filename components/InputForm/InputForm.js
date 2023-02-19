@@ -9,7 +9,7 @@ import useEffectOnlyOnUpdate from "../Hooks/useEffectOnlyOnUpdate";
 import {
   availableInvestmentIntervals,
   calculateDateRangeDifference,
-} from "../../common/generateDefaultInput";
+} from "../../src/generateDefaultInput";
 import SelectCoin from "../SelectCoin/SelectCoin";
 import { useAppState } from "../../src/store/store";
 dayjs.extend(isSameOrBefore);

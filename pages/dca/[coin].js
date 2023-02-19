@@ -1,7 +1,7 @@
 import InputFormWrapper from "../../components/InputForm/InputForm";
 import { WEBSITE_PATHNAME, WEBSITE_URL } from "../../config";
 import Footer from "../../components/Footer/Footer";
-import { generateDefaultInput } from "../../common/generateDefaultInput";
+import { generateDefaultInput } from "../../src/generateDefaultInput";
 import { NextSeo } from "next-seo";
 import dynamic from "next/dynamic";
 import Loading from "../../components/Loading/Loading";

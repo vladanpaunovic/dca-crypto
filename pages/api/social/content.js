@@ -1,4 +1,4 @@
-import { generateDefaultInput } from "../../../common/generateDefaultInput";
+import { generateDefaultInput } from "../../../src/generateDefaultInput";
 import { defaultCurrency, WEBSITE_URL } from "../../../config";
 import { formatPrice } from "../../../components/Currency/Currency";
 import dayjs from "dayjs";

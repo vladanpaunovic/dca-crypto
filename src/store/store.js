@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { generateDefaultInput } from "../../common/generateDefaultInput";
+import { generateDefaultInput } from "../../src/generateDefaultInput";
 import { reducer } from "../../components/Context/mainReducer";
 import { defaultCurrency } from "../../config";
 
