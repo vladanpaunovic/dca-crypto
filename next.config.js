@@ -1,20 +1,7 @@
 require("dotenv").config();
-const qs = require("query-string");
-const dayjs = require("dayjs");
 const Mode = require("frontmatter-markdown-loader/mode");
 const { PHASE_PRODUCTION_BUILD } = require("next/constants");
 const { withSentryConfig } = require("@sentry/nextjs");
-
-const DEFAULT_QUERYSTRING = qs.stringify(
-  {
-    investment: 10,
-    investmentInterval: 7,
-    dateFrom: dayjs().subtract(3, "year").format("YYYY-MM-DD"),
-    dateTo: dayjs().format("YYYY-MM-DD"),
-    currency: "usd",
-  },
-  { sort: false }
-);
 
 /** @type {import('next').NextConfig} */
 const moduleExports = (phase) => ({
@@ -51,7 +38,7 @@ const moduleExports = (phase) => ({
     return [
       {
         source: "/",
-        destination: `/dca/bitcoin/?${DEFAULT_QUERYSTRING}`,
+        destination: `/dca/bitcoin`,
         permanent: true,
       },
       {
