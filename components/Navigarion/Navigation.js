@@ -53,6 +53,14 @@ const UnAuthenticatedMenu = () => (
     </div>
     <div>
       <Link
+        href="/dca-last-9-years"
+        className="px-2 block font-medium text-gray-900 hover:opacity-70 transition"
+      >
+        DCA last 9 years
+      </Link>
+    </div>
+    <div>
+      <Link
         href="/blog/the-benefits-of-dollar-cost-averaging-how-a-calculator-can-help-you-invest-smarter"
         className="px-2 block font-medium text-gray-900 hover:opacity-70 transition"
       >
