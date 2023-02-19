@@ -1,4 +1,4 @@
-import { getSortedPostsData } from "../../common/posts";
+import { getSortedPostsData } from "../../src/posts";
 import NextImage from "next/image";
 import NextLink from "next/link";
 import dayjs from "dayjs";

@@ -8,7 +8,7 @@ import ReactMarkdown from "react-markdown";
 import dayjs from "dayjs";
 import { NextSeo } from "next-seo";
 import Navigation from "../../components/Navigarion/Navigation";
-import { getPostById, getSortedPostsData } from "../../common/posts";
+import { getPostById, getSortedPostsData } from "../../src/posts";
 import BreadcrumbBlogPost from "../../components/Breadcrumb/BreadcrumbBlogPost";
 import prismaClient from "../../server/prisma/prismadb";
 

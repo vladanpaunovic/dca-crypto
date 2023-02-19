@@ -1,9 +1,7 @@
 import { CACHE_INVALIDATION_INTERVAL } from "../config";
 import prismaClient from "../server/prisma/prismadb";
-import path from "path";
-import fs from "fs";
-import matter from "gray-matter";
 import { WEBSITE_PATHNAME } from "../config";
+import { getSortedPostsData } from "../src/posts";
 
 function generateSiteMap(entries) {
   return `<?xml version="1.0" encoding="UTF-8"?>
@@ -24,39 +22,6 @@ function generateSiteMap(entries) {
        .join("")}
    </urlset>
  `;
-}
-
-const postsDirectory = path.join(process.cwd(), "content", "blog");
-
-function getSortedPostsData() {
-  // Get file names under /posts
-  const posts = fs.readdirSync(postsDirectory);
-  const fileNames = posts.map((fileName) => fileName.replace(/\.md$/, ""));
-
-  const allPostsData = fileNames.map((fileName) => {
-    // Read markdown file as string
-    const fullPath = path.join(postsDirectory, `${fileName}.md`);
-    const fileContents = fs.readFileSync(fullPath, "utf8");
-
-    const contents = matter(fileContents);
-
-    // Combine the data with the id
-    return {
-      id: fileName,
-      ...contents.data,
-    };
-  });
-
-  // Sort posts by date
-  return allPostsData.sort(({ date: a }, { date: b }) => {
-    if (a < b) {
-      return 1;
-    } else if (a > b) {
-      return -1;
-    } else {
-      return 0;
-    }
-  });
 }
 
 const getDate = new Date().toISOString();
