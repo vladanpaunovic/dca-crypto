@@ -82,7 +82,7 @@ export default function DcaOverviewTable(props) {
                         value={year.value}
                         width={year.value}
                         url={year.url}
-                        showCell={year.insights.costAverage}
+                        showCell={!!year.insights.opportunityCost}
                       />
                     );
                   })}
