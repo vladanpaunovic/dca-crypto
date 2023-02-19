@@ -1,5 +1,9 @@
 import InputFormWrapper from "../../components/InputForm/InputForm";
-import { WEBSITE_PATHNAME, WEBSITE_URL } from "../../config";
+import {
+  CACHE_INVALIDATION_INTERVAL,
+  WEBSITE_PATHNAME,
+  WEBSITE_URL,
+} from "../../config";
 import Footer from "../../components/Footer/Footer";
 import { generateDefaultInput } from "../../src/generateDefaultInput";
 import { NextSeo } from "next-seo";
@@ -44,22 +48,22 @@ const DynamicAffiliateLinks = dynamic(
   }
 );
 
-export async function getStaticPaths() {
-  const bigKeyValueStore = await prismaClient.bigKeyValueStore.findUnique({
-    where: { key: "availableTokens" },
-  });
+// export async function getStaticPaths() {
+//   const bigKeyValueStore = await prismaClient.bigKeyValueStore.findUnique({
+//     where: { key: "availableTokens" },
+//   });
 
-  const paths = bigKeyValueStore.value.slice(0, 10).map((token) => ({
-    params: { coin: token.id },
-  }));
+//   const paths = bigKeyValueStore.value.slice(0, 10).map((token) => ({
+//     params: { coin: token.id },
+//   }));
 
-  return {
-    paths,
-    fallback: true,
-  };
-}
+//   return {
+//     paths,
+//     fallback: true,
+//   };
+// }
 
-export async function getStaticProps(context) {
+export async function getServerSideProps(context) {
   const coinId = context.params.coin || "bitcoin";
 
   const payload = generateDefaultInput(context.query);
@@ -92,10 +96,10 @@ export async function getStaticProps(context) {
     input: payload,
   });
 
-  // context.res.setHeader(
-  //   "Cache-Control",
-  //   `s-maxage=${CACHE_INVALIDATION_INTERVAL}, stale-while-revalidate`
-  // );
+  context.res.setHeader(
+    "Cache-Control",
+    `s-maxage=${CACHE_INVALIDATION_INTERVAL}, stale-while-revalidate`
+  );
 
   const output = {
     rawMarketData: [...coinData.prices],

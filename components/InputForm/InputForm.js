@@ -6,25 +6,18 @@ import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import { availableCurrencies } from "../../config";
 import * as ga from "../helpers/GoogleAnalytics";
 import useEffectOnlyOnUpdate from "../Hooks/useEffectOnlyOnUpdate";
-import {
-  availableInvestmentIntervals,
-  calculateDateRangeDifference,
-} from "../../src/generateDefaultInput";
+import { availableInvestmentIntervals } from "../../src/generateDefaultInput";
 import SelectCoin from "../SelectCoin/SelectCoin";
 import { useAppState } from "../../src/store/store";
 dayjs.extend(isSameOrBefore);
 
-const before90Days = dayjs().subtract(91, "days").format("YYYY-MM-DD");
+const todaysDate = dayjs().format("YYYY-MM-DD");
 
 const InputForm = () => {
   const store = useAppState();
   const currentCoin = store.currentCoin;
   const [isOpen, setIsOpen] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
-  // Due to the constrains of the CoinGecko API, we enable calculations only
-  // agter the perod of 90 days
-  const isSubmitDisabled =
-    store.input?.duration < 90 || !store.input?.investment;
 
   const dateOfFirstMarketData = dayjs(store.rawMarketData?.[0]?.[0]);
   const isDateBeforeFirstMarketData = dayjs(store.input?.dateFrom).isBefore(
@@ -178,7 +171,7 @@ const InputForm = () => {
               type="date"
               value={store.input?.dateFrom}
               min={dateOfFirstMarketData.format("YYYY-MM-DD")}
-              max={before90Days}
+              max={todaysDate}
               onChange={(e) =>
                 store.dispatch({
                   type: ACTIONS.UPDATE_DATE_FROM,
@@ -217,21 +210,6 @@ const InputForm = () => {
           </label>
         </div>
         <div className="col-span-2">
-          {isSubmitDisabled ? (
-            <>
-              <p className="text-sm p-2 text-red-500">
-                Choose a time range with more then 90 days.
-              </p>
-              <p className="text-sm p-2 text-red-500">
-                Your current range is{" "}
-                {calculateDateRangeDifference(
-                  store.input?.dateFrom,
-                  store.input?.dateTo
-                )}{" "}
-                days
-              </p>
-            </>
-          ) : null}
           <div>
             <button
               onClick={handleMobilePopupCloseButton}
