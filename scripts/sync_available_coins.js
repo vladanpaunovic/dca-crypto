@@ -1,5 +1,7 @@
 require("dotenv").config();
 const { PrismaClient } = require("@prisma/client");
+const initSentry = require("./initSentry");
+initSentry();
 
 /** @type {import('@prisma/client').PrismaClient} */
 const prismaClient = global.prisma || new PrismaClient();
