@@ -2,7 +2,7 @@ import { useTheme } from "next-themes";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Select from "react-select/async";
-import { searchCoin } from "../../queries/queries";
+import { searchCoin } from "../../src/queries";
 import { useAppState } from "../../src/store/store";
 
 const colorsLight = {

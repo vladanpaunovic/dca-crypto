@@ -16,7 +16,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { createStripeCustomerPortal } from "../../queries/queries";
+import { createStripeCustomerPortal } from "../../src/queries";
 import { useMutation } from "react-query";
 import { classNames } from "../../styles/utils";
 import Link from "next/link";

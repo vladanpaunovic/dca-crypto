@@ -1,5 +1,5 @@
 import React from "react";
-import { createStripeSession } from "../../queries/queries";
+import { createStripeSession } from "../../src/queries";
 import { NextSeo } from "next-seo";
 import { useMutation } from "react-query";
 import { signIn, useSession } from "next-auth/react";
