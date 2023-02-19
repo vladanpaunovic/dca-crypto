@@ -51,7 +51,7 @@ export const getTableChartDataOverYears = (coinData, years) => {
     );
 
     payload.dateFrom = `${year}-01-01`;
-    payload.dateTo = `${year}-12-31`;
+    payload.dateTo = `${new Date().getFullYear()}-12-31`;
 
     if (!strippedData.length) {
       return {

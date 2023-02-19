@@ -67,6 +67,28 @@ export default function DcaOverviewTable(props) {
         </TableHead>
 
         <TableBody>
+          {props.tableData
+            .filter((item) => isCryptoSelected(item))
+            .map((coin, index) => {
+              return (
+                <TableRow key={coin.coinId}>
+                  <TableCell>
+                    #{index + 1} {coin.coinLabel}
+                  </TableCell>
+                  {coin.years.map((year, index) => {
+                    return (
+                      <TableCellPrepped
+                        key={`${year.value}-${index}`}
+                        value={year.value}
+                        width={year.value}
+                        url={year.url}
+                        showCell={year.insights.costAverage}
+                      />
+                    );
+                  })}
+                </TableRow>
+              );
+            })}
           <TableRow>
             <TableCell>Top Performing Asset</TableCell>
             {props.bestPerformingAssetPerYear.map((asset, index) => {
@@ -80,26 +102,6 @@ export default function DcaOverviewTable(props) {
               );
             })}
           </TableRow>
-
-          {props.tableData
-            .filter((item) => isCryptoSelected(item))
-            .map((coin) => {
-              return (
-                <TableRow key={coin.coinId}>
-                  <TableCell>{coin.coinLabel}</TableCell>
-                  {coin.years.map((year, index) => {
-                    return (
-                      <TableCellPrepped
-                        key={`${year.value}-${index}`}
-                        value={year.value}
-                        width={year.deltaValue}
-                        url={year.url}
-                      />
-                    );
-                  })}
-                </TableRow>
-              );
-            })}
         </TableBody>
       </Table>
     </Card>
@@ -109,17 +111,25 @@ export default function DcaOverviewTable(props) {
 const TableCellPrepped = (props) => {
   const barColor = props.value > 0 ? "bg-green-500" : "bg-red-500";
   const bgColor = props.value > 0 ? "bg-green-100" : "bg-red-100";
+  const width = Math.abs(props.value > 100 ? 100 : props.value);
+  const barSide = props.value > 0 ? "left" : "right";
 
   const buttonColor = () => {
-    let color = props.value > 0 ? "text-green-500" : "text-red-500";
-    if (props.width > 80) {
-      color = props.value > 0 ? "text-green-100" : "text-red-100";
+    const isPositive = props.value > 0;
+    let color = isPositive ? "text-green-500" : "text-red-100";
+
+    if (isPositive && width > 80) {
+      color = "text-green-100";
+    }
+
+    if (!isPositive && width < 15) {
+      color = "text-red-500";
     }
 
     return color;
   };
 
-  if (props.value === 0) {
+  if (!props.showCell) {
     return <TableCell textAlignment="text-right">-</TableCell>;
   }
 
@@ -131,7 +141,7 @@ const TableCellPrepped = (props) => {
       >
         <div className={`${bgColor} relative w-full rounded`}>
           <div className="h-6 flex justify-between w-full items-center px-1 z-50 relative">
-            <span className="pl-1 text-gray-900 text-xs">{props.value}%</span>
+            <span className={`pl-1 text-gray-900 text-xs`}>{props.value}%</span>
             <span className="pl-2">
               <ChartBarIcon
                 className={`h-4 w-4 ${buttonColor()} group-hover:text-gray-900`}
@@ -140,9 +150,9 @@ const TableCellPrepped = (props) => {
           </div>
           <span
             style={{
-              width: `${props.width}%`,
+              width: `${width}%`,
             }}
-            className={`h-6 ${barColor} absolute inset-0 rounded`}
+            className={`h-6 ${barColor} absolute ${barSide}-0 top-0 rounded`}
           />
         </div>
       </Link>

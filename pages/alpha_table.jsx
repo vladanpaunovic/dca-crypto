@@ -5,6 +5,8 @@ import { Subtitle, Title } from "@tremor/react";
 import ReactMarkdown from "react-markdown";
 import prismaClient from "../server/prisma/prismadb";
 import DcaOverviewChart from "../components/DcaOverviewPage/DcaOverviewChart/DcaOverviewChart";
+import Navigation from "../components/Navigarion/Navigation";
+import Footer from "../components/Footer/Footer";
 
 const getWidthsFromValues = (dataValues) => {
   let maxValue = -Infinity;
@@ -104,29 +106,39 @@ export const getStaticProps = async () => {
       years,
       bestPerformingAssetPerYear,
       content,
+      availableTokens: bigKeyValueStore.value,
     },
   };
 };
 
 const Page = (props) => {
+  const subtitleYears = [...props.years]
+    .slice(0, props.years.length - 1)
+    .join(", ");
+
   return (
-    <div className="container mx-auto p-8 text-gray-900 ">
-      <Title>Dollar Cost Averaging (DCA) Returns</Title>
-      <Subtitle>
-        How much would you have earned if you purchased $100 every week since
-        2016, 2017, 2018, 2019, or 2020?
-      </Subtitle>
-      <div className="mt-8">
-        <DcaOverviewChart {...props} />
-      </div>
-      <div className="mt-8">
-        <DcaOverviewTable {...props} />
-      </div>
-      <div className="mt-8 flex justify-center">
-        <div className="mt-4 max-w-3xl  prose prose-sm">
-          <ReactMarkdown>{props.content.body}</ReactMarkdown>
+    <div>
+      <Navigation />
+      <div className="container mx-auto p-8 text-gray-900 ">
+        <Title>Dollar Cost Averaging (DCA) Returns</Title>
+        <Subtitle>
+          How much would you have earned if you purchased $100 every week since{" "}
+          {subtitleYears}, or {props.years[props.years.length - 1]}?
+        </Subtitle>
+        <div className="mt-8">
+          <DcaOverviewTable {...props} />
+        </div>
+        <div className="mt-8">
+          <DcaOverviewChart {...props} />
+        </div>
+
+        <div className="mt-8 flex justify-center">
+          <div className="mt-4 max-w-3xl  prose prose-sm">
+            <ReactMarkdown>{props.content.body}</ReactMarkdown>
+          </div>
         </div>
       </div>
+      <Footer availableTokens={props.availableTokens} />
     </div>
   );
 };

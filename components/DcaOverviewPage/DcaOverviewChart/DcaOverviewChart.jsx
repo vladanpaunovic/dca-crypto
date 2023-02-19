@@ -33,7 +33,10 @@ export default function DcaOverviewChart(props) {
     <div>
       <Card>
         <Title>Annual Returns per Cryprocurrency</Title>
-        <Text>Tickets by Status</Text>
+        <Text>
+          Calculating the return of your investment if you started investing in
+          a given year
+        </Text>
         <ColGrid numColsSm={1} numColsLg={2} gapX="gap-x-6" gapY="gap-y-6">
           <Col>
             <AreaChart
