@@ -1,6 +1,6 @@
 import { DefaultSeo as NextSeoDefault } from "next-seo";
 import { WEBSITE_URL } from "../../config";
-import generateSEOYear from "../../common/generateSEOYear/generateSEOYear";
+import generateSEOYear from "../../src/generateSEOYear/generateSEOYear";
 
 export default function DefaultSeo() {
   return (
