@@ -8,18 +8,6 @@ import DcaOverviewChart from "../components/DcaOverviewPage/DcaOverviewChart/Dca
 import Navigation from "../components/Navigarion/Navigation";
 import Footer from "../components/Footer/Footer";
 
-const getWidthsFromValues = (dataValues) => {
-  let maxValue = -Infinity;
-  dataValues.forEach((value) => {
-    maxValue = Math.max(maxValue, value);
-  });
-
-  return dataValues.map((value) => {
-    if (value === 0) return 0;
-    return Math.max((value / maxValue) * 100, 1);
-  });
-};
-
 export const getStaticProps = async () => {
   const bigKeyValueStore = await prismaClient.bigKeyValueStore.findUnique({
     where: {
@@ -53,58 +41,12 @@ export const getStaticProps = async () => {
     };
   });
 
-  const comparingValues = responses
-    .flatMap((coin, coinIndex) =>
-      coin.years.map((year, yearIndex) => [
-        yearIndex,
-        coinIndex,
-        year.insights.percentageChange,
-      ])
-    )
-    .sort(([aYear, aCoin], [bYear, bCoin]) => aYear - bYear || aCoin - bCoin)
-    .reduce((result, item) => {
-      const [key, _, value] = item;
-      (result[key] || (result[key] = [])).push(value);
-      return result;
-    }, []);
-
-  responses.forEach((coin, coinIndex) => {
-    coin.years.forEach((year, yearIndex) => {
-      year.value = comparingValues[yearIndex][coinIndex];
-      const absoluteValues = comparingValues[yearIndex].map((value) =>
-        Math.abs(value)
-      );
-      year.deltaValue = getWidthsFromValues(absoluteValues)[coinIndex];
-    });
-  });
-
-  const coinWithHighestDeltaValue = (year) => {
-    if (!comparingValues[year]) return null;
-
-    const highestDeltaValue = Math.max(...comparingValues[year]);
-
-    const coinIndex = comparingValues[year]
-      .map((v) => parseFloat(v))
-      .indexOf(highestDeltaValue);
-
-    const highestCoin = { ...responses[coinIndex] };
-    delete highestCoin.years;
-
-    return highestCoin;
-  };
-
-  const bestPerformingAssetPerYear = Array.from(
-    { length: years.length },
-    (_, i) => coinWithHighestDeltaValue(i)
-  );
-
   const content = require(`../content/guides/dca-overview-table.md`);
 
   return {
     props: {
       tableData: responses,
       years,
-      bestPerformingAssetPerYear,
       content,
       availableTokens: bigKeyValueStore.value,
     },

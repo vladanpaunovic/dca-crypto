@@ -44,14 +44,14 @@ export const getTableChartDataOverYears = (coinData, years) => {
   const percentualDifferences = [];
 
   const response = years.map((year) => {
-    const strippedData = stripDataBeforeAndAfter(
-      coinData.prices,
-      `${year}-01-01`,
-      `${year}-12-31`
-    );
-
     payload.dateFrom = `${year}-01-01`;
     payload.dateTo = `${new Date().getFullYear()}-12-31`;
+
+    const strippedData = stripDataBeforeAndAfter(
+      coinData.prices,
+      payload.dateFrom,
+      payload.dateTo
+    );
 
     if (!strippedData.length) {
       return {

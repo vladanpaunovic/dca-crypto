@@ -78,9 +78,9 @@ export default function DcaOverviewTable(props) {
                   {coin.years.map((year, index) => {
                     return (
                       <TableCellPrepped
-                        key={`${year.value}-${index}`}
-                        value={year.value}
-                        width={year.value}
+                        key={`${year.insights.percentageChange}-${index}`}
+                        value={year.insights.percentageChange}
+                        width={year.insights.percentageChange}
                         url={year.url}
                         showCell={!!year.insights.opportunityCost}
                       />
@@ -89,19 +89,6 @@ export default function DcaOverviewTable(props) {
                 </TableRow>
               );
             })}
-          <TableRow>
-            <TableCell>Top Performing Asset</TableCell>
-            {props.bestPerformingAssetPerYear.map((asset, index) => {
-              return (
-                <TableCell
-                  key={`${asset.coinId}-${index}`}
-                  textAlignment="text-center"
-                >
-                  {asset.coinLabel}
-                </TableCell>
-              );
-            })}
-          </TableRow>
         </TableBody>
       </Table>
     </Card>
