@@ -140,7 +140,8 @@ const AuthenticatedMenu = ({ session }) => {
               <div className="h-8 w-8 rounded-full text-white">
                 {session.user.image ? (
                   <Image
-                    layout="fill"
+                    width={32}
+                    height={32}
                     alt={session.user.email}
                     src={session.user.image}
                     className="rounded-full"

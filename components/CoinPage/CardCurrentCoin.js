@@ -65,8 +65,8 @@ const CardCurrentCoin = () => {
               <NextImage
                 src={state.currentCoin.image}
                 alt={`${state.currentCoin.name} logo`}
-                layout="fill"
-                objectFit="cover"
+                width={32}
+                height={32}
               />
             </div>
           )}

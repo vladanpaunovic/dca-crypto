@@ -16,12 +16,13 @@ Sentry.init({
   // of transactions for performance monitoring.
   // We recommend adjusting this value in production
   tracesSampleRate: 0.3,
-  beforeSend(event) {
-    // Check if it is an exception, and if so, show the report dialog
-    if (event.exception) {
-      Sentry.showReportDialog({ eventId: event.event_id });
-    }
-    return event;
-  },
   tunnel: "/sentry-tunnel",
+  // Temporary disbale report dialog - workaround for react hydration error
+  // beforeSend(event) {
+  //   // Check if it is an exception, and if so, show the report dialog
+  //   if (event.exception) {
+  //     Sentry.showReportDialog({ eventId: event.event_id });
+  //   }
+  //   return event;
+  // },
 });

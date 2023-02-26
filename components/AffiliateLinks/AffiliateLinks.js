@@ -8,7 +8,12 @@ const affiliatePartners = [
   {
     name: "Deltabadger",
     icon: (
-      <Image src="/images/deltabadger_icon.jpeg" alt="Ledger" layout="fill" />
+      <Image
+        src="/images/deltabadger_icon.jpeg"
+        alt="Ledger"
+        width={40}
+        height={40}
+      />
     ),
     pitch:
       "Automate dollar-cost averaging with popular exchanges. Five-minute setup.",
@@ -21,7 +26,8 @@ const affiliatePartners = [
       <Image
         src="/images/cryptocom_icon_2.jpeg"
         alt="Crypto.com"
-        layout="fill"
+        width={40}
+        height={40}
       />
     ),
     pitch:
