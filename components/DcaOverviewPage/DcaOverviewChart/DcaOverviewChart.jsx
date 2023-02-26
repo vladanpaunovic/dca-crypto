@@ -18,7 +18,9 @@ export default function DcaOverviewChart(props) {
       yearlyValues[year.year] = {
         ...yearlyValues[year.year],
         year: year.year,
-        [year.coin.name]: year.insights.percentageChange,
+        [year.coin.name]: year.insights.opportunityCost
+          ? year.insights.percentageChange
+          : null,
       };
     });
   });
