@@ -2,7 +2,7 @@ name: Sync all available tokens
 
 on:
   schedule:
-    - cron: "0 1 * * *"
+    - cron: "0 1 */7 * *"
   workflow_dispatch:
 
 jobs:
