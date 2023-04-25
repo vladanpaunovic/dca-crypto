@@ -6,7 +6,11 @@ initSentry();
 /** @type {import('@prisma/client').PrismaClient} */
 const prismaClient = global.prisma || new PrismaClient();
 
-const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const sleep = (ms) =>
+  new Promise((resolve) => {
+    console.log(`Sleeping for ${ms / 1000}s...`);
+    setTimeout(resolve, ms);
+  });
 
 const CRYPTOCOMPARE_API_KEY = process.env.CRYPTOCOMPARE_API_KEY;
 const COINCAP_API_KEY = process.env.COINCAP_API_KEY;
@@ -55,11 +59,6 @@ const getCoinPrice = async (coinSymbol) => {
 
   if (coinDataResponse.status === 429) {
     const SLEEP_TIMEOUT_70_SEC = 79000;
-    console.log(
-      `CoinGecko API Rate limit exceeded, sleeping for ${
-        SLEEP_TIMEOUT_70_SEC / 1000
-      }s and retrying`
-    );
     await sleep(SLEEP_TIMEOUT_70_SEC);
     return getCoinPrice(coinSymbol);
   }
@@ -76,39 +75,47 @@ const getCoinPrice = async (coinSymbol) => {
 
 async function main() {
   const availableCoins = await getAllAvailableTokens();
-
-  // delete all coins from the database that are not in the availableCoins list
-  await prismaClient.cryptocurrency.deleteMany({
-    where: {
-      coinId: {
-        notIn: availableCoins.map((coin) => coin.id),
-      },
-    },
+  const existingCoins = await prismaClient.cryptocurrency.findMany({
+    select: { coinId: true },
   });
+  const existingCoinIds = existingCoins.map((coin) => coin.coinId);
 
-  // for each coin in availableCoins fetch the coin data from the external APIs
-  // and store it in the database
-  for (let index = 0; index < availableCoins.length; index++) {
+  const coinsToDelete = existingCoinIds.filter(
+    (coinId) => !availableCoins.some((coin) => coin.id === coinId)
+  );
+
+  // Delete coins not in availableCoins list
+  if (coinsToDelete.length > 0) {
+    console.log(`Deleting ${coinsToDelete.length} coins...`);
+    await prismaClient.cryptocurrency.deleteMany({
+      where: {
+        coinId: {
+          in: coinsToDelete,
+        },
+      },
+    });
+  }
+
+  const coinsToCreate = [];
+  const coinsToUpdate = [];
+
+  // Check if a coin is new or already exists in the database
+  for (const coin of availableCoins) {
     // sleep every 10 requests to avoid rate limits
-    if (index % 100 === 0) {
-      const SLEEP_TIMEOUT_10_SEC = 10000;
-      console.log(
-        `Sleeping for ${SLEEP_TIMEOUT_10_SEC / 1000}s to avoid rate limits`
-      );
-      await sleep(SLEEP_TIMEOUT_10_SEC);
+    const coinIndex = availableCoins.indexOf(coin);
+    const coinPrices = await getCoinPrice(coin.symbol);
+
+    if (coinIndex % 200 === 0 && coinIndex !== 0) {
+      await sleep(10000); // sleep for 10 seconds
     }
 
-    const coin = availableCoins[index];
-
-    const coinPrices = await getCoinPrice(coin.symbol);
+    console.log(
+      `Processing #${coinIndex + 1}/${availableCoins.length} ${coin.id}...`
+    );
 
     // if fields in coinData are missing, skip it
     if (!coin.name || !coin.symbol || !coin.id) {
-      console.log(
-        `Skipping #${index + 1}/${availableCoins.length} ${
-          coin.id
-        } due to missing fields`
-      );
+      console.log(`Skipping ${coin.id} due to missing fields`);
       continue;
     }
 
@@ -119,21 +126,53 @@ async function main() {
       currentPrice: parseFloat(coin.priceUsd || 0),
       marketCapRank: parseInt(coin.rank),
       image: `https://assets.coincap.io/assets/icons/${coin.symbol.toLowerCase()}@2x.png`,
+      prices: coinPrices || [],
     };
 
-    payload.prices = coinPrices || [];
+    if (existingCoinIds.includes(coin.id)) {
+      coinsToUpdate.push(payload);
+    } else {
+      coinsToCreate.push(payload);
+    }
+  }
 
-    // store cryptocurrencies in the database
-    console.log(`Storing #${index + 1}/${availableCoins.length} ${coin.id}`);
-
-    await prismaClient.cryptocurrency.upsert({
-      where: {
-        coinId: coin.id,
-      },
-      update: payload,
-      create: payload,
+  // Create new coins
+  if (coinsToCreate.length > 0) {
+    console.log(`Creating ${coinsToCreate.length} coins...`);
+    await prismaClient.cryptocurrency.createMany({
+      data: coinsToCreate,
     });
   }
+
+  // Update existing coins
+  const updatePromises = coinsToUpdate.map((coin) => {
+    return prismaClient.cryptocurrency.update({
+      where: {
+        coinId: coin.coinId,
+      },
+      data: {
+        currentPrice: parseFloat(coin.priceUsd || 0),
+        prices: coin.prices,
+      },
+    });
+  });
+
+  if (updatePromises.length > 0) {
+    console.log(`Updating ${coinsToUpdate.length} coins...`);
+    // show progress on update
+    for (const promise of updatePromises) {
+      const promiseIndex = updatePromises.indexOf(promise);
+      // sleep every 10 requests to avoid database failures
+      if (promiseIndex % 200 === 0 && promiseIndex !== 0) {
+        await sleep(10000); // sleep for 10 seconds
+      }
+
+      console.log(`Updating coin ${promiseIndex + 1}/${updatePromises.length}`);
+      await promise;
+    }
+  }
+
+  console.log("Done!");
 }
 
 main();

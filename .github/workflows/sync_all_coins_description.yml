@@ -2,7 +2,7 @@ name: Sync all coins metadata once a month
 
 on:
   schedule:
-    - cron: "0 7 1 * *"
+    - cron: "0 7 1 * *" # Every 1st day of the month at 7am UTC
   workflow_dispatch:
 
 jobs:
