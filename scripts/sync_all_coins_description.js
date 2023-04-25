@@ -53,10 +53,28 @@ const getAllAvailableTokens = async () => {
 async function main() {
   const availableCoins = await getAllAvailableTokens();
 
-  let discovered = 0;
-  for (let index = 0; index < availableCoins.length; index++) {
-    const coin = availableCoins[index];
+  const symbols = availableCoins.map((coin) => coin.SYMBOL);
+  const coinsFromDb = await prismaClient.cryptocurrency.findMany({
+    where: {
+      symbol: {
+        in: symbols,
+      },
+    },
+  });
 
+  const coinsToUpdate = availableCoins.filter((apiCoin) => {
+    const dbCoin = coinsFromDb.find((coin) => coin.symbol === apiCoin.SYMBOL);
+    return (
+      dbCoin &&
+      (dbCoin.description !== apiCoin.ASSET_DESCRIPTION ||
+        dbCoin.descriptionSummary !== apiCoin.ASSET_DESCRIPTION_SUMMARY)
+    );
+  });
+
+  console.log(`Updating: ${coinsToUpdate.length} coins`);
+  let discovered = 0;
+  for (let index = 0; index < coinsToUpdate.length; index++) {
+    const coin = coinsToUpdate[index];
     const {
       ASSET_DESCRIPTION,
       ASSET_DESCRIPTION_SUMMARY,
@@ -65,24 +83,9 @@ async function main() {
       SYMBOL,
     } = coin;
 
-    const findCoin = await prismaClient.cryptocurrency.findFirst({
-      where: {
-        symbol: SYMBOL,
-      },
-    });
-
-    if (!findCoin) {
-      console.log(
-        `#${index + 1}/${
-          availableCoins.length
-        } - Not found in the database, skipping...`
-      );
-      continue;
-    }
-
     console.log(
       `#${index + 1}/${
-        availableCoins.length
+        coinsToUpdate.length
       } - Updating coin ${NAME} (${SYMBOL})`
     );
 
@@ -98,10 +101,10 @@ async function main() {
     discovered += 1;
   }
 
-  // calculate the percentage of found tokens
+  // calculate the percentage of updated tokens
   const percentage = (discovered / availableCoins.length) * 100;
   console.log(
-    `Discovered ${discovered}/${
+    `Updated ${discovered}/${
       availableCoins.length
     } tokens (${percentage.toFixed(2)}%)`
   );

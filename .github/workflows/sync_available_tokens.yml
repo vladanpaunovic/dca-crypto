@@ -2,7 +2,7 @@ name: Sync all available tokens
 
 on:
   schedule:
-    - cron: "0 1 */7 * *"
+    - cron: "0 1 */1 * *" # Run at 01:00 UTC every day
   workflow_dispatch:
 
 jobs:
