@@ -9,7 +9,8 @@
     "lint": "next lint",
     "find:unused": "next-unused",
     "test": "jest",
-    "test:ci": "jest --ci"
+    "test:ci": "jest --ci",
+    "db:studio": "prisma studio"
   },
   "dependencies": {
     "@coingecko/cryptoformat": "^0.5.4",
@@ -18,7 +19,7 @@
     "@heroicons/react": "^1.0.3",
     "@next-auth/upstash-redis-adapter": "^3.0.1",
     "@prisma/client": "^4.5.0",
-    "@sentry/nextjs": "7.38.0",
+    "@sentry/nextjs": "8.3.0",
     "@tailwindcss/forms": "^0.5.3",
     "@tailwindcss/typography": "^0.5.9",
     "@tremor/react": "^1.8.0",
@@ -34,7 +35,7 @@
     "just-detect-adblock": "^1.1.0",
     "micro": "^9.4.1",
     "next": "13.2.1",
-    "next-auth": "^4.19.2",
+    "next-auth": "^4.24.7",
     "next-seo": "5.15.0",
     "next-themes": "^0.0.15",
     "nextjs-progressbar": "^0.0.16",
