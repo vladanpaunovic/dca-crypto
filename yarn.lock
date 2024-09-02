@@ -6808,16 +6808,6 @@ react-countdown@^2.3.2:
   dependencies:
     prop-types "^15.7.2"
 
-react-dom@^16.4.2:
-  version "16.14.0"
-  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.14.0.tgz#7ad838ec29a777fb3c75c3a190f661cf92ab8b89"
-  integrity sha512-1gCeQXDLoIqMgqD3IO2Ah9bnf0w9kzhwN5q4FGnHZ67hBm9yePzB5JJAIQCc8x3pFnNlwFq4RidZggNAAkzWWw==
-  dependencies:
-    loose-envify "^1.1.0"
-    object-assign "^4.1.1"
-    prop-types "^15.6.2"
-    scheduler "^0.19.1"
-
 react-dom@next:
   version "18.3.0-next-bfb9cbd8c-20230223"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-18.3.0-next-bfb9cbd8c-20230223.tgz#ac6582fc044e28e589da0767ffce2c1e761a3acc"
@@ -6877,14 +6867,10 @@ react-markdown@^6.0.2:
     unist-util-visit "^2.0.0"
     vfile "^4.0.0"
 
-react-payment-icons@^1.2.6:
-  version "1.2.6"
-  resolved "https://registry.yarnpkg.com/react-payment-icons/-/react-payment-icons-1.2.6.tgz#b9f732723b48066bcd76c2e28648f262292882a4"
-  integrity sha512-7KzCkTDWvs69fvUfA6ISPSCdjGhdl00mBEMMYUZZisNW1EnBBINVsI1WCVFfQZ7Jw5DjNwPpDMLgedBMgR3Npg==
-  dependencies:
-    prop-types "^15.6.2"
-    react "^16.4.2"
-    react-dom "^16.4.2"
+react-payment-logos@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/react-payment-logos/-/react-payment-logos-1.1.0.tgz#55951b3ba1897caca3e9592dd42feb8c8ecd32cc"
+  integrity sha512-wjBFAV8UvBjEkRedbUQ4by+st4DHc8RK27j+HMBfNlmUoW3FuK0UgreX6U75eygZ22CYAZUOE5QsIQYu43zILA==
 
 react-query@3.34.7:
   version "3.34.7"
@@ -6980,15 +6966,6 @@ react-transition-group@^4.4.5:
     "@babel/runtime" "^7.5.5"
     dom-helpers "^5.0.1"
     loose-envify "^1.4.0"
-    prop-types "^15.6.2"
-
-react@^16.4.2:
-  version "16.14.0"
-  resolved "https://registry.yarnpkg.com/react/-/react-16.14.0.tgz#94d776ddd0aaa37da3eda8fc5b6b18a4c9a3114d"
-  integrity sha512-0X2CImDkJGApiAlcf0ODKIneSwBPhqJawOa5wCtKbu7ZECrmS26NvtSILynQ66cgkT/RJ4LidJOc3bUESwmU8g==
-  dependencies:
-    loose-envify "^1.1.0"
-    object-assign "^4.1.1"
     prop-types "^15.6.2"
 
 react@next:
@@ -7298,14 +7275,6 @@ scheduler@0.24.0-next-bfb9cbd8c-20230223:
   integrity sha512-tDjN2zoiOoRbuPlzhXREVEx5m5uuDxLxj8DRr5Vqxr1FLQMTkPdSOJWqUDkiN9gs3BbFipYmiwzMfoh+o8ieCQ==
   dependencies:
     loose-envify "^1.1.0"
-
-scheduler@^0.19.1:
-  version "0.19.1"
-  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.19.1.tgz#4f3e2ed2c1a7d65681f4c854fa8c5a1ccb40f196"
-  integrity sha512-n/zwRWRYSUj0/3g/otKDRPMh6qv2SYMWNq85IEa8iZyAv8od9zDYpGSnpBEjNgcMNq6Scbu5KfIPxNF72R/2EA==
-  dependencies:
-    loose-envify "^1.1.0"
-    object-assign "^4.1.1"
 
 section-matter@^1.0.0:
   version "1.0.0"

@@ -1,17 +1,17 @@
 import React from "react";
-import PaymentIcon from "react-payment-icons";
+import { Visa, Mastercard, Maestro, Amex } from "react-payment-logos/dist/flat";
 
 const PaymentMethods = () => {
-  const paymentMethods = ["visa", "mastercard", "maestro", "amex"];
   return (
     <div>
       <div>
-        <ul className="flex gap-2">
-          {paymentMethods.map((method) => (
-            <li key={method}>
-              <PaymentIcon id={method} className="payment-icon w-12" />
-            </li>
-          ))}
+        <ul>
+          <li className="flex gap-2">
+            <Visa className="payment-icon w-12" />
+            <Mastercard className="payment-icon w-12" />
+            <Maestro className="payment-icon w-12" />
+            <Amex className="payment-icon w-12" />
+          </li>
         </ul>
       </div>
     </div>
