@@ -1,4 +1,3 @@
-import * as Sentry from "@sentry/nextjs";
 import { WEBSITE_PATHNAME } from "../../../config";
 import stripe from "../../../server/stripe";
 import prismaClient from "../../../server/prisma/prismadb";
@@ -50,4 +49,4 @@ async function handler(req, res) {
   res.status(200).json(session);
 }
 
-export default Sentry.withSentry(handler);
+export default handler;

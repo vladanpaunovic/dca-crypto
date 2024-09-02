@@ -1,4 +1,3 @@
-import * as Sentry from "@sentry/nextjs";
 import stripe from "../../../server/stripe";
 
 async function handler(req, res) {
@@ -25,4 +24,4 @@ async function handler(req, res) {
   res.status(200).json(stripNonActiveProducts);
 }
 
-export default Sentry.withSentry(handler);
+export default handler;

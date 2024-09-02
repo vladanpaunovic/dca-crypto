@@ -1,4 +1,3 @@
-import { withSentry } from "@sentry/nextjs";
 import redis, { upstashAdopter } from "../../server/redis";
 
 import prismaClient from "../../server/prisma/prismadb";
@@ -45,4 +44,4 @@ async function handler(req, res) {
   res.status(200).json({ count: output.length, output });
 }
 
-export default withSentry(handler);
+export default handler;

@@ -27,4 +27,4 @@ const handler = async (req, res) => {
   res.status(200).json(response.data);
 };
 
-export default Sentry.withSentry(handler);
+export default handler;

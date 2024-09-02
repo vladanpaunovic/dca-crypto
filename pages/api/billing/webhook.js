@@ -173,4 +173,4 @@ async function handler(req, res) {
   res.status(200).json({ ok: true });
 }
 
-export default Sentry.withSentry(handler);
+export default handler;

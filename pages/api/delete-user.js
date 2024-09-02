@@ -1,4 +1,3 @@
-import { withSentry } from "@sentry/nextjs";
 import stripe from "../../server/stripe";
 
 import prismaClient, { PrismaAdapter } from "../../server/prisma/prismadb";
@@ -18,4 +17,4 @@ async function handler(req, res) {
   res.status(200).json({ status: "ok", deleted });
 }
 
-export default withSentry(handler);
+export default handler;

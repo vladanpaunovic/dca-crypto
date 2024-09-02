@@ -21,4 +21,4 @@ async function handler(req, res) {
   }
 }
 
-export default Sentry.withSentry(handler);
+export default handler;
