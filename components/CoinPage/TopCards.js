@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Card,
   Metric,
@@ -100,7 +101,6 @@ const CardValueInFIAT = () => {
             </Text>
           </Flex>
         </Flex>
-
         <CategoryBar
           categoryPercentageValues={categoryPercentageValues}
           colors={["orange", color]}
@@ -122,6 +122,10 @@ const CardValueInFIAT = () => {
           colors={["orange", color]}
           marginTop="mt-3"
         />
+        <div className="mt-2 text-sm italic bg-gray-100 text-gray-900 p-2 rounded">
+          Your earnings are {isEarning ? "positive" : "negative"} by{" "}
+          {percentageChange} over the dollar cost averaging period.
+        </div>
       </Card>
     </div>
   );
@@ -176,6 +180,11 @@ const CardCurrentCoin = () => {
           valueFormatter={valueFormatter}
           marginTop="mt-4"
         />
+
+        <div className="mt-2 text-sm italic bg-gray-100 text-gray-900 p-2 rounded">
+          On the selected date, {coinSymbol} selling price is{" "}
+          {isEarning ? "higher" : "lower"} than the average price.
+        </div>
       </Card>
     </div>
   );

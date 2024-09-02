@@ -17,9 +17,9 @@ const SharingButtons = ({ currentCoin, currentUrl }) => {
 
   const socialNetworks = [
     {
-      label: "Twitter",
+      label: "X",
       color: "#55acee",
-      href: `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+      href: `https://x.com/intent/tweet?text=${encodeURIComponent(
         priceChartMessage
       )}&url=${encodeURIComponent(currentUrl)}&hashtags=${coinSymbol},${
         currentCoin.name

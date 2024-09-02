@@ -20,21 +20,21 @@ const affiliatePartners = [
     affiliateLink: "https://app.deltabadger.com/en/ref/DCACC",
     value: "10% discount",
   },
-  {
-    name: "Crypto.com",
-    icon: (
-      <Image
-        src="/images/cryptocom_icon_2.jpeg"
-        alt="Crypto.com"
-        width={40}
-        height={40}
-      />
-    ),
-    pitch:
-      "Use my referral link 6mn8gxz6tn to sign up for Crypto.com and we both get $25 USD",
-    affiliateLink: "https://crypto.com/app/6mn8gxz6tn",
-    value: "$25 USD",
-  },
+  // {
+  //   name: "Crypto.com",
+  //   icon: (
+  //     <Image
+  //       src="/images/cryptocom_icon_2.jpeg"
+  //       alt="Crypto.com"
+  //       width={40}
+  //       height={40}
+  //     />
+  //   ),
+  //   pitch:
+  //     "Use my referral link 6mn8gxz6tn to sign up for Crypto.com and we both get $25 USD",
+  //   affiliateLink: "https://crypto.com/app/6mn8gxz6tn",
+  //   value: "$25 USD",
+  // },
 ];
 
 const AffiliatePartner = (props) => {

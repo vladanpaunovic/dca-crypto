@@ -131,12 +131,12 @@ const Footer = ({ availableTokens }) => {
                 </li>
                 <li>
                   <Link
-                    href="https://twitter.com/dca_cc"
+                    href="https://x.com/dca_cc"
                     target="_blank"
                     rel="nofollow noreferrer"
                     className="text-gray-600 transition-colors duration-300 hover:underline"
                   >
-                    DCA-CC on Twitter
+                    DCA-CC on X
                   </Link>
                 </li>
                 <li>
@@ -171,8 +171,8 @@ const Footer = ({ availableTokens }) => {
           <div className="flex items-center mt-4 space-x-4 sm:mt-0">
             <a
               target="_blank"
-              href="https://twitter.com/dca_cc"
-              aria-label="DCA-CC on Twitter"
+              href="https://x.com/dca_cc"
+              aria-label="DCA-CC on X"
               rel="nofollow noreferrer"
               className="text-gray-500 hover:opacity-50"
             >

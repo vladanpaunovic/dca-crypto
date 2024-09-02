@@ -64,7 +64,7 @@
     "autoprefixer": "^10.2.5",
     "babel-jest": "^27.4.6",
     "eslint": "8.6.0",
-    "eslint-config-next": "^13.1.6",
+    "eslint-config-next": "^14.2.7",
     "frontmatter-markdown-loader": "^3.6.3",
     "jest": "^27.4.7",
     "jest-mock-extended": "^3.0.1",
