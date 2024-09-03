@@ -37,7 +37,7 @@ function App({ Component, pageProps: { session, ...pageProps } }) {
   }, [router.events]);
 
   return (
-    <PlausibleProvider domain="dca-cc.com">
+    <PlausibleProvider domain="dca-cc.com" enabled={true}>
       <SessionProvider session={session}>
         <ThemeProvider attribute="class" defaultTheme="system">
           <QueryClientProvider client={queryClient}>
