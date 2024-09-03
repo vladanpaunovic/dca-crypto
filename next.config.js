@@ -2,7 +2,7 @@ require("dotenv").config();
 const Mode = require("frontmatter-markdown-loader/mode");
 const { PHASE_PRODUCTION_BUILD } = require("next/constants");
 const { withSentryConfig } = require("@sentry/nextjs");
-import { withPlausibleProxy } from "next-plausible";
+const { withPlausibleProxy } = require("next-plausible");
 
 /** @type {import('next').NextConfig} */
 const moduleExports = (phase) => ({
