@@ -2,6 +2,7 @@ require("dotenv").config();
 const Mode = require("frontmatter-markdown-loader/mode");
 const { PHASE_PRODUCTION_BUILD } = require("next/constants");
 const { withSentryConfig } = require("@sentry/nextjs");
+import { withPlausibleProxy } from "next-plausible";
 
 /** @type {import('next').NextConfig} */
 const moduleExports = (phase) => ({
@@ -58,9 +59,10 @@ const moduleExports = (phase) => ({
   },
 });
 
+const config = withPlausibleProxy()(moduleExports);
 // Make sure adding Sentry options is the last code to run before exporting, to
 // ensure that your source maps include changes from all other Webpack plugins
-module.exports = withSentryConfig(moduleExports, {
+module.exports = withSentryConfig(config, {
   hideSourceMaps: false,
   autoInstrumentServerFunctions: true,
 });
