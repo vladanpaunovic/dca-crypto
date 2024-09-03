@@ -4,11 +4,11 @@ import { useState } from "react";
 import dayjs from "dayjs";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import { availableCurrencies } from "../../config";
-import * as ga from "../helpers/GoogleAnalytics";
 import useEffectOnlyOnUpdate from "../Hooks/useEffectOnlyOnUpdate";
 import { availableInvestmentIntervals } from "../../src/generateDefaultInput";
 import SelectCoin from "../SelectCoin/SelectCoin";
 import { useAppState } from "../../src/store/store";
+import { usePlausible } from "next-plausible";
 dayjs.extend(isSameOrBefore);
 
 const todaysDate = dayjs().format("YYYY-MM-DD");
@@ -18,6 +18,7 @@ const InputForm = () => {
   const currentCoin = store.currentCoin;
   const [isOpen, setIsOpen] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
+  const plausible = usePlausible();
 
   const dateOfFirstMarketData = dayjs(store.rawMarketData?.[0]?.[0]);
   const isDateBeforeFirstMarketData = dayjs(store.input?.dateFrom).isBefore(
@@ -42,9 +43,8 @@ const InputForm = () => {
     setIsOpen(!isOpen);
     setIsClicked(true);
 
-    ga.event({
-      action: "mobile_change_params",
-      params: { calculator: "dca", token: currentCoin.name },
+    plausible("mobile_change_params", {
+      props: { calculator: "dca", token: currentCoin.name },
     });
   };
 

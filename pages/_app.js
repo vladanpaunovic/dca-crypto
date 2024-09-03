@@ -6,7 +6,6 @@ import { Hydrate } from "react-query/hydration";
 import CookieBanner from "../components/CookieBanner/CookieBanner";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import * as ga from "../components/helpers/GoogleAnalytics";
 import DefaultSeo from "../components/Seo/DefaultSeo";
 import { WEBSITE_PATHNAME } from "../config";
 import { SessionProvider } from "next-auth/react";
@@ -14,13 +13,13 @@ import * as Sentry from "@sentry/nextjs";
 import { setFingerprintCookie } from "../src/fingerprinting";
 import NextNProgress from "nextjs-progressbar";
 import queryClient from "../src/queryClient";
+import PlausibleProvider from "next-plausible";
 
 function App({ Component, pageProps: { session, ...pageProps } }) {
   const router = useRouter();
 
   useEffect(() => {
     const handleRouteChange = (url) => {
-      ga.pageview(url);
       Sentry.setContext("route changed", { url: `${WEBSITE_PATHNAME}${url}` });
     };
 
@@ -38,20 +37,22 @@ function App({ Component, pageProps: { session, ...pageProps } }) {
   }, [router.events]);
 
   return (
-    <SessionProvider session={session}>
-      <ThemeProvider attribute="class" defaultTheme="system">
-        <QueryClientProvider client={queryClient}>
-          <Hydrate state={pageProps.dehydratedState}>
-            <CookieBanner />
-            <DefaultSeo />
-            <NextNProgress height={5} color="#4338CA" />
+    <PlausibleProvider domain="dca-cc.com">
+      <SessionProvider session={session}>
+        <ThemeProvider attribute="class" defaultTheme="system">
+          <QueryClientProvider client={queryClient}>
+            <Hydrate state={pageProps.dehydratedState}>
+              <CookieBanner />
+              <DefaultSeo />
+              <NextNProgress height={5} color="#4338CA" />
 
-            <Component {...pageProps} />
-            <ReactQueryDevtools />
-          </Hydrate>
-        </QueryClientProvider>
-      </ThemeProvider>
-    </SessionProvider>
+              <Component {...pageProps} />
+              <ReactQueryDevtools />
+            </Hydrate>
+          </QueryClientProvider>
+        </ThemeProvider>
+      </SessionProvider>
+    </PlausibleProvider>
   );
 }
 

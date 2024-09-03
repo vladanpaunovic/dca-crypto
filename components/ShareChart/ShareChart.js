@@ -4,11 +4,13 @@ import React, { useState } from "react";
 import { WEBSITE_PATHNAME } from "../../config";
 import queryString from "query-string";
 import { useTweetMessage } from "../TweetMessage/TweetMessage";
-import * as ga from "../helpers/GoogleAnalytics";
 import { useAppState } from "../../src/store/store";
 import { useCopyToClipboard } from "usehooks-ts";
+import { usePlausible } from "next-plausible";
 
 const SharingButtons = ({ currentCoin, currentUrl }) => {
+  const plausible = usePlausible();
+
   const pathname = "dca";
   const coinSymbol = currentCoin.symbol.toUpperCase();
 
@@ -98,13 +100,8 @@ const SharingButtons = ({ currentCoin, currentUrl }) => {
           aria-label={social.label}
           style={{ backgroundColor: social.color }}
           onClick={() => {
-            ga.event({
-              action: "share",
-              params: {
-                method: social.label,
-                calculator: pathname,
-                token: currentCoin.name,
-              },
+            plausible("share", {
+              props: { social: social.label, token: currentCoin.name },
             });
           }}
         >
@@ -154,6 +151,7 @@ const CurrentUrl = ({ currentCoin, currentUrl }) => {
 const ShareChart = () => {
   const state = useAppState();
   const currentCoin = state.currentCoin;
+  const plausible = usePlausible();
 
   const queryWithoutCoin = {
     investment: state.input?.investment,
@@ -182,9 +180,8 @@ const ShareChart = () => {
               className="py-1 px-2 flex w-full items-center justify-center transition rounded bg-gray-900 hover:bg-gray-800 text-white font-semibold border shadow border-transparent"
               onClick={() => {
                 if (!open) {
-                  ga.event({
-                    action: "share_attempt",
-                    params: { calculator: "dca", token: currentCoin.name },
+                  plausible("share_open", {
+                    props: { calculator: "dca", token: currentCoin.name },
                   });
                 }
               }}

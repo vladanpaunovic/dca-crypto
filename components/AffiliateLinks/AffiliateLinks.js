@@ -1,7 +1,7 @@
 import ExternalLinkIcon from "../Icons/ExternalLink";
 import SupportIcon from "../Icons/SupportIcon";
 import Image from "next/image";
-import * as ga from "../helpers/GoogleAnalytics";
+import { usePlausible } from "next-plausible";
 import { useAppState } from "../../src/store/store";
 
 const affiliatePartners = [
@@ -39,6 +39,7 @@ const affiliatePartners = [
 
 const AffiliatePartner = (props) => {
   const state = useAppState();
+  const plausible = usePlausible();
 
   const { name, pitch, affiliateLink, icon, value } = props;
   return (
@@ -53,9 +54,8 @@ const AffiliatePartner = (props) => {
           rel="nofollow noreferrer"
           className="flex items-center text-gray-900 hover:underline"
           onClick={() => {
-            ga.event({
-              action: "support_site",
-              params: { affiliate: name, token: state.currentCoin.name },
+            plausible("support_site", {
+              props: { affiliate: name, token: state.currentCoin.name },
             });
           }}
         >

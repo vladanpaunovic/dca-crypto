@@ -1,9 +1,11 @@
 import { SwitchHorizontalIcon } from "@heroicons/react/outline";
 import Link from "next/link";
 import dayjs from "dayjs";
-import * as ga from "../helpers/GoogleAnalytics";
+import { usePlausible } from "next-plausible";
 
 const Footer = ({ availableTokens }) => {
+  const plausible = usePlausible();
+
   const tokens = availableTokens?.slice(0, 20);
   const dcaAllTokens = tokens?.map((coin) => (
     <li key={coin.id}>
@@ -11,9 +13,8 @@ const Footer = ({ availableTokens }) => {
         href={`/dca/${coin.id}`}
         className="text-gray-600 hover:underline"
         onClick={() => {
-          ga.event({
-            action: "footer_link",
-            params: { calculator: "dca", token: coin.name },
+          plausible("footer_link", {
+            props: { calculator: "dca", token: coin.name },
           });
         }}
       >

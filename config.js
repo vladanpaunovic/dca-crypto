@@ -1,5 +1,3 @@
-export const GA_TRACKING_ID = "G-G5V69VXBHC";
-
 export const availableCurrencies = [
   { name: "USD", value: "usd" },
   { name: "EUR", value: "eur" },

@@ -36,6 +36,7 @@
     "micro": "^9.4.1",
     "next": "13.2.1",
     "next-auth": "^4.24.7",
+    "next-plausible": "^3.12.2",
     "next-seo": "5.15.0",
     "next-themes": "^0.0.15",
     "nextjs-progressbar": "^0.0.16",
