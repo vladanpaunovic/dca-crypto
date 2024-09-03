@@ -101,7 +101,11 @@ const SharingButtons = ({ currentCoin, currentUrl }) => {
           style={{ backgroundColor: social.color }}
           onClick={() => {
             plausible("share", {
-              props: { social: social.label, token: currentCoin.name },
+              props: {
+                social: social.label,
+                token: currentCoin.name,
+                pathname,
+              },
             });
           }}
         >
