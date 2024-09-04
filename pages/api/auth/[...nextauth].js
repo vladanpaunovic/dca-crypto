@@ -1,10 +1,11 @@
 import NextAuth from "next-auth";
 import EmailProvider from "next-auth/providers/email";
 import GoogleProvider from "next-auth/providers/google";
-import { WEBSITE_EMAIL } from "../../../config";
+import { WEBSITE_EMAIL, WEBSITE_PATHNAME } from "../../../config";
 import * as Sentry from "@sentry/nextjs";
 
 import prismaClient, { PrismaAdapter } from "../../../server/prisma/prismadb";
+import { trackPlausibleEvent } from "../../../server/plausible";
 
 /** @type {import('next-auth').NextAuthOptions} */
 export const authOptions = {
@@ -29,6 +30,15 @@ export const authOptions = {
   events: {
     async signIn(message) {
       const isPaidUser = message.user?.subscription?.status === "active";
+      trackPlausibleEvent(
+        {
+          name: "user_signin",
+          url: `${WEBSITE_PATHNAME}/auth/signin`,
+        },
+        message.user.name,
+        message.user.name
+      );
+
       Sentry.setUser({
         email: message.user.email,
         segment: isPaidUser
@@ -38,6 +48,17 @@ export const authOptions = {
     },
     async signOut() {
       Sentry.setUser(null);
+    },
+
+    async createUser(message) {
+      trackPlausibleEvent(
+        {
+          name: "user_create",
+          url: `${WEBSITE_PATHNAME}/auth/signup`,
+        },
+        message.user.name,
+        message.user.name
+      );
     },
   },
   callbacks: {
