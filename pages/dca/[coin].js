@@ -135,24 +135,12 @@ const Coin = ({ content }) => {
   return (
     <div className="w-full">
       <NextSeo
-        title={`Dollar cost average ${state.currentCoin.name} (${coinSymbol}) calculator`}
-        description={`Visualise and calculate historical returns of investing ${formatPrice(
-          state.chart.input.investment
-        )} in ${state.currentCoin.name} (${coinSymbol}) every ${
-          state.chart.input.investmentInterval
-        } days from ${dayjs(state.chart.input.dateFrom).format(
-          "MMM YYYY"
-        )} until now. See it on charts!`}
+        title={`DCA Calculator for ${state.currentCoin.name} (${coinSymbol}) | Visualise Crypto Investment Returns`}
+        description={`Calculate historical returns with our crypto DCA calculator. Backtest ${state.currentCoin.name} and other cryptocurrencies with dollar-cost averaging investment strategies.`}
         canonical={`https://${WEBSITE_URL}/dca/${state.currentCoin.id}`}
         openGraph={{
           title: `Dollar cost average ${coinSymbol} calculator`,
-          description: `Visualise and calculate historical returns of investing ${formatPrice(
-            state.chart.input.investment
-          )} in ${coinSymbol} every ${
-            state.chart.input.investmentInterval
-          } days from ${dayjs(state.chart.input.dateFrom).format(
-            "MMM YYYY"
-          )} until now. See it on charts!`,
+          description: `Calculate historical returns with our crypto DCA calculator. Backtest ${state.currentCoin.name} and other cryptocurrencies with dollar-cost averaging investment strategies.`,
           images: [
             {
               url: `https://${WEBSITE_URL}/images/meta-open-graph-dca.jpg`,
