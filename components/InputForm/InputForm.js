@@ -183,7 +183,7 @@ const InputForm = () => {
           </label>
           {isDateBeforeFirstMarketData && (
             <p className="text-yellow-700 text-xs mt-2">
-              Sorry, we only have {currentCoin.name} market data starting from{" "}
+              Sorry, we only have {currentCoin?.name} market data starting from{" "}
               {dateOfFirstMarketData.format("MM-DD-YYYY")}. We&apos;ve adjusted
               the date you entered to match.
             </p>

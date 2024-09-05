@@ -11,19 +11,35 @@ const rawRedis = new Redis({
 
 export const upstashAdopter = UpstashRedisAdapter(rawRedis);
 
-const generateFingerprintString = (fingerprint) => `fingerprint:${fingerprint}`;
+const generateFingerprintKey = (fingerprint) => `fingerprint:${fingerprint}`;
+
+const updateRedisKey = async (key, value, ttl) => {
+  await rawRedis.set(key, value, { ex: ttl });
+};
+
+const getOrInitializeRedisKey = async (key, defaultValue, ttl) => {
+  const redisValue = await rawRedis.get(key);
+  if (redisValue) return redisValue;
+
+  await updateRedisKey(key, defaultValue, ttl);
+  return defaultValue;
+};
 
 export const storeFingerprint = async (fingerprint) => {
-  const redisKey = generateFingerprintString(fingerprint);
+  const redisKey = generateFingerprintKey(fingerprint);
+  const currentCount = await getOrInitializeRedisKey(
+    redisKey,
+    1,
+    FREE_TIER_REDIS_TTL
+  );
 
-  const currentRedisKey = await rawRedis.get(redisKey);
-
-  if (currentRedisKey) {
-    await rawRedis.set(redisKey, currentRedisKey + 1, {
-      ex: FREE_TIER_REDIS_TTL,
-    });
-  } else {
-    await rawRedis.set(redisKey, 1, { ex: FREE_TIER_REDIS_TTL });
+  // Only update the count if it's below the limit
+  if (parseInt(currentCount) <= FREE_TIER_CALCULATION_LIMIT) {
+    await updateRedisKey(
+      redisKey,
+      parseInt(currentCount) + 1,
+      FREE_TIER_REDIS_TTL
+    );
   }
 };
 
@@ -32,23 +48,21 @@ export const canUserProceed = async (fingerprint, session) => {
     return { proceed: true, package: session.user.subscription.subId };
   }
 
-  const redisKey = generateFingerprintString(fingerprint);
+  const redisKey = generateFingerprintKey(fingerprint);
+  const sessionUserCount = await getOrInitializeRedisKey(
+    redisKey,
+    1,
+    FREE_TIER_REDIS_TTL
+  );
 
-  const redisResponse = await rawRedis.get(redisKey);
-  const sessionUserCount = redisResponse || 1;
-
-  if (sessionUserCount > FREE_TIER_CALCULATION_LIMIT) {
+  if (parseInt(sessionUserCount) > FREE_TIER_CALCULATION_LIMIT) {
     const ttl = await rawRedis.ttl(redisKey);
     return { proceed: false, ttl, error: "limit reached" };
   }
 
-  if (!redisResponse) {
-    rawRedis.set(redisKey, 1, { ex: FREE_TIER_REDIS_TTL });
-  }
-
   return {
     proceed: true,
-    sessionUserCount,
+    sessionUserCount: parseInt(sessionUserCount),
     available: FREE_TIER_CALCULATION_LIMIT,
   };
 };

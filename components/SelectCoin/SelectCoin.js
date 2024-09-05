@@ -27,11 +27,11 @@ export const getSelectTheme = (theme) => {
 const parseOptions = (options) => {
   return options.map((option) => ({
     ...option,
-    value: option.coinId,
+    value: option?.coinId,
     label: (
       <span className="flex items-center">
         <span className="text-xs text-gray-300 mr-2">
-          #{option.marketCapRank}
+          #{option?.marketCapRank}
         </span>{" "}
         <span className="text-gray-900 ">{option.name}</span>
       </span>
