@@ -62,7 +62,7 @@ function PricingTab(props) {
         <p className="text-xl font-bold mb-4">{props.product.name}</p>
         {isAnnual ? (
           <p className="absolute -bottom-4 left-0 text-xs font-normal text-indigo-600">
-            Get one month for free
+            Get <b>two months</b> for free
           </p>
         ) : null}
       </div>
@@ -72,6 +72,11 @@ function PricingTab(props) {
       </p>
       <p className="text-xs mt-4 opacity-60">{pricingDescription}</p>
       <ul className="text-sm w-full mt-6 mb-6">
+        <li className="mb-3 flex items-center">
+          <CheckCircleIcon className={featureClasses} />
+          AI - chat with our data
+        </li>
+
         <li className="mb-3 flex items-center">
           <CheckCircleIcon className={featureClasses} />
           All unlimited features
