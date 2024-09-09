@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Card,
   ColGrid,
@@ -24,6 +25,8 @@ import Loading from "react-loading";
 import DcaCCGuides from "./DcaCCGuides";
 import { useAppState } from "../../src/store/store";
 import ReactMarkdown from "react-markdown";
+import AiChat from "../AI/ai-chat";
+import { SparklesIcon } from "@heroicons/react/outline";
 
 const DynamicLumpSumPage = dynamic(() => import("./LumpSum/LumpSumPage"), {
   ssr: false,
@@ -80,6 +83,7 @@ export default function CoinPage({ currentCoin, coinSymbol, content }) {
       >
         <Tab value={1} text="Dollar Cost Average" />
         <Tab value={2} text="Lump Sum" />
+        <Tab value={3} text="AI" icon={SparklesIcon} />
       </TabList>
 
       {selectedView === 1 && (
@@ -106,7 +110,6 @@ export default function CoinPage({ currentCoin, coinSymbol, content }) {
                 <span className="text-gray-900">Purchase history</span>
               </AccordionHeader>
               <DynamicCoinTable />
-              <AccordionBody></AccordionBody>
             </Accordion>
           </Block>
         </>
@@ -114,17 +117,28 @@ export default function CoinPage({ currentCoin, coinSymbol, content }) {
 
       {selectedView === 2 && <DynamicLumpSumPage />}
 
-      <div data-testid="what-is-this-coin">
-        <Card marginTop="mt-6">
-          <div className="prose prose-sm max-w-none ">
-            <ReactMarkdown>{currentCoin.description}</ReactMarkdown>
-          </div>
-        </Card>
-      </div>
+      {selectedView === 3 && (
+        <>
+          <Block marginTop="mt-6">
+            <AiChat />
+          </Block>
+        </>
+      )}
 
-      <Block marginTop="mt-6">
-        <DcaCCGuides content={content} />
-      </Block>
+      {selectedView === 1 && (
+        <>
+          <div data-testid="what-is-this-coin">
+            <Card marginTop="mt-6">
+              <div className="prose prose-sm max-w-none ">
+                <ReactMarkdown>{currentCoin.description}</ReactMarkdown>
+              </div>
+            </Card>
+          </div>
+          <Block marginTop="mt-6">
+            <DcaCCGuides content={content} />
+          </Block>
+        </>
+      )}
     </main>
   );
 }

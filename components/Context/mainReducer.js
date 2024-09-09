@@ -15,6 +15,8 @@ export const ACTIONS = {
   UPDATE_DATE_TO: "DATE_TO",
   SET_COIN_LOADING: "SET_COIN_LOADING",
 
+  UPDATE_ALL_INPUTS: "UPDATE_ALL_INPUTS",
+
   // Calculate
   CALCULATE_CHART_DATA: "CALCULATE_CHART_DATA",
 
@@ -27,6 +29,9 @@ export const ACTIONS = {
   // Settings actions
   UPDATE_CURRENCY: "UPDATE_CURRENCY",
   UPDATE_LIST_OF_TOKENS: "UPDATE_LIST_OF_TOKENS",
+
+  // AI Chat
+  UPDATE_MESSAGES: "UPDATE_MESSAGES",
 };
 
 export const reducer = (state, action) => {
@@ -150,6 +155,31 @@ export const reducer = (state, action) => {
       };
     }
 
+    case ACTIONS.UPDATE_ALL_INPUTS: {
+      return {
+        ...state,
+        input: {
+          ...state.input,
+          dateFrom: action.payload.dateFrom,
+          dateTo: action.payload.dateTo,
+          duration: calculateDateRangeDifference(
+            action.payload.dateFrom,
+            action.payload.dateTo
+          ),
+          investment: action.payload.investment,
+          investmentInterval: action.payload.investmentInterval,
+          currentCoin: action.payload.coinId,
+        },
+      };
+    }
+
+    case ACTIONS.UPDATE_MESSAGES: {
+      return {
+        ...state,
+        messages: action.payload,
+      };
+    }
+
     default: {
       throw new Error();
     }
@@ -169,6 +199,7 @@ export const useMainReducer = ({ availableTokens, chart, currentCoin }) => {
       availableTokens,
     },
     currentCoin,
+    messages: [],
   };
 
   return useReducer(reducer, initialState);
