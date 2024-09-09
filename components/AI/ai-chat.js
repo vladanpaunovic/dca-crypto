@@ -98,7 +98,7 @@ function AiChatInner() {
         },
         input: store.input,
       },
-      onFinish: (messages) => {
+      onFinish: () => {
         plausible("ai_chat_message");
       },
       async onToolCall({ toolCall }) {

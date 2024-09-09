@@ -9,8 +9,6 @@ import { generateDefaultInput } from "../../src/generateDefaultInput";
 import { NextSeo } from "next-seo";
 import dynamic from "next/dynamic";
 import Loading from "../../components/Loading/Loading";
-import { formatPrice } from "../../components/Currency/Currency";
-import dayjs from "dayjs";
 import Navigation from "../../components/Navigarion/Navigation";
 import ErrorComponent from "../../components/Error/Error";
 import "@tremor/react/dist/esm/tremor.css";

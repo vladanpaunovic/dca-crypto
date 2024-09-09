@@ -9,7 +9,6 @@ import {
   Col,
   Accordion,
   AccordionHeader,
-  AccordionBody,
 } from "@tremor/react";
 import { useState } from "react";
 import BreadcrumbDCA from "../Breadcrumb/BreadcrumbDCA";
