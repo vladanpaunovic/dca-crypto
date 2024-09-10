@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import DefaultSeo from "../components/Seo/DefaultSeo";
 import { WEBSITE_PATHNAME } from "../config";
-import { SessionProvider, useSession } from "next-auth/react";
+import { SessionProvider } from "next-auth/react";
 import * as Sentry from "@sentry/nextjs";
 import { setFingerprintCookie } from "../src/fingerprinting";
 import NextNProgress from "nextjs-progressbar";
