@@ -1,9 +1,11 @@
 import { CheckCircleIcon, ChevronDoubleUpIcon } from "@heroicons/react/outline";
 import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
+import { usePostHog } from "posthog-js/react";
 
 const InfoBar = () => {
   const session = useSession();
+  const posthog = usePostHog();
   return (
     <div>
       <div className="bg-green-200 rounded-lg">
@@ -29,6 +31,9 @@ const InfoBar = () => {
               <div className="col-span-2 md:col-span-1">
                 <Link
                   href="/pricing"
+                  onClick={() => {
+                    posthog?.capture("upgrade_clicked");
+                  }}
                   className="flex items-center justify-center rounded-md border border-transparent bg-gray-900 px-4 py-2 font-medium leading-6 text-white shadow-sm hover:opacity-80"
                 >
                   Upgrade
