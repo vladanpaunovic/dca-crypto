@@ -6,6 +6,7 @@ import * as Sentry from "@sentry/nextjs";
 
 import prismaClient, { PrismaAdapter } from "../../../server/prisma/prismadb";
 import { trackPlausibleEvent } from "../../../server/plausible";
+import posthogClient from "../../../src/posthog";
 
 /** @type {import('next-auth').NextAuthOptions} */
 export const authOptions = {
@@ -45,6 +46,16 @@ export const authOptions = {
           ? `paid_${message.user?.subscription?.type}`
           : "free_user",
       });
+
+      posthogClient.capture({
+        distinctId: message.user.email,
+        event: "user_signin",
+        properties: {
+          email: message.user.email,
+          subscription_type: message.user.subscription?.type,
+          is_paid: isPaidUser,
+        },
+      });
     },
     async signOut() {
       Sentry.setUser(null);
@@ -56,9 +67,17 @@ export const authOptions = {
           name: "user_create",
           url: `${WEBSITE_PATHNAME}/auth/signup`,
         },
-        message.user.name,
-        message.user.name
+        message.user.email,
+        message.user.email
       );
+
+      posthogClient.capture({
+        distinctId: message.user.email,
+        event: "user_create",
+        properties: {
+          email: message.user.email,
+        },
+      });
     },
   },
   callbacks: {

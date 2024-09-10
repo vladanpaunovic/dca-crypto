@@ -3,6 +3,7 @@ import SupportIcon from "../Icons/SupportIcon";
 import Image from "next/image";
 import { usePlausible } from "next-plausible";
 import { useAppState } from "../../src/store/store";
+import { usePostHog } from "posthog-js/react";
 
 const affiliatePartners = [
   {
@@ -40,6 +41,7 @@ const affiliatePartners = [
 const AffiliatePartner = (props) => {
   const state = useAppState();
   const plausible = usePlausible();
+  const posthog = usePostHog();
 
   const { name, pitch, affiliateLink, icon, value } = props;
   return (
@@ -56,6 +58,11 @@ const AffiliatePartner = (props) => {
           onClick={() => {
             plausible("support_site", {
               props: { affiliate: name, token: state.currentCoin.name },
+            });
+
+            posthog.capture("support_site", {
+              affiliate: name,
+              token: state.currentCoin.name,
             });
           }}
         >

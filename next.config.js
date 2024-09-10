@@ -56,6 +56,18 @@ const moduleExports = (phase) =>
           source: "/sentry-tunnel",
           destination: "https://o574491.ingest.sentry.io/api/5821539/envelope/",
         },
+        {
+          source: "/ingest/static/:path*",
+          destination: "https://eu-assets.i.posthog.com/static/:path*",
+        },
+        {
+          source: "/ingest/:path*",
+          destination: "https://eu.i.posthog.com/:path*",
+        },
+        {
+          source: "/ingest/decide",
+          destination: "https://eu.i.posthog.com/decide",
+        },
       ];
     },
   });

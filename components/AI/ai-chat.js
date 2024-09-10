@@ -12,7 +12,6 @@ import {
   UserCircleIcon,
 } from "@heroicons/react/outline";
 import Image from "next/image";
-import { usePlausible } from "next-plausible";
 import Upgrade from "../Upgrade/upgrade";
 
 const RestrictedAccessToUnpaidUsers = () => {
@@ -83,7 +82,6 @@ function AiChatInner() {
   const store = useAppState();
   const messagesEndRef = useRef(null);
   const previousMessages = store.messages || [];
-  const plausible = usePlausible();
 
   const { messages, input, handleInputChange, handleSubmit, isLoading } =
     useChat({
@@ -97,9 +95,6 @@ function AiChatInner() {
           description: store.currentCoin.description,
         },
         input: store.input,
-      },
-      onFinish: () => {
-        plausible("ai_chat_message");
       },
       async onToolCall({ toolCall }) {
         if (toolCall.toolName === "updateParameters") {

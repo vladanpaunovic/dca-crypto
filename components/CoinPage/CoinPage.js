@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Card,
   ColGrid,
@@ -26,6 +26,7 @@ import { useAppState } from "../../src/store/store";
 import ReactMarkdown from "react-markdown";
 import AiChat from "../AI/ai-chat";
 import { SparklesIcon } from "@heroicons/react/outline";
+import { usePostHog } from "posthog-js/react";
 
 const DynamicLumpSumPage = dynamic(() => import("./LumpSum/LumpSumPage"), {
   ssr: false,
@@ -43,6 +44,7 @@ const DynamicCoinTable = dynamic(() => import("./CoinTable"), {
 export default function CoinPage({ currentCoin, coinSymbol, content }) {
   const [selectedView, setSelectedView] = useState(1);
   const state = useAppState();
+  const posthog = usePostHog();
 
   const description = `Visualise and calculate historical returns of investing ${formatPrice(
     state.chart.input.investment
@@ -51,6 +53,15 @@ export default function CoinPage({ currentCoin, coinSymbol, content }) {
   } days from ${dayjs(state.chart.input.dateFrom).format(
     "MMM YYYY"
   )} until now`;
+
+  useEffect(() => {
+    if (selectedView === 3) {
+      posthog?.capture("ai_tab_clicked", {
+        coin: currentCoin.name,
+        coinSymbol: coinSymbol,
+      });
+    }
+  }, [selectedView]);
 
   return (
     <main>

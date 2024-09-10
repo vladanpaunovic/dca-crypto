@@ -43,6 +43,8 @@
     "next-themes": "^0.0.15",
     "nextjs-progressbar": "^0.0.16",
     "nodemailer": "^6.7.8",
+    "posthog-js": "^1.161.2",
+    "posthog-node": "^4.2.0",
     "query-string": "^7.0.0",
     "react": "next",
     "react-countdown": "^2.3.2",

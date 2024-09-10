@@ -9,6 +9,8 @@ import { useAppState } from "../../src/store/store";
 import { useQuery } from "react-query";
 import dynamic from "next/dynamic";
 import Loading from "react-loading";
+import { usePostHog } from "posthog-js/react";
+import { useEffect } from "react";
 
 const DynamicPricing = dynamic(() => import("../Pricing/Pricing"), {
   ssr: false,
@@ -25,10 +27,18 @@ const Limit = ({ canProceed }) => {
   const pricing = useQuery("pricing", () =>
     fetch("/api/billing/products").then((res) => res.json())
   );
+  const posthog = usePostHog();
 
   const handleOnComplete = () => {
     dispatch({ type: ACTIONS.UPDATE_CAN_PROCEED, payload: { proceed: true } });
   };
+
+  useEffect(() => {
+    posthog?.capture("limit_reached", {
+      limit: FREE_TIER_CALCULATION_LIMIT,
+      canProceed: canProceed.proceed,
+    });
+  }, []);
 
   return (
     <div>
