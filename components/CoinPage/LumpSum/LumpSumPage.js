@@ -10,6 +10,7 @@ import CalloutPerformance from "../CalloutPerformance";
 import LumpSumCoinChart from "./LumpSumCoinChart";
 import LumpSumCoinTable from "./LumpSumCoinTable";
 import LumpSumTopCards from "./LumpSumTopCards";
+import Blur from "../../Upgrade/blur";
 
 export default function LumpSumPage() {
   const state = useAppState();
@@ -20,23 +21,25 @@ export default function LumpSumPage() {
     <>
       <LumpSumTopCards chartData={chartData} />
 
-      <Block marginTop="mt-6">
-        <LumpSumCoinChart chartData={chartData} />
-      </Block>
+      <Blur>
+        <Block marginTop="mt-6">
+          <LumpSumCoinChart chartData={chartData} />
+        </Block>
 
-      <Block marginTop="mt-6">
-        <CalloutPerformance chartData={chartData} isLumpSum />
-      </Block>
+        <Block marginTop="mt-6">
+          <CalloutPerformance chartData={chartData} isLumpSum />
+        </Block>
 
-      <Block marginTop="mt-6">
-        <Accordion expanded={true} shadow={true} marginTop="mt-0">
-          <AccordionHeader>
-            <span className="text-gray-900">Purchase history</span>
-          </AccordionHeader>
-          <LumpSumCoinTable chartData={chartData} />
-          <AccordionBody></AccordionBody>
-        </Accordion>
-      </Block>
+        <Block marginTop="mt-6">
+          <Accordion expanded={true} shadow={true} marginTop="mt-0">
+            <AccordionHeader>
+              <span className="text-gray-900">Purchase history</span>
+            </AccordionHeader>
+            <LumpSumCoinTable chartData={chartData} />
+            <AccordionBody></AccordionBody>
+          </Accordion>
+        </Block>
+      </Blur>
     </>
   );
 }

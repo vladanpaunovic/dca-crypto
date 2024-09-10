@@ -32,7 +32,6 @@ export default function CoinChart() {
 
         <Title>{coinSymbol} price over time</Title>
         <Text>Price development vs. average cost</Text>
-
         <AreaChart
           marginTop="mt-4"
           data={state.chart.dca.chartData}

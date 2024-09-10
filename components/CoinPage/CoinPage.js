@@ -27,6 +27,7 @@ import ReactMarkdown from "react-markdown";
 import AiChat from "../AI/ai-chat";
 import { SparklesIcon } from "@heroicons/react/outline";
 import { usePostHog } from "posthog-js/react";
+import Blur from "../Upgrade/blur";
 
 const DynamicLumpSumPage = dynamic(() => import("./LumpSum/LumpSumPage"), {
   ssr: false,
@@ -100,28 +101,30 @@ export default function CoinPage({ currentCoin, coinSymbol, content }) {
         <>
           <TopCards />
 
-          <Block marginTop="mt-6">
-            <CoinChart />
-          </Block>
+          <Blur>
+            <Block marginTop="mt-6">
+              <CoinChart />
+            </Block>
 
-          <Block marginTop="mt-6">
-            <CalloutPerformance />
-          </Block>
+            <Block marginTop="mt-6">
+              <CalloutPerformance />
+            </Block>
 
-          <div data-testid="profit-loss-interval">
-            <Card marginTop="mt-6">
-              <CoinTracked />
-            </Card>
-          </div>
+            <div data-testid="profit-loss-interval">
+              <Card marginTop="mt-6">
+                <CoinTracked />
+              </Card>
+            </div>
 
-          <Block marginTop="mt-6">
-            <Accordion expanded={false} shadow={true} marginTop="mt-0">
-              <AccordionHeader>
-                <span className="text-gray-900">Purchase history</span>
-              </AccordionHeader>
-              <DynamicCoinTable />
-            </Accordion>
-          </Block>
+            <Block marginTop="mt-6">
+              <Accordion expanded={false} shadow={true} marginTop="mt-0">
+                <AccordionHeader>
+                  <span className="text-gray-900">Purchase history</span>
+                </AccordionHeader>
+                <DynamicCoinTable />
+              </Accordion>
+            </Block>
+          </Blur>
         </>
       )}
 
@@ -130,7 +133,9 @@ export default function CoinPage({ currentCoin, coinSymbol, content }) {
       {selectedView === 3 && (
         <>
           <Block marginTop="mt-6">
-            <AiChat />
+            <Blur>
+              <AiChat />
+            </Blur>
           </Block>
         </>
       )}

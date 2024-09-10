@@ -12,11 +12,6 @@ import {
   UserCircleIcon,
 } from "@heroicons/react/outline";
 import Image from "next/image";
-import Upgrade from "../Upgrade/upgrade";
-
-const RestrictedAccessToUnpaidUsers = () => {
-  return <Upgrade />;
-};
 
 const UserIcon = () => {
   const session = useSession();
@@ -78,7 +73,7 @@ const ChangedParameters = ({
   );
 };
 
-function AiChatInner() {
+export default function AiChat() {
   const store = useAppState();
   const messagesEndRef = useRef(null);
   const previousMessages = store.messages || [];
@@ -251,16 +246,4 @@ function AiChatInner() {
       </div>
     </Block>
   );
-}
-
-export default function AiChat() {
-  const session = useSession();
-
-  const hasSubscription = session.data?.user?.hasActivePackage;
-
-  if (hasSubscription) {
-    return <AiChatInner />;
-  }
-
-  return <RestrictedAccessToUnpaidUsers />;
 }
