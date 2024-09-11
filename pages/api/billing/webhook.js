@@ -2,7 +2,13 @@ import * as Sentry from "@sentry/nextjs";
 import stripe from "../../../server/stripe";
 import { buffer } from "micro";
 import dayjs from "dayjs";
-import prismaClient from "../../../server/prisma/prismadb";
+import prismaClient, {
+  createTokenForVerification,
+  createVerificationTokenHash,
+  PrismaAdapter,
+} from "../../../server/prisma/prismadb";
+import { WEBSITE_PATHNAME } from "../../../config";
+import { loopsClient } from "../../../server/loops";
 
 export const config = {
   api: {
@@ -10,18 +16,77 @@ export const config = {
   },
 };
 
+const prismaAdapter = PrismaAdapter(prismaClient);
+
+const sendMagicLink = async (email, userId) => {
+  /**
+   * Create a verification token
+   * This token is safe to send in an email as without
+   * the secret key it is useless.
+   **/
+  const token = createTokenForVerification();
+
+  // Hash the token for the database
+  const hashedToken = await createVerificationTokenHash(token);
+
+  // Store hashed token in the database
+  prismaAdapter.createVerificationToken({
+    identifier: email,
+    token: hashedToken,
+    expires: new Date(Date.now() + 24 * 60 * 60 * 1000), // Valid for 24 hours
+  });
+
+  const link = `${WEBSITE_PATHNAME}/api/auth/callback/email?token=${token}&email=${encodeURIComponent(
+    email
+  )}`;
+
+  // send email with the link
+  await loopsClient.sendEvent({
+    eventName: "new_guest_user",
+    email,
+    userId,
+    eventProperties: {
+      login_url: link,
+    },
+  });
+  return;
+};
+
 export const createSubscription = async (subscriptionData) => {
+  const { email, ...rest } = subscriptionData;
   try {
-    const user = await prismaClient.user.findUnique({
-      where: { stripeCustomerId: subscriptionData.stripeCustomerId },
+    let user = await prismaClient.user.findUnique({
+      where: { email },
     });
 
+    if (user) {
+      /**
+       * If the user exists, update their stripeCustomerId
+       */
+      await prismaClient.user.update({
+        where: { email },
+        data: { stripeCustomerId: subscriptionData.stripeCustomerId },
+      });
+    } else {
+      /**
+       * If the user doesn't exist, create a new user,
+       * add their stripeCustomerId and email,
+       * then send them a magic link to sign in
+       */
+      user = await prismaAdapter.createUser({
+        email,
+        stripeCustomerId: subscriptionData.stripeCustomerId,
+      });
+
+      await sendMagicLink(email, user.id);
+    }
+
     const output = await prismaClient.subscription.upsert({
-      where: { stripeCustomerId: subscriptionData.stripeCustomerId },
-      update: subscriptionData,
+      where: { stripeCustomerId: rest.stripeCustomerId },
+      update: rest,
       create: {
-        ...subscriptionData,
         User: { connect: { id: user.id } },
+        ...rest,
       },
     });
 
@@ -53,6 +118,7 @@ export const handleStripeWebhook = async (event) => {
           created_at: dayjs().toDate(),
           ends_on: dayjs.unix(upcomingSubscription.current_period_end).toDate(),
           stripeCustomerId: paymentIntent.customer,
+          email: paymentIntent.customer_details?.email,
         };
 
         return await createSubscription(options);
@@ -66,30 +132,11 @@ export const handleStripeWebhook = async (event) => {
           created_at: dayjs().toDate(),
           ends_on: dayjs().add(7, "day").toDate(),
           stripeCustomerId: paymentIntent.customer,
+          email: paymentIntent.customer_details?.email,
         };
 
         return await createSubscription(options);
       }
-
-      break;
-
-    case "invoice.payment_succeeded":
-      // If a payment succeeded we update stored subscription status to "active"
-      // in case it was previously "trialing" or "past_due".
-      // We skip if amount due is 0 as that's the case at start of trial period.
-      // if (object.amount_due > 0) {
-      //   await updateUserByCustomerId(object.customer, {
-      //     stripeSubscriptionStatus: "active",
-      //   });
-      // }
-
-      break;
-
-    case "invoice.payment_failed":
-      // If a payment failed we update stored subscription status to "past_due"
-      // await updateUserByCustomerId(object.customer, {
-      //   stripeSubscriptionStatus: "past_due",
-      // });
 
       break;
 
@@ -129,13 +176,6 @@ export const handleStripeWebhook = async (event) => {
       } catch (error) {
         Sentry.captureException(error);
       }
-
-      break;
-
-    case "customer.subscription.trial_will_end":
-      // This event happens 3 days before a trial ends
-      // 💡 You could email user letting them know their trial will end or you can have Stripe do that
-      // automatically 7 days in advance: https://dashboard.stripe.com/settings/billing/automatic
 
       break;
 

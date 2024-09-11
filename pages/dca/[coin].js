@@ -21,6 +21,7 @@ import ShareChart from "../../components/ShareChart/ShareChart";
 import prismaClient from "../../server/prisma/prismadb";
 import * as Sentry from "@sentry/nextjs";
 import qs from "qs";
+import { classNames } from "../../styles/utils";
 
 const DynamicCalculationCounter = dynamic(
   () => import("../../components/Limit/CalculationCounter"),
@@ -161,11 +162,18 @@ const Coin = ({ content }) => {
 };
 
 const CoinWrapper = (props) => {
+  const state = useAppState();
+
   return (
     <>
       <Navigation />
       <div className="lg:flex bg-gray-100">
-        <div className="w-12/12 lg:w-330 md:border-r bg-white ">
+        <div
+          className={classNames(
+            !state.canProceed.proceed ? "blur-2xl pointer-events-none" : "",
+            "w-12/12 lg:w-330 md:border-r bg-white transition-all duration-300"
+          )}
+        >
           <div className="px-4 pt-2">
             <InputFormWrapper {...props} pathname="/dca/" />
           </div>

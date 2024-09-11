@@ -23,9 +23,9 @@ if (typeof window !== "undefined") {
     api_host: "/ingest",
     ui_host: "https://eu.i.posthog.com",
     person_profiles: "always",
-    loaded: (posthog) => {
-      if (process.env.NODE_ENV === "development") posthog.debug(); // debug mode in development
-    },
+    // loaded: (posthog) => {
+    //   if (process.env.NODE_ENV === "development") posthog.debug(); // debug mode in development
+    // },
   });
 }
 

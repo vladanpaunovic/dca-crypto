@@ -2,7 +2,7 @@ import React from "react";
 import { createStripeSession } from "../../src/queries";
 import { NextSeo } from "next-seo";
 import { useMutation } from "react-query";
-import { signIn, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/solid";
 import { classNames } from "../../styles/utils";
@@ -25,15 +25,11 @@ function PricingTab(props) {
   });
 
   const handleOnSelect = () => {
-    if (data?.user) {
-      mutation.mutate({
-        priceId: props.id,
-        type: props.type,
-        userId: data.user.id,
-      });
-    } else {
-      signIn(undefined, { callbackUrl: router.asPath });
-    }
+    mutation.mutate({
+      priceId: props.id,
+      type: props.type,
+      ...(data?.user?.id ? { userId: data.user.id } : {}),
+    });
   };
 
   const isRecurring = !!props.recurring;
