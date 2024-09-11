@@ -1,10 +1,31 @@
 import { PrismaClient } from "@prisma/client";
+import { WEBSITE_PATHNAME } from "../../config";
+import { trackPlausibleEvent } from "../plausible";
+import posthogClient from "../../src/posthog";
 
 /** @type {import('@prisma/client').PrismaClient} */
 const prismaClient = global.prisma || new PrismaClient();
 
 if (process.env.NODE_ENV !== "production") {
   global.prisma = prismaClient;
+}
+
+export async function createVerificationTokenHash(message) {
+  const data = new TextEncoder().encode(
+    `${message}${process.env.STRIPE_ENCRYPTION_SECRET}`
+  );
+  const hash = await crypto.subtle.digest("SHA-256", data);
+  return Array.from(new Uint8Array(hash))
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("")
+    .toString();
+}
+
+export function createTokenForVerification() {
+  const i2hex = (i) => ("0" + i.toString(16)).slice(-2);
+  const r = (a, i) => a + i2hex(i);
+  const bytes = crypto.getRandomValues(new Uint8Array(32));
+  return Array.from(bytes).reduce(r, "");
 }
 
 /** @type {import('@next-auth/prisma-adapter')} */
@@ -14,6 +35,23 @@ export function PrismaAdapter(pClient) {
 
   return {
     createUser: (data) => {
+      trackPlausibleEvent(
+        {
+          name: "user_create",
+          url: `${WEBSITE_PATHNAME}/auth/signup`,
+        },
+        data.email,
+        data.email
+      );
+
+      posthogClient.capture({
+        distinctId: data.email,
+        event: "user_create",
+        properties: {
+          email: data.email,
+        },
+      });
+
       return p.user.create({ data });
     },
     getUser: (id) => {
@@ -78,6 +116,7 @@ export function PrismaAdapter(pClient) {
       const verificationToken = await p.verificationToken.create({ data });
       // @ts-expect-errors // MongoDB needs an ID, but we don't
       if (verificationToken.id) delete verificationToken.id;
+
       return verificationToken;
     },
     async useVerificationToken(identifier_token) {
@@ -85,6 +124,7 @@ export function PrismaAdapter(pClient) {
         const verificationToken = await p.verificationToken.delete({
           where: { identifier_token },
         });
+
         // @ts-expect-errors // MongoDB needs an ID, but we don't
         if (verificationToken.id) delete verificationToken.id;
         return verificationToken;

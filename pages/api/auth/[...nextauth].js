@@ -1,34 +1,32 @@
 import NextAuth from "next-auth";
 import EmailProvider from "next-auth/providers/email";
 import GoogleProvider from "next-auth/providers/google";
-import { WEBSITE_EMAIL, WEBSITE_PATHNAME } from "../../../config";
+import { WEBSITE_PATHNAME } from "../../../config";
 import * as Sentry from "@sentry/nextjs";
 
 import prismaClient, { PrismaAdapter } from "../../../server/prisma/prismadb";
 import { trackPlausibleEvent } from "../../../server/plausible";
 import posthogClient from "../../../src/posthog";
+import { loopsClient, sendVerificationRequest } from "../../../server/loops";
 
 /** @type {import('next-auth').NextAuthOptions} */
 export const authOptions = {
   adapter: PrismaAdapter(prismaClient),
   providers: [
-    EmailProvider({
-      server: {
-        host: "smtp.sendgrid.net",
-        port: 587,
-        auth: {
-          user: "apikey",
-          pass: process.env.SENDGRID_TOKEN,
-        },
-      },
-      from: WEBSITE_EMAIL,
-    }),
+    EmailProvider({ sendVerificationRequest }),
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
   ],
   events: {
+    async createUser(message) {
+      await loopsClient.sendEvent({
+        eventName: "new_registered_user",
+        email: message.user.email,
+        userId: message.user.id,
+      });
+    },
     async signIn(message) {
       const isPaidUser = message.user?.subscription?.status === "active";
       trackPlausibleEvent(
@@ -59,25 +57,6 @@ export const authOptions = {
     },
     async signOut() {
       Sentry.setUser(null);
-    },
-
-    async createUser(message) {
-      trackPlausibleEvent(
-        {
-          name: "user_create",
-          url: `${WEBSITE_PATHNAME}/auth/signup`,
-        },
-        message.user.email,
-        message.user.email
-      );
-
-      posthogClient.capture({
-        distinctId: message.user.email,
-        event: "user_create",
-        properties: {
-          email: message.user.email,
-        },
-      });
     },
   },
   callbacks: {

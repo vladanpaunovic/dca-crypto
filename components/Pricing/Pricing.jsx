@@ -25,15 +25,11 @@ function PricingTab(props) {
   });
 
   const handleOnSelect = () => {
-    if (data?.user) {
-      mutation.mutate({
-        priceId: props.id,
-        type: props.type,
-        userId: data.user.id,
-      });
-    } else {
-      signIn(undefined, { callbackUrl: router.asPath });
-    }
+    mutation.mutate({
+      priceId: props.id,
+      type: props.type,
+      ...(data?.user?.id ? { userId: data.user.id } : {}),
+    });
   };
 
   const isRecurring = !!props.recurring;

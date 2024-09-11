@@ -21,7 +21,6 @@ async function handler(req, res) {
   } else {
     const customer = await stripe.customers.create({
       email: user.email,
-      metadata: { redisUserId: user.id, mongoUserId: user.id },
     });
 
     customerId = customer.id;

@@ -1,24 +1,19 @@
 import React from "react";
-import { AppContextProvider } from "../components/Context/Context";
 import { CACHE_INVALIDATION_INTERVAL } from "../config";
 import { useRouter } from "next/router";
 import { CheckCircleIcon } from "@heroicons/react/solid";
 import Link from "next/link";
 import dayjs from "dayjs";
 import Countdown from "react-countdown";
-import prismaClient from "../server/prisma/prismadb";
 
 export async function getServerSideProps(context) {
-  const bigKeyValueStore = await prismaClient.bigKeyValueStore.findUnique({
-    where: { key: "availableTokens" },
-  });
-
   context.res.setHeader(
     "Cache-Control",
     `s-maxage=${CACHE_INVALIDATION_INTERVAL}, stale-while-revalidate`
   );
 
   const isSuccessPayment = context.query?.payment === "success";
+  const isNewUser = context.query?.newUser === "true";
 
   if (!isSuccessPayment) {
     return {
@@ -28,9 +23,8 @@ export async function getServerSideProps(context) {
 
   return {
     props: {
-      availableTokens: bigKeyValueStore.value,
-      calcType: context.query.type || "dca",
       isSuccessPayment,
+      isNewUser,
     },
   };
 }
@@ -83,10 +77,28 @@ const ThankYou = () => {
   );
 };
 
-export default function HomeWrapper(props) {
+const ThankYouNewUser = () => {
   return (
-    <AppContextProvider availableTokens={props.availableTokens}>
-      <ThankYou />
-    </AppContextProvider>
+    <div>
+      <div className="flex items-center justify-center mt-16 mb-4">
+        <div className="mr-2">
+          <CheckCircleIcon width={42} height={42} className="text-green-300" />
+        </div>
+        <h1 className="h1-title">Payment Successful!</h1>
+      </div>
+      <div className="text-center">
+        <p>Welcome to DCA-CC.com.</p>
+        <p className="mt-12">
+          Check your inbox for an email with a login link to get started.
+        </p>
+      </div>
+    </div>
   );
+};
+
+export default function HomeWrapper(props) {
+  if (props.isNewUser) {
+    return <ThankYouNewUser />;
+  }
+  return <ThankYou />;
 }

@@ -3,7 +3,6 @@ import dayjs from "dayjs";
 import { ACTIONS } from "../Context/mainReducer";
 import { FREE_TIER_CALCULATION_LIMIT } from "../../config";
 import { ExclamationIcon } from "@heroicons/react/solid";
-import Link from "next/link";
 import { useSession, signIn } from "next-auth/react";
 import { useAppState } from "../../src/store/store";
 import { useQuery } from "react-query";
@@ -61,11 +60,7 @@ const Limit = ({ canProceed }) => {
                   </span>
                 </p>
                 <p className="text-gray-900">
-                  Please{" "}
-                  <Link href="/pricing" className="underline">
-                    upgrade
-                  </Link>{" "}
-                  to continue this calculation or break for{" "}
+                  Please upgrade to continue this calculation or break for{" "}
                   <Countdown
                     date={dayjs().add(canProceed.ttl, "seconds").toDate()}
                     daysInHours={true}
@@ -77,14 +72,6 @@ const Limit = ({ canProceed }) => {
               </div>
             </div>
             <div className="order-3 grid grid-cols-2 gap-4 mt-6 md:mt-0 w-full md:w-auto">
-              <div className="col-span-2 md:col-span-1">
-                <Link
-                  href="/pricing"
-                  className="flex items-center justify-center rounded-md border border-transparent bg-gray-900 px-4 py-2 font-medium leading-6 text-white shadow-sm hover:opacity-80"
-                >
-                  Upgrade
-                </Link>
-              </div>
               {session.status === "unauthenticated" && (
                 <div className="col-span-2 md:col-span-1">
                   <button

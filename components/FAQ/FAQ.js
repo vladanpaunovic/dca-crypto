@@ -9,7 +9,7 @@ const FAQ = () => {
           <p className="text-lg font-medium leading-6 text-gray-900">
             How can I cancel my subscription?
           </p>
-          <p className="mt-2 space-y-4">
+          <div className="mt-2 space-y-4">
             <p className="text-base leading-6 text-gray-500">
               To cancel a recurring subscription just click stop auto-renewal
               from your account page.
@@ -29,13 +29,13 @@ const FAQ = () => {
               subscription. It does not automatically renew and downgrades to
               free after 7 days.
             </p>
-          </p>
+          </div>
         </li>
         <li className="w-full md:w-2/5">
           <p className="text-lg font-medium leading-6 text-gray-900">
             Will my subscription be automatically renewed?
           </p>
-          <p className="mt-2 space-y-4">
+          <div className="mt-2 space-y-4">
             <p className="text-base leading-6 text-gray-500">
               The Week Pass is a one-time charge, not a recurring subscription.
               It does not automatically renew and downgrades to free after 7
@@ -49,53 +49,53 @@ const FAQ = () => {
               Subscriptions auto-renew at the end of each term and you will be
               charged for the subsequent term.
             </p>
-          </p>
+          </div>
         </li>
         <li className="w-full md:w-2/5">
           <p className="text-lg font-medium leading-6 text-gray-900">
             Can I cancel at any time?
           </p>
-          <p className="mt-2 space-y-4">
+          <div className="mt-2 space-y-4">
             <p className="text-base leading-6 text-gray-500">
               You can cancel auto-renewal of your subscription at any time. The
               subscription will no longer auto-renew and it will cancel at the
               end of the current billing cycle.
             </p>
-          </p>
+          </div>
         </li>
         <li className="w-full md:w-2/5">
           <p className="text-lg font-medium leading-6 text-gray-900">
             Can I subscribe only one month / year?
           </p>
-          <p className="mt-2 space-y-4">
+          <div className="mt-2 space-y-4">
             <p className="text-base leading-6 text-gray-500">
               Yes. Simply cancel auto-renewal immediately after signing up and
               you will only be charged for the current billing cycle.
             </p>
-          </p>
+          </div>
         </li>
         <li className="w-full md:w-2/5">
           <p className="text-lg font-medium leading-6 text-gray-900">
             What is DCA-CC?
           </p>
-          <p className="mt-2 space-y-4">
+          <div className="mt-2 space-y-4">
             <p className="text-base leading-6 text-gray-500">
               DCA-CC is online browser-based set of tools, where you can make
               dollar cost averaging and lump sum investment calculations.
             </p>
-          </p>
+          </div>
         </li>
         <li className="w-full md:w-2/5">
           <p className="text-lg font-medium leading-6 text-gray-900">
             Can I use DCA-CC for free?
           </p>
-          <p className="mt-2 space-y-4">
+          <div className="mt-2 space-y-4">
             <p className="text-base leading-6 text-gray-500">
               Yes. Free version of DCA-CC is not limited in anything but usage.
               Our free users can enjoy the same set of features, yet limited to
               making 5 calculations per hour.
             </p>
-          </p>
+          </div>
         </li>
       </ul>
     </div>
