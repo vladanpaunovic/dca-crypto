@@ -10,7 +10,8 @@
     "find:unused": "next-unused",
     "test": "jest",
     "test:ci": "jest --ci",
-    "db:studio": "prisma studio --browser none"
+    "db:studio": "prisma studio --browser none",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@ai-sdk/openai": "^0.0.55",
