@@ -76,12 +76,12 @@ const UnAuthenticatedMenu = () => (
       </button>
     </div>
     <div>
-      <button
-        onClick={() => signIn()}
+      <Link
+        href="/pricing"
         className="hidden sm:block px-3 py-2 ml-4 bg-gray-100 text-indigo-700 rounded font-medium shadow-lg transition hover:shadow-xl"
       >
         Register
-      </button>
+      </Link>
     </div>
   </>
 );
