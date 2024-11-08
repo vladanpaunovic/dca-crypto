@@ -18,6 +18,21 @@ export const config = {
 
 const prismaAdapter = PrismaAdapter(prismaClient);
 
+
+const updateLoopsContactFromCustomerId = async (customerId, status) => {
+  const user = await prismaClient.user.findUnique({
+    where: { stripeCustomerId: customerId },
+  });
+
+  if (!user?.email) {
+    return;
+  }
+
+  await loopsClient.updateContact(user.email,
+    {subscriptionStatus: status}
+  )
+}
+
 const sendMagicLink = async (email, userId) => {
   /**
    * Create a verification token
@@ -49,6 +64,7 @@ const sendMagicLink = async (email, userId) => {
       login_url: link,
     },
   });
+
   return;
 };
 
@@ -94,7 +110,7 @@ export const createSubscription = async (subscriptionData) => {
   } catch (error) {
     console.log(error);
     Sentry.captureException(error);
-    return "prc milojko";
+    return "";
   }
 };
 
@@ -121,6 +137,10 @@ export const handleStripeWebhook = async (event) => {
           email: paymentIntent.customer_details?.email,
         };
 
+        await loopsClient.updateContact(options.email,
+          {subscriptionStatus: paymentIntent.status}
+        )
+
         return await createSubscription(options);
       }
 
@@ -135,17 +155,16 @@ export const handleStripeWebhook = async (event) => {
           email: paymentIntent.customer_details?.email,
         };
 
+        await loopsClient.updateContact(options.email,
+          {subscriptionStatus: paymentIntent.status}
+        )
+
         return await createSubscription(options);
       }
 
       break;
 
     case "customer.subscription.updated":
-      // const updatedSubscription = await stripe.subscriptions.retrieve(
-      //   paymentIntent.id,
-      //   { expand: ["customer"] }
-      // );
-
       options = {
         subId: paymentIntent.id,
         status: paymentIntent.status,
@@ -153,6 +172,8 @@ export const handleStripeWebhook = async (event) => {
         created_at: dayjs().toDate(),
         ends_on: dayjs.unix(paymentIntent.current_period_end).toDate(),
       };
+
+      await updateLoopsContactFromCustomerId(paymentIntent.customer, paymentIntent.status);
 
       try {
         return await prismaClient.subscription.update({
@@ -168,6 +189,8 @@ export const handleStripeWebhook = async (event) => {
     case "customer.subscription.deleted":
       options = { subId: paymentIntent.id, status: paymentIntent.status };
 
+      await updateLoopsContactFromCustomerId(paymentIntent.customer, paymentIntent.status);
+  
       try {
         return await prismaClient.subscription.update({
           where: { stripeCustomerId: paymentIntent.customer },

@@ -23,8 +23,11 @@ export const authOptions = {
     async createUser(message) {
       await loopsClient.sendEvent({
         eventName: "new_registered_user",
-        email: message.user.email,
+        email: message.user.email || "",
         userId: message.user.id,
+        contactProperties: {
+          subscriptionStatus: "free_user"
+        }
       });
     },
     async signIn(message) {
