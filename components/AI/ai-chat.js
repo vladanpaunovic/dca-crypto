@@ -2,7 +2,7 @@ import { Block } from "@tremor/react";
 import { useChat } from "ai/react";
 import { useAppState } from "../../src/store/store";
 import { ACTIONS } from "../Context/mainReducer";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import ReactMarkdown from "react-markdown";
 import { useSession } from "next-auth/react";
 import React from "react";
