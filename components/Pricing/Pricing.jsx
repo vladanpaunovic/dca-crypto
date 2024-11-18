@@ -337,8 +337,8 @@ export function TrustIndicators() {
           7-Day Money-Back Guarantee
         </h3>
         <p className="text-green-800 max-w-2xl mx-auto">
-          Try DCA-CC Premium risk-free. If you're not completely satisfied
-          within 14 days, we'll refund your payment - no questions asked.
+          Try DCA-CC Premium risk-free. If you&apos;re not completely satisfied
+          within 14 days, we&apos;ll refund your payment - no questions asked.
         </p>
       </div>
 
