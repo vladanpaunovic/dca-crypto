@@ -286,7 +286,7 @@ export default function AiChat() {
           ref={messagesContainerRef}
           className="flex-grow space-y-6 p-4 overflow-y-auto scroll-smooth"
         >
-          {previousMessages.map((m, index) => {
+          {previousMessages.map((m) => {
             const isLastMessage = m.id === messages[messages.length - 1]?.id;
             const streamedContent =
               isLastMessage && m.role === "assistant"
