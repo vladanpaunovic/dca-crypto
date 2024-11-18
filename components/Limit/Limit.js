@@ -56,7 +56,7 @@ const Limit = ({ canProceed }) => {
                   <span className="md:hidden">Limit reached.</span>
                   <span className="hidden md:inline">
                     You reached your free limit of {FREE_TIER_CALCULATION_LIMIT}{" "}
-                    tasks per hour.
+                    tasks per day.
                   </span>
                 </p>
                 <p className="text-gray-900">

@@ -1,11 +1,11 @@
 const FAQ = () => {
   return (
-    <div className="max-w-screen-xl mx-auto p-8 bg-gray-100">
+    <div className="max-w-screen-xl mx-auto p-8 rounded-2xl bg-gray-100">
       <h2 className="text-3xl font-extrabold leading-9 text-gray-900 mb-12">
         FAQs
       </h2>
-      <ul className="flex items-start gap-8 flex-wrap">
-        <li className="w-full md:w-2/5">
+      <ul className="grid grid-cols-1 gap-8 md:grid-cols-2">
+        <li className="">
           <p className="text-lg font-medium leading-6 text-gray-900">
             How can I cancel my subscription?
           </p>
@@ -31,7 +31,7 @@ const FAQ = () => {
             </p>
           </div>
         </li>
-        <li className="w-full md:w-2/5">
+        <li className="">
           <p className="text-lg font-medium leading-6 text-gray-900">
             Will my subscription be automatically renewed?
           </p>
@@ -51,7 +51,7 @@ const FAQ = () => {
             </p>
           </div>
         </li>
-        <li className="w-full md:w-2/5">
+        <li className="">
           <p className="text-lg font-medium leading-6 text-gray-900">
             Can I cancel at any time?
           </p>
@@ -63,7 +63,7 @@ const FAQ = () => {
             </p>
           </div>
         </li>
-        <li className="w-full md:w-2/5">
+        <li className="">
           <p className="text-lg font-medium leading-6 text-gray-900">
             Can I subscribe only one month / year?
           </p>
@@ -74,7 +74,7 @@ const FAQ = () => {
             </p>
           </div>
         </li>
-        <li className="w-full md:w-2/5">
+        <li className="">
           <p className="text-lg font-medium leading-6 text-gray-900">
             What is DCA-CC?
           </p>
@@ -85,7 +85,7 @@ const FAQ = () => {
             </p>
           </div>
         </li>
-        <li className="w-full md:w-2/5">
+        <li className="">
           <p className="text-lg font-medium leading-6 text-gray-900">
             Can I use DCA-CC for free?
           </p>

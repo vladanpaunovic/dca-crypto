@@ -21,5 +21,5 @@ export const WEBSITE_PATHNAME = WEBSITE_PREFIX + WEBSITE_URL;
 
 export const WEBSITE_EMAIL = "dcacryptocurrency@gmail.com";
 
-export const FREE_TIER_REDIS_TTL = 3600; // Seconds
+export const FREE_TIER_REDIS_TTL = 3600 * 24; // 24 hours
 export const FREE_TIER_CALCULATION_LIMIT = 5;
