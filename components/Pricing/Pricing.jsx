@@ -161,7 +161,7 @@ function Pricing(props) {
 
         <SocialProof />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
           <FAQ />
         </div>
       </main>
@@ -261,7 +261,7 @@ export function FeatureComparison() {
                 Free
               </th>
               <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider bg-indigo-50">
-                Premium
+                Paid
               </th>
             </tr>
           </thead>
