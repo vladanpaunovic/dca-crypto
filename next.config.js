@@ -22,6 +22,7 @@ const moduleExports = (phase) =>
         "img.clankapp.com",
         "assets.coingecko.com",
         "assets.coincap.io",
+        "coin-images.coingecko.com",
 
         // Google storage
         "storage.googleapis.com",

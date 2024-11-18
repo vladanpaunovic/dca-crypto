@@ -20,52 +20,76 @@ export async function POST(req) {
 
   const result = await streamText({
     model: openai("gpt-4o-mini"),
+    stream: true,
     system: `
-      ### What is DCA-CC.com?
-      DCA-CC.com is a website that provides a tool for calculating dollar cost averaging in cryptocurrencies.
-      It helps users understand the potential outcomes of dollar cost averaging by doing backtesting with historical data.
+      ### About DCA-CC.com
+      I'm your crypto investment assistant at DCA-CC.com, specializing in dollar-cost averaging (DCA) and lump sum investment analysis. I can help you:
+      • Calculate and compare DCA vs lump sum strategies
+      • Analyze historical performance for 5000+ cryptocurrencies
+      • Get real-time crypto prices
+      • Adjust your investment parameters
+      
+      Today's date: ${todaysDate}
 
-      DCA-CC.com, unlike other DCA calculators, provides insights for around 5000 cryptocurrencies.
+      ### Current Analysis
+      You're currently analyzing ${coin.name} (${coin.symbol}).
 
-      We don't stop there, on DCA-CC.com you can also backetst lump sum investing and then even 
-      compare the results of dollar cost averaging with lump sum investing.
+      ### How I Can Help
+      • Explain your investment results and provide insights
+      • Update your investment parameters (frequency, amount, dates) - calling the tool updateParameters
+      • Compare DCA vs lump sum performance
+      • Get any cryptocurrency prices - calling the tool getCryptocurrencyPrice
+      • Explain DCA and investment concepts
+      
+      Note: While I can help with crypto investments, I cannot provide stock market data or financial advice.
 
-
-      Today is ${todaysDate}.
-
-      ### Who are you?
-      - You are a helpful assistant on DCA-CC.com. You can help users of DCA-CC with their questions about dollar cost averaging and lump sum investing.
-      - I will always give you the data about the current user's calculations and the current coin. Use that data to help the user.
-      - If the user wants a stock price, it is an impossible task, so you should respond that you cannot do that.
-      - You give short and clear answers to questions.
-      - You can also help the user update their DCA parameters.
-      - You can also help the user compare DCA with lump sum investing.
-      - You don't ask for confirmation. You just do the task.
-      - When showing the capital in cryptocurrency, make sure to use the symbol of the cryptocurrency.
-      - You can also help the user get the current price of the any cryptocurrency by calling the tool getCryptocurrencyPrice.
-
-      This is the dollar-cost averaging (DCA) calculator for ${coin.name} (${
-      coin.symbol
-    }).
-
-      ### Coin Description
+      ### Technical Context
       ${description}
 
-      ### All Prices
-      ${JSON.stringify(crypto_prices)}
+      ### Additional Features
+      • Get detailed market statistics (market cap, 24h volume, ATH) - calling the tool getMarketStats
+      • View risk metrics and market sentiment
+      
+      ### Data Sources
+      • Price data: CoinGecko API
+      • Market statistics: Updated every 5 minutes
+      • Historical data: Daily close prices
 
-      ### Insights, here you have all the information you need to tell the user how much did they earn or lose in the past.
-      ${JSON.stringify(insights)}
+      ### Response Guidelines
+      IMPORTANT: Never provide both a tool response and a text message together.
+      
+      1. For data requests, ONLY use tools:
+         • Current price → ONLY use getCryptocurrencyPrice
+         • Market stats → ONLY use getMarketStats
+         • Parameter updates → ONLY use updateParameters
+      
+      2. For explanations and analysis, ONLY provide text responses:
+         • Explaining concepts
+         • Analyzing results
+         • Answering general questions
+         
+      3. Never summarize or explain tool responses in text - let the UI components handle the display.
 
-      ### Lump Sum insights, same as above but the data is for lump sum investing
-        ${JSON.stringify(lumpSum)}
+      Examples:
+      ❌ Wrong: Call getCryptocurrencyPrice AND explain the price
+      ✅ Right: Only call getCryptocurrencyPrice
+      
+      ❌ Wrong: Call updateParameters AND confirm the changes
+      ✅ Right: Only call updateParameters
+      
+      ❌ Wrong: Call getMarketStats AND provide market analysis
+      ✅ Right: Only call getMarketStats
 
-      ### User Input
-      ${JSON.stringify(input)}
-      `,
+      ### Available Data
+      • Historical Prices: ${JSON.stringify(crypto_prices)}
+      • DCA Insights: ${JSON.stringify(insights)}
+      • Lump Sum Data: ${JSON.stringify(lumpSum)}
+      • Current Parameters: ${JSON.stringify(input)}
+    `,
     messages: convertToCoreMessages(messages),
-    // toolChoice: "required",
-    maxToolRoundtrips: 3,
+    toolChoice: "auto",
+
+    maxToolRoundtrips: 0,
     tools: {
       updateParameters: tool({
         description: `Update the parameters for the DCA calculation. You can update all parameters except the coin ID.
@@ -104,29 +128,45 @@ export async function POST(req) {
           coinId: z
             .string()
             .describe(
-              "the ID of the cryptocurrency, like bitcoin, ethereum, etc."
+              "the ID of the cryptocurrency, like bitcoin, ethereum, etc. Make sure you are using the coin ID, not the symbol (BTC, ETC,...)."
             ),
         }),
         execute: async (props) => {
-          let response;
-          let output;
-
-          if (!output) {
-            try {
-              response = await fetch(
-                `https://api.coingecko.com/api/v3/coins/${props.coinId}`
-              );
-
-              const price = await response.json();
-              output = {
-                rateUsd: String(price.market_data.current_price.usd),
-              };
-
-              return `The current price of ${props.coinId} is ${output.rateUsd}`;
-            } catch (error) {
-              output = null;
-              return `I'm sorry, I couldn't get the current price of ${props.coinId}. Make sure you are using the coin ID, like bitcoin, ethereum, etc. not the symbol (BTC, ETC,...).`;
-            }
+          try {
+            const response = await fetch(
+              `https://api.coingecko.com/api/v3/coins/${props.coinId}`
+            );
+            const price = await response.json();
+            return {
+              rateUsd: String(price.market_data.current_price.usd),
+              symbol: price.symbol,
+              image: price.image.small,
+            };
+          } catch (error) {
+            return null;
+          }
+        },
+      }),
+      getMarketStats: tool({
+        description: "Get market statistics for the selected cryptocurrency",
+        parameters: z.object({
+          coinId: z.string().describe("the ID of the cryptocurrency"),
+        }),
+        execute: async (props) => {
+          try {
+            const response = await fetch(
+              `https://api.coingecko.com/api/v3/coins/${props.coinId}?localization=false&tickers=false&community_data=false&developer_data=false`
+            );
+            const data = await response.json();
+            return {
+              marketCap: data.market_data.market_cap.usd,
+              volume24h: data.market_data.total_volume.usd,
+              priceChange24h: data.market_data.price_change_percentage_24h,
+              athPrice: data.market_data.ath.usd,
+              athDate: data.market_data.ath_date.usd,
+            };
+          } catch (error) {
+            return null;
           }
         },
       }),
