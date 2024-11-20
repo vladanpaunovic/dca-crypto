@@ -57,6 +57,7 @@ export default function HomeWrapper(props) {
           </div>
         </div>
       </div>
+
       <UrgencyBanner />
       <Pricing {...props} />
       <div className="h-8" />
@@ -71,17 +72,16 @@ export function UrgencyBanner() {
       <div className="max-w-7xl mx-auto py-3 px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between flex-wrap">
           <div className="w-0 flex-1 flex items-center justify-center">
-            <span className="flex p-2 rounded-lg bg-yellow-200">
+            <span className="flex p-1 rounded-lg bg-yellow-200">
               <ClockIcon
-                className="h-6 w-6 text-yellow-800"
+                className="h-4 w-4 text-yellow-800"
                 aria-hidden="true"
               />
             </span>
             <p className="ml-3 font-medium text-yellow-900">
               <span className="md:hidden">Special offer ends soon!</span>
               <span className="hidden md:inline">
-                Limited time offer: Get 2 months for free with annual plan -
-                Offer ends in 24 hours!
+                Limited time offer: Get 2 months for free with annual plan!
               </span>
             </p>
           </div>
