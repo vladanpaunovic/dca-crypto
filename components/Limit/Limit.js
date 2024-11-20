@@ -42,7 +42,7 @@ const Limit = ({ canProceed }) => {
   return (
     <div>
       <div className="bg-yellow-200 rounded-lg">
-        <div className="py-44 md:py-6 px-3 sm:px-6 lg:px-6 ">
+        <div className="py-6 px-3 sm:px-6 lg:px-6 ">
           <div className="flex flex-wrap flex-col md:flex-row items-center justify-between">
             <div className="flex md:w-0 flex-1 items-center">
               <span className="flex rounded-lg bg-yellow-400 p-2">
@@ -53,14 +53,14 @@ const Limit = ({ canProceed }) => {
               </span>
               <div className="ml-3 font-medium text-gray-900">
                 <p className="font-bold">
-                  <span className="md:hidden">Limit reached.</span>
+                  <span className="md:hidden">Free limit reached.</span>
                   <span className="hidden md:inline">
                     You reached your free limit of {FREE_TIER_CALCULATION_LIMIT}{" "}
                     tasks per day.
                   </span>
                 </p>
                 <p className="text-gray-900">
-                  Please upgrade to continue this calculation or break for{" "}
+                  Please upgrade to continue this calculation or wait for{" "}
                   <Countdown
                     date={dayjs().add(canProceed.ttl, "seconds").toDate()}
                     daysInHours={true}

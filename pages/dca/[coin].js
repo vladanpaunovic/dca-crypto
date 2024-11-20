@@ -22,6 +22,7 @@ import prismaClient from "../../server/prisma/prismadb";
 import * as Sentry from "@sentry/nextjs";
 import qs from "qs";
 import { classNames } from "../../styles/utils";
+import { useSession } from "next-auth/react";
 
 const DynamicCalculationCounter = dynamic(
   () => import("../../components/Limit/CalculationCounter"),
@@ -127,10 +128,6 @@ const Coin = ({ content }) => {
     return <ErrorComponent error={state.chart.error} />;
   }
 
-  if (!state.canProceed.proceed) {
-    return <Limit canProceed={state.canProceed} />;
-  }
-
   return (
     <div className="w-full">
       <NextSeo
@@ -163,6 +160,18 @@ const Coin = ({ content }) => {
 
 const CoinWrapper = (props) => {
   const state = useAppState();
+  const session = useSession();
+
+  if (!state.canProceed.proceed) {
+    return (
+      <>
+        {session.data?.user && <Navigation />}
+        <div className="container mx-auto p-4">
+          <Limit canProceed={state.canProceed} />
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
