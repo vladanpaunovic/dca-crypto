@@ -127,6 +127,23 @@ const InfoBar = () => {
   );
 };
 
+export function MiniBlur({ children }) {
+  const session = useSession();
+
+  if (!session.data?.user.hasActivePackage) {
+    return (
+      <div className="blur pointer-events-none relative group">
+        {children}
+        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+          <div className="bg-black/75 text-white px-4 py-2 rounded-lg text-sm">
+            We can do much more! Upgrade to see
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
 export default function Blur({ children }) {
   const session = useSession();
 

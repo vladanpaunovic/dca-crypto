@@ -18,6 +18,7 @@ import CardTotalInvestment from "./TotalInvestment";
 import { valueFormatter } from "../Chart/helpers";
 import { useAppState } from "../../src/store/store";
 import { calculateDateRangeDifference } from "../../src/generateDefaultInput";
+import { MiniBlur } from "../Upgrade/blur";
 
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
@@ -101,31 +102,35 @@ const CardValueInFIAT = () => {
             </Text>
           </Flex>
         </Flex>
-        <CategoryBar
-          categoryPercentageValues={categoryPercentageValues}
-          colors={["orange", color]}
-          marginTop="mt-4"
-          showLabels={false}
-          percentageValue={isEarning ? 100 : categoryPercentageValues[0] + 0.01}
-          tooltip={
-            isEarning
-              ? `Earnings ${percentageChange}`
-              : `Losing ${percentageChange}`
-          }
-        />
-        <Legend
-          categories={
-            isEarning
-              ? ["Investment", "Earnings"]
-              : ["Remaining investment", "Lost value"]
-          }
-          colors={["orange", color]}
-          marginTop="mt-3"
-        />
-        <div className="mt-2 text-sm italic bg-gray-100 text-gray-900 p-2 rounded">
-          Your earnings are {isEarning ? "positive" : "negative"} by{" "}
-          {percentageChange} over the dollar cost averaging period.
-        </div>
+        <MiniBlur>
+          <CategoryBar
+            categoryPercentageValues={categoryPercentageValues}
+            colors={["orange", color]}
+            marginTop="mt-4"
+            showLabels={false}
+            percentageValue={
+              isEarning ? 100 : categoryPercentageValues[0] + 0.01
+            }
+            tooltip={
+              isEarning
+                ? `Earnings ${percentageChange}`
+                : `Losing ${percentageChange}`
+            }
+          />
+          <Legend
+            categories={
+              isEarning
+                ? ["Investment", "Earnings"]
+                : ["Remaining investment", "Lost value"]
+            }
+            colors={["orange", color]}
+            marginTop="mt-3"
+          />
+          <div className="mt-2 text-sm italic bg-gray-100 text-gray-900 p-2 rounded">
+            Your earnings are {isEarning ? "positive" : "negative"} by{" "}
+            {percentageChange} over the dollar cost averaging period.
+          </div>
+        </MiniBlur>
       </Card>
     </div>
   );
@@ -203,16 +208,21 @@ export default function TopCards() {
         numColsLg={3}
       >
         <CardValueInFIAT />
-        <CardCurrentCoin />
 
-        <CardTotalInvestment
-          totalInvestment={state.chart.dca.insights.totalInvestment}
-          text={`Over ${
-            state.chart.dca.chartData.length
-          } instalments of ${formatPrice(
-            state.chart.input.investment
-          )}, every ${state.chart.input.investmentInterval} days`}
-        />
+        <MiniBlur>
+          <CardCurrentCoin />
+        </MiniBlur>
+
+        <MiniBlur>
+          <CardTotalInvestment
+            totalInvestment={state.chart.dca.insights.totalInvestment}
+            text={`Over ${
+              state.chart.dca.chartData.length
+            } instalments of ${formatPrice(
+              state.chart.input.investment
+            )}, every ${state.chart.input.investmentInterval} days`}
+          />
+        </MiniBlur>
       </ColGrid>
     </div>
   );
