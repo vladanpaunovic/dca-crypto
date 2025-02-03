@@ -132,12 +132,19 @@ export function MiniBlur({ children }) {
 
   if (!session.data?.user.hasActivePackage) {
     return (
-      <div className="blur pointer-events-none relative group">
-        {children}
-        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-          <div className="bg-black/75 text-white px-4 py-2 rounded-lg text-sm">
+      <div className="relative group">
+        <div className="blur">{children}</div>
+        <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity space-y-4">
+          <Link
+            href="/pricing"
+            className="bg-black/90 text-white px-6 py-3 rounded-lg text-sm font-medium hover:bg-black transition-all transform hover:scale-105 shadow-lg flex items-center space-x-2"
+          >
+            <ChevronDoubleUpIcon className="w-4 h-4" />
+            <span>Unlock Full Features →</span>
+          </Link>
+          <p className="text-center text-gray-700 text-xs">
             We can do much more! Upgrade to see
-          </div>
+          </p>
         </div>
       </div>
     );
